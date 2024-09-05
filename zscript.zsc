@@ -1,0 +1,27 @@
+version "4.10.0"
+
+#include "hud/hud.zs"
+#include "hud/randomized_weapon_hud.zs"
+
+#include "misc/debug.zs"
+#include "misc/dice.zs"
+#include "misc/math.zs"
+#include "misc/rnd.zs"
+#include "misc/global_variables.zs"
+
+#include "monsters/monsters.zs"
+#include "monsters/replacement.zs"
+
+#include "player/player.zs"
+#include "player/starting_items_handler.zs"
+
+#include "weapons/replacement.zs"
+#include "weapons/randomized_weapon.zs"
+#include "weapons/randomized_weapon_pickup.zs"
+#include "weapons/randomized_weapon_rateoffire.zs"
+#include "weapons/randomized_weapon_stats.zs"
+#include "weapons/affix.zs"
+#include "weapons/aff_prefixes.zs"
+#include "weapons/w2pistol.zs"
+#include "weapons/w3shotgun.zs"
+#include "weapons/w4chaingun.zs"

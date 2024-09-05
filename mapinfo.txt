@@ -1,0 +1,12 @@
+gameinfo
+{
+	PlayerClasses = "MyPlayer" //, "DoomPlayer" // Defines 2 classes for the player to choose from
+
+	statusbarclass = "MyCustomHUD"
+
+	AddEventHandlers = "RwGlobalsHandler"
+ 	// AddEventHandlers = "MonsterReplacementHandler"
+ 	AddEventHandlers = "WeaponReplacementHandler"
+	AddEventHandlers = "RandomizedWeaponPickupHandler"
+ 	AddEventHandlers = "StartingItemsHandler"
+}
