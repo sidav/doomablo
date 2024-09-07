@@ -2,6 +2,8 @@ class Prefix : Affix {
 
 }
 
+// Universal ones
+
 class PrefWeak : Prefix {
     override string getName() {
         return "weak";
@@ -76,6 +78,45 @@ class PrefPrecise : Prefix {
     }
 }
 
+
+class PrefSlow : Prefix {
+    override string getName() {
+        return "slow";
+    }
+    override string getDescription() {
+        return modifierLevel.."% slower rate of fire";
+    }
+    override void Init() {
+        modifierLevel = 10*rnd.Rand(1, 5);
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'PrefFast';
+    }
+    override void applyEffectToRw(RandomizedWeapon wpn) {
+        wpn.stats.rofModifier = -modifierLevel;
+    }
+}
+
+class PrefFast : Prefix {
+    override string getName() {
+        return "fast";
+    }
+    override string getDescription() {
+        return modifierLevel.."% faster rate of fire";
+    }
+    override void Init() {
+        modifierLevel = 10*rnd.Rand(1, 5);
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'PrefSlow';
+    }
+    override void applyEffectToRw(RandomizedWeapon wpn) {
+        wpn.stats.rofModifier = modifierLevel;
+    }
+}
+
+// Shotgun-specific
+
 class PrefPuny : Prefix {
     override string getName() {
         return "puny";
@@ -118,38 +159,46 @@ class PrefBulk : Prefix {
     }
 }
 
-class PrefSlow : Prefix {
+// Projectile-weapon specific
+
+class PrefLazy : Prefix {
     override string getName() {
-        return "slow";
+        return "lazy";
     }
     override string getDescription() {
-        return modifierLevel.."% slower rate of fire";
+        return modifierLevel.."% slower projectile";
     }
     override void Init() {
         modifierLevel = 10*rnd.Rand(1, 5);
     }
-    override bool IsCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefFast';
+    override bool IsCompatibleWithItem(Inventory item) {
+        return RandomizedWeapon(item).stats.firesProjectiles;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'PrefQuick';
     }
     override void applyEffectToRw(RandomizedWeapon wpn) {
-        wpn.stats.rofModifier = -modifierLevel;
+        wpn.stats.projSpeedPercModifier = -modifierLevel;
     }
 }
 
-class PrefFast : Prefix {
+class PrefQuick : Prefix {
     override string getName() {
-        return "fast";
+        return "quick";
     }
     override string getDescription() {
-        return modifierLevel.."% faster rate of fire";
+        return modifierLevel.."% faster projectile";
     }
     override void Init() {
-        modifierLevel = 10*rnd.Rand(1, 5);
+        modifierLevel = 5*rnd.Rand(1, 10);
     }
-    override bool IsCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefSlow';
+    override bool IsCompatibleWithItem(Inventory item) {
+        return RandomizedWeapon(item).stats.firesProjectiles;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'PrefLazy';
     }
     override void applyEffectToRw(RandomizedWeapon wpn) {
-        wpn.stats.rofModifier = modifierLevel;
+        wpn.stats.projSpeedPercModifier = modifierLevel;
     }
 }

@@ -14,6 +14,12 @@ class WeaponReplacementHandler : EventHandler
 		case 'Chaingun':
 			e.Replacement = 'rwChaingun';
             break;
+		case 'Rocketlauncher':
+			e.Replacement = 'rwRocketLauncher';
+            break;
+		case 'Plasmarifle':
+			e.Replacement = 'rwPlasmarifle';
+            break;
         }
 	}
 
