@@ -1,6 +1,6 @@
 class Affix {
 
-    int ModifierLevel;
+    int modifierLevel;
 
     static Affix GetAndInitRandomAffix() {
         let aff = GetRandomAffixInstance();
@@ -60,6 +60,11 @@ class Affix {
     }
 
     virtual string getName() {
+        debug.panicUnimplemented(self);
+        return "";
+    }
+
+    virtual string getDescription() {
         debug.panicUnimplemented(self);
         return "";
     }

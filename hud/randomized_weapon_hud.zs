@@ -24,10 +24,18 @@ extend class MyCustomHUD {
         //     DrawLine("Press USE to switch to:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
         // }
 
-        DrawLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Gray);
-        DrawLine(wpn.rwDescription, mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
-        foreach (aff : wpn.appliedAffixes) {
-            DrawLine("  "..aff.getName(), mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+        DrawLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
+        currentHeight += 1;
+        if (wpn.appliedAffixes.size() == 0) {
+            DrawLine("Common "..wpn.rwDescription,
+                mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
+        } else {
+            DrawLine(wpn.rwDescription, mSmallShadowFont, 
+                DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
+            foreach (aff : wpn.appliedAffixes) {
+                DrawLine("  "..aff.getName()..": "..aff.getDescription(), 
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+            }
         }
     }
 
@@ -45,6 +53,6 @@ extend class MyCustomHUD {
     void DrawLine(string line, HUDFont fnt, int flags, int trans) {
         DrawString(fnt, line,
             (80, currentHeight), flags, trans);
-        currentHeight += fnt.mFont.GetHeight()+1;
+        currentHeight += fnt.mFont.GetHeight();
     }
 }

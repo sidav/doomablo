@@ -20,7 +20,7 @@ class RandomizedWeapon : DoomWeapon {
     // }
 
     void AssignRandomAffixes() {
-        let prefixesCount = 1;
+        let prefixesCount = 3;
         if (rnd.OneChanceFrom(3)) {
             prefixesCount = 2;
         }

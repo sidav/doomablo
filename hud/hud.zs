@@ -8,6 +8,7 @@ class MyCustomHUD : DoomStatusBar
 	InventoryBarState diparms;
 	HUDFont mBigFont;
 	HUDFont mSmallFont;
+	HUDFont mSmallShadowFont;
 
     override void Init()
     {
@@ -21,6 +22,7 @@ class MyCustomHUD : DoomStatusBar
 		mBigFont = HUDFont.Create(fnt, fnt.GetCharWidth("0"), Mono_CellLeft, 2, 2);
 		fnt = "SMALLFONT";
 		mSmallFont = HUDFont.Create(fnt, 0, false);
+		mSmallShadowFont = HUDFont.Create(fnt, 0, false, 2, 2);
 		
 		// Create the font used for the fullscreen HUD
 		// fnt = "HUDFONT_DOOM";
