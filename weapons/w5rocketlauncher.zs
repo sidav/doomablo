@@ -2,6 +2,8 @@ class RwRocketLauncher : RandomizedWeapon
 {
 	Default
 	{
+		Weapon.SlotNumber 5;
+
 		Weapon.SelectionOrder 2500;
 		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 2;

@@ -25,6 +25,14 @@ class Dice
         return accVal;
 	}
 
+    int MinRollPossible() {
+        return Count + Mod;
+    }
+
+    int MaxRollPossible() {
+        return Count*Sides + Mod;
+    }
+
     string ToString() {
         if (Mod == 0) {
             return Count.."d"..Sides;

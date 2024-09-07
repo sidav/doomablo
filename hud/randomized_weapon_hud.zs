@@ -5,7 +5,7 @@ extend class MyCustomHUD {
     void DrawWeaponInHandsInfo() {
         if (CPlayer.ReadyWeapon is 'RandomizedWeapon') {
             DrawString(mSmallFont, 
-                "Equipped: "..RandomizedWeapon(CPlayer.ReadyWeapon).rwDescription,
+                "Equipped: "..RandomizedWeapon(CPlayer.ReadyWeapon).rwFullName,
                 (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, Font.CR_Yellow);
         }
     }
@@ -27,10 +27,10 @@ extend class MyCustomHUD {
         DrawLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         currentHeight += 1;
         if (wpn.appliedAffixes.size() == 0) {
-            DrawLine("Common "..wpn.rwDescription,
+            DrawLine("Common "..wpn.rwFullName,
                 mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
         } else {
-            DrawLine(wpn.rwDescription, mSmallShadowFont, 
+            DrawLine(wpn.rwFullName, mSmallShadowFont, 
                 DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
             foreach (aff : wpn.appliedAffixes) {
                 DrawLine("  "..aff.getName()..": "..aff.getDescription(), 

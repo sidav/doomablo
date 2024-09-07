@@ -9,6 +9,14 @@ class RWStatsClass {
     bool firesProjectiles;
     int projSpeedPercModifier;
 
+    int minDamage() {
+        return DamageDice.MinRollPossible();
+    }
+
+    int maxDamage() {
+        return DamageDice.MaxRollPossible();
+    }
+
     int rollDamage() {
         return DamageDice.Roll();
     }

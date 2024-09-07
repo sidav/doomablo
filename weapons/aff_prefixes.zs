@@ -30,7 +30,7 @@ class PrefStrong : Prefix {
         return "damage +"..modifierLevel;
     }
     override void Init() {
-        modifierLevel = rnd.Rand(1, 3);
+        modifierLevel = rnd.linearWeightedRand(1, 10, 100, 1);
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'PrefWeak';
@@ -48,7 +48,7 @@ class PrefInaccurate : Prefix {
         return "accuracy decreased by "..modifierLevel.."%";
     }
     override void Init() {
-        modifierLevel = 5*rnd.Rand(1, 10);
+        modifierLevel = 5*rnd.linearWeightedRand(1, 20, 100, 1);
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'PrefPrecise';
@@ -67,7 +67,7 @@ class PrefPrecise : Prefix {
         return "accuracy increased by "..modifierLevel.."%";
     }
     override void Init() {
-        modifierLevel = 5*rnd.Rand(1, 10);
+        modifierLevel = 5*rnd.linearWeightedRand(1, 15, 100, 1);
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'PrefInaccurate';
@@ -87,7 +87,7 @@ class PrefSlow : Prefix {
         return modifierLevel.."% slower rate of fire";
     }
     override void Init() {
-        modifierLevel = 10*rnd.Rand(1, 5);
+        modifierLevel = 5*rnd.linearWeightedRand(1, 15, 100, 1);
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'PrefFast';
@@ -105,7 +105,7 @@ class PrefFast : Prefix {
         return modifierLevel.."% faster rate of fire";
     }
     override void Init() {
-        modifierLevel = 10*rnd.Rand(1, 5);
+        modifierLevel = 5*rnd.linearWeightedRand(1, 10, 100, 1);
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'PrefSlow';
@@ -146,7 +146,7 @@ class PrefBulk : Prefix {
         return "+"..modifierLevel.." pellets per shot";
     }
     override void Init() {
-        modifierLevel = rnd.Rand(1, 3);
+        modifierLevel = rnd.linearWeightedRand(1, 5, 100, 1);
     }
     override bool IsCompatibleWithItem(Inventory item) {
         return RandomizedWeapon(item).stats.Pellets > 3;
@@ -169,7 +169,7 @@ class PrefLazy : Prefix {
         return modifierLevel.."% slower projectile";
     }
     override void Init() {
-        modifierLevel = 10*rnd.Rand(1, 5);
+        modifierLevel = rnd.linearWeightedRand(1, 75, 100, 1);
     }
     override bool IsCompatibleWithItem(Inventory item) {
         return RandomizedWeapon(item).stats.firesProjectiles;
@@ -190,7 +190,7 @@ class PrefQuick : Prefix {
         return modifierLevel.."% faster projectile";
     }
     override void Init() {
-        modifierLevel = 5*rnd.Rand(1, 10);
+        rnd.linearWeightedRand(1, 100, 100, 1);
     }
     override bool IsCompatibleWithItem(Inventory item) {
         return RandomizedWeapon(item).stats.firesProjectiles;

@@ -7,11 +7,11 @@ class RwProjectile : Actor {
 		let horiz = RotateVector((vel.x, vel.y), rnd.Randf(-stats.HorizSpread, stats.HorizSpread));
 		vel.x = horiz.x;
 		vel.y = horiz.y;
-		vel.z += rnd.Randf(-stats.VertSpread, stats.VertSpread);
+		vel.z += rnd.Randf(-stats.VertSpread/2, stats.VertSpread/2);
 
 		// Apply speed
 		let factor = stats.getProjSpeedFactor();
-		debug.print("FACTOR: "..factor);
+
 		vel.x *= factor;
 		vel.y *= factor;
 		vel.z *= factor;
