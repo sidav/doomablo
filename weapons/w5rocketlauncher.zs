@@ -6,7 +6,7 @@ class RwRocketLauncher : RandomizedWeapon
 
 		Weapon.SelectionOrder 2500;
 		Weapon.AmmoUse 1;
-		Weapon.AmmoGive 2;
+		Weapon.AmmoGive 100; // DEBUG: default was 2
 		Weapon.AmmoType "RocketAmmo";
 		+WEAPON.NOAUTOFIRE
 		Inventory.PickupMessage "$GOTLAUNCHER";
@@ -66,25 +66,26 @@ class RwRocketLauncher : RandomizedWeapon
 		// }
 		
 		// SpawnPlayerMissile ("RwRocket");
-		Actor unused, msl;
-		[unused, msl] = A_FireProjectile(
-			'RwRocket',
-			0, // angle
-			true,
-			0
+		Actor actuallyFired, msl;
+		[actuallyFired, msl] = A_FireProjectile(
+			'RwRocket'
 		);
 		RwProjectile(msl).applyWeaponStats(RandomizedWeapon(invoker).stats);
+		if (!actuallyFired) { // See comment on pointBlank() to understand what's happening here
+			RwProjectile(msl).pointBlank();
+		}
 	}
 
 	override void setBaseStats() {
 		stats = New('RWStatsClass');
-		stats.HorizSpread = 5.0;
-		stats.VertSpread = 1.5;
+		stats.HorizSpread = 2.0;
+		stats.VertSpread = 0.5;
 		stats.Pellets = 1;
-		stats.DamageDice = Dice.CreateNew(5, 6, 0);
+		stats.DamageDice = Dice.CreateNew(64, 2, 0);
 		stats.firesProjectiles = true;
+		stats.rwExplosionRadius = 128;
 
-		rwBaseName = "Rocker Launcher";
+		rwBaseName = "Rocket Launcher";
     }
 }
 
@@ -95,9 +96,9 @@ class RwRocket : RwProjectile
 		Radius 11;
 		Height 8;
 		Speed 20;
-		Damage 20;
+		Damage 0;
 		Projectile;
-		// +RANDOMIZE
+		+RANDOMIZE
 		+DEHEXPLOSION
 		+ROCKETTRAIL
 		+ZDOOMTRANS
@@ -111,7 +112,7 @@ class RwRocket : RwProjectile
 		MISL A 1 Bright;
 		Loop;
 	Death:
-		MISL B 8 Bright A_Explode;
+		MISL B 8 Bright rwExplode();
 		MISL C 6 Bright;
 		MISL D 4 Bright;
 		Stop;

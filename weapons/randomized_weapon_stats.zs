@@ -8,6 +8,7 @@ class RWStatsClass {
     // Projectile-specific
     bool firesProjectiles;
     int projSpeedPercModifier;
+    int rwExplosionRadius;
 
     int minDamage() {
         return DamageDice.MinRollPossible();
