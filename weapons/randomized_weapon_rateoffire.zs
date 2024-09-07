@@ -10,6 +10,17 @@ extend class RandomizedWeapon {
         newTicks = clamp(newTicks, 1, 200);
         A_SetTics(newTicks);
     }
+
+    action void RWA_ApplyRateOfFireToFlash() {
+        let baseTicks = self.player.FindPSprite(PSP_FLASH).tics;
+        let rof = invoker.stats.rofModifier;
+        if (rof == 0) {
+            return; // no change required
+        }
+        let newTicks = math.getIntPercentage(baseTicks, 100 - rof);
+        newTicks = clamp(newTicks, 1, 200);
+        A_SetTics(newTicks);
+    }
     
     // int modifiedStatesThisSequence;
     // Will get basic ticks and change them according to fireratemodifier

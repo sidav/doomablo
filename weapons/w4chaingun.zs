@@ -32,13 +32,13 @@ class RwChaingun : RandomizedWeapon
 		Goto Ready;
 	Flash:
 		CHGF A 5 Bright {
+			RWA_ApplyRateOfFireToFlash();
 			A_Light1();
-			RWA_ApplyRateOfFire();
 		}
 		Goto LightDone;
 		CHGF B 5 Bright {
+			RWA_ApplyRateOfFireToFlash();
 			A_Light1();
-			RWA_ApplyRateOfFire();
 		}
 		Goto LightDone;
 	Spawn:

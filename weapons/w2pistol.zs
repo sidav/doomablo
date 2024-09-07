@@ -54,12 +54,12 @@ class rwPistol : RandomizedWeapon
 		Goto Ready;
 	Flash:
 		PISF A 7 Bright {
-			RWA_ApplyRateOfFire();
+			RWA_ApplyRateOfFireToFlash();
 			A_Light1();
 		}
 		Goto LightDone;
 		PISF A 7 Bright {
-			RWA_ApplyRateOfFire();
+			RWA_ApplyRateOfFireToFlash();
 			A_Light1();
 		}
 		Goto LightDone;

@@ -54,11 +54,11 @@ class rwShotgun : RandomizedWeapon
 		Goto Ready;
 	Flash:
 		SHTF A 4 Bright {
-			RWA_ApplyRateOfFire();
+			RWA_ApplyRateOfFireToFlash();
 			A_Light1();
 		}
 		SHTF B 3 Bright {
-			RWA_ApplyRateOfFire();
+			RWA_ApplyRateOfFireToFlash();
 			A_Light2();
 		}
 		Goto LightDone;
