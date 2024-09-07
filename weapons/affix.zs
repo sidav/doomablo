@@ -21,6 +21,8 @@ class Affix {
             case 7: return New('PrefFast');
             case 8: return New('PrefLazy');
             case 9: return New('PrefQuick');
+            case 10: return New('PrefSmallerExplosion');
+            case 11: return New('PrefBiggerExplosion');
             default:
                 debug.panic("Some affixes are not added to Affix GetRandomAffix() instantiator.");
                 return New('Affix');

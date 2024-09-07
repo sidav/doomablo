@@ -83,7 +83,9 @@ class RwRocketLauncher : RandomizedWeapon
 		stats.Pellets = 1;
 		stats.DamageDice = Dice.CreateNew(64, 2, 0);
 		stats.firesProjectiles = true;
-		stats.rwExplosionRadius = 128;
+
+		stats.BaseExplosionRadius = 96;
+		stats.ExplosionRadius = 96;
 
 		rwBaseName = "Rocket Launcher";
     }

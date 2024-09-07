@@ -46,6 +46,8 @@ extend class MyCustomHUD {
             case 1: return Font.CR_Green;
             case 2: return Font.CR_Yellow;
             case 3: return Font.CR_Blue;
+            case 4: return Font.CR_CYAN;
+            case 5: return Font.CR_PURPLE;
             default: return Font.CR_Black;
         }
     }

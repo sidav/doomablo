@@ -8,7 +8,9 @@ class RWStatsClass {
     // Projectile-specific
     bool firesProjectiles;
     int projSpeedPercModifier;
-    int rwExplosionRadius;
+    int ExplosionRadius;
+
+    int BaseExplosionRadius; // Should be set and not modified; it's used for explosion sprite scaling calculation.
 
     int minDamage() {
         return DamageDice.MinRollPossible();
@@ -20,6 +22,16 @@ class RWStatsClass {
 
     int rollDamage() {
         return DamageDice.Roll();
+    }
+
+    float GetExplosionSpriteScale() {
+        if (ExplosionRadius > 0 && BaseExplosionRadius == 0) {
+            debug.panic("Unset BaseExplosionRadius setting!");
+        }
+        if (BaseExplosionRadius == 0) {
+            return 1.0;
+        }
+        return float(ExplosionRadius)/float(BaseExplosionRadius);
     }
 
     float getProjSpeedFactor() {

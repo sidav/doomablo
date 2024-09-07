@@ -1,12 +1,14 @@
 class RwProjectile : Actor {
 
 	int rwExplosionRadius;
+	float explosionSpriteScale;
 	// BUG: this is NOT called if a rocket is fired at point blank range.
     void applyWeaponStats(RWStatsClass stats) {
 		// Set damage
 		SetDamage(stats.rollDamage());
 
-		rwExplosionRadius = stats.rwExplosionRadius;
+		rwExplosionRadius = stats.ExplosionRadius;
+		explosionSpriteScale = stats.GetExplosionSpriteScale();
 
 		// Rotate (apply spread)
 		let horiz = RotateVector((vel.x, vel.y), rnd.Randf(-stats.HorizSpread, stats.HorizSpread));
@@ -22,6 +24,7 @@ class RwProjectile : Actor {
 	}
 
 	action void rwExplode() {
+		self.scale = (invoker.explosionSpriteScale, invoker.explosionSpriteScale);
 		A_Explode(
 			Damage,
 			invoker.rwExplosionRadius, // Distance

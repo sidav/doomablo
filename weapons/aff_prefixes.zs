@@ -190,7 +190,7 @@ class PrefQuick : Prefix {
         return modifierLevel.."% faster projectile";
     }
     override void Init() {
-        rnd.linearWeightedRand(1, 100, 100, 1);
+        modifierLevel = rnd.linearWeightedRand(1, 100, 100, 1);
     }
     override bool IsCompatibleWithItem(Inventory item) {
         return RandomizedWeapon(item).stats.firesProjectiles;
@@ -200,5 +200,55 @@ class PrefQuick : Prefix {
     }
     override void applyEffectToRw(RandomizedWeapon wpn) {
         wpn.stats.projSpeedPercModifier = modifierLevel;
+    }
+}
+
+// Explosion-weapon specific
+
+class PrefSmallerExplosion : Prefix {
+    override string getName() {
+        return "safer";
+    }
+    override string getDescription() {
+        return modifierLevel.."% smaller explosion radius";
+    }
+    override void Init() {
+        modifierLevel = rnd.linearWeightedRand(10, 75, 100, 1);
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return RandomizedWeapon(item).stats.ExplosionRadius > 0;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'PrefBiggerExplosion';
+    }
+    override void applyEffectToRw(RandomizedWeapon wpn) {
+        wpn.stats.ExplosionRadius = math.getIntPercentage(
+            wpn.stats.ExplosionRadius,
+            100-modifierLevel
+        );
+    }
+}
+
+class PrefBiggerExplosion : Prefix {
+    override string getName() {
+        return "volatile";
+    }
+    override string getDescription() {
+        return modifierLevel.."% bigger explosion radius";
+    }
+    override void Init() {
+        modifierLevel = rnd.linearWeightedRand(20, 200, 1000, 1);
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return RandomizedWeapon(item).stats.ExplosionRadius > 0;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'PrefSmallerExplosion';
+    }
+    override void applyEffectToRw(RandomizedWeapon wpn) {
+        wpn.stats.ExplosionRadius = math.getIntPercentage(
+            wpn.stats.ExplosionRadius,
+            100+modifierLevel
+        );
     }
 }
