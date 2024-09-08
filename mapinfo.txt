@@ -7,6 +7,6 @@ gameinfo
 	AddEventHandlers = "RwGlobalsHandler"
  	// AddEventHandlers = "MonsterReplacementHandler"
  	AddEventHandlers = "WeaponReplacementHandler"
-	AddEventHandlers = "RandomizedWeaponPickupHandler"
+	AddEventHandlers = "PressToPickupHandler"
  	AddEventHandlers = "StartingItemsHandler"
 }

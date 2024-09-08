@@ -13,7 +13,13 @@ extend class RandomizedWeapon {
         
         for (int i = 0; i < prefixesCount; i++) {
             Affix newAffix;
+            let try = 0;
             do {
+                if (try >= 1000) {
+                    debug.panic("Failed to find good affix. Found "..appliedAffixes.Size().." out of "..prefixesCount.." total.");
+                } else {
+                    try++;
+                }
                 newAffix = Affix.GetAndInitRandomAffix();
             } until (
                 newAffix.IsCompatibleWithItem(self) &&

@@ -51,7 +51,8 @@ class Affix {
     }
 
     virtual bool IsCompatibleWithItem(Inventory item) {
-        return RandomizedWeapon(item) != null;
+        debug.panicUnimplemented(self);
+        return false;
     }
 
     virtual void ApplyEffectToItem(Inventory item) {
@@ -73,5 +74,3 @@ class Affix {
         return "";
     }
 }
-
-class Suffix : Affix {}

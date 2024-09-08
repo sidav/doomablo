@@ -20,7 +20,7 @@ class RwGlobalsHandler : StaticEventHandler
         totalAffixesClasses = 0;
         foreach (cls : AllClasses)  {
             let ba = (class<Affix>)(cls);
-            if (ba && ba != 'Affix' && ba != 'Prefix' && ba != 'Suffix')
+            if (ba && ba != 'Affix' && ba != 'RwWeaponPrefix')
             {
                 totalAffixesClasses++;
             }
