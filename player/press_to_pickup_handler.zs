@@ -13,7 +13,11 @@ class PressToPickupHandler : EventHandler {
         } else {
             // Check if button is pressed
             if (currentItemToPickUp && players[0].mo && (players[0].cmd.buttons & BT_USE)) {
-                RandomizedWeapon(currentItemToPickUp).rwTouch(players[0].mo);
+                if (RandomizedWeapon(currentItemToPickUp)) {
+                    RandomizedWeapon(currentItemToPickUp).rwTouch(players[0].mo);
+                } else if (RandomizedArmor(currentItemToPickUp)) {
+                    RandomizedArmor(currentItemToPickUp).rwTouch(players[0].mo);
+                }
                 manualPickupCooldown = PICKUPINTERVAL;
             }
         }
@@ -39,7 +43,7 @@ class PressToPickupHandler : EventHandler {
 			if (!itm || itm.bNOSECTOR || itm.owner)
 				continue;
 
-            if (!RandomizedWeapon(itm))
+            if (!RandomizedWeapon(itm) && !RandomizedArmor(itm))
                 continue;
 
             let newDist = source.Distance3D(it.thing);

@@ -6,6 +6,7 @@ gameinfo
 
 	AddEventHandlers = "RwGlobalsHandler"
  	// AddEventHandlers = "MonsterReplacementHandler"
+	AddEventHandlers = "ArmorReplacementHandler"
  	AddEventHandlers = "WeaponReplacementHandler"
 	AddEventHandlers = "PressToPickupHandler"
  	AddEventHandlers = "StartingItemsHandler"

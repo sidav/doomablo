@@ -56,6 +56,8 @@ class MyCustomHUD : DoomStatusBar
             DrawFullScreenStuff();
 			DrawWeaponInHandsInfo();
 			DrawPickupableWeaponInfo();
+			DrawEquippedArmorInfo();
+			DrawPickupableArmorInfo();
         }
     }
 

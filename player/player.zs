@@ -2,6 +2,8 @@ class MyPlayer : DoomPlayer
 {
     const WEAPON_SLOTS = 4; // this DOES count the fists
 
+    RandomizedArmor CurrentEquippedArmor;
+
     default {
         Player.DisplayName "RW Marine";
         Health 100;
@@ -53,5 +55,17 @@ class MyPlayer : DoomPlayer
         }
         AddInventory(weap);
         player.PendingWeapon = weap;
+    }
+
+    void PickUpArmor(RandomizedArmor armr) {
+        // First, check if we already have armor
+        let hasEmptySlot = CurrentEquippedArmor == null;
+        // Picking up the weapon.
+        if (!hasEmptySlot) {
+            CurrentEquippedArmor.DetachFromOwner();
+            DropInventory(CurrentEquippedArmor);
+        }
+        AddInventory(armr);
+        CurrentEquippedArmor = armr;
     }
 }

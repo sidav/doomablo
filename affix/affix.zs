@@ -11,6 +11,7 @@ class Affix {
     private static Affix GetRandomAffixInstance() {
         let index = rnd.Rand(0, RwGlobalVars.GetTotalAffixes()-1);
         switch (index) {
+            // Weapon affixes
             case 0: return New('PrefWeak');
             case 1: return New('PrefStrong');
             case 2: return New('PrefInaccurate');
@@ -23,6 +24,13 @@ class Affix {
             case 9: return New('PrefQuick');
             case 10: return New('PrefSmallerExplosion');
             case 11: return New('PrefBiggerExplosion');
+            // Armor affixes
+            case 12: return New('APrefFragile');
+            case 13: return New('APrefSturdy');
+            case 14: return New('APrefSoft');
+            case 15: return New('APrefHard');
+            case 16: return New('APrefWorseRepair');
+            case 17: return New('APrefBetterRepair');
             default:
                 debug.panic("Some affixes are not added to Affix GetRandomAffix() instantiator.");
                 return New('Affix');
@@ -56,11 +64,21 @@ class Affix {
     }
 
     virtual void ApplyEffectToItem(Inventory item) {
-        applyEffectToRw(RandomizedWeapon(item));
+        if (RandomizedWeapon(item) != null) {
+            applyEffectToRw(RandomizedWeapon(item));
+            return;
+        }
+        if (RandomizedArmor(item) != null) {
+            applyEffectToArmor(RandomizedArmor(item));
+            return;
+        }
     }
 
-    // This SHOULD be overridden in descendants.
     protected virtual void applyEffectToRw(RandomizedWeapon weapon) {
+        debug.panicUnimplemented(self);
+    }
+
+    protected virtual void applyEffectToArmor(RandomizedArmor armor) {
         debug.panicUnimplemented(self);
     }
 
