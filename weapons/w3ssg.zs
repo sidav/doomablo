@@ -1,0 +1,108 @@
+class RwSuperShotgun : RandomizedWeapon
+{
+	Default
+	{
+		Weapon.SlotNumber 3;
+
+		Weapon.SelectionOrder 400;
+		Weapon.AmmoUse 2;
+		Weapon.AmmoGive 8;
+		Weapon.AmmoType "Shell";
+		Inventory.PickupMessage "$GOTSHOTGUN2";
+		Obituary "$OB_MPSSHOTGUN";
+		Tag "$TAG_SUPERSHOTGUN";
+	}
+	States
+	{
+	Ready:
+		SHT2 A 1 A_WeaponReady;
+		Loop;
+	Deselect:
+		SHT2 A 1 A_Lower;
+		Loop;
+	Select:
+		SHT2 A 1 A_Raise;
+		Loop;
+	Fire:
+		SHT2 A 3 RWA_ApplyRateOfFire;
+		SHT2 A 7 {
+			RWA_ApplyRateOfFire();
+			Fire();
+		}
+		SHT2 B 7 RWA_ApplyRateOfFire;
+		SHT2 C 7 {
+			RWA_ApplyRateOfFire();
+			A_CheckReload();
+		}
+		SHT2 D 7 {
+			RWA_ApplyRateOfFire();
+			A_StartSound("weapons/sshoto", CHAN_WEAPON);
+		}
+		SHT2 E 7 RWA_ApplyRateOfFire;
+		SHT2 F 7 {
+			RWA_ApplyRateOfFire();
+			A_StartSound("weapons/sshotl", CHAN_WEAPON); 
+		}
+		SHT2 G 6 RWA_ApplyRateOfFire;
+		SHT2 H 6 {
+			RWA_ApplyRateOfFire();
+			A_StartSound("weapons/sshotc", CHAN_WEAPON);
+			// A_Refire();
+		}
+		SHT2 A 5 {
+			RWA_ApplyRateOfFire();
+			A_ReFire();
+		}
+		Goto Ready;
+	Flash:
+		SHT2 I 4 Bright {
+			RWA_ApplyRateOfFireToFlash();
+			A_Light1();
+		}
+		SHT2 J 3 Bright {
+			RWA_ApplyRateOfFireToFlash();
+			A_Light2();
+		}
+		Goto LightDone;
+	Spawn:
+		SGN2 A -1;
+		Stop;
+	}
+
+	action void Fire()
+	{
+		if (player == null)
+		{
+			return;
+		}
+
+		A_StartSound ("weapons/sshotf", CHAN_WEAPON);
+		Weapon weap = player.ReadyWeapon;
+		if (weap != null && invoker == weap && stateinfo != null && stateinfo.mStateType == STATE_Psprite)
+		{
+			if (!weap.DepleteAmmo (weap.bAltFire, true))
+				return;
+			
+			player.SetPsprite(PSP_FLASH, weap.FindState('Flash'), true);
+		}
+		player.mo.PlayAttacking2 ();
+
+		double pitch = BulletSlope ();
+			
+		for (int i = 0 ; i < invoker.stats.Pellets; i++)
+		{
+			int damage = invoker.stats.rollDamage();
+			double ang = angle + rnd.Rand(-invoker.stats.HorizSpread, invoker.stats.HorizSpread);
+			LineAttack(ang, PLAYERMISSILERANGE, pitch + rnd.Rand(-invoker.stats.VertSpread, invoker.stats.VertSpread), damage, 'Hitscan', "BulletPuff");
+		}
+	}
+
+	override void setBaseStats() {
+		stats = New('RWStatsClass');
+		stats.HorizSpread = 15.6;
+		stats.VertSpread = 5.0;
+		stats.Pellets = 16;
+        stats.DamageDice = Dice.CreateNew(1, 5, 0);
+        rwBaseName = "Super Shotgun";
+    }
+}

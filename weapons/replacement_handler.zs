@@ -11,6 +11,9 @@ class WeaponReplacementHandler : EventHandler
 		case 'Shotgun':
 			e.Replacement = 'rwShotgun';
             break;
+		case 'SuperShotgun':
+			e.Replacement = 'rwSuperShotgun';
+            break;
 		case 'Chaingun':
 			e.Replacement = 'rwChaingun';
             break;

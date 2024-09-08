@@ -3,10 +3,11 @@ extend class MyCustomHUD {
     int currentHeight;
 
     void DrawWeaponInHandsInfo() {
-        if (CPlayer.ReadyWeapon is 'RandomizedWeapon') {
+        let wpn = RandomizedWeapon(CPlayer.ReadyWeapon);
+        if (wpn) {
             DrawString(mSmallFont, 
                 "Equipped: "..RandomizedWeapon(CPlayer.ReadyWeapon).rwFullName,
-                (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, Font.CR_Yellow);
+                (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForRwWeapon(wpn));
         }
     }
 
@@ -19,21 +20,21 @@ extend class MyCustomHUD {
         currentHeight = 0;
 
         // if (plr.HasEmptyWeaponSlotFor(wpn)) {
-        //     DrawLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
+        //     PrintLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
         // } else {
-        //     DrawLine("Press USE to switch to:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
+        //     PrintLine("Press USE to switch to:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
         // }
 
-        DrawLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
+        PrintLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         currentHeight += 1;
         if (wpn.appliedAffixes.size() == 0) {
-            DrawLine("Common "..wpn.rwFullName,
+            PrintLine("Common "..wpn.rwFullName,
                 mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
         } else {
-            DrawLine(wpn.rwFullName, mSmallShadowFont, 
+            PrintLine(wpn.rwFullName, mSmallShadowFont, 
                 DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
             foreach (aff : wpn.appliedAffixes) {
-                DrawLine("  "..aff.getName()..": "..aff.getDescription(), 
+                PrintLine("  "..aff.getName()..": "..aff.getDescription(), 
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
             }
         }
@@ -52,7 +53,7 @@ extend class MyCustomHUD {
         }
     }
 
-    void DrawLine(string line, HUDFont fnt, int flags, int trans) {
+    void PrintLine(string line, HUDFont fnt, int flags, int trans) {
         DrawString(fnt, line,
             (80, currentHeight), flags, trans);
         currentHeight += fnt.mFont.GetHeight();
