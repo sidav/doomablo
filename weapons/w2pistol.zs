@@ -8,7 +8,7 @@ class rwPistol : RandomizedWeapon
 
 		Weapon.SelectionOrder 1900;
 		Weapon.AmmoUse 1;
-		Weapon.AmmoGive 20;
+		Weapon.AmmoGive 0;
 		Weapon.AmmoType "Clip";
 		Obituary "$OB_MPPISTOL";
 		+WEAPON.WIMPY_WEAPON
