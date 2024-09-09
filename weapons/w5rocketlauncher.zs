@@ -5,7 +5,6 @@ class RwRocketLauncher : RandomizedWeapon
 		Weapon.SlotNumber 5;
 
 		Weapon.SelectionOrder 2500;
-		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 100; // DEBUG: default was 2
 		Weapon.AmmoType "RocketAmmo";
 		+WEAPON.NOAUTOFIRE
@@ -80,6 +79,7 @@ class RwRocketLauncher : RandomizedWeapon
 		stats = RWStatsClass.NewWeaponStats(
 			96, 128,
 			1,
+			1,
 			2.0,
 			0.5
 		);
@@ -99,7 +99,6 @@ class RwRocket : RwProjectile
 		Radius 11;
 		Height 8;
 		Speed 20;
-		Damage 0;
 		Projectile;
 		+RANDOMIZE
 		+DEHEXPLOSION

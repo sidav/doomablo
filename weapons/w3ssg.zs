@@ -5,7 +5,6 @@ class RwSuperShotgun : RandomizedWeapon
 		Weapon.SlotNumber 3;
 
 		Weapon.SelectionOrder 400;
-		Weapon.AmmoUse 2;
 		Weapon.AmmoGive 8;
 		Weapon.AmmoType "Shell";
 		Inventory.PickupMessage "$GOTSHOTGUN2";
@@ -27,7 +26,9 @@ class RwSuperShotgun : RandomizedWeapon
 		SHT2 A 3 RWA_ApplyRateOfFire;
 		SHT2 A 7 {
 			RWA_ApplyRateOfFire();
-			Fire();
+			RWA_FireBullets();
+			A_StartSound("weapons/sshotf", CHAN_WEAPON);
+			A_GunFlash();
 		}
 		SHT2 B 7 RWA_ApplyRateOfFire;
 		SHT2 C 7 {
@@ -69,38 +70,40 @@ class RwSuperShotgun : RandomizedWeapon
 		Stop;
 	}
 
-	action void Fire()
-	{
-		if (player == null)
-		{
-			return;
-		}
+	// That was the original method implementation:
 
-		A_StartSound ("weapons/sshotf", CHAN_WEAPON);
-		Weapon weap = player.ReadyWeapon;
-		if (weap != null && invoker == weap && stateinfo != null && stateinfo.mStateType == STATE_Psprite)
-		{
-			if (!weap.DepleteAmmo (weap.bAltFire, true))
-				return;
-			
-			player.SetPsprite(PSP_FLASH, weap.FindState('Flash'), true);
-		}
-		player.mo.PlayAttacking2 ();
+	// action void Fire()
+	// {
+	// 	if (player == null)
+	// 	{
+	// 		return;
+	// 	}
 
-		double pitch = BulletSlope ();
+	// 	A_StartSound ("weapons/sshotf", CHAN_WEAPON);
+	// 	Weapon weap = player.ReadyWeapon;
+	// 	if (weap != null && invoker == weap && stateinfo != null && stateinfo.mStateType == STATE_Psprite)
+	// 	{
+	// 		if (!weap.DepleteAmmo (weap.bAltFire, true))
+	// 			return;
 			
-		for (int i = 0 ; i < invoker.stats.Pellets; i++)
-		{
-			int damage = invoker.stats.rollDamage();
-			double ang = angle + rnd.Rand(-invoker.stats.HorizSpread, invoker.stats.HorizSpread);
-			LineAttack(ang, PLAYERMISSILERANGE, pitch + rnd.Rand(-invoker.stats.VertSpread, invoker.stats.VertSpread), damage, 'Hitscan', "BulletPuff");
-		}
-	}
+	// 		player.SetPsprite(PSP_FLASH, weap.FindState('Flash'), true);
+	// 	}
+	// 	player.mo.PlayAttacking2 ();
+
+	// 	double pitch = BulletSlope ();
+			
+	// 	for (int i = 0 ; i < invoker.stats.Pellets; i++) {
+	// 		int damage = invoker.stats.rollDamage();
+	// 		double ang = angle + rnd.Rand(-invoker.stats.HorizSpread, invoker.stats.HorizSpread);
+	// 		LineAttack(ang, PLAYERMISSILERANGE, pitch + rnd.Rand(-invoker.stats.VertSpread, invoker.stats.VertSpread), damage, 'Hitscan', "BulletPuff");
+	// 	}
+	// }
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
 			2, 5,
 			16,
+			2,
 			15.6,
 			5.0
 		);

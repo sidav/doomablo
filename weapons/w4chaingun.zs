@@ -5,7 +5,6 @@ class RwChaingun : RandomizedWeapon
         Weapon.SlotNumber 4;
 
 		Weapon.SelectionOrder 700;
-		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 20;
 		Weapon.AmmoType "Clip";
 		Inventory.PickupMessage "$GOTCHAINGUN";
@@ -26,7 +25,9 @@ class RwChaingun : RandomizedWeapon
 	Fire:
 		CHGG AB 4 {
 			RWA_ApplyRateOfFire();
-            Fire();
+            RWA_FireBullets();
+			A_StartSound ("weapons/chngun", CHAN_WEAPON);
+			A_GunFlash();
         }
 		CHGG B 0 A_ReFire;
 		Goto Ready;
@@ -50,53 +51,10 @@ class RwChaingun : RandomizedWeapon
 		stats = RWStatsClass.NewWeaponStats(
 			1, 6,
 			1,
+			1,
 			7.0,
 			2.0
 		);
 		rwBaseName = "Chaingun";
     }
-
-    action void Fire()
-	{
-		if (player == null)
-		{
-			return;
-		}
-
-		Weapon weap = player.ReadyWeapon;
-		if (weap != null && invoker == weap && stateinfo != null && stateinfo.mStateType == STATE_Psprite)
-		{
-			int dmg = invoker.stats.rollDamage();
-			A_FireBullets(
-				invoker.stats.HorizSpread, invoker.stats.VertSpread, 
-				invoker.stats.Pellets,
-				dmg,
-				'BulletPuff',
-				1, // Flags
-				0, // Range,
-				null // Missile (e.g. 'PlasmaBall')
-				// double Spawnheight
-				// double Spawnofs_xy
-			);
-            A_StartSound ("weapons/chngun", CHAN_WEAPON);
-			// if (!weap.DepleteAmmo (weap.bAltFire, true))
-			// 	return;
-
-			A_StartSound ("weapons/chngun", CHAN_WEAPON);
-
-			State flash = weap.FindState('Flash');
-			if (flash != null)
-			{
-				State atk = weap.FindState('Fire');
-				let psp = player.GetPSprite(PSP_WEAPON);
-				if (psp) 
-				{
-					State cur = psp.CurState;
-					int theflash = atk == cur? 0:1;
-					player.SetSafeFlash(weap, flash, theflash);
-				}
-			}
-		}
-		player.mo.PlayAttacking2 ();
-	}
 }

@@ -6,7 +6,6 @@ class rwShotgun : RandomizedWeapon
         Weapon.SlotNumber 3;
 
 		Weapon.SelectionOrder 1300;
-		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 8;
 		Weapon.AmmoType "Shell";
 		Inventory.PickupMessage "$GOTSHOTGUN";
@@ -28,19 +27,8 @@ class rwShotgun : RandomizedWeapon
 		SHTG A 3 RWA_ApplyRateOfFire();
 		SHTG A 7 {
 			RWA_ApplyRateOfFire();
-			int dmg = invoker.stats.rollDamage();
-			A_FireBullets(
-				invoker.stats.HorizSpread, invoker.stats.VertSpread, 
-				invoker.stats.Pellets,
-				dmg,
-				'BulletPuff',
-				1, // Flags
-				0, // Range,
-				null // Missile
-				// double Spawnheight
-				// double Spawnofs_xy
-			);
-            A_StartSound("weapons/shotgf", CHAN_WEAPON);
+			RWA_FireBullets();
+			A_StartSound("weapons/shotgf", CHAN_WEAPON);
 			A_GunFlash();
 		}
 		SHTG BC 5 RWA_ApplyRateOfFire();
@@ -71,6 +59,7 @@ class rwShotgun : RandomizedWeapon
 		stats = RWStatsClass.NewWeaponStats(
 			1, 5,
 			7,
+			1,
 			12.5,
 			3.0
 		);

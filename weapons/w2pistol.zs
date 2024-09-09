@@ -7,7 +7,6 @@ class rwPistol : RandomizedWeapon
 		Weapon.SlotNumber 2;
 
 		Weapon.SelectionOrder 1900;
-		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 0;
 		Weapon.AmmoType "Clip";
 		Obituary "$OB_MPPISTOL";
@@ -30,19 +29,7 @@ class rwPistol : RandomizedWeapon
 		PISG A 4 RWA_ApplyRateOfFire();
 		PISG B 6 {
 			RWA_ApplyRateOfFire();
-			// action void A_FireBullets(double spread_xy, double spread_z, int numbullets, int damageperbullet, class<Actor> pufftype = "BulletPuff", int flags = 1, double range = 0, class<Actor> missile = null, double Spawnheight = 32, double Spawnofs_xy = 0) 
-			int dmg = invoker.stats.rollDamage();
-			A_FireBullets(
-				invoker.stats.HorizSpread, invoker.stats.VertSpread, 
-				invoker.stats.Pellets,
-				dmg,
-				'BulletPuff',
-				1, // Flags
-				0, // Range,
-				null // Missile (e.g. 'PlasmaBall')
-				// double Spawnheight
-				// double Spawnofs_xy
-			);
+			RWA_FireBullets();
 			A_StartSound("weapons/pistol", CHAN_WEAPON);
 			A_GunFlash();
 		}
@@ -71,6 +58,7 @@ class rwPistol : RandomizedWeapon
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
 			4, 6,
+			1,
 			1,
 			2.0,
 			0.5

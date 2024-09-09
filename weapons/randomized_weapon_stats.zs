@@ -2,6 +2,7 @@ class RWStatsClass {
     int minDamage;
     int maxDamage;
     int Pellets;
+    int ammoUsage;
     float HorizSpread;
     float VertSpread;
     int rofModifier; // Currently it's percentage modifier. 25 means the weapon fires 25% faster (75% base speed), -25 means 125% base speed.
@@ -13,11 +14,12 @@ class RWStatsClass {
 
     int BaseExplosionRadius; // Should be set and not modified; it's used for explosion sprite scaling calculation.
 
-    static RWStatsClass NewWeaponStats(int minDmg, int maxDmg, int pell, float hSpr, float vSpr) {
+    static RWStatsClass NewWeaponStats(int minDmg, int maxDmg, int pell, int ammousg, float hSpr, float vSpr) {
         let rws = New('RwStatsClass');
         rws.minDamage = minDmg;
         rws.maxDamage = maxDmg;
         rws.Pellets = pell;
+        rws.ammoUsage = ammousg;
         rws.HorizSpread = hSpr;
         rws.VertSpread = vSpr;
         return rws;

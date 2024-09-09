@@ -1,12 +1,20 @@
 class RwProjectile : Actor {
 
 	int rwExplosionRadius;
+	int rwSetDmg; // It is needed to override the default behaviour of damage randomization.
+
+	default {
+		DamageFunction rwSetDmg; // Do not use Damage property for this! It causes damage to be randomized!
+		// Damage property itself should be unset in all the descendants.
+	}
+
 	float explosionSpriteScale;
 	// BUG: this is NOT called if a rocket is fired at point blank range.
 	// Resolved (work-arounded) by calling pointBlank() after A_FireProjectile() return values check, see below
     void applyWeaponStats(RWStatsClass stats) {
-		// Set damage
-		SetDamage(stats.rollDamage());
+		// Set damage. DO NOT use SetDamage() for this, because it makes the projectile have randomized damage 
+		// (it's some strange implicit Doom behavior)
+		rwSetDmg = stats.rollDamage();
 
 		rwExplosionRadius = stats.ExplosionRadius;
 		explosionSpriteScale = stats.GetExplosionSpriteScale();

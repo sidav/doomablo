@@ -5,7 +5,6 @@ class RwPlasmaRifle : RandomizedWeapon
 		Weapon.SlotNumber 6;
 
 		Weapon.SelectionOrder 100;
-		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 40;
 		Weapon.AmmoType "Cell";
 		Inventory.PickupMessage "$GOTPLASMA";
@@ -47,10 +46,11 @@ class RwPlasmaRifle : RandomizedWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			1, 5,
+			5, 30,
+			1,
 			1,
 			5.0,
-			1.5
+			1.0
 		);
 		stats.firesProjectiles = true;
 		rwBaseName = "Plasma rifle";
@@ -94,7 +94,6 @@ class RwPlasmaBall : RwProjectile
 		Radius 13;
 		Height 8;
 		Speed 25;
-		Damage 5;
 		Projectile;
 		+RANDOMIZE
 		+ZDOOMTRANS
