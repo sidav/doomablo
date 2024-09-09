@@ -69,11 +69,12 @@ class rwPistol : RandomizedWeapon
 	}
 
 	override void setBaseStats() {
-		stats = New('RWStatsClass');
-		stats.HorizSpread = 10.0;
-		stats.VertSpread = 2.0;
-		stats.Pellets = 1;
-		stats.DamageDice = Dice.CreateNew(2, 6, 0);
+		stats = RWStatsClass.NewWeaponStats(
+			4, 6,
+			1,
+			2.0,
+			0.5
+		);
 		rwBaseName = "Pistol";
     }
 }

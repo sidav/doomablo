@@ -16,6 +16,12 @@ class RwGreenArmor : RandomizedArmor
 	}
 
 	override void setBaseStats() {
-        rwbaseName = "Green Armor";
+		rwbaseName = "Green Armor";
+		stats = New('RwArmorStats');
+		stats.currDurability = 100;
+		stats.maxDurability = 100;
+		stats.AbsorbsPercentage = 33;
+		stats.DamageReduction = 0;
+		stats.BonusRepair = 5;
     }
 }

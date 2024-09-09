@@ -6,224 +6,258 @@ class RwWeaponPrefix : Affix {
 
 // Universal ones
 
-class PrefWeak : RwWeaponPrefix {
+class WPrefWorseMinDamage : RwWeaponPrefix {
     override string getName() {
-        return "weak";
+        return "weaker";
     }
     override string getDescription() {
-        return "damage "..modifierLevel;
-    }
-    override void Init() {
-        modifierLevel = rnd.Rand(-3, -1);
+        return "min damage -"..modifierLevel;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefStrong';
+        return a2.GetClass() != 'WPrefBetterMinDamage';
     }
-    override void applyEffectToRw(RandomizedWeapon wpn) {
-        wpn.stats.DamageDice.Mod -= modifierLevel;
+    override bool IsCompatibleWithItem(Inventory item) {
+        return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.minDamage > 0;
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = rnd.linearWeightedRand(1, wpn.stats.minDamage, 10, 1);
+
+        wpn.stats.modifyDamageRange(-modifierLevel, 0);
     }
 }
 
-class PrefStrong : RwWeaponPrefix {
+class WPrefBetterMinDamage : RwWeaponPrefix {
     override string getName() {
-        return "strong";
+        return "stronger";
     }
     override string getDescription() {
-        return "damage +"..modifierLevel;
+        return "min damage +"..modifierLevel;
     }
-    override void Init() {
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefWorseMinDamage';
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return super.IsCompatibleWithItem(item) && 
+            RandomizedWeapon(item).stats.getDamageSpread() > 0;
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = rnd.linearWeightedRand(1, wpn.stats.getDamageSpread(), 100, 1);
+
+        wpn.stats.modifyDamageRange(modifierLevel, 0);
+    }
+}
+
+class WPrefWorseMaxDamage : RwWeaponPrefix {
+    override string getName() {
+        return "used";
+    }
+    override string getDescription() {
+        return "max damage -"..modifierLevel;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefBetterMaxDamage';
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return super.IsCompatibleWithItem(item) && 
+            RandomizedWeapon(item).stats.getDamageSpread() > 0;
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = rnd.linearWeightedRand(1, wpn.stats.getDamageSpread(), 100, 1);
+
+        wpn.stats.modifyDamageRange(0, -modifierLevel);
+    }
+}
+
+class WPrefBetterMaxDamage : RwWeaponPrefix {
+    override string getName() {
+        return "potent";
+    }
+    override string getDescription() {
+        return "max damage +"..modifierLevel;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefWorseMaxDamage';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
         modifierLevel = rnd.linearWeightedRand(1, 10, 100, 1);
-    }
-    override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefWeak';
-    }
-    override void applyEffectToRw(RandomizedWeapon wpn) {
-        wpn.stats.DamageDice.Mod += modifierLevel;
+
+        wpn.stats.modifyDamageRange(0, modifierLevel);
     }
 }
 
-class PrefInaccurate : RwWeaponPrefix {
+class WPrefInaccurate : RwWeaponPrefix {
     override string getName() {
         return "inaccurate";
     }
     override string getDescription() {
         return "accuracy decreased by "..modifierLevel.."%";
     }
-    override void Init() {
-        modifierLevel = 5*rnd.linearWeightedRand(1, 20, 100, 1);
-    }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefPrecise';
+        return a2.GetClass() != 'WPrefPrecise';
     }
-    override void applyEffectToRw(RandomizedWeapon wpn) {
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = 5*rnd.linearWeightedRand(1, 20, 100, 1);
+
         wpn.stats.HorizSpread *= float(100+modifierLevel)/100;
         wpn.stats.VertSpread *= float(100+modifierLevel)/100;
     }
 }
 
-class PrefPrecise : RwWeaponPrefix {
+class WPrefPrecise : RwWeaponPrefix {
     override string getName() {
         return "precise";
     }
     override string getDescription() {
         return "accuracy increased by "..modifierLevel.."%";
     }
-    override void Init() {
-        modifierLevel = 5*rnd.linearWeightedRand(1, 15, 100, 1);
-    }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefInaccurate';
+        return a2.GetClass() != 'WPrefInaccurate';
     }
-    override void applyEffectToRw(RandomizedWeapon wpn) {
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = 5*rnd.linearWeightedRand(1, 15, 100, 1);
+
         wpn.stats.HorizSpread *= float(100-modifierLevel)/100;
         wpn.stats.VertSpread *= float(100-modifierLevel)/100;
     }
 }
 
 
-class PrefSlow : RwWeaponPrefix {
+class WPrefSlow : RwWeaponPrefix {
     override string getName() {
         return "slow";
     }
     override string getDescription() {
         return modifierLevel.."% slower rate of fire";
     }
-    override void Init() {
-        modifierLevel = 5*rnd.linearWeightedRand(1, 15, 100, 1);
-    }
     override bool IsCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefFast';
+        return a2.GetClass() != 'WPrefFast';
     }
-    override void applyEffectToRw(RandomizedWeapon wpn) {
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = 5*rnd.linearWeightedRand(1, 15, 100, 1);
+
         wpn.stats.rofModifier = -modifierLevel;
     }
 }
 
-class PrefFast : RwWeaponPrefix {
+class WPrefFast : RwWeaponPrefix {
     override string getName() {
         return "fast";
     }
     override string getDescription() {
         return modifierLevel.."% faster rate of fire";
     }
-    override void Init() {
-        modifierLevel = 5*rnd.linearWeightedRand(1, 10, 100, 1);
-    }
     override bool IsCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefSlow';
+        return a2.GetClass() != 'WPrefSlow';
     }
-    override void applyEffectToRw(RandomizedWeapon wpn) {
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = 5*rnd.linearWeightedRand(1, 10, 100, 1);
+
         wpn.stats.rofModifier = modifierLevel;
     }
 }
 
 // Shotgun-specific
 
-class PrefPuny : RwWeaponPrefix {
+class WPrefPuny : RwWeaponPrefix {
     override string getName() {
         return "puny";
     }
     override string getDescription() {
         return "-"..modifierLevel.." pellets per shot";
     }
-    override void Init() {
-        modifierLevel = rnd.Rand(1, 3);
-    }
     override bool IsCompatibleWithItem(Inventory item) {
         return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.Pellets > 3;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefBulk';
+        return a2.GetClass() != 'WPrefBulk';
     }
-    override void applyEffectToRw(RandomizedWeapon wpn) {
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = rnd.linearWeightedRand(1, wpn.stats.pellets, 20, 1);
+
         wpn.stats.Pellets -= modifierLevel;
     }
 }
 
-class PrefBulk : RwWeaponPrefix {
+class WPrefBulk : RwWeaponPrefix {
     override string getName() {
         return "bulk";
     }
     override string getDescription() {
         return "+"..modifierLevel.." pellets per shot";
     }
-    override void Init() {
-        modifierLevel = rnd.linearWeightedRand(1, 5, 100, 1);
-    }
     override bool IsCompatibleWithItem(Inventory item) {
         return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.Pellets > 3;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefPuny';
+        return a2.GetClass() != 'WPrefPuny';
     }
-    override void applyEffectToRw(RandomizedWeapon wpn) {
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = rnd.linearWeightedRand(1, (wpn.stats.Pellets/2 + 1), 100, 1);
+
         wpn.stats.Pellets += modifierLevel;
     }
 }
 
 // Projectile-weapon specific
 
-class PrefLazy : RwWeaponPrefix {
+class WPrefLazy : RwWeaponPrefix {
     override string getName() {
         return "lazy";
     }
     override string getDescription() {
         return modifierLevel.."% slower projectile";
     }
-    override void Init() {
-        modifierLevel = rnd.linearWeightedRand(1, 75, 100, 1);
-    }
     override bool IsCompatibleWithItem(Inventory item) {
         return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.firesProjectiles;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefQuick';
+        return a2.GetClass() != 'WPrefQuick';
     }
-    override void applyEffectToRw(RandomizedWeapon wpn) {
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = rnd.linearWeightedRand(1, 75, 100, 1);
+
         wpn.stats.projSpeedPercModifier = -modifierLevel;
     }
 }
 
-class PrefQuick : RwWeaponPrefix {
+class WPrefQuick : RwWeaponPrefix {
     override string getName() {
         return "quick";
     }
     override string getDescription() {
         return modifierLevel.."% faster projectile";
     }
-    override void Init() {
-        modifierLevel = rnd.linearWeightedRand(1, 100, 100, 1);
-    }
     override bool IsCompatibleWithItem(Inventory item) {
         return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.firesProjectiles;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefLazy';
+        return a2.GetClass() != 'WPrefLazy';
     }
-    override void applyEffectToRw(RandomizedWeapon wpn) {
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = rnd.linearWeightedRand(1, 100, 100, 1);
+
         wpn.stats.projSpeedPercModifier = modifierLevel;
     }
 }
 
 // Explosion-weapon specific
 
-class PrefSmallerExplosion : RwWeaponPrefix {
+class WPrefSmallerExplosion : RwWeaponPrefix {
     override string getName() {
         return "safer";
     }
     override string getDescription() {
         return modifierLevel.."% smaller explosion radius";
     }
-    override void Init() {
-        modifierLevel = rnd.linearWeightedRand(10, 75, 100, 1);
-    }
     override bool IsCompatibleWithItem(Inventory item) {
         return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.ExplosionRadius > 0;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefBiggerExplosion';
+        return a2.GetClass() != 'WPrefBiggerExplosion';
     }
-    override void applyEffectToRw(RandomizedWeapon wpn) {
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = rnd.linearWeightedRand(10, 75, 100, 1);
+
         wpn.stats.ExplosionRadius = math.getIntPercentage(
             wpn.stats.ExplosionRadius,
             100-modifierLevel
@@ -231,23 +265,22 @@ class PrefSmallerExplosion : RwWeaponPrefix {
     }
 }
 
-class PrefBiggerExplosion : RwWeaponPrefix {
+class WPrefBiggerExplosion : RwWeaponPrefix {
     override string getName() {
         return "volatile";
     }
     override string getDescription() {
         return modifierLevel.."% bigger explosion radius";
     }
-    override void Init() {
-        modifierLevel = rnd.linearWeightedRand(20, 200, 1000, 1);
-    }
     override bool IsCompatibleWithItem(Inventory item) {
         return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.ExplosionRadius > 0;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'PrefSmallerExplosion';
+        return a2.GetClass() != 'WPrefSmallerExplosion';
     }
-    override void applyEffectToRw(RandomizedWeapon wpn) {
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = rnd.linearWeightedRand(20, 200, 1000, 1);
+
         wpn.stats.ExplosionRadius = math.getIntPercentage(
             wpn.stats.ExplosionRadius,
             100+modifierLevel

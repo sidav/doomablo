@@ -47,11 +47,12 @@ class RwChaingun : RandomizedWeapon
 	}
 
     override void setBaseStats() {
-		stats = New('RWStatsClass');
-		stats.HorizSpread = 7.0;
-		stats.VertSpread = 2.0;
-		stats.Pellets = 1;
-		stats.DamageDice = Dice.CreateNew(1, 6, 0);
+		stats = RWStatsClass.NewWeaponStats(
+			1, 6,
+			1,
+			7.0,
+			2.0
+		);
 		rwBaseName = "Chaingun";
     }
 

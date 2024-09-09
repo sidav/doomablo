@@ -1,6 +1,6 @@
 class RwArmorStats {
-    int CurrentAmount;
-    int MaxAmount;
+    int currDurability;
+    int maxDurability;
     int AbsorbsPercentage; // this many percents of damage will be directed to armor amount.
     int DamageReduction; // this many points of damage will be nullified.
     int BonusRepair; // How many armor points it gets from armor bonus. Is 0, can't be repaired.

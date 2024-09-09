@@ -12,13 +12,13 @@ extend class MyCustomHUD {
     }
 
     void DrawPickupableWeaponInfo() {
-        let plr = MyPlayer(CPlayer.mo);
         let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
         let wpn = RandomizedWeapon(handler.currentItemToPickUp);
         if (!wpn) return;
 
         currentHeight = 0;
 
+        // let plr = MyPlayer(CPlayer.mo);
         // if (plr.HasEmptyWeaponSlotFor(wpn)) {
         //     PrintLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
         // } else {
@@ -30,14 +30,27 @@ extend class MyCustomHUD {
         if (wpn.appliedAffixes.size() == 0) {
             PrintLine("Common "..wpn.rwFullName,
                 mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
+            printWeaponStats(wpn);
         } else {
             PrintLine(wpn.rwFullName, mSmallShadowFont, 
                 DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
+            printWeaponStats(wpn);
             foreach (aff : wpn.appliedAffixes) {
                 PrintLine("  "..aff.getName()..": "..aff.getDescription(), 
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
             }
         }
+    }
+
+    void printWeaponStats(RandomizedWeapon wpn) {
+        PrintLine("Damage: "..wpn.stats.minDamage.."-"..wpn.stats.MaxDamage, 
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+        if (wpn.stats.pellets > 1) {
+            PrintLine(wpn.stats.pellets.." pellets per shot", 
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);    
+        }
+        PrintLine("Spread "..(int(wpn.stats.horizSpread)).."."..(int(wpn.stats.horizSpread * 10) % 10),
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
     }
 
     static int PickColorForRwWeapon(RandomizedWeapon w) {

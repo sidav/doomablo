@@ -1,3 +1,4 @@
+// Unused
 class Dice
 {
     int Count, Sides, Mod;

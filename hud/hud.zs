@@ -63,6 +63,7 @@ class MyCustomHUD : DoomStatusBar
 
     override void Tick()
     {
+		super.Tick();
         // Similarly to actors, HUDs have this function,
         // and it's called every tic, i.e. 35 times per
         // second, regardless of framerate.

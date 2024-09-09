@@ -46,11 +46,12 @@ class RwPlasmaRifle : RandomizedWeapon
 	}
 
     override void setBaseStats() {
-		stats = New('RWStatsClass');
-		stats.HorizSpread = 5.0;
-		stats.VertSpread = 2.0;
-		stats.Pellets = 1;
-		stats.DamageDice = Dice.CreateNew(1, 5, 0);
+		stats = RWStatsClass.NewWeaponStats(
+			1, 5,
+			1,
+			5.0,
+			1.5
+		);
 		stats.firesProjectiles = true;
 		rwBaseName = "Plasma rifle";
     }

@@ -13,15 +13,14 @@ class APrefFragile : RwArmorPrefix {
     override string getDescription() {
         return "Max durability -"..modifierLevel;
     }
-    override void Init() {
-        modifierLevel = 5*rnd.Rand(2, 10);
-    }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefSturdy';
     }
-    override void applyEffectToArmor(RandomizedArmor arm) {
-        arm.stats.MaxAmount -= modifierLevel;
-        arm.stats.CurrentAmount -= modifierLevel;
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm) {
+        modifierLevel = 5*rnd.linearWeightedRand(1, arm.stats.maxDurability/10, 5, 1);
+
+        arm.stats.maxDurability -= modifierLevel;
+        arm.stats.currDurability -= modifierLevel;
     }
 }
 
@@ -33,15 +32,14 @@ class APrefSturdy : RwArmorPrefix {
     override string getDescription() {
         return "Max amount +"..modifierLevel;
     }
-    override void Init() {
-        modifierLevel = 5*rnd.Rand(2, 10);
-    }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefFragile';
     }
-    override void applyEffectToArmor(RandomizedArmor arm) {
-        arm.stats.MaxAmount += modifierLevel;
-        arm.stats.CurrentAmount += modifierLevel;
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm) {
+        modifierLevel = 5*rnd.linearWeightedRand(1, 10, 10, 1);
+
+        arm.stats.maxDurability += modifierLevel;
+        arm.stats.currDurability += modifierLevel;
     }
 }
 
@@ -52,13 +50,12 @@ class APrefSoft : RwArmorPrefix {
     override string getDescription() {
         return "Absorbs -"..modifierLevel.."% damage";
     }
-    override void Init() {
-        modifierLevel = rnd.Rand(1, 25);
-    }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefHard';
     }
-    override void applyEffectToArmor(RandomizedArmor arm) {
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm) {
+        modifierLevel = rnd.linearWeightedRand(1, 25, 5, 1);
+
         arm.stats.AbsorbsPercentage -= modifierLevel;
     }
 }
@@ -71,13 +68,12 @@ class APrefHard : RwArmorPrefix {
     override string getDescription() {
         return "Absorbs +"..modifierLevel.."% damage";
     }
-    override void Init() {
-        modifierLevel = rnd.Rand(1, 25);
-    }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefSoft';
     }
-    override void applyEffectToArmor(RandomizedArmor arm) {
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm) {
+        modifierLevel = rnd.linearWeightedRand(1, 2*(100-arm.stats.AbsorbsPercentage)/3, 5, 1);
+
         arm.stats.AbsorbsPercentage += modifierLevel;
     }
 }
@@ -89,13 +85,12 @@ class APrefWorseRepair : RwArmorPrefix {
     override string getDescription() {
         return "Gets -"..modifierLevel.." armor from repars";
     }
-    override void Init() {
-        modifierLevel = rnd.Rand(1, 3);
-    }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefBetterRepair';
     }
-    override void applyEffectToArmor(RandomizedArmor arm) {
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm) {
+        modifierLevel = rnd.Rand(1, arm.stats.BonusRepair-1);
+
         arm.stats.BonusRepair -= modifierLevel;
     }
 }
@@ -108,13 +103,12 @@ class APrefBetterRepair : RwArmorPrefix {
     override string getDescription() {
         return "Gets +"..modifierLevel.." armor from repars";
     }
-    override void Init() {
-        modifierLevel = rnd.Rand(1, 3);
-    }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefWorseRepair';
     }
-    override void applyEffectToArmor(RandomizedArmor arm) {
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm) {
+        modifierLevel = rnd.linearWeightedRand(1, 5, 10, 1);
+
         arm.stats.BonusRepair += modifierLevel;
     }
 }

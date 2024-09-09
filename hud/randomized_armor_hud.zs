@@ -4,7 +4,7 @@ extend class MyCustomHUD {
         let armr = MyPlayer(CPlayer.mo).CurrentEquippedArmor;
         if (armr) {
             DrawString(mSmallFont, 
-                "Equipped: "..armr.rwFullName.." ("..armr.stats.CurrentAmount.."%)",
+                "Equipped: "..armr.rwFullName.." ("..armr.stats.currDurability.."%)",
                 (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForRwArmor(armr));
         } else {
             DrawString(mSmallFont, 
@@ -14,13 +14,13 @@ extend class MyCustomHUD {
     }
 
     void DrawPickupableArmorInfo() {
-        let plr = MyPlayer(CPlayer.mo);
         let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
         let armr = RandomizedArmor(handler.currentItemToPickUp);
         if (!armr) return;
 
         currentHeight = 0;
 
+        // let plr = MyPlayer(CPlayer.mo);
         // if (plr.HasEmptyWeaponSlotFor(armr)) {
         //     PrintLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
         // } else {
@@ -45,7 +45,7 @@ extend class MyCustomHUD {
     }
 
     void printArmorStats(RandomizedArmor armr) {
-        PrintLine("Durability: "..armr.stats.CurrentAmount.."/"..armr.stats.MaxAmount, 
+        PrintLine("Durability: "..armr.stats.currDurability.."/"..armr.stats.maxDurability, 
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
         if (armr.stats.DamageReduction > 0) {
             PrintLine("-"..armr.stats.DamageReduction.." incoming damage", 

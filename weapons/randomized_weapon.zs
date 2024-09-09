@@ -1,10 +1,10 @@
 class RandomizedWeapon : DoomWeapon {
 
+    mixin Affixable;
+
     string rwFullName; // Needed for HUD
     string rwbaseName;
     RWStatsClass stats;
-
-    array <Affix> appliedAffixes;
 
     virtual void setBaseStats() {
         // Should be overridden

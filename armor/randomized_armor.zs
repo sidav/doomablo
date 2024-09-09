@@ -1,5 +1,7 @@
 class RandomizedArmor : Armor {
 
+    mixin Affixable;
+
     RwArmorStats stats;
     string rwFullName; // Needed for HUD
     string rwbaseName;
@@ -9,8 +11,6 @@ class RandomizedArmor : Armor {
 		Radius 20;
 		Height 16;
 	}
-
-    array <Affix> appliedAffixes;
 
     virtual void setBaseStats() {
         debug.panicUnimplemented(self);
@@ -32,7 +32,7 @@ class RandomizedArmor : Armor {
         }
 
         // if (stats.ArmorRegenEachTicks > 0 && GetAge() % stats.ArmorRegenEachTicks == 0) {
-        //     stats.CurrentAmount++;
+        //     stats.currDurability++;
         // }
         // if (stats.HealthRegenEachTicks > 0 && GetAge() % stats.HealthRegenEachTicks == 0) {
         //     owner.GiveBody(1, 100);
@@ -45,10 +45,10 @@ class RandomizedArmor : Armor {
             damage = 1;
         }
         let damageToArmor = math.getIntPercentage(damage, stats.AbsorbsPercentage);
-        if (damageToArmor > stats.CurrentAmount) {
-            damageToArmor = stats.CurrentAmount;
+        if (damageToArmor > stats.currDurability) {
+            damageToArmor = stats.currDurability;
         }
-        stats.CurrentAmount -= damageToArmor;
+        stats.currDurability -= damageToArmor;
         newdamage = damage - damageToArmor;
     }
 

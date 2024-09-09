@@ -1,5 +1,6 @@
 class RWStatsClass {
-    Dice DamageDice;
+    int minDamage;
+    int maxDamage;
     int Pellets;
     float HorizSpread;
     float VertSpread;
@@ -12,16 +13,28 @@ class RWStatsClass {
 
     int BaseExplosionRadius; // Should be set and not modified; it's used for explosion sprite scaling calculation.
 
-    int minDamage() {
-        return DamageDice.MinRollPossible();
+    static RWStatsClass NewWeaponStats(int minDmg, int maxDmg, int pell, float hSpr, float vSpr) {
+        let rws = New('RwStatsClass');
+        rws.minDamage = minDmg;
+        rws.maxDamage = maxDmg;
+        rws.Pellets = pell;
+        rws.HorizSpread = hSpr;
+        rws.VertSpread = vSpr;
+        return rws;
     }
 
-    int maxDamage() {
-        return DamageDice.MaxRollPossible();
+    void modifyDamageRange(int minMod, int maxMod) {
+        minDamage += minMod;
+        maxDamage += maxMod;
+        if (minDamage > maxDamage) {
+            let t = maxDamage;
+            maxDamage = minDamage;
+            minDamage = t;
+        }
     }
 
     int rollDamage() {
-        return DamageDice.Roll();
+        return random(minDamage, maxDamage); // DamageDice.Roll();
     }
 
     float GetExplosionSpriteScale() {
@@ -36,5 +49,9 @@ class RWStatsClass {
 
     float getProjSpeedFactor() {
         return float(100+projSpeedPercModifier)/100.0;
+    }
+
+    int getDamageSpread() {
+        return maxDamage - minDamage;
     }
 }

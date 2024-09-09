@@ -3,6 +3,7 @@ class RwProjectile : Actor {
 	int rwExplosionRadius;
 	float explosionSpriteScale;
 	// BUG: this is NOT called if a rocket is fired at point blank range.
+	// Resolved (work-arounded) by calling pointBlank() after A_FireProjectile() return values check, see below
     void applyWeaponStats(RWStatsClass stats) {
 		// Set damage
 		SetDamage(stats.rollDamage());

@@ -77,13 +77,14 @@ class RwRocketLauncher : RandomizedWeapon
 	}
 
 	override void setBaseStats() {
-		stats = New('RWStatsClass');
-		stats.HorizSpread = 2.0;
-		stats.VertSpread = 0.5;
-		stats.Pellets = 1;
-		stats.DamageDice = Dice.CreateNew(64, 2, 0);
-		stats.firesProjectiles = true;
+		stats = RWStatsClass.NewWeaponStats(
+			96, 128,
+			1,
+			2.0,
+			0.5
+		);
 
+		stats.firesProjectiles = true;
 		stats.BaseExplosionRadius = 96;
 		stats.ExplosionRadius = 96;
 
