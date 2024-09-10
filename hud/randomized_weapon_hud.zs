@@ -49,7 +49,7 @@ extend class MyCustomHUD {
             PrintLine(wpn.stats.pellets.." pellets per shot", 
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);    
         }
-        PrintLine("Spread "..(int(wpn.stats.horizSpread)).."."..(int(wpn.stats.horizSpread * 10) % 10),
+        PrintLine("Spread "..String.Format("%.2f", (wpn.stats.horizSpread)),
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
     }
 
