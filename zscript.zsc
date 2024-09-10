@@ -16,6 +16,7 @@ version "4.10.0"
 #include "player/press_to_pickup_handler.zs"
 
 #include "affix/affix.zs"
+#include "affix/affix_quality.zs"
 #include "affix/affix_instantiator.zs"
 #include "affix/affixable.zs"
 #include "affix/armor_prefixes.zs"
