@@ -5,6 +5,7 @@ class RandomizedWeapon : DoomWeapon {
     string rwFullName; // Needed for HUD
     string rwbaseName;
     RWStatsClass stats;
+    int shotsSinceLastFreeShot;
 
     // Default {
     //     Weapon.AmmoUse 1; // We use custom ammo usage routine anyway
@@ -21,7 +22,12 @@ class RandomizedWeapon : DoomWeapon {
     }
 
     action void RWA_FireBullets() {
-        if (!invoker.DepleteAmmo(invoker.bAltFire, true, invoker.stats.ammoUsage, true)) {
+        if (invoker.stats.freeShotPeriod > 0) {
+            invoker.shotsSinceLastFreeShot++;
+        }
+        if (invoker.stats.freeShotPeriod > 0 && invoker.shotsSinceLastFreeShot % invoker.stats.freeShotPeriod == 0) {
+            invoker.shotsSinceLastFreeShot = 0; // and don't consume ammo!
+        } else if (!invoker.DepleteAmmo(invoker.bAltFire, true, invoker.stats.ammoUsage, true)) {
             MyPlayer(invoker.Owner).PickNewWeapon(null);
             return;
         }

@@ -2,7 +2,6 @@ class RWStatsClass {
     int minDamage;
     int maxDamage;
     int Pellets;
-    int ammoUsage;
     float HorizSpread;
     float VertSpread;
     int rofModifier; // Currently it's percentage modifier. 25 means the weapon fires 25% faster (75% base speed), -25 means 125% base speed.
@@ -11,6 +10,10 @@ class RWStatsClass {
     bool firesProjectiles;
     int projSpeedPercModifier;
     int ExplosionRadius;
+
+    // Ammo specific
+    int ammoUsage;
+    int freeShotPeriod; // each freeShotPeriod'th shot will be free. Better for auto-shot weapons, may be useful for RL.
 
     int BaseExplosionRadius; // Should be set and not modified; it's used for explosion sprite scaling calculation.
 

@@ -156,6 +156,23 @@ class WPrefFast : RwWeaponPrefix {
     }
 }
 
+class WPrefFreeShots : RwWeaponPrefix {
+    override string getName() {
+        return "replicating";
+    }
+    override string getDescription() {
+        return "Each "..modifierLevel.."th shot is free";
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return true; // TODO: think of a "bad" counterpart
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
+        modifierLevel = rnd.linearWeightedRand(1, 10, 1, 200);
+
+        wpn.stats.freeShotPeriod = modifierLevel;
+    }
+}
+
 // Shotgun-specific
 
 class WPrefPuny : RwWeaponPrefix {
