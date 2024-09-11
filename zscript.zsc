@@ -9,7 +9,6 @@ version "4.10.0"
 #include "misc/math.zs"
 #include "misc/rnd.zs"
 #include "misc/tests_handler.zs"
-#include "misc/global_variables.zs"
 
 #include "player/player.zs"
 #include "player/starting_items_handler.zs"

@@ -5,8 +5,8 @@ gameinfo
 	statusbarclass = "MyCustomHUD"
 
 	AddEventHandlers = "RwTestsHandler"
-	AddEventHandlers = "RwGlobalsHandler"
  	// AddEventHandlers = "MonsterReplacementHandler"
+	AddEventHandlers = "AffixCountHandler"
 	AddEventHandlers = "ArmorReplacementHandler"
  	AddEventHandlers = "WeaponReplacementHandler"
 	AddEventHandlers = "PressToPickupHandler"

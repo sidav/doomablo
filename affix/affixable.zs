@@ -13,7 +13,7 @@ mixin class Affixable {
                 } else {
                     try++;
                 }
-                newAffix = Affix.GetRandomAffix();
+                newAffix = Affix.GetRandomAffixFor(self);
             } until (
                 newAffix.IsCompatibleWithItem(self) &&
                 newAffix.IsCompatibleWithListOfAffixes(appliedAffixes)

@@ -1,12 +1,18 @@
 extend class Affix {
 
-    static Affix GetRandomAffix() {
-        let aff = GetRandomAffixInstance();
-        return aff;
+    static Affix GetRandomAffixFor(Inventory item) {
+        if (item is 'RandomizedWeapon') {
+            return GetRandomWeaponAffixInstance();
+        }
+        if (item is 'RandomizedArmor') {
+            return GetRandomArmorAffixInstance();
+        } 
+        debug.panic("Unknown class to give affix for: "..item.GetClassName());
+        return null;
     }
 
-    private static Affix GetRandomAffixInstance() {
-        let index = rnd.Rand(0, RwGlobalVars.GetTotalAffixes()-1);
+    private static Affix GetRandomWeaponAffixInstance() {
+        let index = rnd.Rand(0, totalWeaponAffixesClasses()-1);
         switch (index) {
             // Weapon affixes
             case 0: return New('WPrefWorseMinDamage');
@@ -24,16 +30,100 @@ extend class Affix {
             case 12: return New('WPrefSmallerExplosion');
             case 13: return New('WPrefBiggerExplosion');
             case 14: return New('WPrefFreeShots');
-            // Armor affixes
-            case 15: return New('APrefFragile');
-            case 16: return New('APrefSturdy');
-            case 17: return New('APrefSoft');
-            case 18: return New('APrefHard');
-            case 19: return New('APrefWorseRepair');
-            case 20: return New('APrefBetterRepair');
             default:
-                debug.panic("Some affixes are not added to Affix GetRandomAffix() instantiator.");
+                debug.panic("Some affixes are not added to GetRandomWeaponAffixInstance() instantiator.");
                 return New('Affix');
         }
+    }
+
+    private static Affix GetRandomArmorAffixInstance() {
+        let index = rnd.Rand(0, totalArmorAffixesClasses()-1);
+        switch (index) {
+            // Armor affixes
+            case 0: return New('APrefFragile');
+            case 1: return New('APrefSturdy');
+            case 2: return New('APrefSoft');
+            case 3: return New('APrefHard');
+            case 4: return New('APrefWorseRepair');
+            case 5: return New('APrefBetterRepair');
+            default:
+                debug.panic("Some affixes are not added to Affix GetRandomArmorAffixInstance() instantiator.");
+                return New('Affix');
+        }
+    }
+
+    static int totalAffixesClasses() {
+        let handler = AffixCountHandler(StaticEventHandler.Find('AffixCountHandler'));
+        return handler.totalAffixesClasses;
+    }
+
+    static int totalWeaponAffixesClasses() {
+        let handler = AffixCountHandler(StaticEventHandler.Find('AffixCountHandler'));
+        return handler.totalWeaponAffixesClasses;
+    }
+
+    static int totalArmorAffixesClasses() {
+        let handler = AffixCountHandler(StaticEventHandler.Find('AffixCountHandler'));
+        return handler.totalArmorAffixesClasses;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This handler is used on game init in order to count total affixes' number (needed for random selection).
+class AffixCountHandler : StaticEventHandler
+{
+    int totalAffixesClasses;
+    int totalWeaponAffixesClasses;
+    int totalArmorAffixesClasses;
+
+	override void OnRegister() {
+        countAffixesClasses();
+        countWeaponAffixes();
+        countArmorAffixes();
+
+        // Check consistency
+        let diff = totalAffixesClasses - (totalWeaponAffixesClasses + totalArmorAffixesClasses);
+        if (diff == 0) {
+            debug.print("RW_ACH consistency check OK.");
+        } else {
+            debug.panic(
+                "RW_ACH affixes count inconsistency: have "..diff.." unaccounted affix classes."
+            );
+        }
+	}
+
+    void countAffixesClasses() {
+        totalAffixesClasses = 0;
+        foreach (cls : AllClasses)  {
+            let ba = (class<Affix>)(cls);
+            if (ba && ba != 'Affix' && ba != 'RwWeaponPrefix' && ba != 'RwArmorPrefix') {
+                totalAffixesClasses++;
+            }
+        }
+        let t = CVar.GetCVar('totalAffixesClasses', null);
+        t.SetInt(totalAffixesClasses);
+        debug.print("RW_ACH: Found "..totalAffixesClasses.." affix classes.");
+    }
+
+    void countWeaponAffixes() {
+        totalWeaponAffixesClasses = 0;
+        foreach (cls : AllClasses)  {
+            let asWPref = (class<RwWeaponPrefix>)(cls);
+            if (asWPref && asWPref != 'RwWeaponPrefix') {
+                totalWeaponAffixesClasses++;
+            }
+        }
+        debug.print("RW_ACH: Found "..totalWeaponAffixesClasses.." weapon affix classes.");
+    }
+
+    void countArmorAffixes() {
+        totalArmorAffixesClasses = 0;
+        foreach (cls : AllClasses)  {
+            let asAPref = (class<RwArmorPrefix>)(cls);
+            if (asAPref && asAPref != 'RwArmorPrefix') {
+                totalArmorAffixesClasses++;
+            }
+        }
+        debug.print("RW_ACH: Found "..totalArmorAffixesClasses.." armor affix classes.");
     }
 }

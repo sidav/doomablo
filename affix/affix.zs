@@ -2,7 +2,7 @@ class Affix {
 
     int modifierLevel;
 
-    bool IsCompatibleWithListOfAffixes(array <Affix> list) {
+    bool IsCompatibleWithListOfAffixes(out array <Affix> list) {
         foreach (aff : list) {
             if (!isCompatibleWithAff(aff)) {
                 return false;
