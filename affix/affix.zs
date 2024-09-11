@@ -50,6 +50,11 @@ class Affix {
         return "";
     }
 
+    // needed for code readability, nothing more.
+    virtual bool isSuffix() {
+        return false;
+    }
+
     virtual string getDescription() {
         debug.panicUnimplemented(self);
         return "";

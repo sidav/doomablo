@@ -1,6 +1,7 @@
 class RandomizedArmor : Armor {
 
     mixin Affixable;
+    mixin ArmorSuffixable;
 
     RwArmorStats stats;
     string rwFullName; // Needed for HUD
@@ -31,12 +32,7 @@ class RandomizedArmor : Armor {
             debug.print("Basic armor exists! Tick: "..GetAge());
         }
 
-        // if (stats.ArmorRegenEachTicks > 0 && GetAge() % stats.ArmorRegenEachTicks == 0) {
-        //     stats.currDurability++;
-        // }
-        // if (stats.HealthRegenEachTicks > 0 && GetAge() % stats.HealthRegenEachTicks == 0) {
-        //     owner.GiveBody(1, 100);
-        // }
+        RWA_SuffOnDoEffect();
     }
 
     override void AbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {

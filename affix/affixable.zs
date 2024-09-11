@@ -27,8 +27,21 @@ mixin class Affixable {
         }
     }
 
+    Affix findAppliedAffix(class <Affix> affcls) {
+        foreach (aff : appliedAffixes) {
+            if (aff is affcls) {
+                return aff;
+            }
+        }
+        return null;
+    }
+
     private void applyAffixEffect(Affix aff) {
         aff.InitAndApplyEffectToItem(self);
-        rwbaseName = aff.getName().." "..rwbaseName;
+        if (aff.isSuffix()) {
+            rwbaseName = rwbaseName.." ("..aff.getName()..")";
+        } else {
+            rwbaseName = aff.getName().." "..rwbaseName;
+        }
     }
 }

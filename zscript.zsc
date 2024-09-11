@@ -19,6 +19,8 @@ version "4.10.0"
 #include "affix/affix_instantiator.zs"
 #include "affix/affixable.zs"
 #include "affix/armor_prefixes.zs"
+#include "affix/armor_suffixes.zs"
+#include "affix/armor_suffixable.zs"
 #include "affix/weapon_prefixes.zs"
 
 #include "armor/abonus.zs"

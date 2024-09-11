@@ -46,6 +46,9 @@ extend class Affix {
             case 3: return New('APrefHard');
             case 4: return New('APrefWorseRepair');
             case 5: return New('APrefBetterRepair');
+            // Suffixes
+            case 6: return New('ASuffSelfrepair');
+            case 7: return New('ASuffHealing');
             default:
                 debug.panic("Some affixes are not added to Affix GetRandomArmorAffixInstance() instantiator.");
                 return New('Affix');
@@ -96,7 +99,7 @@ class AffixCountHandler : StaticEventHandler
         totalAffixesClasses = 0;
         foreach (cls : AllClasses)  {
             let ba = (class<Affix>)(cls);
-            if (ba && ba != 'Affix' && ba != 'RwWeaponPrefix' && ba != 'RwArmorPrefix') {
+            if (ba && ba != 'Affix' && ba != 'RwWeaponPrefix' && ba != 'RwArmorPrefix' && ba != 'RwArmorSuffix') {
                 totalAffixesClasses++;
             }
         }
@@ -120,7 +123,8 @@ class AffixCountHandler : StaticEventHandler
         totalArmorAffixesClasses = 0;
         foreach (cls : AllClasses)  {
             let asAPref = (class<RwArmorPrefix>)(cls);
-            if (asAPref && asAPref != 'RwArmorPrefix') {
+            let asASuff = (class<RwArmorSuffix>)(cls);
+            if (asAPref && asAPref != 'RwArmorPrefix' || asASuff && asASuff != 'RwArmorSuffix') {
                 totalArmorAffixesClasses++;
             }
         }
