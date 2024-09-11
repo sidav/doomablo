@@ -4,7 +4,6 @@ class RandomizedArmor : Armor {
     mixin ArmorSuffixable;
 
     RwArmorStats stats;
-    string rwFullName; // Needed for HUD
     string rwbaseName;
 
 	Default

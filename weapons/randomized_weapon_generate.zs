@@ -9,9 +9,4 @@ extend class RandomizedWeapon {
         AssignRandomAffixes(prefixesCount);
     }
 
-    private void SetDescriptionString() {
-        rwFullName = rwbaseName;
-        return;
-    }
-
 }

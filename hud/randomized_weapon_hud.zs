@@ -6,7 +6,7 @@ extend class MyCustomHUD {
         let wpn = RandomizedWeapon(CPlayer.ReadyWeapon);
         if (wpn) {
             DrawString(mSmallFont, 
-                "Equipped: "..RandomizedWeapon(CPlayer.ReadyWeapon).rwFullName,
+                "Equipped: "..RandomizedWeapon(CPlayer.ReadyWeapon).nameWithAppliedAffixes,
                 (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForRwWeapon(wpn));
         }
     }
@@ -27,18 +27,15 @@ extend class MyCustomHUD {
 
         PrintLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         currentHeight += 1;
-        if (wpn.appliedAffixes.size() == 0) {
-            PrintLine("Common "..wpn.rwFullName,
-                mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
-            printWeaponStats(wpn);
-        } else {
-            PrintLine(wpn.rwFullName, mSmallShadowFont, 
-                DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
-            printWeaponStats(wpn);
-            foreach (aff : wpn.appliedAffixes) {
-                PrintLine("  "..aff.getName()..": "..aff.getDescription(), 
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
-            }
+
+        PrintLine(wpn.nameWithAppliedAffixes, mSmallShadowFont, 
+            DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
+        
+        printWeaponStats(wpn);
+        
+        foreach (aff : wpn.appliedAffixes) {
+            PrintLine("  "..aff.getName()..": "..aff.getDescription(), 
+                mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
         }
     }
 

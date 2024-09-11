@@ -6,6 +6,5 @@ extend class RandomizedArmor {
         prefixesCount = 3;
 
         AssignRandomAffixes(prefixesCount);
-        rwFullName = rwbaseName;
     }
 }

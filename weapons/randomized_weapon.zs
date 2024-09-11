@@ -2,7 +2,6 @@ class RandomizedWeapon : DoomWeapon {
 
     mixin Affixable;
 
-    string rwFullName; // Needed for HUD
     string rwbaseName;
     RWStatsClass stats;
     int shotsSinceLastFreeShot;
@@ -18,7 +17,6 @@ class RandomizedWeapon : DoomWeapon {
     override void BeginPlay() {
         setBaseStats();
         Generate();
-        SetDescriptionString();
     }
 
     // All the arguments are there just because it's an override (so they're partially unused and it's on purpose)

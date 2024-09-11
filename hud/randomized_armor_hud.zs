@@ -11,7 +11,7 @@ extend class MyCustomHUD {
                     (44, -40), DI_SCREEN_LEFT_BOTTOM, PickColorForRwArmorAmount(armr));
             }
             DrawString(mSmallFont, 
-                "Equipped: "..armr.rwFullName,
+                "Equipped: "..armr.nameWithAppliedAffixes,
                 (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForRwArmor(armr));
         } else {
             DrawString(mSmallFont, 
@@ -36,18 +36,15 @@ extend class MyCustomHUD {
 
         PrintLine("Press USE to equip:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         currentHeight += 1;
-        if (armr.appliedAffixes.size() == 0) {
-            PrintLine("Common "..armr.rwFullName,
-                mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwArmor(armr));
-            printArmorStats(armr);
-        } else {
-            PrintLine(armr.rwFullName, mSmallShadowFont, 
-                DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwArmor(armr));
-            printArmorStats(armr);
-            foreach (aff : armr.appliedAffixes) {
-                PrintLine("  "..aff.getName()..": "..aff.getDescription(), 
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
-            }
+
+        PrintLine(armr.nameWithAppliedAffixes, mSmallShadowFont, 
+            DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwArmor(armr));
+
+        printArmorStats(armr);
+
+        foreach (aff : armr.appliedAffixes) {
+            PrintLine("  "..aff.getName()..": "..aff.getDescription(), 
+                mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
         }
     }
 

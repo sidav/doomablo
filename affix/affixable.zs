@@ -2,6 +2,7 @@ mixin class Affixable {
 
     const ASSIGN_TRIES = 1000;
     array <Affix> appliedAffixes;
+    string nameWithAppliedAffixes;
 
     private void AssignRandomAffixes(int prefixesCount) {
         for (int i = 0; i < prefixesCount; i++) {
@@ -23,8 +24,9 @@ mixin class Affixable {
         }
         
         for (int i = appliedAffixes.Size() - 1; i >= 0; i--) {
-            applyAffixEffect(appliedAffixes[i]);
+            appliedAffixes[i].InitAndApplyEffectToItem(self);
         }
+        applyAffixNames();
     }
 
     Affix findAppliedAffix(class <Affix> affcls) {
@@ -36,12 +38,18 @@ mixin class Affixable {
         return null;
     }
 
-    private void applyAffixEffect(Affix aff) {
-        aff.InitAndApplyEffectToItem(self);
-        if (aff.isSuffix()) {
-            rwbaseName = rwbaseName.." ("..aff.getName()..")";
-        } else {
-            rwbaseName = aff.getName().." "..rwbaseName;
+    private void applyAffixNames() {
+        nameWithAppliedAffixes = rwBaseName;
+        for (int i = appliedAffixes.Size() - 1; i >= 0; i--) {
+            let aff = appliedAffixes[i];
+            if (aff.isSuffix()) {
+                nameWithAppliedAffixes = nameWithAppliedAffixes.." ("..aff.getName()..")";
+            } else {
+                nameWithAppliedAffixes = aff.getName().." "..nameWithAppliedAffixes;
+            }
+        }
+        if (appliedAffixes.Size() == 0) {
+            nameWithAppliedAffixes = "Common "..nameWithAppliedAffixes;
         }
     }
 }
