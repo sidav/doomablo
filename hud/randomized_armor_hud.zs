@@ -3,8 +3,15 @@ extend class MyCustomHUD {
     void DrawEquippedArmorInfo() {
         let armr = MyPlayer(CPlayer.mo).CurrentEquippedArmor;
         if (armr) {
+            if (armr.stats.currDurability > 0)
+            {
+                DrawInventoryIcon(armr, (20, -22));
+                DrawString(mHUDFont, 
+                    FormatNumber(armr.stats.currDurability, 3),
+                    (44, -40), DI_SCREEN_LEFT_BOTTOM, PickColorForRwArmorAmount(armr));
+            }
             DrawString(mSmallFont, 
-                "Equipped: "..armr.rwFullName.." ("..armr.stats.currDurability.."%)",
+                "Equipped: "..armr.rwFullName,
                 (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForRwArmor(armr));
         } else {
             DrawString(mSmallFont, 
@@ -66,5 +73,17 @@ extend class MyCustomHUD {
             case 5: return Font.CR_PURPLE;
             default: return Font.CR_Black;
         }
+    }
+
+    static int PickColorForRwArmorAmount(RandomizedArmor a) {
+        let perc = math.getPercentageFromInt(a.stats.currDurability, a.stats.maxDurability);
+        if (perc < 33) {
+            return Font.CR_RED;
+        } else if (perc < 66) {
+            return Font.CR_YELLOW;
+        } else if (perc < 100) {
+            return Font.CR_GREEN;
+        }
+        return Font.CR_BLUE;
     }
 }
