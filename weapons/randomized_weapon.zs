@@ -21,14 +21,41 @@ class RandomizedWeapon : DoomWeapon {
         SetDescriptionString();
     }
 
-    action void RWA_FireBullets() {
-        if (invoker.stats.freeShotPeriod > 0) {
-            invoker.shotsSinceLastFreeShot++;
+    // All the arguments are there just because it's an override (so they're partially unused and it's on purpose)
+    override bool checkAmmo(int fireMode, bool autoSwitch, bool requireAmmo, int ammocount)
+	{
+		let count1 = (Ammo1 != null) ? Ammo1.Amount : 0;
+		let count2 = (Ammo2 != null) ? Ammo2.Amount : 0;
+        if (count1 >= stats.ammoUsage) {
+            return true;
+        } else {
+            if (autoSwitch) {
+                MyPlayer(Owner).PickNewWeapon(null);
+            }
+            return false;
         }
-        if (invoker.stats.freeShotPeriod > 0 && invoker.shotsSinceLastFreeShot % invoker.stats.freeShotPeriod == 0) {
-            invoker.shotsSinceLastFreeShot = 0; // and don't consume ammo!
-        } else if (!invoker.DepleteAmmo(invoker.bAltFire, true, invoker.stats.ammoUsage, true)) {
-            MyPlayer(invoker.Owner).PickNewWeapon(null);
+	}
+
+    // All the arguments are there just because it's an override (so they're partially unused and it's on purpose)
+    override bool depleteAmmo(bool altFire, bool checkEnough, int ammouse, bool forceammouse) {
+        if (stats.freeShotPeriod > 0) {
+            shotsSinceLastFreeShot++;
+        }
+        if (stats.freeShotPeriod > 0 && shotsSinceLastFreeShot % stats.freeShotPeriod == 0) {
+            shotsSinceLastFreeShot = 0; // and don't consume ammo!
+            return true;
+        } else {
+            if (checkAmmo(0, true, true, stats.ammoUsage)) {
+                Ammo1.Amount -= stats.ammoUsage;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    action void RWA_FireBullets() {
+        if (!invoker.depleteAmmo(false, true, invoker.stats.ammoUsage, true)) {
             return;
         }
 

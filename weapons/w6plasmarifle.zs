@@ -65,7 +65,8 @@ class RwPlasmaRifle : RandomizedWeapon
 		Weapon weap = player.ReadyWeapon;
 		if (weap != null && invoker == weap && stateinfo != null && stateinfo.mStateType == STATE_Psprite)
 		{
-			// if (!weap.DepleteAmmo (weap.bAltFire, true))
+			// TODO: investigate where is this auto-called (A_FireProjectile is closest candidate)
+			// if (!weap.DepleteAmmo(weap.bAltFire, true, true, true))
 			// 	return;
 			
 			State flash = weap.FindState('Flash');

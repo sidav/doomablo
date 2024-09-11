@@ -60,8 +60,9 @@ class RwRocketLauncher : RandomizedWeapon
 		// Weapon weap = player.ReadyWeapon;
 		// if (weap != null && invoker == weap && stateinfo != null && stateinfo.mStateType == STATE_Psprite)
 		// {
-		// 	if (!weap.DepleteAmmo (weap.bAltFire, true))
-		// 		return;
+			// TODO: investigate where is this auto-called (A_FireProjectile is closest candidate)
+			// if (!weap.DepleteAmmo(weap.bAltFire, true, true, true))
+			// 	return;
 		// }
 		
 		// SpawnPlayerMissile ("RwRocket");
