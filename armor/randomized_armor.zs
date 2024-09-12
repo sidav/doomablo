@@ -34,6 +34,19 @@ class RandomizedArmor : Armor {
         RWA_SuffOnDoEffect();
     }
 
+    virtual string GetRandomFluffName() {
+        static const string specialNames[] =
+        {
+            "Protector",
+            "Defender",
+            "Life saver"
+        };
+        if (rnd.OneChanceFrom(5)) {
+            return "EX-ST "..rnd.Rand(100, 200);
+        }
+        return specialNames[rnd.Rand(0, specialNames.Size()-1)];
+    }
+
     override void AbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
         damage -= stats.DamageReduction;
         if (damage <= 0) {

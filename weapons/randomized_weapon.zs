@@ -19,6 +19,19 @@ class RandomizedWeapon : DoomWeapon {
         Generate();
     }
 
+    virtual string GetRandomFluffName() {
+        static const string specialNames[] =
+        {
+            "Hell's Bane",
+            "Destructor",
+            "Terminator"
+        };
+        if (rnd.OneChanceFrom(5)) {
+            return "AS/MD "..rnd.Rand(500, 800);
+        }
+        return specialNames[rnd.Rand(0, specialNames.Size()-1)];
+    }
+
     // All the arguments are there just because it's an override (so they're partially unused and it's on purpose)
     override bool checkAmmo(int fireMode, bool autoSwitch, bool requireAmmo, int ammocount)
 	{
