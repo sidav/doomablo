@@ -30,7 +30,7 @@ class APrefSturdy : RwArmorPrefix {
         return "sturdy";
     }
     override string getDescription() {
-        return "Max amount +"..modifierLevel;
+        return "Max durability +"..modifierLevel;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefFragile';
@@ -83,7 +83,7 @@ class APrefWorseRepair : RwArmorPrefix {
         return "Nondismantable";
     }
     override string getDescription() {
-        return "Gets -"..modifierLevel.." armor from repars";
+        return "Gets -"..modifierLevel.." armor from repairs";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefBetterRepair';
@@ -101,7 +101,7 @@ class APrefBetterRepair : RwArmorPrefix {
         return "modular";
     }
     override string getDescription() {
-        return "Gets +"..modifierLevel.." armor from repars";
+        return "Gets +"..modifierLevel.." armor from repairs";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefWorseRepair';

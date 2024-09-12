@@ -17,7 +17,7 @@ class ASuffSelfrepair : RwArmorSuffix {
         return "UAC Nanotech";
     }
     override string getDescription() {
-        return "Restores 1 durability each "..modifierLevel.." seconds";
+        return "Repairs itself each "..modifierLevel.." seconds";
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm) {
         modifierLevel = rnd.linearWeightedRand(1, 10, 1, 10);
