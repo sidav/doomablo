@@ -8,6 +8,7 @@ gameinfo
  	// AddEventHandlers = "MonsterReplacementHandler"
 	AddEventHandlers = "AffixCountHandler"
 	AddEventHandlers = "ArmorReplacementHandler"
+	AddEventHandlers = "DropsHandler"
  	AddEventHandlers = "WeaponReplacementHandler"
 	AddEventHandlers = "PressToPickupHandler"
  	AddEventHandlers = "StartingItemsHandler"
