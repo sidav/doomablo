@@ -19,6 +19,9 @@ class RwArmorBonus : Inventory
         let plr = MyPlayer(toucher);
         if (plr && plr.CurrentEquippedArmor) {
             let arm = plr.CurrentEquippedArmor;
+			if (arm.stats.currDurability >= arm.stats.maxDurability) {
+				return;
+			}
             if (arm.stats.BonusRepair > 0) {
                 arm.stats.currDurability += arm.stats.BonusRepair;
                 if (arm.stats.currDurability > arm.stats.maxDurability) {
