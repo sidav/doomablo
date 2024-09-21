@@ -17,10 +17,14 @@ class ASuffSelfrepair : RwArmorSuffix {
         return "UAC Nanotech";
     }
     override string getDescription() {
-        return "Repairs itself each "..modifierLevel.." seconds";
+        return "Repairs itself each "
+            ..
+            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
+            .." seconds";
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm) {
-        modifierLevel = rnd.linearWeightedRand(1, 10, 1, 10);
+        let secondsx10 = rnd.linearWeightedRand(5, 50, 1, 100);
+        modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
 }
 
@@ -29,9 +33,14 @@ class ASuffHealing : RwArmorSuffix {
         return "UAC Auto-Med";
     }
     override string getDescription() {
-        return "Each "..modifierLevel.." seconds tranfers 1 durability to your health";
+        return "Each "
+            ..
+            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
+            ..
+            " seconds tranfers 1 durability to your health";
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm) {
-        modifierLevel = rnd.linearWeightedRand(1, 10, 1, 10);
+        let secondsx10 = rnd.linearWeightedRand(2, 50, 1, 100); 
+        modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
 }

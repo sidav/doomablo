@@ -6,6 +6,7 @@ version "4.10.0"
 
 #include "misc/debug.zs"
 // #include "misc/dice.zs"
+#include "misc/gametime.zs"
 #include "misc/math.zs"
 #include "misc/rnd.zs"
 #include "misc/tests_handler.zs"
