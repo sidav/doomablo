@@ -1,7 +1,5 @@
 extend class MyCustomHUD {
 
-    int currentHeight;
-
     void DrawWeaponInHandsInfo() {
         let wpn = RandomizedWeapon(CPlayer.ReadyWeapon);
         if (wpn) {
@@ -23,7 +21,7 @@ extend class MyCustomHUD {
         let wpn = RandomizedWeapon(handler.currentItemToPickUp);
         if (!wpn) return;
 
-        currentHeight = 0;
+        currentLineHeight = 0;
 
         // let plr = MyPlayer(CPlayer.mo);
         // if (plr.HasEmptyWeaponSlotFor(wpn)) {
@@ -33,7 +31,7 @@ extend class MyCustomHUD {
         // }
 
         PrintLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
-        currentHeight += 1;
+        currentLineHeight += 1;
 
         PrintLine(wpn.nameWithAppliedAffixes, mSmallShadowFont, 
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
@@ -46,14 +44,19 @@ extend class MyCustomHUD {
         }
     }
 
+    const weaponStatsTableWidth = 150;
     void printWeaponStats(RandomizedWeapon wpn) {
-        PrintLine("Damage: "..wpn.stats.minDamage.."-"..wpn.stats.MaxDamage, 
+        PrintTableLine("Damage:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage, weaponStatsTableWidth,
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
         if (wpn.stats.pellets > 1) {
-            PrintLine(wpn.stats.pellets.." pellets per shot", 
+            PrintTableLine(""..wpn.stats.pellets, "pellets per shot", weaponStatsTableWidth,
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);    
         }
-        PrintLine("Spread "..String.Format("%.2f", (wpn.stats.horizSpread)),
+        if (wpn.stats.clipSize > 1) {
+            PrintTableLine("Magazine capacity:", ""..wpn.stats.clipSize, weaponStatsTableWidth,
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);    
+        }
+        PrintTableLine("Spread:", String.Format("%.2f", (wpn.stats.horizSpread)), weaponStatsTableWidth,
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
     }
 
@@ -68,11 +71,5 @@ extend class MyCustomHUD {
             case 5: return Font.CR_PURPLE;
             default: return Font.CR_Black;
         }
-    }
-
-    void PrintLine(string line, HUDFont fnt, int flags, int trans) {
-        DrawString(fnt, line,
-            (80, currentHeight), flags, trans);
-        currentHeight += fnt.mFont.GetHeight();
     }
 }

@@ -25,7 +25,7 @@ extend class MyCustomHUD {
         let armr = RandomizedArmor(handler.currentItemToPickUp);
         if (!armr) return;
 
-        currentHeight = 0;
+        currentLineHeight = 0;
 
         // let plr = MyPlayer(CPlayer.mo);
         // if (plr.HasEmptyWeaponSlotFor(armr)) {
@@ -35,7 +35,7 @@ extend class MyCustomHUD {
         // }
 
         PrintLine("Press USE to equip:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
-        currentHeight += 1;
+        currentLineHeight += 1;
 
         PrintLine(armr.nameWithAppliedAffixes, mSmallShadowFont, 
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwArmor(armr));
@@ -48,14 +48,17 @@ extend class MyCustomHUD {
         }
     }
 
+    const armorStatsTableWidth = 150;
     void printArmorStats(RandomizedArmor armr) {
-        PrintLine("Durability: "..armr.stats.currDurability.."/"..armr.stats.maxDurability, 
+        PrintTableLine("Durability:", armr.stats.currDurability.."/"..armr.stats.maxDurability, armorStatsTableWidth,
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
-        if (armr.stats.DamageReduction > 0) {
-            PrintLine("-"..armr.stats.DamageReduction.." incoming damage", 
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);    
-        }
-        PrintLine("Absorbs "..armr.stats.AbsorbsPercentage.."% of damage", 
+        // if (armr.stats.DamageReduction > 0) {
+        //     PrintTableLine("Incoming damage", "-"..armr.stats.DamageReduction, armorStatsTableWidth,
+        //             mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);    
+        // }
+        PrintTableLine("Damage absorption", armr.stats.AbsorbsPercentage.."%", armorStatsTableWidth,
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+        PrintTableLine("Repair amount", armr.stats.BonusRepair.."", armorStatsTableWidth,
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
     }
 
