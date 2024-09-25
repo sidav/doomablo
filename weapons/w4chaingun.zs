@@ -14,7 +14,7 @@ class RwChaingun : RandomizedWeapon
 	States
 	{
 	Ready:
-		CHGG A 1 A_WeaponReady;
+		CHGG A 1 RWA_WeaponReadyReload;
 		Loop;
 	Deselect:
 		CHGG A 1 A_Lower;
@@ -29,6 +29,17 @@ class RwChaingun : RandomizedWeapon
 			RWA_ChaingunFlash();
         }
 		CHGG B 0 A_ReFire;
+		TNT1 A 0 RWA_ReloadIfEmpty();
+		Goto Ready;
+	Reload:
+		CHGG AAAABBBBAAAABBBBAAAA 1 A_WeaponOffset(-1, 1, WOF_ADD);
+		CHGG BAB 10 RWA_ApplyReloadSpeed();
+		CHGG A 15 {
+			RWA_ApplyReloadSpeed();
+            A_StartSound("misc/w_pkup"); // plays Doom's "weapon pickup" sound
+            A_MagazineReload(); //do the reload
+		}
+		CHGG BBBBAAAABBBBAAAABBBB 1 A_WeaponOffset(1, -1, WOF_ADD);
 		Goto Ready;
 	Flash:
 		CHGF A 5 Bright {
@@ -75,6 +86,7 @@ class RwChaingun : RandomizedWeapon
 			7.0,
 			2.0
 		);
+		stats.clipSize = 40;
 		rwBaseName = "Chaingun";
     }
 }

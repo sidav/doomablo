@@ -2,7 +2,7 @@ class rwPistol : RandomizedWeapon
 {
 	Default
 	{
-		Weapon.WeaponScaleX 1.5;
+		Weapon.WeaponScaleX 1.3;
 		Weapon.WeaponScaleY 1;
 		Weapon.SlotNumber 2;
 
@@ -17,7 +17,7 @@ class rwPistol : RandomizedWeapon
 	States
 	{
 	Ready:
-		PISG A 1 A_WeaponReady;
+		PISG A 1 RWA_WeaponReadyReload;
 		Loop;
 	Deselect:
 		PISG A 1 A_Lower;
@@ -38,6 +38,17 @@ class rwPistol : RandomizedWeapon
 			A_ReFire();
 			RWA_ApplyRateOfFire();
 		}
+		TNT1 A 0 RWA_ReloadIfEmpty();
+		Goto Ready;
+	Reload:
+		PISG CCCCCCCCCC 1 A_WeaponOffset(-2, 4, WOF_ADD);
+		PISG C 15 RWA_ApplyReloadSpeed();
+		PISG A 15 {
+			RWA_ApplyReloadSpeed();
+            A_StartSound("misc/w_pkup"); // plays Doom's "weapon pickup" sound
+            A_MagazineReload(); //do the reload
+		}
+		PISG AAAAAAAAAA 1 A_WeaponOffset(2, -4, WOF_ADD);
 		Goto Ready;
 	Flash:
 		PISF A 7 Bright {
@@ -63,6 +74,7 @@ class rwPistol : RandomizedWeapon
 			2.0,
 			0.5
 		);
+		stats.clipSize = 6;
 		rwBaseName = "Pistol";
     }
 }

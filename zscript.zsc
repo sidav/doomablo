@@ -37,6 +37,7 @@ version "4.10.0"
 
 #include "weapons/replacement_handler.zs"
 #include "weapons/randomized_weapon.zs"
+#include "weapons/randomized_weapon_ammo.zs"
 #include "weapons/randomized_weapon_generate.zs"
 #include "weapons/randomized_weapon_pickup.zs"
 #include "weapons/randomized_weapon_projectile.zs"

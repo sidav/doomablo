@@ -15,7 +15,7 @@ class rwShotgun : RandomizedWeapon
 	States
 	{
 	Ready:
-		SHTG A 1 A_WeaponReady;
+		SHTG A 1 RWA_WeaponReadyReload;
 		Loop;
 	Deselect:
 		SHTG A 1 A_Lower;
@@ -39,6 +39,17 @@ class rwShotgun : RandomizedWeapon
 			A_ReFire();
 			// RWA_ApplyRateOfFire();
 		}
+		TNT1 A 0 RWA_ReloadIfEmpty();
+		Goto Ready;
+	Reload:
+		SHTG AAABBBCCCC 1 A_WeaponOffset(-2, 4, WOF_ADD);
+		SHTG CD 15 RWA_ApplyReloadSpeed();
+		SHTG D 25 {
+			RWA_ApplyReloadSpeed();
+            A_StartSound("misc/w_pkup"); // plays Doom's "weapon pickup" sound
+            A_MagazineReload(); //do the reload
+		}
+		SHTG CCCCCBBBBB 1 A_WeaponOffset(2, -4, WOF_ADD);
 		Goto Ready;
 	Flash:
 		SHTF A 4 Bright {
@@ -63,6 +74,7 @@ class rwShotgun : RandomizedWeapon
 			12.5,
 			3.0
 		);
+		stats.clipSize = 5;
         rwBaseName = "Shotgun";
     }
 }

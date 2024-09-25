@@ -5,8 +5,15 @@ extend class MyCustomHUD {
     void DrawWeaponInHandsInfo() {
         let wpn = RandomizedWeapon(CPlayer.ReadyWeapon);
         if (wpn) {
+            if (wpn.stats.reloadable())
+            {
+                DrawInventoryIcon(wpn.ammo1, (-14, -25), DI_SCREEN_RIGHT_BOTTOM);
+                DrawString(mHUDFont, 
+                    FormatNumber(wpn.currentClipAmmo, 3),
+                    (-73, -40), DI_SCREEN_RIGHT_BOTTOM);
+            }
             DrawString(mSmallFont, 
-                "Equipped: "..RandomizedWeapon(CPlayer.ReadyWeapon).nameWithAppliedAffixes,
+                "Equipped: "..wpn.nameWithAppliedAffixes,
                 (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForRwWeapon(wpn));
         }
     }

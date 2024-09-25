@@ -1,23 +1,34 @@
 extend class RandomizedWeapon {
 
     action void RWA_ApplyRateOfFire() {
-        let baseTicks = self.player.FindPSprite(PSP_WEAPON).tics;
         let rof = invoker.stats.rofModifier;
         if (rof == 0) {
             return; // no change required
         }
+        let baseTicks = self.player.FindPSprite(PSP_WEAPON).tics;
         let newTicks = math.getIntPercentage(baseTicks, 100 - rof);
         newTicks = clamp(newTicks, 1, 200);
         A_SetTics(newTicks);
     }
 
     action void RWA_ApplyRateOfFireToFlash() {
-        let baseTicks = self.player.FindPSprite(PSP_FLASH).tics;
         let rof = invoker.stats.rofModifier;
         if (rof == 0) {
             return; // no change required
         }
+        let baseTicks = self.player.FindPSprite(PSP_FLASH).tics;
         let newTicks = math.getIntPercentage(baseTicks, 100 - rof);
+        newTicks = clamp(newTicks, 1, 200);
+        A_SetTics(newTicks);
+    }
+
+    action void RWA_ApplyReloadSpeed() {
+        let rsm = invoker.stats.reloadSpeedModifier;
+        if (rsm == 0) {
+            return; // no change required
+        }
+        let baseTicks = self.player.FindPSprite(PSP_WEAPON).tics;
+        let newTicks = math.getIntPercentage(baseTicks, 100 - rsm);
         newTicks = clamp(newTicks, 1, 200);
         A_SetTics(newTicks);
     }

@@ -12,6 +12,8 @@ class RWStatsClass {
     int ExplosionRadius;
 
     // Ammo specific
+    int clipSize; // 0 means no clip (equals to infinite)
+    int reloadSpeedModifier; // percentage, like rofModifier
     int ammoUsage;
     int freeShotPeriod; // each freeShotPeriod'th shot will be free. Better for auto-shot weapons, may be useful for RL.
 
@@ -36,6 +38,10 @@ class RWStatsClass {
             maxDamage = minDamage;
             minDamage = t;
         }
+    }
+
+    bool reloadable() {
+        return clipSize > 0;
     }
 
     int rollDamage() {
