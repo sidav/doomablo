@@ -14,6 +14,7 @@ class RwChaingun : RandomizedWeapon
 	States
 	{
 	Ready:
+		TNT1 A 0 RWA_ReloadIfEmpty;
 		CHGG A 1 RWA_WeaponReadyReload;
 		Loop;
 	Deselect:
@@ -28,7 +29,7 @@ class RwChaingun : RandomizedWeapon
             RWA_FireBullets();
 			RWA_ChaingunFlash();
         }
-		CHGG B 0 A_ReFire;
+		CHGG B 0 RWA_ReFire;
 		TNT1 A 0 RWA_ReloadIfEmpty();
 		Goto Ready;
 	Reload:

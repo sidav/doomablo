@@ -6,11 +6,8 @@ extend class RandomizedWeapon {
     override bool checkAmmo(int fireMode, bool autoSwitch, bool requireAmmo, int ammocount)
 	{
         // Uses clip
-        if (stats.clipSize > 0) {
-            if (currentClipAmmo >= stats.ammoUsage) {
-                return true;
-            }
-            return false;
+        if (stats.reloadable() && currentClipAmmo >= stats.ammoUsage) {
+            return true;
         }
 
         // Doesn't use clip
@@ -48,9 +45,23 @@ extend class RandomizedWeapon {
         }
     }
 
+    // Takes care of ammo
+    action void RWA_ReFire() {
+        if (invoker.stats.reloadable()) {
+            if (invoker.currentClipAmmo < invoker.stats.ammoUsage) {
+                return;
+            }
+        }
+        A_ReFire();
+    }
+
     action state RWA_ReloadIfEmpty() {
-        if (invoker.currentClipAmmo < invoker.stats.ammoUsage && invoker.ammo1.amount > invoker.stats.ammoUsage) {
-            return ResolveState("Reload");
+        if (invoker.currentClipAmmo < invoker.stats.ammoUsage) {
+            if (invoker.ammo1.amount > invoker.stats.ammoUsage) {
+                return ResolveState("Reload");
+            }
+            MyPlayer(invoker.Owner).PickNewWeapon(null);
+            return ResolveState(null);    
         }
         return ResolveState(null);
     }
