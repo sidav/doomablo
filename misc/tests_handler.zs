@@ -6,7 +6,31 @@ class RwTestsHandler : StaticEventHandler
 
 	override void OnRegister()
 	{
-        // testRandom();
+        // for (let try = 0; try < 1000; try++) {
+        //     let min1 = -5; let max1 = -1;
+        //     let min2 = 5;  let max2 = 8;
+        //     let val = rnd.RandInTwoRanges(min1, max1, min2, max2);
+        //     debug.print("Value is "..val);
+        //     if (val < min1 || (val > max1 && val < min2) || val > max2) {
+        //         debug.panic("Bad value.");
+        //     }
+        // }
+        
+        // let size = 5;
+        // array <int> balances;
+        // for (let i = 0; i <= size; i++) {
+        //     balances.Push(0);
+        // }
+        // for (let try = 0; try < 10000; try++) {
+        //     let min1 = -5; let max1 = -1;
+        //     let min2 = 1;  let max2 = 5;
+        //     array <int> res;
+            
+        //     let bal = rnd.fillArrWithRandsInTwoRanges(res, min1, max1, min2, max2, size, 0, 0);
+        //     balances[bal]++;
+        //     // debug.print("Value is "..debug.intArrToString(res));
+        // }
+        // debug.panic("Tests passed. Balances results is "..debug.intArrToString(balances));
 	}
 
     void testRandom() {

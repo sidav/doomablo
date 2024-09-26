@@ -14,4 +14,13 @@ class Debug {
     static void panicUnimplemented(Object caller) {
         ThrowAbortException("Something is unimplemented in "..caller.GetClassName());
     }
+
+    static string intArrToString(array <int> arr) {
+        let res = "[";
+        for (let i = 0; i < arr.Size() - 1; i++) {
+            res = res..arr[i]..", ";
+        }
+        res = res..arr[arr.Size()-1].."]";
+        return res;
+    }
 }

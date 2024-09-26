@@ -1,4 +1,11 @@
 class Math {
+
+    static int abs(int x) {
+        if (x < 0)
+            return -x;
+        return x;
+    }
+
     static int getIntPercentage(int value, int percent) {
         // +50 needed for proper rounding
         return (value * percent + 50) / 100;

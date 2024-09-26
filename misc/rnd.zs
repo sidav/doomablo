@@ -4,6 +4,40 @@ class rnd {
         return Random(min, max);
     }
 
+    // Creates rand in range either of [min1, max1] or [min2, max2] (equal chance for any value from both ranges)
+    // First range MUST be smaller than the second one, and min/max order is important
+    static int RandInTwoRanges(int min1, int max1, int min2, int max2) {
+        let range1len = max1 - min1 + 1;
+        let range2len = max2 - min2 + 1;
+        let val = Random(0, range1len + range2len-1);
+        // debug.print("Random in "..min1.."-"..max1.." or "..min2.."-"..max2..": r1l is "..range1len.."; r2l is "..range2len.."; roll is "..val..";");
+        if (val < range1len) {
+            return min1 + val;
+        }
+        return min2 + (val - range1len);
+    }
+
+    // Changes arr to be of "size" random ints, each in range either of [min1, max1] (left range) or [min2, max2] (right range).
+    // Probability of RANGES (not each values!) are equal.
+    static int fillArrWithRandsInTwoRanges(array <int> arr, int min1, int max1, int min2, int max2, int size, int minLeftEntries, int minRightEntries) {
+        if (arr.Size() > 0) {
+            debug.panic("Non-empty array given: "..debug.intArrToString(arr));
+        }
+        if (minLeftEntries + minRightEntries > size) {
+            debug.panic("Bad arguments given: "..(minLeftEntries + minRightEntries).." > "..size);
+        }
+
+        let leftEntries = Random(minLeftEntries, size - minRightEntries);
+        for (let i = 0; i < leftEntries; i++) {
+            arr.Push(Random(min1, max1));
+        }
+        for (let i = leftEntries; i < size; i++) {
+            arr.Push(Random(min2, max2));
+        }
+        // debug.print("Array "..debug.intArrToString(arr).." -> Balance is "..(size - leftEntries - leftEntries));
+        return leftEntries;
+    }
+
     static bool OneChanceFrom(int chances) {
         return Random(0, chances-1) == 0;
     }
