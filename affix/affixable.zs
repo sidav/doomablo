@@ -1,8 +1,14 @@
 mixin class Affixable {
 
     const ASSIGN_TRIES = 1000;
+    int rarity; // equal to number of applied affixes.
+    int quality; // defines applied affixes' quality (max generated values)
     array <Affix> appliedAffixes;
     string nameWithAppliedAffixes;
+
+    void Generate() {
+        assignRandomAffixes(rnd.weightedRand(1, 2, 2, 1));
+    }
 
     private void AssignRandomAffixes(int prefixesCount) {
         for (int i = 0; i < prefixesCount; i++) {

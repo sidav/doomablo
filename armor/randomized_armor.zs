@@ -16,9 +16,15 @@ class RandomizedArmor : Armor {
         debug.panicUnimplemented(self);
     }
 
-    override void BeginPlay() {
-		stats = New('RwArmorStats');
+    // Needed if the armor should be re-generated
+    private void RW_Reset() {
+        appliedAffixes.Resize(0);
+        stats = New('RwArmorStats');
         setBaseStats();
+    }
+
+    override void BeginPlay() {
+        RW_Reset();
         Generate();
     }
 
