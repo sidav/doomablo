@@ -113,3 +113,19 @@ class APrefBetterRepair : RwArmorPrefix {
     }
 }
 
+class APrefDamageReduction : RwArmorPrefix {
+    override string getName() {
+        return "Reactive";
+    }
+    override string getDescription() {
+        return "Reduces incoming damage by "..modifierLevel;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return true;
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm) {
+        modifierLevel = rnd.linearWeightedRand(1, 10, 100, 1);
+
+        arm.stats.DamageReduction += modifierLevel;
+    }
+}

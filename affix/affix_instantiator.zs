@@ -46,9 +46,10 @@ extend class Affix {
             case 3: return New('APrefHard');
             case 4: return New('APrefWorseRepair');
             case 5: return New('APrefBetterRepair');
+            case 6: return New('APrefDamageReduction');
             // Suffixes
-            case 6: return New('ASuffSelfrepair');
-            case 7: return New('ASuffHealing');
+            case 7: return New('ASuffSelfrepair');
+            case 8: return New('ASuffHealing');
             default:
                 debug.panic("Some affixes are not added to Affix GetRandomArmorAffixInstance() instantiator.");
                 return New('Affix');
