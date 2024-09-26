@@ -13,7 +13,8 @@ class RwPlasmaRifle : RandomizedWeapon
 	States
 	{
 	Ready:
-		PLSG A 1 A_WeaponReady;
+		TNT1 A 0 RWA_ReloadOrSwitchIfEmpty;
+		PLSG A 1 RWA_WeaponReadyReload;
 		Loop;
 	Deselect:
 		PLSG A 1 A_Lower;
@@ -26,7 +27,26 @@ class RwPlasmaRifle : RandomizedWeapon
 			RWA_ApplyRateOfFire();
 			Fire();
 		}
-		PLSG B 20 A_ReFire;
+		PLSG B 20 RWA_ReFire;
+		Goto Ready;
+	Reload:
+		PLSG BBBBBBBBBB 1 A_WeaponOffset(-3, 2, WOF_ADD);
+		PLSG B 15 {
+			RWA_ApplyReloadSpeed();
+			A_WeaponOffset(-6, 0, WOF_ADD);
+		}
+		PLSG B 15 {
+			RWA_ApplyReloadSpeed();
+			A_WeaponOffset(0, 5, WOF_ADD);
+		}
+		PLSG B 10 {
+			RWA_ApplyReloadSpeed();
+			A_StartSound("misc/w_pkup");
+            A_MagazineReload(); //do the reload
+			A_WeaponOffset(6, -5, WOF_ADD);
+		}
+		PLSG BBBBBBBBBB 1 A_WeaponOffset(3, -2, WOF_ADD);
+		PLSG B 5;
 		Goto Ready;
 	Flash:
 		PLSF A 4 Bright {
@@ -52,6 +72,7 @@ class RwPlasmaRifle : RandomizedWeapon
 			5.0,
 			1.0
 		);
+		stats.clipSize = 20;
 		stats.firesProjectiles = true;
 		rwBaseName = "Plasma rifle";
     }

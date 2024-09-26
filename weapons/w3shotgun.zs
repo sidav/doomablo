@@ -15,7 +15,7 @@ class rwShotgun : RandomizedWeapon
 	States
 	{
 	Ready:
-		TNT1 A 0 RWA_ReloadIfEmpty;
+		TNT1 A 0 RWA_ReloadOrSwitchIfEmpty;
 		SHTG A 1 RWA_WeaponReadyReload;
 		Loop;
 	Deselect:
@@ -40,7 +40,6 @@ class rwShotgun : RandomizedWeapon
 			RWA_ReFire();
 			// RWA_ApplyRateOfFire();
 		}
-		TNT1 A 0 RWA_ReloadIfEmpty();
 		Goto Ready;
 	Reload:
 		SHTG AAABBBCCCC 1 A_WeaponOffset(-2, 4, WOF_ADD);

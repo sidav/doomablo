@@ -55,7 +55,7 @@ extend class RandomizedWeapon {
         A_ReFire();
     }
 
-    action state RWA_ReloadIfEmpty() {
+    action state RWA_ReloadOrSwitchIfEmpty() {
         if (invoker.currentClipAmmo < invoker.stats.ammoUsage) {
             if (invoker.ammo1.amount > invoker.stats.ammoUsage) {
                 return ResolveState("Reload");

@@ -14,6 +14,7 @@ class RwRocketLauncher : RandomizedWeapon
 	States
 	{
 	Ready:
+		TNT1 A 0 RWA_ReloadOrSwitchIfEmpty;
 		MISG A 1 A_WeaponReady;
 		Loop;
 	Deselect:
@@ -31,7 +32,34 @@ class RwRocketLauncher : RandomizedWeapon
 			RWA_ApplyRateOfFire();
 			Fire();
 		}
-		MISG B 0 A_ReFire;
+		MISG B 0 RWA_ReFire;
+		Goto Ready;
+	Reload:
+		MISG BBBBBBBBBB 1 A_WeaponOffset(-3, 1, WOF_ADD);
+		MISG B 15 {
+			RWA_ApplyReloadSpeed();
+			A_WeaponOffset(-6, 0, WOF_ADD);
+		}
+		MISG B 15 {
+			RWA_ApplyReloadSpeed();
+			A_WeaponOffset(0, 5, WOF_ADD);
+		}
+		MISG B 15 {
+			RWA_ApplyReloadSpeed();
+			A_WeaponOffset(12, 3, WOF_ADD);
+		}
+		MISG B 15 {
+			RWA_ApplyReloadSpeed();
+			A_WeaponOffset(-12, -3, WOF_ADD);
+		}
+		MISG A 10 {
+			RWA_ApplyReloadSpeed();
+			A_StartSound("misc/w_pkup");
+            A_MagazineReload(); //do the reload
+			A_WeaponOffset(6, -5, WOF_ADD);
+		}
+		MISG AAAAAAAAAA 1 A_WeaponOffset(3, -1, WOF_ADD);
+		MISG A 5;
 		Goto Ready;
 	Flash:
 		MISF A 3 Bright {
@@ -85,6 +113,7 @@ class RwRocketLauncher : RandomizedWeapon
 			0.5
 		);
 
+		stats.clipSize = 3;
 		stats.firesProjectiles = true;
 		stats.BaseExplosionRadius = 96;
 		stats.ExplosionRadius = 96;

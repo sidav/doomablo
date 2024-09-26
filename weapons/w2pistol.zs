@@ -17,7 +17,7 @@ class rwPistol : RandomizedWeapon
 	States
 	{
 	Ready:
-		TNT1 A 0 RWA_ReloadIfEmpty;
+		TNT1 A 0 RWA_ReloadOrSwitchIfEmpty;
 		PISG A 1 RWA_WeaponReadyReload;
 		Loop;
 	Deselect:
@@ -39,7 +39,6 @@ class rwPistol : RandomizedWeapon
 			RWA_Refire();
 			RWA_ApplyRateOfFire();
 		}
-		TNT1 A 0 RWA_ReloadIfEmpty();
 		Goto Ready;
 	Reload:
 		PISG CCCCCCCCCC 1 A_WeaponOffset(-2, 4, WOF_ADD);
