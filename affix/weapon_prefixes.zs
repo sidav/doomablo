@@ -10,6 +10,9 @@ class WPrefWorseMinDamage : RwWeaponPrefix {
     override string getName() {
         return "weaker";
     }
+    override int getAlignment() {
+        return -1;
+    }
     override string getDescription() {
         return "min damage -"..modifierLevel;
     }
@@ -29,6 +32,9 @@ class WPrefWorseMinDamage : RwWeaponPrefix {
 class WPrefBetterMinDamage : RwWeaponPrefix {
     override string getName() {
         return "stronger";
+    }
+    override int getAlignment() {
+        return 1;
     }
     override string getDescription() {
         return "min damage +"..modifierLevel;
@@ -51,6 +57,9 @@ class WPrefWorseMaxDamage : RwWeaponPrefix {
     override string getName() {
         return "used";
     }
+    override int getAlignment() {
+        return -1;
+    }
     override string getDescription() {
         return "max damage -"..modifierLevel;
     }
@@ -72,6 +81,9 @@ class WPrefBetterMaxDamage : RwWeaponPrefix {
     override string getName() {
         return "potent";
     }
+    override int getAlignment() {
+        return 1;
+    }
     override string getDescription() {
         return "max damage +"..modifierLevel;
     }
@@ -88,6 +100,9 @@ class WPrefBetterMaxDamage : RwWeaponPrefix {
 class WPrefInaccurate : RwWeaponPrefix {
     override string getName() {
         return "inaccurate";
+    }
+    override int getAlignment() {
+        return -1;
     }
     override string getDescription() {
         return "accuracy decreased by "..modifierLevel.."%";
@@ -106,6 +121,9 @@ class WPrefInaccurate : RwWeaponPrefix {
 class WPrefPrecise : RwWeaponPrefix {
     override string getName() {
         return "precise";
+    }
+    override int getAlignment() {
+        return 1;
     }
     override string getDescription() {
         return "accuracy increased by "..modifierLevel.."%";
@@ -126,6 +144,9 @@ class WPrefSlow : RwWeaponPrefix {
     override string getName() {
         return "slow";
     }
+    override int getAlignment() {
+        return -1;
+    }
     override string getDescription() {
         return modifierLevel.."% slower rate of fire";
     }
@@ -143,6 +164,9 @@ class WPrefFast : RwWeaponPrefix {
     override string getName() {
         return "fast";
     }
+    override int getAlignment() {
+        return 1;
+    }
     override string getDescription() {
         return modifierLevel.."% faster rate of fire";
     }
@@ -159,6 +183,9 @@ class WPrefFast : RwWeaponPrefix {
 class WPrefFreeShots : RwWeaponPrefix {
     override string getName() {
         return "replicating";
+    }
+    override int getAlignment() {
+        return 1;
     }
     override string getDescription() {
         return "Each "..modifierLevel.."th shot is free";
@@ -179,6 +206,9 @@ class WPrefPuny : RwWeaponPrefix {
     override string getName() {
         return "puny";
     }
+    override int getAlignment() {
+        return -1;
+    }
     override string getDescription() {
         return "-"..modifierLevel.." pellets per shot";
     }
@@ -198,6 +228,9 @@ class WPrefPuny : RwWeaponPrefix {
 class WPrefBulk : RwWeaponPrefix {
     override string getName() {
         return "bulk";
+    }
+    override int getAlignment() {
+        return 1;
     }
     override string getDescription() {
         return "+"..modifierLevel.." pellets per shot";
@@ -221,6 +254,9 @@ class WPrefLazy : RwWeaponPrefix {
     override string getName() {
         return "lazy";
     }
+    override int getAlignment() {
+        return -1;
+    }
     override string getDescription() {
         return modifierLevel.."% slower projectile";
     }
@@ -240,6 +276,9 @@ class WPrefLazy : RwWeaponPrefix {
 class WPrefQuick : RwWeaponPrefix {
     override string getName() {
         return "quick";
+    }
+    override int getAlignment() {
+        return 1;
     }
     override string getDescription() {
         return modifierLevel.."% faster projectile";
@@ -263,6 +302,9 @@ class WPrefSmallerExplosion : RwWeaponPrefix {
     override string getName() {
         return "safer";
     }
+    override int getAlignment() {
+        return -1;
+    }
     override string getDescription() {
         return modifierLevel.."% smaller explosion radius";
     }
@@ -285,6 +327,9 @@ class WPrefSmallerExplosion : RwWeaponPrefix {
 class WPrefBiggerExplosion : RwWeaponPrefix {
     override string getName() {
         return "volatile";
+    }
+    override int getAlignment() {
+        return 1;
     }
     override string getDescription() {
         return modifierLevel.."% bigger explosion radius";

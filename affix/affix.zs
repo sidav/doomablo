@@ -21,6 +21,12 @@ class Affix {
         return false;
     }
 
+    // Alignment is -1 for bad affixes and 1 for good ones.
+    virtual int getAlignment() {
+        debug.panicUnimplemented(self);
+        return 0;
+    }
+
     virtual bool IsCompatibleWithItem(Inventory item) {
         debug.panicUnimplemented(self);
         return false;

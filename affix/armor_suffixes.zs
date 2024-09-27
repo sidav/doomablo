@@ -2,6 +2,9 @@ class RwArmorSuffix : Affix {
     override bool isSuffix() {
         return true;
     }
+    override int getAlignment() {
+        return 1; // All suffixes are good (for now)
+    }
     override bool isCompatibleWithAffClass(Affix a2) {
         return !(a2 is 'RwArmorSuffix'); // There may be only one suffix on an item
     }

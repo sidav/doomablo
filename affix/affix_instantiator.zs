@@ -3,16 +3,16 @@ extend class Affix {
     static Affix GetRandomAffixFor(Inventory item) {
         if (item is 'RandomizedWeapon') {
             return GetRandomWeaponAffixInstance();
-        }
+        } 
         if (item is 'RandomizedArmor') {
             return GetRandomArmorAffixInstance();
-        } 
+        }
         debug.panic("Unknown class to give affix for: "..item.GetClassName());
         return null;
     }
 
     private static Affix GetRandomWeaponAffixInstance() {
-        let index = rnd.Rand(0, totalWeaponAffixesClasses()-1);
+        let index = rnd.randn(totalWeaponAffixesClasses());
         switch (index) {
             // Weapon affixes
             case 0: return New('WPrefWorseMinDamage');
@@ -37,7 +37,7 @@ extend class Affix {
     }
 
     private static Affix GetRandomArmorAffixInstance() {
-        let index = rnd.Rand(0, totalArmorAffixesClasses()-1);
+        let index = rnd.randn(totalArmorAffixesClasses());
         switch (index) {
             // Armor affixes
             case 0: return New('APrefFragile');

@@ -43,8 +43,7 @@ extend class MyCustomHUD {
         printArmorStats(armr);
 
         foreach (aff : armr.appliedAffixes) {
-            PrintLine("  "..aff.getName()..": "..aff.getDescription(), 
-                mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+            printAffixDescriptionLine(aff);
         }
     }
 

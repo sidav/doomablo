@@ -1,6 +1,7 @@
 version "4.10.0"
 
 #include "hud/hud.zs"
+#include "hud/affix_related.zs"
 #include "hud/helpers.zs"
 #include "hud/randomized_weapon_hud.zs"
 #include "hud/randomized_armor_hud.zs"

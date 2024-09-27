@@ -4,6 +4,10 @@ class rnd {
         return Random(min, max);
     }
 
+    static int randn(int max) {
+        return Random(0, max-1);
+    }
+
     // Creates rand in range either of [min1, max1] or [min2, max2] (equal chance for any value from both ranges)
     // First range MUST be smaller than the second one, and min/max order is important
     static int RandInTwoRanges(int min1, int max1, int min2, int max2) {

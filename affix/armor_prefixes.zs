@@ -10,6 +10,9 @@ class APrefFragile : RwArmorPrefix {
     override string getName() {
         return "fragile";
     }
+    override int getAlignment() {
+        return -1;
+    }
     override string getDescription() {
         return "Max durability -"..modifierLevel;
     }
@@ -29,6 +32,9 @@ class APrefSturdy : RwArmorPrefix {
     override string getName() {
         return "sturdy";
     }
+    override int getAlignment() {
+        return 1;
+    }
     override string getDescription() {
         return "Max durability +"..modifierLevel;
     }
@@ -46,6 +52,9 @@ class APrefSturdy : RwArmorPrefix {
 class APrefSoft : RwArmorPrefix {
     override string getName() {
         return "soft";
+    }
+    override int getAlignment() {
+        return -1;
     }
     override string getDescription() {
         return "Absorbs -"..modifierLevel.."% damage";
@@ -65,6 +74,9 @@ class APrefHard : RwArmorPrefix {
     override string getName() {
         return "Hard";
     }
+    override int getAlignment() {
+        return 1;
+    }
     override string getDescription() {
         return "Absorbs +"..modifierLevel.."% damage";
     }
@@ -81,6 +93,9 @@ class APrefHard : RwArmorPrefix {
 class APrefWorseRepair : RwArmorPrefix {
     override string getName() {
         return "Nondismantable";
+    }
+    override int getAlignment() {
+        return -1;
     }
     override string getDescription() {
         return "Gets -"..modifierLevel.." armor from repairs";
@@ -100,6 +115,9 @@ class APrefBetterRepair : RwArmorPrefix {
     override string getName() {
         return "modular";
     }
+    override int getAlignment() {
+        return 1;
+    }
     override string getDescription() {
         return "Gets +"..modifierLevel.." armor from repairs";
     }
@@ -116,6 +134,9 @@ class APrefBetterRepair : RwArmorPrefix {
 class APrefDamageReduction : RwArmorPrefix {
     override string getName() {
         return "Reactive";
+    }
+    override int getAlignment() {
+        return 1;
     }
     override string getDescription() {
         return "Reduces incoming damage by "..modifierLevel;
