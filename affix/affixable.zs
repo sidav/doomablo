@@ -1,38 +1,55 @@
 mixin class Affixable {
 
-    const ASSIGN_TRIES = 1000;
-    int rarity; // equal to number of applied affixes.
-    int quality; // defines applied affixes' quality (max generated values)
     array <Affix> appliedAffixes;
     string nameWithAppliedAffixes;
 
-    void Generate() {
-        assignRandomAffixes(rnd.weightedRand(1, 2, 2, 1));
+    // Rarity is equal to number of affixes, affixQuality defines their min/max generated values.
+    void Generate(int rarity = 4, int affixQuality = 0) {
+        RW_Reset();
+
+        int qgoodmin, qgoodmax;
+        [qgoodmin, qgoodmax] = goodAffixSpreadForQuality(affixQuality);
+        int qbadmin, qbadmax;
+        [qbadmin, qbadmax] = badAffixSpreadForQuality(affixQuality);
+        array <int> affQualities;
+        rnd.fillArrWithRandsInTwoRanges(affQualities, 
+            qgoodmin, qgoodmax,
+            qbadmin, qbadmax,
+            rarity, minGoodAffixesForRarity(rarity), 0);
+        debug.print("Qualities for rarity "..rarity..": "..debug.intArrToString(affQualities));
+
+        AssignRandomAffixesByAffQualityArr(affQualities);
+        applyAffixNames();
     }
 
-    private void AssignRandomAffixes(int prefixesCount) {
-        for (int i = 0; i < prefixesCount; i++) {
+    const ASSIGN_TRIES = 1000;
+    private void AssignRandomAffixesByAffQualityArr(array <int> affQualities) {
+        for (int i = 0; i < affQualities.Size(); i++) {
             Affix newAffix;
             let try = 0;
             do {
                 if (try >= ASSIGN_TRIES) {
-                    debug.panic("Failed to find good affix. Found "..appliedAffixes.Size().." out of "..prefixesCount.." total.");
-                } else {
-                    try++;
+                    debug.print("ERROR: Failed to find good affix. Found "..appliedAffixes.Size().." out of "..affQualities.Size().." total.");
+                    debug.print("Applied affixes:");
+                    Affix a;
+                    foreach(a : appliedAffixes) {
+                        debug.print("  "..a.getName());
+                    }
+                    debug.panic();
                 }
+                try++;
                 newAffix = Affix.GetRandomAffixFor(self);
             } until (
+                newAffix.getAlignment() == math.sign(affQualities[i]) &&
                 newAffix.IsCompatibleWithItem(self) &&
                 newAffix.IsCompatibleWithListOfAffixes(appliedAffixes)
             );
-
             appliedAffixes.push(newAffix);
         }
-        
+        // Apply them in reverse order on purpose
         for (int i = appliedAffixes.Size() - 1; i >= 0; i--) {
             appliedAffixes[i].InitAndApplyEffectToItem(self);
         }
-        applyAffixNames();
     }
 
     Affix findAppliedAffix(class <Affix> affcls) {
@@ -42,6 +59,20 @@ mixin class Affixable {
             }
         }
         return null;
+    }
+
+    int, int goodAffixSpreadForQuality(int quality) {
+        if (quality < 5) {
+            return 1, 5;
+        }
+        return quality/2, quality;
+    }
+
+    int, int badAffixSpreadForQuality(int quality) {
+        if (quality < 5) {
+            return -1, -5;
+        }
+        return -quality, -quality/2;
     }
 
     private void applyAffixNames() {
@@ -68,6 +99,18 @@ mixin class Affixable {
                 nameWithAppliedAffixes = aff.getName().." "..nameWithAppliedAffixes;
             }
         }
+    }
+
+    private static int minGoodAffixesForRarity(int rarity) {
+        switch (rarity) {
+            case 0: return 0;
+            case 1: return 1;
+            case 2: return 1;
+            case 3: return 2;
+            case 4: return 2;
+        }
+        debug.panic("Rarity "..rarity.."not found");
+        return 0;
     }
 
     // Affixable classes MUST also implement string GetRandomFluffName() {}

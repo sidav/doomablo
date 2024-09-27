@@ -7,7 +7,7 @@ class Debug {
         console.printf("Time "..MSTime()..": "..msg);
     }
 
-    static void panic(string msg) {
+    static void panic(string msg = "Debug panic called.") {
         ThrowAbortException(msg);
     }
 
@@ -16,6 +16,9 @@ class Debug {
     }
 
     static string intArrToString(array <int> arr) {
+        if (arr.Size() == 0) {
+            return "[]";
+        }
         let res = "[";
         for (let i = 0; i < arr.Size() - 1; i++) {
             res = res..arr[i]..", ";
