@@ -131,6 +131,26 @@ class APrefBetterRepair : RwArmorPrefix {
     }
 }
 
+class APrefDamageIncrease : RwArmorPrefix {
+    override string getName() {
+        return "Unfit";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return "Increases incoming damage by "..modifierLevel;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'APrefDamageReduction';
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 10);
+
+        arm.stats.DamageReduction -= modifierLevel;
+    }
+}
+
 class APrefDamageReduction : RwArmorPrefix {
     override string getName() {
         return "Reactive";
@@ -142,7 +162,7 @@ class APrefDamageReduction : RwArmorPrefix {
         return "Reduces incoming damage by "..modifierLevel;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return true;
+        return a2.GetClass() != 'APrefDamageIncrease';
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 10);

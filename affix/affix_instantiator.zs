@@ -30,6 +30,10 @@ extend class Affix {
             case 12: return New('WPrefSmallerExplosion');
             case 13: return New('WPrefBiggerExplosion');
             case 14: return New('WPrefFreeShots');
+            case 15: return New('WPrefSmallerMag');
+            case 16: return New('WPrefBiggerMag');
+            case 17: return New('WPrefSlowerReload');
+            case 18: return New('WPrefFasterReload');
             default:
                 debug.panic("Some affixes are not added to GetRandomWeaponAffixInstance() instantiator.");
                 return New('Affix');
@@ -46,10 +50,12 @@ extend class Affix {
             case 3: return New('APrefHard');
             case 4: return New('APrefWorseRepair');
             case 5: return New('APrefBetterRepair');
-            case 6: return New('APrefDamageReduction');
+            case 6: return New('APrefDamageIncrease');
+            case 7: return New('APrefDamageReduction');
             // Suffixes
-            case 7: return New('ASuffSelfrepair');
-            case 8: return New('ASuffHealing');
+            case 8: return New('ASuffSelfrepair');
+            case 9: return New('ASuffDegrading');
+            case 10: return New('ASuffHealing');
             default:
                 debug.panic("Some affixes are not added to Affix GetRandomArmorAffixInstance() instantiator.");
                 return New('Affix');

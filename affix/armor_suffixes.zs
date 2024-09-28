@@ -3,7 +3,7 @@ class RwArmorSuffix : Affix {
         return true;
     }
     override int getAlignment() {
-        return 1; // All suffixes are good (for now)
+        return 1;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return !(a2 is 'RwArmorSuffix'); // There may be only one suffix on an item
@@ -27,6 +27,25 @@ class ASuffSelfrepair : RwArmorSuffix {
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         let secondsx10 = 100 - remapQualityToRange(quality, 5, 100);
+        modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+    }
+}
+
+class ASuffDegrading : RwArmorSuffix {
+    override string getName() {
+        return "Unauthorized";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return "Loses durability each "
+            ..
+            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
+            .." seconds";
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        let secondsx10 = 150 - remapQualityToRange(quality, 50, 100);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
 }

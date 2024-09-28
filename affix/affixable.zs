@@ -22,6 +22,20 @@ mixin class Affixable {
         applyAffixNames();
     }
 
+    int, int goodAffixSpreadForQuality(int quality) {
+        if (quality < 5) {
+            return 1, 5;
+        }
+        return quality/2, quality;
+    }
+
+    int, int badAffixSpreadForQuality(int quality) {
+        if (quality < 5) {
+            return -1, -5;
+        }
+        return -quality, -quality/2;
+    }
+
     const ASSIGN_TRIES = 1000;
     private void AssignRandomAffixesByAffQualityArr(array <int> affQualities) {
         for (int i = 0; i < affQualities.Size(); i++) {
@@ -61,20 +75,6 @@ mixin class Affixable {
         return null;
     }
 
-    int, int goodAffixSpreadForQuality(int quality) {
-        if (quality < 5) {
-            return 1, 5;
-        }
-        return quality/2, quality;
-    }
-
-    int, int badAffixSpreadForQuality(int quality) {
-        if (quality < 5) {
-            return -1, -5;
-        }
-        return -quality, -quality/2;
-    }
-
     private void applyAffixNames() {
         nameWithAppliedAffixes = rwBaseName;
 
@@ -108,8 +108,9 @@ mixin class Affixable {
             case 2: return 1;
             case 3: return 2;
             case 4: return 2;
+            case 5: return 3;
         }
-        debug.panic("Rarity "..rarity.."not found");
+        debug.panic("Rarity "..rarity.." not found");
         return 0;
     }
 

@@ -200,6 +200,100 @@ class WPrefFreeShots : RwWeaponPrefix {
     }
 }
 
+// Magazine-related
+
+class WPrefSmallerMag : RwWeaponPrefix {
+    override string getName() {
+        return "reduced";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return "-"..modifierLevel.." magazine size";
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.clipSize > 1;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefBiggerMag';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.clipSize-1);
+
+        wpn.stats.clipSize -= modifierLevel;
+    }
+}
+
+class WPrefBiggerMag : RwWeaponPrefix {
+    override string getName() {
+        return "capacious";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return "+"..modifierLevel.." magazine size";
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.clipSize > 0;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefSmallerMag';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 3*wpn.stats.clipSize/2);
+
+        wpn.stats.clipSize += modifierLevel;
+    }
+}
+
+class WPrefSlowerReload : RwWeaponPrefix {
+    override string getName() {
+        return "loosy";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return modifierLevel.."% slower reload";
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.clipSize > 0;
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefFasterReload';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 75);
+
+        wpn.stats.reloadSpeedModifier = -modifierLevel;
+    }
+}
+
+class WPrefFasterReload : RwWeaponPrefix {
+    override string getName() {
+        return "comfy";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return modifierLevel.."% faster reload";
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.clipSize > 0;
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefSlowerReload';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 100);
+
+        wpn.stats.reloadSpeedModifier = modifierLevel;
+    }
+}
+
 // Shotgun-specific
 
 class WPrefPuny : RwWeaponPrefix {
