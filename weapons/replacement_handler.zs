@@ -31,6 +31,9 @@ class WeaponReplacementHandler : EventHandler
 		let itm = RandomizedWeapon(e.thing);
 		if (itm)
 		{
+			if (itm.bTossed) {
+				itm.Destroy(); // Prevents excessive spawn of shotguns from shotgunners and chainguns from chaingunners
+			}
 			itm.bSPECIAL = false; // Make it not automatically pickupable
 		}
 	}
