@@ -33,6 +33,7 @@ class WeaponReplacementHandler : EventHandler
 		{
 			if (itm.bTossed) {
 				itm.Destroy(); // Prevents excessive spawn of shotguns from shotgunners and chainguns from chaingunners
+				return;
 			}
 			itm.bSPECIAL = false; // Make it not automatically pickupable
 		}

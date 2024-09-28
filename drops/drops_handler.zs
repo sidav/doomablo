@@ -15,7 +15,13 @@ class DropsHandler : EventHandler
 
         } else if (whatToDrop == 1) { // drop weapon
 
-            let dropType = rnd.weightedRand(25, 25, 15, 25, 10, 10);
+            int dropType;
+            if (GameDetector.isDoom1()) {
+                // Exclude SSG
+                dropType = rnd.weightedRand(25, 25, 0, 25, 10, 10);
+            } else {
+                dropType = rnd.weightedRand(25, 25, 15, 25, 10, 10);
+            }
             switch (dropType) {
                 case 0: 
                     dropper.A_SpawnItemEx('RwPistol', zvel: zvel);

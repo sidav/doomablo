@@ -8,6 +8,7 @@ version "4.10.0"
 
 #include "misc/debug.zs"
 // #include "misc/dice.zs"
+#include "misc/game_detector.zs"
 #include "misc/gametime.zs"
 #include "misc/math.zs"
 #include "misc/rnd.zs"
