@@ -33,8 +33,10 @@ extend class MyCustomHUD {
         PrintLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         currentLineHeight += 1;
 
-        PrintLine(wpn.nameWithAppliedAffixes, mSmallShadowFont, 
-            DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn));
+        PrintLine(
+            "LVL "..wpn.generatedQuality.." "..wpn.nameWithAppliedAffixes.." ("..getRarityName(wpn.appliedAffixes.Size())..")",
+            mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn)
+        );
         
         printWeaponStats(wpn);
         

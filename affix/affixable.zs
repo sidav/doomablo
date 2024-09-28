@@ -1,16 +1,22 @@
 mixin class Affixable {
 
     array <Affix> appliedAffixes;
+    int generatedQuality;
     string nameWithAppliedAffixes;
 
     // Rarity is equal to number of affixes, affixQuality defines their min/max generated values.
-    void Generate(int rarity = 4, int affixQuality = 0) {
+    void Generate(int rarity = 5, int affixQuality = 100) {
+        rarity = rnd.weightedRand(50, 100, 50, 30, 15, 5); // TODO: remove (it works, yet it's temporary)
+        affixQuality = rnd.linearWeightedRand(1, 100, 1000, 1); // TODO: remove this too (it works, yet it's temporary)
+
         RW_Reset();
+        generatedQuality = affixQuality;
 
         int qgoodmin, qgoodmax;
         [qgoodmin, qgoodmax] = goodAffixSpreadForQuality(affixQuality);
         int qbadmin, qbadmax;
         [qbadmin, qbadmax] = badAffixSpreadForQuality(affixQuality);
+
         array <int> affQualities;
         rnd.fillArrWithRandsInTwoRanges(affQualities, 
             qgoodmin, qgoodmax,
