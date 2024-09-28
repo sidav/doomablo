@@ -18,14 +18,14 @@ class RandomizedArmor : Armor {
 
     // Needed if the armor should be re-generated
     private void RW_Reset() {
-        appliedAffixes.Resize(0);
+        appliedAffixes.Clear();
         stats = New('RwArmorStats');
         setBaseStats();
+        nameWithAppliedAffixes = rwBaseName;
     }
 
     override void BeginPlay() {
         RW_Reset();
-        Generate();
     }
 
     override void Tick() {

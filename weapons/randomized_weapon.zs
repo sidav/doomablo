@@ -16,16 +16,17 @@ class RandomizedWeapon : DoomWeapon {
 
     // Needed if a weapon should be re-generated
     private void RW_Reset() {
-        appliedAffixes.Resize(0);
+        appliedAffixes.Clear();
         setBaseStats();
-        if (stats.reloadable()) {
-            currentClipAmmo = stats.clipSize;
-        }
+        nameWithAppliedAffixes = rwBaseName;
+        // Currently buggy if clipSize is changed after the spawn. TODO: fix
+        // if (stats.reloadable()) {
+        //     currentClipAmmo = stats.clipSize;
+        // }
     }
 
     override void BeginPlay() {
         RW_Reset();
-        Generate();
     }
 
     virtual string GetRandomFluffName() {
