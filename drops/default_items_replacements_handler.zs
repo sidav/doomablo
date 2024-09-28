@@ -43,16 +43,30 @@ class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
 
 	override void WorldThingSpawned(worldEvent e)
 	{
-		let itm = RandomizedWeapon(e.thing);
-		if (itm) {
+		let itm = Inventory(e.thing);
+		let isRWInstance = (itm is 'RandomizedArmor' || itm is 'RandomizedWeapon');
+
+		if (itm && isRWInstance) {
 			if (itm.bTossed) {
 				itm.Destroy(); // Prevents excessive spawn of shotguns from shotgunners and chainguns from chaingunners
 				return;
 			}
-			if (level.maptime < 35) {
-				// The item is map-placed, let's increase its rarity and/or quality
+
+			itm.bSPECIAL = false; // Make it not automatically pickupable (for use-to-pickup)
+
+			// The item is map-placed by map design.
+			// Owner check is needed so that we know it's not in the inventory
+			if (itm.owner == null && level.maptime < 35) {
+				// let's generate (and give it better rarity and/or quality)
+				let rar = DropQualityDecider.decideRarity(1);
+				let qty = DropQualityDecider.decideQuality(25);
+
+				if (itm is 'RandomizedWeapon') {
+					RandomizedWeapon(itm).Generate(rar, qty);
+				} else if (itm is 'RandomizedArmor') {
+					RandomizedArmor(itm).Generate(rar, qty);
+				}
 			}
-			itm.bSPECIAL = false; // Make it not automatically pickupable
 		}
 	}
 }
