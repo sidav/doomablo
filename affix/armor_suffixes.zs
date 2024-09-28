@@ -25,8 +25,8 @@ class ASuffSelfrepair : RwArmorSuffix {
             String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
             .." seconds";
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm) {
-        let secondsx10 = rnd.linearWeightedRand(5, 50, 1, 100);
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        let secondsx10 = 100 - remapQualityToRange(quality, 5, 100);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
 }
@@ -42,8 +42,8 @@ class ASuffHealing : RwArmorSuffix {
             ..
             " seconds tranfers 1 durability to your health";
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm) {
-        let secondsx10 = rnd.linearWeightedRand(2, 50, 1, 100); 
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        let secondsx10 = 100 - remapQualityToRange(quality, 5, 100);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
 }

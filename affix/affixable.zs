@@ -48,7 +48,7 @@ mixin class Affixable {
         }
         // Apply them in reverse order on purpose
         for (int i = appliedAffixes.Size() - 1; i >= 0; i--) {
-            appliedAffixes[i].InitAndApplyEffectToItem(self);
+            appliedAffixes[i].InitAndApplyEffectToItem(self, math.abs(affQualities[i]));
         }
     }
 

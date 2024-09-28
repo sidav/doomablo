@@ -14,6 +14,23 @@ class Math {
         return 1;
     }
 
+    // Remaps integer from the range [fromMin, fromMax] to range [toMin, toMax] preserving the scale.
+    static int remapIntRange(int val, int fromMin, int fromMax, int toMin, int toMax) {
+        let fromLength = fromMax - fromMin;
+        let toLength = toMax - toMin;
+        // We need to solve the equation:
+        //   val - fromMin             x
+        // -----------------  =   -----------
+        //    fromLength            toLength
+        //
+        // Then result = x + toMin.
+        return toMin + divideIntWithRounding(toLength * (val-fromMin), fromLength);
+    }
+
+    static int divideIntWithRounding(int divisible, int divisor) {
+        return (divisible + divisor/2) / divisor;
+    }
+
     static int getIntPercentage(int value, int percent) {
         // +50 needed for proper rounding
         return (value * percent + 50) / 100;

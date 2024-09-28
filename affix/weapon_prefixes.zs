@@ -22,8 +22,8 @@ class WPrefWorseMinDamage : RwWeaponPrefix {
     override bool IsCompatibleWithItem(Inventory item) {
         return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.minDamage > 0;
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = rnd.linearWeightedRand(1, wpn.stats.minDamage, 10, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.minDamage);
 
         wpn.stats.modifyDamageRange(-modifierLevel, 0);
     }
@@ -46,8 +46,8 @@ class WPrefBetterMinDamage : RwWeaponPrefix {
         return super.IsCompatibleWithItem(item) && 
             RandomizedWeapon(item).stats.getDamageSpread() > 0;
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = rnd.linearWeightedRand(1, wpn.stats.getDamageSpread(), 100, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.getDamageSpread());
 
         wpn.stats.modifyDamageRange(modifierLevel, 0);
     }
@@ -70,8 +70,8 @@ class WPrefWorseMaxDamage : RwWeaponPrefix {
         return super.IsCompatibleWithItem(item) && 
             RandomizedWeapon(item).stats.getDamageSpread() > 0;
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = rnd.linearWeightedRand(1, wpn.stats.getDamageSpread(), 100, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.getDamageSpread());
 
         wpn.stats.modifyDamageRange(0, -modifierLevel);
     }
@@ -90,8 +90,8 @@ class WPrefBetterMaxDamage : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefWorseMaxDamage';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = rnd.linearWeightedRand(1, 10, 100, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.maxDamage);
 
         wpn.stats.modifyDamageRange(0, modifierLevel);
     }
@@ -110,8 +110,8 @@ class WPrefInaccurate : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefPrecise';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = 5*rnd.linearWeightedRand(1, 20, 100, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 200);
 
         wpn.stats.HorizSpread *= float(100+modifierLevel)/100;
         wpn.stats.VertSpread *= float(100+modifierLevel)/100;
@@ -131,8 +131,8 @@ class WPrefPrecise : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefInaccurate';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = 5*rnd.linearWeightedRand(1, 15, 100, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 50);
 
         wpn.stats.HorizSpread *= float(100-modifierLevel)/100;
         wpn.stats.VertSpread *= float(100-modifierLevel)/100;
@@ -153,8 +153,8 @@ class WPrefSlow : RwWeaponPrefix {
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefFast';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = 5*rnd.linearWeightedRand(1, 15, 100, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 75);
 
         wpn.stats.rofModifier = -modifierLevel;
     }
@@ -173,8 +173,8 @@ class WPrefFast : RwWeaponPrefix {
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefSlow';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = 5*rnd.linearWeightedRand(1, 10, 100, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 100);
 
         wpn.stats.rofModifier = modifierLevel;
     }
@@ -191,10 +191,10 @@ class WPrefFreeShots : RwWeaponPrefix {
         return "Each "..modifierLevel.."th shot is free";
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
-        return true; // TODO: think of a "bad" counterpart
+        return true;
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = rnd.linearWeightedRand(1, 10, 1, 200);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = 12 - remapQualityToRange(quality, 1, 10);
 
         wpn.stats.freeShotPeriod = modifierLevel;
     }
@@ -218,8 +218,8 @@ class WPrefPuny : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBulk';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = rnd.linearWeightedRand(1, wpn.stats.pellets, 20, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.pellets/2);
 
         wpn.stats.Pellets -= modifierLevel;
     }
@@ -241,8 +241,8 @@ class WPrefBulk : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefPuny';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = rnd.linearWeightedRand(1, (wpn.stats.Pellets/2 + 1), 100, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 3*wpn.stats.Pellets/2);
 
         wpn.stats.Pellets += modifierLevel;
     }
@@ -266,8 +266,8 @@ class WPrefLazy : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefQuick';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = rnd.linearWeightedRand(1, 75, 100, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 75);
 
         wpn.stats.projSpeedPercModifier = -modifierLevel;
     }
@@ -289,8 +289,8 @@ class WPrefQuick : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefLazy';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = rnd.linearWeightedRand(1, 100, 100, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 200);
 
         wpn.stats.projSpeedPercModifier = modifierLevel;
     }
@@ -314,8 +314,8 @@ class WPrefSmallerExplosion : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBiggerExplosion';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = rnd.linearWeightedRand(10, 75, 100, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 10, 75);
 
         wpn.stats.ExplosionRadius = math.getIntPercentage(
             wpn.stats.ExplosionRadius,
@@ -340,8 +340,8 @@ class WPrefBiggerExplosion : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefSmallerExplosion';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn) {
-        modifierLevel = rnd.linearWeightedRand(20, 200, 1000, 1);
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 5, 100);
 
         wpn.stats.ExplosionRadius = math.getIntPercentage(
             wpn.stats.ExplosionRadius,
