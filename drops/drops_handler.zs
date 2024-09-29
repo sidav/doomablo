@@ -69,8 +69,10 @@ class DropsHandler : EventHandler
         // Generate stats/affixes for the spawned item.
         if (spawnedItem) {
 
+            int rarmod, qtymod;
+            [rarmod, qtymod] = DropsDecider.rollRarQtyModifiers(dropper.GetMaxHealth());
             int rar, qty;
-            [rar, qty] = DropsDecider.rollRarityAndQuality(0, 0);
+            [rar, qty] = DropsDecider.rollRarityAndQuality(rarmod, qtymod);
 
             if (spawnedItem is 'RandomizedWeapon') {
                 RandomizedWeapon(spawnedItem).Generate(rar, qty);

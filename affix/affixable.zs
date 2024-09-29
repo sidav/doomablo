@@ -20,11 +20,11 @@ mixin class Affixable {
             qgoodmin, qgoodmax,
             qbadmin, qbadmax,
             rarity, minGoodAffixesForRarity(rarity), 0);
-        debug.print(
-            "Generated qualities for "..GetClassName()
-            .." at rarity "..rarity.." and quality "..affixQuality..": "
-            ..debug.intArrToString(affQualities)
-        );
+        // debug.print(
+        //     "Generated qualities for "..GetClassName()
+        //     .." at rarity "..rarity.." and quality "..affixQuality..": "
+        //     ..debug.intArrToString(affQualities)
+        // );
 
         AssignRandomAffixesByAffQualityArr(affQualities);
         applyAffixNames();
