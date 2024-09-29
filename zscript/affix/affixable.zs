@@ -27,7 +27,7 @@ mixin class Affixable {
         // );
 
         AssignRandomAffixesByAffQualityArr(affQualities);
-        applyAffixNames();
+        setNameAfterGeneration();
     }
 
     int, int goodAffixSpreadForQuality(int quality) {
@@ -42,6 +42,19 @@ mixin class Affixable {
             return -1, -5;
         }
         return -quality, -quality/2;
+    }
+
+    private static int minGoodAffixesForRarity(int rarity) {
+        switch (rarity) {
+            case 0: return 0;
+            case 1: return 1;
+            case 2: return 1;
+            case 3: return 2;
+            case 4: return 2;
+            case 5: return 3;
+        }
+        debug.panic("Rarity "..rarity.." not found");
+        return 0;
     }
 
     const ASSIGN_TRIES = 1000;
@@ -83,77 +96,45 @@ mixin class Affixable {
         return null;
     }
 
-    private void applyAffixNames() {
-        nameWithAppliedAffixes = rwBaseName;
-
-        if (appliedAffixes.Size() == 0) {
-            nameWithAppliedAffixes = "Common "..nameWithAppliedAffixes;
-            return;
-        } else if (appliedAffixes.Size() == 3) {
-            nameWithAppliedAffixes = getRandomFluffPrefix(appliedAffixes.Size()).." "..rwBaseName;
-            return;
-        } else if (appliedAffixes.Size() > 3) {
-            nameWithAppliedAffixes = getRandomFluffPrefix(appliedAffixes.Size())..
-                " "..rwBaseName..
-                " \""..GetRandomFluffName().."\"";
-            return;
+    /////////////////////////
+    ///  NAME GENERATION  ///
+    /////////////////////////
+    void setNameAfterGeneration() {
+        switch (appliedAffixes.Size()) {
+            case 0: // fallthrough
+            case 1: // fallthrough
+            case 2:
+                nameWithAppliedAffixes = nameRar012Item();
+                return;
+            case 3:
+                nameWithAppliedAffixes = NameGenerator.createXYAZName(
+                    appliedAffixes[0].getName(),
+                    appliedAffixes[1].getName(),
+                    rwBaseName,
+                    appliedAffixes[2].getName()
+                );
+                return;
+            case 4:
+                nameWithAppliedAffixes = NameGenerator.createFluffedName(getRandomFluffName());
+                return;
+            case 5:
+                nameWithAppliedAffixes = NameGenerator.createAngelicOrDemonicName(rwBaseName);
+                return;
         }
+        nameWithAppliedAffixes = "<NAME ERROR>";
+    }
 
+    string nameRar012Item() {
+        string setName = rwBaseName;
         for (int i = appliedAffixes.Size() - 1; i >= 0; i--) {
             let aff = appliedAffixes[i];
             if (aff.isSuffix()) {
-                nameWithAppliedAffixes = nameWithAppliedAffixes.." ("..aff.getName()..")";
+                setName = setName.." of "..aff.getName();
             } else {
-                nameWithAppliedAffixes = aff.getName().." "..nameWithAppliedAffixes;
+                setName = aff.getName().." "..setName;
             }
         }
-    }
 
-    private static int minGoodAffixesForRarity(int rarity) {
-        switch (rarity) {
-            case 0: return 0;
-            case 1: return 1;
-            case 2: return 1;
-            case 3: return 2;
-            case 4: return 2;
-            case 5: return 3;
-        }
-        debug.panic("Rarity "..rarity.." not found");
-        return 0;
-    }
-
-    // Affixable classes MUST also implement string GetRandomFluffName() {}
-    private string getRandomFluffPrefix(int affCount) {
-        static const string aff3[] =
-        {
-            "Strange",
-            "Uncommon",
-            "Tinkered"
-        };
-        static const string aff4[] =
-        {
-            "Prototype",
-            "Experimental",
-            "Rare"
-        };
-        static const string aff5[] =
-        {
-            "Blessed",
-            "Demonic",
-            "Holy"
-        };
-        switch (affCount) {
-            case 3:
-                return aff3[rnd.Rand(0, aff3.Size()-1)];
-                break;
-            case 4:
-                return aff4[rnd.Rand(0, aff4.Size()-1)];
-                break;
-            case 5:
-                return aff5[rnd.Rand(0, aff5.Size()-1)];
-                break;
-        }
-        debug.panic("Fluff prefix for "..affCount.." affixes not found.");
-        return "";
+        return setName;
     }
 }
