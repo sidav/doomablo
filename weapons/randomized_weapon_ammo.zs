@@ -57,7 +57,7 @@ extend class RandomizedWeapon {
 
     action state RWA_ReloadOrSwitchIfEmpty() {
         if (invoker.currentClipAmmo < invoker.stats.ammoUsage) {
-            if (invoker.ammo1.amount > invoker.stats.ammoUsage) {
+            if (invoker.ammo1.amount >= invoker.stats.ammoUsage) {
                 return ResolveState("Reload");
             }
             MyPlayer(invoker.Owner).PickNewWeapon(null);

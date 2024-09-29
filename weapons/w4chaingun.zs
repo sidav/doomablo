@@ -25,6 +25,7 @@ class RwChaingun : RandomizedWeapon
 		Loop;
 	Fire:
 		CHGG AB 4 {
+			RWA_ReloadOrSwitchIfEmpty(); // Need to call that because the chaingun fires two bullets at once
 			RWA_ApplyRateOfFire();
             RWA_FireBullets();
 			RWA_ChaingunFlash();
