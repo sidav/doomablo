@@ -34,6 +34,7 @@ version "4.10.0"
 
 #include "drops/drops_decider.zs"
 #include "drops/drops_handler.zs"
+#include "drops/console_drops_handler.zs"
 #include "drops/default_items_replacements_handler.zs"
 #include "drops/starting_items_handler.zs"
 

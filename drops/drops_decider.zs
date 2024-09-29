@@ -20,7 +20,7 @@ class DropsDecider {
         let rar = rnd.weightedRand(50, 100, 50, 30, 15, 5);
         rar = min(rar+rarMod, 5);
         let qty = rnd.linearWeightedRand(1, 100, 100, 1);
-        qty = min(qty+qtyMod, 100);
+        qty = rar == 0 ? 1 : min(qty+qtyMod, 100);
         return rar, qty;
     }
 }
