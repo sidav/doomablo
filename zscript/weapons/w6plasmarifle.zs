@@ -64,6 +64,15 @@ class RwPlasmaRifle : RandomizedWeapon
 		Stop;
 	}
 
+	action void Fire() {
+		State flash = invoker.FindState('Flash');
+		if (flash != null) {
+			player.SetSafeFlash(invoker, flash, random[FirePlasma](0, 1));
+		}
+
+		RWA_DoFire();
+	}
+
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
 			5, 30,
@@ -78,14 +87,16 @@ class RwPlasmaRifle : RandomizedWeapon
 		rwBaseName = "Plasma rifle";
     }
 
-    action void Fire() {
-		State flash = invoker.FindState('Flash');
-		if (flash != null) {
-			player.SetSafeFlash(invoker, flash, random[FirePlasma](0, 1));
-		}
-
-		RWA_DoFire();
-	}
+	override string GetRandomFluffName() {
+        static const string specialNames[] =
+        {
+            "Energizer",
+            "Overloader",
+            "Overcharger",
+			"Teaser"
+        };
+        return specialNames[rnd.randn(specialNames.Size())];
+    }
 }
 
 class RwPlasmaBall : RwProjectile

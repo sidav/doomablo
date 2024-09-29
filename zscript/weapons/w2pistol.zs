@@ -77,4 +77,14 @@ class rwPistol : RandomizedWeapon
 		stats.clipSize = 6;
 		rwBaseName = "Pistol";
     }
+
+	override string GetRandomFluffName() {
+        static const string specialNames[] =
+        {
+            "Bullseye",
+            "Repeater",
+            "Gunslinger"
+        };
+        return specialNames[rnd.randn(specialNames.Size())];
+    }
 }

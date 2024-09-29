@@ -41,16 +41,7 @@ class RandomizedArmor : Armor {
     }
 
     virtual string GetRandomFluffName() {
-        static const string specialNames[] =
-        {
-            "Protector",
-            "Defender",
-            "Life saver"
-        };
-        if (rnd.OneChanceFrom(5)) {
-            return "EX-ST "..rnd.Rand(100, 200);
-        }
-        return specialNames[rnd.Rand(0, specialNames.Size()-1)];
+        return "EX-ST "..rnd.Rand(100, 200);
     }
 
     override void AbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {

@@ -90,4 +90,14 @@ class RwChaingun : RandomizedWeapon
 		stats.clipSize = 40;
 		rwBaseName = "Chaingun";
     }
+
+	override string GetRandomFluffName() {
+        static const string specialNames[] =
+        {
+            "Penetrator",
+            "Instigator",
+            "Terminator"
+        };
+        return specialNames[rnd.randn(specialNames.Size())];
+    }
 }

@@ -22,4 +22,14 @@ class RwBlueArmor : RandomizedArmor
 		stats.DamageReduction = 0;
 		stats.BonusRepair = 5;
     }
+
+	override string GetRandomFluffName() {
+        static const string specialNames[] =
+        {
+            "Life Saver",
+            "Defender",
+            "Rhino"
+        };
+        return specialNames[rnd.randn(specialNames.Size())];
+    }
 }

@@ -96,6 +96,17 @@ class RwRocketLauncher : RandomizedWeapon
 
 		rwBaseName = "Rocket Launcher";
     }
+
+	override string GetRandomFluffName() {
+        static const string specialNames[] =
+        {
+            "Destructor",
+			"Demolisher",
+            "Obliterator",
+			"Ruiner"
+        };
+        return specialNames[rnd.randn(specialNames.Size())];
+    }
 }
 
 class RwRocket : RwProjectile

@@ -109,4 +109,14 @@ class RwSuperShotgun : RandomizedWeapon
 		);
         rwBaseName = "Super Shotgun";
     }
+
+	override string GetRandomFluffName() {
+        static const string specialNames[] =
+        {
+            "Smasher",
+            "Terrifier",
+            "Lead delivery"
+        };
+        return specialNames[rnd.randn(specialNames.Size())];
+    }
 }

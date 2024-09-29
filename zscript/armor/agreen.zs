@@ -24,4 +24,14 @@ class RwGreenArmor : RandomizedArmor
 		stats.DamageReduction = 0;
 		stats.BonusRepair = 5;
     }
+
+	override string GetRandomFluffName() {
+        static const string specialNames[] =
+        {
+            "Protector",
+            "Shield",
+            "Covering"
+        };
+        return specialNames[rnd.randn(specialNames.Size())];
+    }
 }

@@ -30,16 +30,7 @@ class RandomizedWeapon : DoomWeapon {
     }
 
     virtual string GetRandomFluffName() {
-        static const string specialNames[] =
-        {
-            "Hell's Bane",
-            "Destructor",
-            "Terminator"
-        };
-        if (rnd.OneChanceFrom(5)) {
-            return "AS/MD "..rnd.Rand(500, 800);
-        }
-        return specialNames[rnd.Rand(0, specialNames.Size()-1)];
+        return "AS/MD "..rnd.Rand(10, 100).."-"..rnd.Rand(10, 100);
     }
 
 }
