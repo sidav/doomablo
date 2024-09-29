@@ -37,14 +37,15 @@ extend class MyCustomHUD {
         PrintLine("Press USE to equip:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         currentLineHeight += 1;
 
-        PrintLine(armr.nameWithAppliedAffixes, mSmallShadowFont, 
-            DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwArmor(armr));
+        PrintLine(
+            "LVL "..armr.generatedQuality.." "..armr.nameWithAppliedAffixes.." ("..getRarityName(armr.appliedAffixes.Size())..")",
+            mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwArmor(armr)
+        );
 
         printArmorStats(armr);
 
         foreach (aff : armr.appliedAffixes) {
-            PrintLine("  "..aff.getName()..": "..aff.getDescription(), 
-                mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+            printAffixDescriptionLine(aff);
         }
     }
 

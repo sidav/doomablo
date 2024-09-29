@@ -21,28 +21,42 @@ class Affix {
         return false;
     }
 
+    // Alignment is -1 for bad affixes and 1 for good ones.
+    virtual int getAlignment() {
+        debug.panicUnimplemented(self);
+        return 0;
+    }
+
     virtual bool IsCompatibleWithItem(Inventory item) {
         debug.panicUnimplemented(self);
         return false;
     }
 
-    virtual void InitAndApplyEffectToItem(Inventory item) {
+    virtual void InitAndApplyEffectToItem(Inventory item, int quality) {
         if (RandomizedWeapon(item) != null) {
-            initAndApplyEffectToRWeapon(RandomizedWeapon(item));
+            initAndApplyEffectToRWeapon(RandomizedWeapon(item), quality);
             return;
         }
         if (RandomizedArmor(item) != null) {
-            initAndapplyEffectToRArmor(RandomizedArmor(item));
+            initAndapplyEffectToRArmor(RandomizedArmor(item), quality);
             return;
         }
     }
 
-    protected virtual void initAndApplyEffectToRWeapon(RandomizedWeapon weapon) {
+    protected virtual void initAndApplyEffectToRWeapon(RandomizedWeapon weapon, int quality) {
         debug.panicUnimplemented(self);
     }
 
-    protected virtual void initAndapplyEffectToRArmor(RandomizedArmor armor) {
+    protected virtual void initAndapplyEffectToRArmor(RandomizedArmor armor, int quality) {
         debug.panicUnimplemented(self);
+    }
+
+    // Helper method for code readability.
+    protected static int remapQualityToRange(int qty, int rmin, int rmax) {
+        if (qty <= 0) {
+            debug.panic("Negative quality in range mapping");
+        }
+        return math.remapIntRange(qty, 1, 100, rmin, rmax);
     }
 
     virtual string getName() {

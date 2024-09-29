@@ -13,7 +13,7 @@ mixin class ArmorSuffixable {
         if (invoker.stats.currDurability < invoker.stats.maxDurability) {
             let aff = invoker.findAppliedAffix('ASuffSelfrepair');
             if (aff != null) {
-                if (age % (ASuffSelfrepair(aff).modifierLevel) == 0) {
+                if (age % aff.modifierLevel == 0) {
                     invoker.stats.currDurability++;
                 }
                 return; // There may be no other affix anyway
@@ -24,8 +24,19 @@ mixin class ArmorSuffixable {
         if (invoker.stats.currDurability > 0 && invoker.owner.health < 100) {
             let aff = invoker.findAppliedAffix('ASuffHealing');
             if (aff != null) {
-                if (age % (ASuffHealing(aff).modifierLevel) == 0) {
+                if (age % aff.modifierLevel == 0) {
                     invoker.owner.GiveBody(1, 100);
+                    invoker.stats.currDurability--;
+                }
+                return; // There may be no other affix anyway
+            }
+        }
+
+        // Loses durability
+        if (invoker.stats.currDurability > 0) {
+            let aff = invoker.findAppliedAffix('ASuffDegrading');
+            if (aff != null) {
+                if (age % aff.modifierLevel == 0) {
                     invoker.stats.currDurability--;
                 }
                 return; // There may be no other affix anyway

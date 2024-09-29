@@ -1,39 +1,51 @@
 class DropsHandler : EventHandler
 {
     override void WorldThingDied(WorldEvent e) {
-        if (rnd.OneChanceFrom(5)) {
+        // debug.print("Actor "..e.Thing.GetClassName().." died; max health is "..e.Thing.GetMaxHealth());
+        if (DropsDecider.decideIfCreateDrop(e.Thing.GetMaxHealth())) {
             createDrop(e.Thing);
         }
     }
 
     const zvel = 10.0;
     private void createDrop(Actor dropper) {
-        let whatToDrop = rnd.weightedRand(10, 5, 5);
+        let whatToDrop = DropsDecider.dropArtifactOnly(dropper.GetMaxHealth()) ? rnd.weightedRand(0, 5, 5) : rnd.weightedRand(10, 5, 5);
+
+        bool unused; // Required by zscript syntax for multiple returned values; is indeed unused
+        Actor spawnedItem;
+
         if (whatToDrop == 0) { // drop one-time pickup
 
             dropper.A_SpawnItemEx('RwArmorBonus', zvel: zvel);
 
         } else if (whatToDrop == 1) { // drop weapon
 
-            let dropType = rnd.weightedRand(25, 25, 15, 25, 10, 10);
+            int dropType;
+            if (GameDetector.isDoom1()) {
+                // Exclude SSG
+                dropType = rnd.weightedRand(25, 25, 0, 25, 10, 10);
+            } else {
+                dropType = rnd.weightedRand(25, 25, 15, 25, 10, 10);
+            }
+
             switch (dropType) {
                 case 0: 
-                    dropper.A_SpawnItemEx('RwPistol', zvel: zvel);
+                    [unused, spawnedItem] = dropper.A_SpawnItemEx('RwPistol', zvel: zvel);
                     break;
                 case 1: 
-                    dropper.A_SpawnItemEx('RwShotgun', zvel: zvel);
+                    [unused, spawnedItem] = dropper.A_SpawnItemEx('RwShotgun', zvel: zvel);
                     break;
                 case 2: 
-                    dropper.A_SpawnItemEx('RwSuperShotgun', zvel: zvel);
+                    [unused, spawnedItem] = dropper.A_SpawnItemEx('RwSuperShotgun', zvel: zvel);
                     break;
                 case 3: 
-                    dropper.A_SpawnItemEx('RwChaingun', zvel: zvel);
+                    [unused, spawnedItem] = dropper.A_SpawnItemEx('RwChaingun', zvel: zvel);
                     break;
                 case 4: 
-                    dropper.A_SpawnItemEx('RwRocketLauncher', zvel: zvel);
+                    [unused, spawnedItem] = dropper.A_SpawnItemEx('RwRocketLauncher', zvel: zvel);
                     break;
                 case 5: 
-                    dropper.A_SpawnItemEx('RwPlasmarifle', zvel: zvel);
+                    [unused, spawnedItem] = dropper.A_SpawnItemEx('RwPlasmarifle', zvel: zvel);
                     break;
                 default:
                     debug.panic("Drop spawner crashed");
@@ -44,15 +56,29 @@ class DropsHandler : EventHandler
             let dropType = rnd.weightedRand(10, 5);
             switch (dropType) {
                 case 0: 
-                    dropper.A_SpawnItemEx('RwGreenArmor', zvel: zvel);
+                    [unused, spawnedItem] = dropper.A_SpawnItemEx('RwGreenArmor', zvel: zvel);
                     break;
                 case 1: 
-                    dropper.A_SpawnItemEx('RwBlueArmor', zvel: zvel);
+                    [unused, spawnedItem] = dropper.A_SpawnItemEx('RwBlueArmor', zvel: zvel);
                     break;
                 default:
                     debug.panic("Drop spawner crashed");
             }
 
+        }
+        // Generate stats/affixes for the spawned item.
+        if (spawnedItem) {
+
+            int rarmod, qtymod;
+            [rarmod, qtymod] = DropsDecider.rollRarQtyModifiers(dropper.GetMaxHealth());
+            int rar, qty;
+            [rar, qty] = DropsDecider.rollRarityAndQuality(rarmod, qtymod);
+
+            if (spawnedItem is 'RandomizedWeapon') {
+                RandomizedWeapon(spawnedItem).Generate(rar, qty);
+            } else if (spawnedItem is 'RandomizedArmor') {
+                RandomizedArmor(spawnedItem).Generate(rar, qty);
+            }
         }
         return;
     }

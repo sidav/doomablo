@@ -36,7 +36,8 @@ class StartingItemsHandler : EventHandler
 		// If player has no RWs instances, this means it's a game start. Let's give them basic weapons:
 		if (rwCount == 0) {
 			pmo.GiveInventory('Fist', 1);
-			pmo.GiveInventory('RwPistol', 1);
+			let given = RandomizedWeapon(pmo.GiveInventoryType('RwPistol'));
+			given.Generate(3, rnd.Rand(50, 75));
 		}
 	}
 }
