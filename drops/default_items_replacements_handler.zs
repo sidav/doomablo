@@ -58,8 +58,8 @@ class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
 			// Owner check is needed so that we know it's not in the inventory
 			if (itm.owner == null && level.maptime < 35) {
 				// let's generate (and give it better rarity and/or quality)
-				let rar = DropQualityDecider.decideRarity(1);
-				let qty = DropQualityDecider.decideQuality(25);
+				int rar, qty;
+            	[rar, qty] = DropsDecider.rollRarityAndQuality(1, 25);
 
 				if (itm is 'RandomizedWeapon') {
 					RandomizedWeapon(itm).Generate(rar, qty);

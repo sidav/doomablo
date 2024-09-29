@@ -32,7 +32,7 @@ version "4.10.0"
 #include "armor/randomized_armor_pickup.zs"
 #include "armor/randomized_armor_stats.zs"
 
-#include "drops/drop_quality_decider.zs"
+#include "drops/drops_decider.zs"
 #include "drops/drops_handler.zs"
 #include "drops/default_items_replacements_handler.zs"
 #include "drops/starting_items_handler.zs"

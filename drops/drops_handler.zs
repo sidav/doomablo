@@ -1,14 +1,15 @@
 class DropsHandler : EventHandler
 {
     override void WorldThingDied(WorldEvent e) {
-        if (rnd.OneChanceFrom(5)) {
+        // debug.print("Actor "..e.Thing.GetClassName().." died; max health is "..e.Thing.GetMaxHealth());
+        if (DropsDecider.decideIfCreateDrop(e.Thing.GetMaxHealth())) {
             createDrop(e.Thing);
         }
     }
 
     const zvel = 10.0;
     private void createDrop(Actor dropper) {
-        let whatToDrop = rnd.weightedRand(10, 5, 5);
+        let whatToDrop = DropsDecider.dropArtifactOnly(dropper.GetMaxHealth()) ? rnd.weightedRand(0, 5, 5) : rnd.weightedRand(10, 5, 5);
 
         bool unused; // Required by zscript syntax for multiple returned values; is indeed unused
         Actor spawnedItem;
@@ -68,8 +69,8 @@ class DropsHandler : EventHandler
         // Generate stats/affixes for the spawned item.
         if (spawnedItem) {
 
-            let rar = DropQualityDecider.decideRarity();
-			let qty = DropQualityDecider.decideQuality();
+            int rar, qty;
+            [rar, qty] = DropsDecider.rollRarityAndQuality(0, 0);
 
             if (spawnedItem is 'RandomizedWeapon') {
                 RandomizedWeapon(spawnedItem).Generate(rar, qty);
