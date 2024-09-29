@@ -47,11 +47,16 @@ extend class MyCustomHUD {
 
     const weaponStatsTableWidth = 150;
     void printWeaponStats(RandomizedWeapon wpn) {
-        PrintTableLine("Damage:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage, weaponStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
         if (wpn.stats.pellets > 1) {
-            PrintTableLine(""..wpn.stats.pellets, "pellets per shot", weaponStatsTableWidth,
+            PrintTableLine("Damage per pellet:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage, weaponStatsTableWidth,
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+            PrintTableLine("Pellets per shot:", ""..wpn.stats.pellets, weaponStatsTableWidth,
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+            PrintTableLine("Total shot damage:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage*wpn.stats.pellets, weaponStatsTableWidth,
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);    
+        } else {
+            PrintTableLine("Damage:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage, weaponStatsTableWidth,
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
         }
         if (wpn.stats.clipSize > 1) {
             PrintTableLine("Magazine capacity:", ""..wpn.stats.clipSize, weaponStatsTableWidth,
