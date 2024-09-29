@@ -63,4 +63,19 @@ class RandomizedWeapon : DoomWeapon {
 		}
     }
 
+    action void RWA_FireProjectile() {
+        if (player == null) {
+			return;
+		}
+
+		Actor actuallyFired, msl;
+		[actuallyFired, msl] = A_FireProjectile(invoker.stats.projClass);
+
+		RwProjectile(msl).applyWeaponStats(RandomizedWeapon(invoker).stats);
+
+		if (!actuallyFired) { // See comment on pointBlank() to understand what's happening here
+			RwProjectile(msl).pointBlank();
+		}
+    }
+
 }

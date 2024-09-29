@@ -8,6 +8,7 @@ class RWStatsClass {
 
     // Projectile-specific
     bool firesProjectiles;
+    class <Actor> projClass;
     int projSpeedPercModifier;
     int ExplosionRadius;
 

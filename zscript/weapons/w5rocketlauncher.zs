@@ -79,29 +79,8 @@ class RwRocketLauncher : RandomizedWeapon
 		Stop;
 	}
 
-	action void Fire()
-	{
-		if (player == null)
-		{
-			return;
-		}
-		// Weapon weap = player.ReadyWeapon;
-		// if (weap != null && invoker == weap && stateinfo != null && stateinfo.mStateType == STATE_Psprite)
-		// {
-			// TODO: investigate where is this auto-called (A_FireProjectile is closest candidate)
-			// if (!weap.DepleteAmmo(weap.bAltFire, true, true, true))
-			// 	return;
-		// }
-		
-		// SpawnPlayerMissile ("RwRocket");
-		Actor actuallyFired, msl;
-		[actuallyFired, msl] = A_FireProjectile(
-			'RwRocket'
-		);
-		RwProjectile(msl).applyWeaponStats(RandomizedWeapon(invoker).stats);
-		if (!actuallyFired) { // See comment on pointBlank() to understand what's happening here
-			RwProjectile(msl).pointBlank();
-		}
+	action void Fire() {
+		RWA_FireProjectile();
 	}
 
 	override void setBaseStats() {
@@ -115,6 +94,7 @@ class RwRocketLauncher : RandomizedWeapon
 
 		stats.clipSize = 3;
 		stats.firesProjectiles = true;
+		stats.projClass = 'RwRocket';
 		stats.BaseExplosionRadius = 96;
 		stats.ExplosionRadius = 96;
 

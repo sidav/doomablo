@@ -74,38 +74,17 @@ class RwPlasmaRifle : RandomizedWeapon
 		);
 		stats.clipSize = 20;
 		stats.firesProjectiles = true;
+		stats.projClass = 'RwPlasmaBall';
 		rwBaseName = "Plasma rifle";
     }
 
-    action void Fire()
-	{
-		if (player == null)
-		{
-			return;
+    action void Fire() {
+		State flash = invoker.FindState('Flash');
+		if (flash != null) {
+			player.SetSafeFlash(invoker, flash, random[FirePlasma](0, 1));
 		}
-		Weapon weap = player.ReadyWeapon;
-		if (weap != null && invoker == weap && stateinfo != null && stateinfo.mStateType == STATE_Psprite)
-		{
-			// TODO: investigate where is this auto-called (A_FireProjectile is closest candidate)
-			// if (!weap.DepleteAmmo(weap.bAltFire, true, true, true))
-			// 	return;
-			
-			State flash = weap.FindState('Flash');
-			if (flash != null)
-			{
-				player.SetSafeFlash(weap, flash, random[FirePlasma](0, 1));
-			}
-			
-		}
-		// SpawnPlayerMissile("PlasmaBall");
-		Actor unused, msl;
-		[unused, msl] = A_FireProjectile(
-			'RwPlasmaBall',
-			0, // angle
-			true,
-			0
-		);
-		RwProjectile(msl).applyWeaponStats(RandomizedWeapon(invoker).stats);
+
+		RWA_FireProjectile();
 	}
 }
 
