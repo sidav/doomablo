@@ -10,12 +10,12 @@ class ConsoleDropsHandler : EventHandler
 
     const xofs = 50.0;
     const zvel = 10.0;
-    static void spawnItem(Actor player, int whichItem, int rarity, int quality) {
+    static void spawnItem(Actor player, int itemID, int rarity, int quality) {
 
         bool unused; // Required by zscript syntax for multiple returned values; is indeed unused
         Actor spawnedItem;
 
-        switch (whichItem) {
+        switch (itemID) {
 
             // Weapons
             case 2: 
@@ -24,16 +24,16 @@ class ConsoleDropsHandler : EventHandler
             case 3: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwShotgun', xofs: xofs, zvel: zvel);
                 break;
-            case 4: 
+            case 33: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwSuperShotgun', xofs: xofs, zvel: zvel);
                 break;
-            case 5: 
+            case 4: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwChaingun', xofs: xofs, zvel: zvel);
                 break;
-            case 6: 
+            case 5: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwRocketLauncher', xofs: xofs, zvel: zvel);
                 break;
-            case 7: 
+            case 6: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwPlasmarifle', xofs: xofs, zvel: zvel);
                 break;
             
@@ -46,7 +46,7 @@ class ConsoleDropsHandler : EventHandler
                 break;
             
             default:
-                debug.print("Unknown drop code "..whichItem);
+                debug.print("Unknown drop code "..itemID);
         }
 
         if (spawnedItem) {
