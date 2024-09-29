@@ -84,7 +84,7 @@ class RwPlasmaRifle : RandomizedWeapon
 			player.SetSafeFlash(invoker, flash, random[FirePlasma](0, 1));
 		}
 
-		RWA_FireProjectile();
+		RWA_DoFire();
 	}
 }
 

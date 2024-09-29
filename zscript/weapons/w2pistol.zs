@@ -30,7 +30,7 @@ class rwPistol : RandomizedWeapon
 		PISG A 4 RWA_ApplyRateOfFire();
 		PISG B 6 {
 			RWA_ApplyRateOfFire();
-			RWA_FireBullets();
+			RWA_DoFire();
 			A_StartSound("weapons/pistol", CHAN_WEAPON);
 			A_GunFlash();
 		}

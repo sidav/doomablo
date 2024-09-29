@@ -28,7 +28,7 @@ class rwShotgun : RandomizedWeapon
 		SHTG A 3 RWA_ApplyRateOfFire();
 		SHTG A 7 {
 			RWA_ApplyRateOfFire();
-			RWA_FireBullets();
+			RWA_DoFire();
 			A_StartSound("weapons/shotgf", CHAN_WEAPON);
 			A_GunFlash();
 		}

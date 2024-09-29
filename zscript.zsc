@@ -38,6 +38,7 @@ version "4.10.0"
 #include "zscript/drops/starting_items_handler.zs"
 
 #include "zscript/weapons/randomized_weapon.zs"
+#include "zscript/weapons/randomized_weapon_fire.zs"
 #include "zscript/weapons/randomized_weapon_ammo.zs"
 #include "zscript/weapons/randomized_weapon_pickup.zs"
 #include "zscript/weapons/randomized_weapon_projectile.zs"

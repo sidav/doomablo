@@ -27,7 +27,7 @@ class RwChaingun : RandomizedWeapon
 		CHGG AB 4 {
 			RWA_ReloadOrSwitchIfEmpty(); // Need to call that because the chaingun fires two bullets at once
 			RWA_ApplyRateOfFire();
-            RWA_FireBullets();
+            RWA_DoFire();
 			RWA_ChaingunFlash();
         }
 		CHGG B 0 RWA_ReFire;

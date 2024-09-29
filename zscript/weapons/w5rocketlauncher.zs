@@ -30,7 +30,7 @@ class RwRocketLauncher : RandomizedWeapon
 		}
 		MISG B 12 {
 			RWA_ApplyRateOfFire();
-			Fire();
+			RWA_DoFire();
 		}
 		MISG B 0 RWA_ReFire;
 		Goto Ready;
@@ -77,10 +77,6 @@ class RwRocketLauncher : RandomizedWeapon
 	Spawn:
 		LAUN A -1;
 		Stop;
-	}
-
-	action void Fire() {
-		RWA_FireProjectile();
 	}
 
 	override void setBaseStats() {

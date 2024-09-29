@@ -26,7 +26,7 @@ class RwSuperShotgun : RandomizedWeapon
 		SHT2 A 3 RWA_ApplyRateOfFire;
 		SHT2 A 7 {
 			RWA_ApplyRateOfFire();
-			RWA_FireBullets();
+			RWA_DoFire();
 			A_StartSound("weapons/sshotf", CHAN_WEAPON);
 			A_GunFlash();
 		}
