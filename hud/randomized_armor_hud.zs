@@ -12,7 +12,7 @@ extend class MyCustomHUD {
             }
             DrawString(mSmallFont, 
                 "Equipped: "..armr.nameWithAppliedAffixes,
-                (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForRwArmor(armr));
+                (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(armr));
         } else {
             DrawString(mSmallFont, 
                 "NO ARMOR",
@@ -39,7 +39,7 @@ extend class MyCustomHUD {
 
         PrintLine(
             "LVL "..armr.generatedQuality.." "..armr.nameWithAppliedAffixes.." ("..getRarityName(armr.appliedAffixes.Size())..")",
-            mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwArmor(armr)
+            mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForAffixableItem(armr)
         );
 
         printArmorStats(armr);
@@ -61,19 +61,6 @@ extend class MyCustomHUD {
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
         PrintTableLine("Repair amount", armr.stats.BonusRepair.."", armorStatsTableWidth,
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
-    }
-
-    static int PickColorForRwArmor(RandomizedArmor w) {
-        int affcount = w.appliedAffixes.Size();
-        switch (affcount) {
-            case 0: return Font.CR_White;
-            case 1: return Font.CR_Green;
-            case 2: return Font.CR_Yellow;
-            case 3: return Font.CR_Blue;
-            case 4: return Font.CR_CYAN;
-            case 5: return Font.CR_PURPLE;
-            default: return Font.CR_Black;
-        }
     }
 
     static int PickColorForRwArmorAmount(RandomizedArmor a) {

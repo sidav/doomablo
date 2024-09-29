@@ -27,4 +27,23 @@ extend class MyCustomHUD {
         return "";
     }
 
+    static int PickColorForAffixableItem(Inventory i) {
+        int rarity;
+        if (i is 'RandomizedWeapon') {
+            rarity = RandomizedWeapon(i).appliedAffixes.Size();
+        }
+        if (i is 'RandomizedArmor') {
+            rarity = RandomizedArmor(i).appliedAffixes.Size();
+        }
+        switch (rarity) {
+            case 0: return Font.CR_WHITE;
+            case 1: return Font.CR_GREEN;
+            case 2: return Font.CR_BLUE;
+            case 3: return Font.CR_PURPLE;
+            case 4: return Font.CR_ORANGE;
+            case 5: return Font.CR_CYAN;
+            default: return Font.CR_Black;
+        }
+    }
+
 }

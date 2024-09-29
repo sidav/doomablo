@@ -12,7 +12,7 @@ extend class MyCustomHUD {
             }
             DrawString(mSmallFont, 
                 "Equipped: "..wpn.nameWithAppliedAffixes,
-                (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForRwWeapon(wpn));
+                (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(wpn));
         }
     }
 
@@ -35,7 +35,7 @@ extend class MyCustomHUD {
 
         PrintLine(
             "LVL "..wpn.generatedQuality.." "..wpn.nameWithAppliedAffixes.." ("..getRarityName(wpn.appliedAffixes.Size())..")",
-            mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForRwWeapon(wpn)
+            mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForAffixableItem(wpn)
         );
         
         printWeaponStats(wpn);
@@ -59,18 +59,5 @@ extend class MyCustomHUD {
         }
         PrintTableLine("Spread:", String.Format("%.2f", (wpn.stats.horizSpread)), weaponStatsTableWidth,
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
-    }
-
-    static int PickColorForRwWeapon(RandomizedWeapon w) {
-        int affcount = w.appliedAffixes.Size();
-        switch (affcount) {
-            case 0: return Font.CR_White;
-            case 1: return Font.CR_Green;
-            case 2: return Font.CR_Yellow;
-            case 3: return Font.CR_Blue;
-            case 4: return Font.CR_CYAN;
-            case 5: return Font.CR_PURPLE;
-            default: return Font.CR_Black;
-        }
     }
 }
