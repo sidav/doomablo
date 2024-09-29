@@ -15,7 +15,7 @@ class RwRocketLauncher : RandomizedWeapon
 	{
 	Ready:
 		TNT1 A 0 RWA_ReloadOrSwitchIfEmpty;
-		MISG A 1 A_WeaponReady;
+		MISG A 1 RWA_WeaponReadyReload;
 		Loop;
 	Deselect:
 		MISG A 1 A_Lower;
@@ -48,14 +48,14 @@ class RwRocketLauncher : RandomizedWeapon
 			RWA_ApplyReloadSpeed();
 			A_WeaponOffset(12, 3, WOF_ADD);
 		}
-		MISG B 15 {
-			RWA_ApplyReloadSpeed();
-			A_WeaponOffset(-12, -3, WOF_ADD);
-		}
 		MISG A 10 {
 			RWA_ApplyReloadSpeed();
 			A_StartSound("misc/w_pkup");
             A_MagazineReload(); //do the reload
+			A_WeaponOffset(-12, -3, WOF_ADD);
+		}
+		MISG A 10 {
+			RWA_ApplyReloadSpeed();
 			A_WeaponOffset(6, -5, WOF_ADD);
 		}
 		MISG AAAAAAAAAA 1 A_WeaponOffset(3, -1, WOF_ADD);
