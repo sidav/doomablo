@@ -1,55 +1,64 @@
 class NameGenerator {
 
     ////////////////////////////////////////////////////////////
-    // "X Y ArtifactName of Z Noun"
-    static string createXYAZName(string x, string y, string baseName, string z) {
-        static const string suff[] = {
-            "Tech",
-            "Experiment",
-            "Trial"
-        };
-        return x.." "..y.." "..baseName.." of "..z.." "..suff[rnd.randn(suff.Size())];
-    }
-
-    ////////////////////////////////////////////////////////////
-    // "X of Y", "X's Y", "X-ed Y" and etc names
+    // "X Y", "X's Y", "X-ed Y" and etc names
     static string createFluffedName(string baseName) {
         static const string pref[] = {
+            "Brand new",
+            "Experimental",
+            "Fair",
+            "Famous",
+            "Great",
+            "Glued",
+            "Homemade",
+            "Modified",
+            "Prototype",
+            "Qualitative",
+            "Reassembled",
+            "Rebuilt",
+            "Scarce",
+            "Serviced",
+            "Strange",
+            "Smuggled",
+            "Tinkered",
+            "UAC-approved",
+            "UAC-patented"
+        };
+        return pref[rnd.randn(pref.Size())].." "..baseName;
+    }
+
+    static string createPossessiveName(string baseName) {
+        static const string pref[] = {
+            "Baratus'",
+            "Bitterman's",
             "Blazkowicz's",
+            "Caleb's",
             "Commander Keen's",
             "Corvus's",
             "Cynic's",
             "Dave's",
+            "Dawn's",
             "Daedolon's",
-            "Experimental",
-            "Famous",
-            "Great",
-            "Modified",
-            "Prototype",
-            "Reassembled",
+            "Duke's",
+            "Lo Wang's",
+            "Parias'",
+            "Ranger's",
             "Ripley's",
-            "Strange",
-            "Tinkered",
-            "UAC"
+            "Slayer's",
+            "Yendor's"
         };
         return pref[rnd.randn(pref.Size())].." "..baseName;
     }
 
     ////////////////////////////////////////////////////////////
     // Fully random names
-    static string createAngelicOrDemonicName(string baseName) {
-        if (rnd.OneChanceFrom(2)) {
-            return generateRandomCursedName(baseName);
-        }
-        return generateRandomBlessedName(baseName);
-    }
-
-    private static string generateRandomBlessedName(string baseName) {
+    static string generateRandomBlessedName(string baseName) {
         static const string pref[] = {
             "Angelic",
             "Blessed",
             "Holy",
             "Righteous",
+            "Shining",
             "Zealous"
         };
         static const string syl1[] =
@@ -90,12 +99,14 @@ class NameGenerator {
         .."\""..syl1[rnd.randn(syl1.Size())]..syl2[rnd.randn(syl2.Size())]..syl3[rnd.randn(syl3.Size())].."\"";
     }
 
-    private static string generateRandomCursedName(string baseName) {
+    static string generateRandomCursedName(string baseName) {
         static const string pref[] = {
             "Corrupted",
             "Cursed",
             "Demonic",
-            "Possessed"
+            "Possessed",
+            "Scary",
+            "Terrifying"
         };
         static const string syl1[] =
         {

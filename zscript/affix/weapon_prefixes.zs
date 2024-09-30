@@ -10,6 +10,9 @@ class WPrefWorseMinDamage : RwWeaponPrefix {
     override string getName() {
         return "weaker";
     }
+    override string getNameAsSuffix() {
+        return "weakness";
+    }
     override int getAlignment() {
         return -1;
     }
@@ -32,6 +35,9 @@ class WPrefWorseMinDamage : RwWeaponPrefix {
 class WPrefBetterMinDamage : RwWeaponPrefix {
     override string getName() {
         return "stronger";
+    }
+    override string getNameAsSuffix() {
+        return "strength";
     }
     override int getAlignment() {
         return 1;
@@ -81,6 +87,9 @@ class WPrefBetterMaxDamage : RwWeaponPrefix {
     override string getName() {
         return "potent";
     }
+    override string getNameAsSuffix() {
+        return "potential";
+    }
     override int getAlignment() {
         return 1;
     }
@@ -100,6 +109,9 @@ class WPrefBetterMaxDamage : RwWeaponPrefix {
 class WPrefInaccurate : RwWeaponPrefix {
     override string getName() {
         return "inaccurate";
+    }
+    override string getNameAsSuffix() {
+        return "misses";
     }
     override int getAlignment() {
         return -1;
@@ -164,6 +176,9 @@ class WPrefFast : RwWeaponPrefix {
     override string getName() {
         return "fast";
     }
+    override string getNameAsSuffix() {
+        return "barraging";
+    }
     override int getAlignment() {
         return 1;
     }
@@ -183,6 +198,9 @@ class WPrefFast : RwWeaponPrefix {
 class WPrefFreeShots : RwWeaponPrefix {
     override string getName() {
         return "replicating";
+    }
+    override string getNameAsSuffix() {
+        return "replication";
     }
     override int getAlignment() {
         return 1;
@@ -204,7 +222,10 @@ class WPrefFreeShots : RwWeaponPrefix {
 
 class WPrefSmallerMag : RwWeaponPrefix {
     override string getName() {
-        return "reduced";
+        return "scarce";
+    }
+    override string getNameAsSuffix() {
+        return "scarcity";
     }
     override int getAlignment() {
         return -1;
@@ -228,6 +249,9 @@ class WPrefSmallerMag : RwWeaponPrefix {
 class WPrefBiggerMag : RwWeaponPrefix {
     override string getName() {
         return "capacious";
+    }
+    override string getNameAsSuffix() {
+        return "abundance";
     }
     override int getAlignment() {
         return 1;
@@ -274,6 +298,9 @@ class WPrefSlowerReload : RwWeaponPrefix {
 class WPrefFasterReload : RwWeaponPrefix {
     override string getName() {
         return "comfy";
+    }
+    override string getNameAsSuffix() {
+        return "comfort";
     }
     override int getAlignment() {
         return 1;
@@ -323,6 +350,9 @@ class WPrefBulk : RwWeaponPrefix {
     override string getName() {
         return "bulk";
     }
+    override string getNameAsSuffix() {
+        return "overload";
+    }
     override int getAlignment() {
         return 1;
     }
@@ -371,6 +401,9 @@ class WPrefQuick : RwWeaponPrefix {
     override string getName() {
         return "quick";
     }
+    override string getNameAsSuffix() {
+        return "delivery";
+    }
     override int getAlignment() {
         return 1;
     }
@@ -395,6 +428,9 @@ class WPrefQuick : RwWeaponPrefix {
 class WPrefSmallerExplosion : RwWeaponPrefix {
     override string getName() {
         return "safer";
+    }
+    override string getNameAsSuffix() {
+        return "safety";
     }
     override int getAlignment() {
         return -1;
@@ -421,6 +457,9 @@ class WPrefSmallerExplosion : RwWeaponPrefix {
 class WPrefBiggerExplosion : RwWeaponPrefix {
     override string getName() {
         return "volatile";
+    }
+    override string getNameAsSuffix() {
+        return "danger";
     }
     override int getAlignment() {
         return 1;

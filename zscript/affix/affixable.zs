@@ -96,6 +96,25 @@ mixin class Affixable {
         return null;
     }
 
+    Affix getAppliedSuffix() {
+        foreach (aff : appliedAffixes) {
+            if (aff.isSuffix()) {
+                return aff;
+            }
+        }
+        return null;
+    }
+
+    // True if has no negative affixes
+    bool isFlawless() {
+        foreach (aff : appliedAffixes) {
+            if (aff.getAlignment() < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /////////////////////////
     ///  NAME GENERATION  ///
     /////////////////////////
@@ -104,27 +123,30 @@ mixin class Affixable {
             case 0: // fallthrough
             case 1: // fallthrough
             case 2:
-                nameWithAppliedAffixes = nameRar012Item();
+                nameWithAppliedAffixes = nameWithAffixNamesAppended();
                 return;
             case 3:
-                nameWithAppliedAffixes = NameGenerator.createXYAZName(
-                    appliedAffixes[0].getName(),
-                    appliedAffixes[1].getName(),
-                    rwBaseName,
-                    appliedAffixes[2].getName()
-                );
+                nameWithAppliedAffixes = nameRar3Item();
                 return;
             case 4:
-                nameWithAppliedAffixes = NameGenerator.createFluffedName(getRandomFluffName());
+                if (isFlawless()) {
+                    nameWithAppliedAffixes = NameGenerator.createPossessiveName(getRandomFluffName());
+                } else {
+                    nameWithAppliedAffixes = NameGenerator.createFluffedName(getRandomFluffName());
+                }
                 return;
             case 5:
-                nameWithAppliedAffixes = NameGenerator.createAngelicOrDemonicName(rwBaseName);
+                if (isFlawless()) {
+                    nameWithAppliedAffixes = NameGenerator.generateRandomBlessedName(getRandomFluffName());
+                } else {
+                    nameWithAppliedAffixes = NameGenerator.generateRandomCursedName(getRandomFluffName());
+                }
                 return;
         }
         nameWithAppliedAffixes = "<NAME ERROR>";
     }
 
-    string nameRar012Item() {
+    string nameWithAffixNamesAppended() {
         string setName = rwBaseName;
         for (int i = appliedAffixes.Size() - 1; i >= 0; i--) {
             let aff = appliedAffixes[i];
@@ -136,5 +158,21 @@ mixin class Affixable {
         }
 
         return setName;
+    }
+
+    string nameRar3Item() {
+        string setName = rwBaseName;
+        Affix suffix = getAppliedSuffix();
+
+        if (suffix) {
+            return nameWithAffixNamesAppended();
+        } else {
+            for (int i = appliedAffixes.Size() - 2; i >= 0; i--) {
+                let aff = appliedAffixes[i];
+                setName = aff.getName().." "..setName;
+            }
+        }
+
+        return setName.." of "..appliedAffixes[appliedAffixes.Size()-1].getNameAsSuffix();
     }
 }

@@ -64,6 +64,11 @@ class Affix {
         return "";
     }
 
+    // Optional to override. Used only for prefixes when there's no place for (e.g.) third prefix in the name.
+    virtual string getNameAsSuffix() {
+        return getName().."ness";
+    }
+
     // needed for code readability, nothing more.
     virtual bool isSuffix() {
         return false;
