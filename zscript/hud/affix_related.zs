@@ -14,6 +14,20 @@ extend class MyCustomHUD {
                 clr);
     }
 
+    void printAffixDescriptionLineAt(Affix aff, int x, int y) {
+
+        let clr = Font.CR_White;
+        if (aff.getAlignment() > 0) {
+            clr = Font.CR_GREEN;
+        } else if (aff.getAlignment() < 0) {
+            clr = Font.CR_RED;
+        }
+
+        PrintLineAt("* "..aff.getName()..": "..aff.getDescription(),
+                    x, y, mSmallFont,
+                    DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, clr);
+    }
+
     string getRarityName(int rarity) {
         switch (rarity) {
             case 0: return "Common";

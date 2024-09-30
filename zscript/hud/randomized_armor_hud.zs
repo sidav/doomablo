@@ -21,46 +21,72 @@ extend class MyCustomHUD {
     }
 
     void DrawPickupableArmorInfo() {
+        let plr = MyPlayer(CPlayer.mo);
+        if (!plr) return;
+
         let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
         let armr = RandomizedArmor(handler.currentItemToPickUp);
-        if (!armr) return;
+        if (!armr || plr.CurrentEquippedArmor == armr) return;
 
         currentLineHeight = 0;
-
-        // let plr = MyPlayer(CPlayer.mo);
-        // if (plr.HasEmptyWeaponSlotFor(armr)) {
-        //     PrintLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
-        // } else {
-        //     PrintLine("Press USE to switch to:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
-        // }
-
-        PrintLine("Press USE to equip:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
+        
+        if (plr.CurrentEquippedArmor) {
+            PrintLineAt("Press USE to switch to:",
+            defaultLeftStatsPosX, defaultLeftStatsPosY, mSmallFont,
+            DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
+        } else {
+            PrintLineAt("Press USE to equip:", 
+            defaultLeftStatsPosX, defaultLeftStatsPosY, mSmallFont,
+            DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
+        }
+    
         currentLineHeight += 1;
+        printArmorStatsTableAt(armr, plr.CurrentEquippedArmor, defaultLeftStatsPosX, defaultLeftStatsPosY);
+    }
 
-        PrintLine(
-            "LVL "..armr.generatedQuality.." "..armr.nameWithAppliedAffixes.." ("..getRarityName(armr.appliedAffixes.Size())..")",
+    const armorStatsTableWidth = 160;
+    void printArmorStatsTableAt(RandomizedArmor armr, RandomizedArmor armrCmp, int x, int y) {
+        string compareStr = "";
+        let linesX = x+8;
+
+        PrintTableLineAt(
+            "LVL "..armr.generatedQuality.." "..armr.nameWithAppliedAffixes, "("..getRarityName(armr.appliedAffixes.Size())..")",
+            x, y, armorStatsTableWidth,
             mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForAffixableItem(armr)
         );
 
-        printArmorStats(armr);
-
-        foreach (aff : armr.appliedAffixes) {
-            printAffixDescriptionLine(aff);
+        if (armrCmp && armr.stats.maxDurability != armrCmp.stats.maxDurability) {
+            compareStr = " ("..intToSignedStr(armr.stats.maxDurability - armrCmp.stats.maxDurability)..")";
         }
-    }
-
-    const armorStatsTableWidth = 150;
-    void printArmorStats(RandomizedArmor armr) {
-        PrintTableLine("Durability:", armr.stats.currDurability.."/"..armr.stats.maxDurability, armorStatsTableWidth,
+        PrintTableLineAt("Durability:", armr.stats.currDurability.."/"..armr.stats.maxDurability..compareStr, 
+                    linesX, y, armorStatsTableWidth,
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+
         // if (armr.stats.DamageReduction > 0) {
         //     PrintTableLine("Incoming damage", "-"..armr.stats.DamageReduction, armorStatsTableWidth,
         //             mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);    
         // }
-        PrintTableLine("Damage absorption", armr.stats.AbsorbsPercentage.."%", armorStatsTableWidth,
+        if (armrCmp && armr.stats.AbsorbsPercentage != armrCmp.stats.AbsorbsPercentage) {
+            compareStr = " ("..intToSignedStr(armr.stats.AbsorbsPercentage - armrCmp.stats.AbsorbsPercentage).."%)";
+        } else {
+            compareStr = "";
+        }
+        PrintTableLineAt("Damage absorption", armr.stats.AbsorbsPercentage.."%"..compareStr,
+                    linesX, y, armorStatsTableWidth,
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
-        PrintTableLine("Repair amount", armr.stats.BonusRepair.."", armorStatsTableWidth,
+
+        if (armrCmp && armr.stats.BonusRepair != armrCmp.stats.BonusRepair) {
+            compareStr = " ("..intToSignedStr(armr.stats.BonusRepair - armrCmp.stats.BonusRepair)..")";
+        } else {
+            compareStr = "";
+        }
+        PrintTableLineAt("Repair amount", armr.stats.BonusRepair..compareStr,
+                    linesX, y, armorStatsTableWidth,
                     mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+
+        foreach (aff : armr.appliedAffixes) {
+            printAffixDescriptionLineAt(aff, x+16, y);
+        }
     }
 
     static int PickColorForRwArmorAmount(RandomizedArmor a) {
