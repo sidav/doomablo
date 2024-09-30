@@ -3,25 +3,22 @@ class StartingItemsHandler : EventHandler
 	override void PlayerSpawned(PlayerEvent e)
 	{
 		PlayerPawn pmo = players[e.PlayerNumber].mo;
-		if (pmo)
-		{
+		// Before the first tick after level change the pmo points to some other PlayerPawn with null inventory
+		// which causes bugs. Thus we skip this routine if pmo.Inv is null.
+		// TODO: solve this via some unremovable item in inventory and changing default weapons in HandlePickup() for that item.
+		// This may event make this handler redundant
+		if (pmo && pmo.Inv) {
 			clearBasicItems(pmo);
 		}
 	}
 
 	void clearBasicItems(PlayerPawn pmo) {
-		// Destroy BasicArmor - we use custom armor logic;
-		let ba = pmo.FindInventory('BasicArmor');
-		if (ba) {
-			ba.Destroy();
-		}
-
-		// Remove default weapons;
+		// Remove default weapons (and BasicArmor - we use custom armor logic);
 		int rwCount = 0; // How many randomized ones the player has; needed later
 		let invlist = pmo.inv;
         while(invlist != null) {
 			Inventory toDestroy;
-            if (Weapon(invlist)) {
+            if (Weapon(invlist) || BasicArmor(invlist)) {
 				if (RandomizedWeapon(invlist)) {
 					rwCount++;
 				} else {
