@@ -5,6 +5,7 @@ class NameGenerator {
     static string createFluffedName(string baseName) {
         static const string pref[] = {
             "Brand new",
+            "Diplomatic",
             "Experimental",
             "Fair",
             "Famous",
@@ -15,12 +16,14 @@ class NameGenerator {
             "Prototype",
             "Qualitative",
             "Reassembled",
+            "Reassuring",
             "Rebuilt",
             "Scarce",
             "Serviced",
             "Strange",
             "Smuggled",
             "Tinkered",
+            "Trophy",
             "UAC-approved",
             "UAC-patented"
         };

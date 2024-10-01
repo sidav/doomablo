@@ -100,6 +100,8 @@ class RwRocketLauncher : RandomizedWeapon
 	override string GetRandomFluffName() {
         static const string specialNames[] =
         {
+			"Argument",
+			"Bazooka",
             "Destructor",
 			"Demolisher",
             "Obliterator",

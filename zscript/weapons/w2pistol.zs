@@ -81,9 +81,13 @@ class rwPistol : RandomizedWeapon
 	override string GetRandomFluffName() {
         static const string specialNames[] =
         {
+			"Agent",
+			"Beretta",
             "Bullseye",
-            "Repeater",
-            "Gunslinger"
+			"Gunslinger",
+			"Judge",
+			"Law",
+            "Repeater"
         };
         return specialNames[rnd.randn(specialNames.Size())];
     }

@@ -113,9 +113,13 @@ class RwSuperShotgun : RandomizedWeapon
 	override string GetRandomFluffName() {
         static const string specialNames[] =
         {
-            "Smasher",
-            "Terrifier",
-            "Lead delivery"
+			"Boomstick",
+			"Double Trouble",
+			"Howitzer",
+            "Lead delivery",
+			"Smasher",
+			"Sprayer",
+            "Terrifier"
         };
         return specialNames[rnd.randn(specialNames.Size())];
     }

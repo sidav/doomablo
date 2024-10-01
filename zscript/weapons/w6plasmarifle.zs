@@ -90,9 +90,13 @@ class RwPlasmaRifle : RandomizedWeapon
 	override string GetRandomFluffName() {
         static const string specialNames[] =
         {
+			"Blaster",
             "Energizer",
             "Overloader",
             "Overcharger",
+			"Plasmer",
+			"Shocker",
+			"Silencer",
 			"Teaser"
         };
         return specialNames[rnd.randn(specialNames.Size())];

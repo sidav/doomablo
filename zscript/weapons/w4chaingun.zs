@@ -94,8 +94,13 @@ class RwChaingun : RandomizedWeapon
 	override string GetRandomFluffName() {
         static const string specialNames[] =
         {
+			"Hole puncher",
+			"Instigator",
+			"Peacekeeper",
+			"Perforator",
             "Penetrator",
-            "Instigator",
+			"Persuader",
+			"Reason",
             "Terminator"
         };
         return specialNames[rnd.randn(specialNames.Size())];

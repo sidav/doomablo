@@ -81,9 +81,13 @@ class rwShotgun : RandomizedWeapon
 	override string GetRandomFluffName() {
         static const string specialNames[] =
         {
+			"Boomstick",
+			"Canister rifle",
+			"12 Gauge",
             "Hunter",
-            "Loader",
-			"Canister rifle"
+			"Loader",
+			"Pump",
+			"Scattergun"
         };
         return specialNames[rnd.randn(specialNames.Size())];
     }
