@@ -55,7 +55,7 @@ extend class MyCustomHUD {
         }
 
         // Compare only if the weapon in hands is of the same class.
-        if (wpn.GetClass() != wpnComp.GetClass()) {
+        if (wpnComp && wpn.GetClass() != wpnComp.GetClass()) {
             wpnComp = null;
         }
         
@@ -64,8 +64,9 @@ extend class MyCustomHUD {
 
     const weaponStatsTableWidth = 170;
     void printWeaponStatsAt(RandomizedWeapon wpn, RandomizedWeapon wpnComp, int x, int y) {
-        string compareStr = "";
         let linesX = x+8;
+        string compareStr = "";
+        let compareClr = Font.CR_White;
 
         PrintTableLineAt(
             "LVL "..wpn.generatedQuality.." "..wpn.nameWithAppliedAffixes, "("..getRarityName(wpn.appliedAffixes.Size())..")",
@@ -79,64 +80,83 @@ extend class MyCustomHUD {
                     wpn.stats.minDamage, wpn.stats.maxDamage,
                     wpnComp.stats.minDamage, wpnComp.stats.MaxDamage
                 );
+                compareClr = GetTwoDifferencesColor(
+                    wpn.stats.minDamage - wpnComp.stats.minDamage,
+                    wpn.stats.maxDamage - wpnComp.stats.MaxDamage
+                );
             } else {
                 compareStr = "";
             }
             PrintTableLineAt("Damage per pellet:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage..compareStr, 
                     linesX, y, weaponStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White, compareClr);
 
             if (wpnComp && wpn.stats.pellets != wpnComp.stats.pellets) {
                 compareStr = " ("..intToSignedStr(wpn.stats.pellets - wpnComp.stats.pellets)..")";
+                compareClr = GetDifferenceColor(wpn.stats.pellets - wpnComp.stats.pellets);
             } else {
                 compareStr = "";
+                compareClr = Font.CR_White;
             }
             PrintTableLineAt("Pellets per shot:", ""..wpn.stats.pellets..compareStr, 
                     linesX, y, weaponStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White, compareClr);
 
             if (wpnComp) {
                 compareStr = makeDamageDifferenceString(
                     wpn.stats.minDamage, wpn.stats.MaxDamage*wpn.stats.pellets,
                     wpnComp.stats.minDamage, wpnComp.stats.MaxDamage*wpnComp.stats.pellets
                 );
+                compareClr = GetTwoDifferencesColor(
+                    wpn.stats.minDamage - wpnComp.stats.minDamage,
+                    wpn.stats.MaxDamage*wpn.stats.pellets - wpnComp.stats.MaxDamage*wpnComp.stats.pellets
+                );
             } else {
                 compareStr = "";
             }
             PrintTableLineAt("Total shot damage:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage*wpn.stats.pellets..compareStr,
                     linesX, y, weaponStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);    
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White, compareClr);    
         } else {
             if (wpnComp) {
                 compareStr = makeDamageDifferenceString(
                     wpn.stats.minDamage, wpn.stats.maxDamage,
                     wpnComp.stats.minDamage, wpnComp.stats.MaxDamage
                 );
+                compareClr = GetTwoDifferencesColor(
+                    wpn.stats.minDamage - wpnComp.stats.minDamage,
+                    wpn.stats.maxDamage - wpnComp.stats.MaxDamage
+                );
             } else {
                 compareStr = "";
+                compareClr = Font.CR_White;
             }
             PrintTableLineAt("Damage:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage..compareStr,
                     linesX, y, weaponStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White, compareClr);
         }
         if (wpn.stats.clipSize > 1) {
             if (wpnComp && wpn.stats.clipSize != wpnComp.stats.clipSize) {
                 compareStr = " ("..intToSignedStr(wpn.stats.clipSize - wpnComp.stats.clipSize)..")";
+                compareClr = GetDifferenceColor(wpn.stats.clipSize - wpnComp.stats.clipSize);
             } else {
                 compareStr = "";
+                compareClr = Font.CR_White;
             }
             PrintTableLineAt("Magazine capacity:", ""..wpn.stats.clipSize..compareStr, 
                     linesX, y, weaponStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);    
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White, compareClr);    
         }
         if (wpnComp && wpn.stats.horizSpread != wpnComp.stats.horizSpread) {
             compareStr = " ("..floatToSignedStr(wpn.stats.horizSpread - wpnComp.stats.horizSpread)..")";
+            compareClr = GetDifferenceColor((wpn.stats.horizSpread - wpnComp.stats.horizSpread) * 100, true);
         } else {
             compareStr = "";
+            compareClr = Font.CR_White;
         }
-        PrintTableLineAt("Spread:", String.Format("%.2f", (wpn.stats.horizSpread)), 
+        PrintTableLineAt("Spread:", String.Format("%.2f", (wpn.stats.horizSpread))..compareStr, 
                     linesX, y, weaponStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White, compareClr);
 
         foreach (aff : wpn.appliedAffixes) {
             printAffixDescriptionLineAt(aff, x+16, y);

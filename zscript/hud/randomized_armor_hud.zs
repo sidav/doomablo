@@ -46,8 +46,9 @@ extend class MyCustomHUD {
 
     const armorStatsTableWidth = 160;
     void printArmorStatsTableAt(RandomizedArmor armr, RandomizedArmor armrCmp, int x, int y) {
-        string compareStr = "";
         let linesX = x+8;
+        string compareStr = "";
+        let compareClr = Font.CR_White;
 
         PrintTableLineAt(
             "LVL "..armr.generatedQuality.." "..armr.nameWithAppliedAffixes, "("..getRarityName(armr.appliedAffixes.Size())..")",
@@ -57,10 +58,11 @@ extend class MyCustomHUD {
 
         if (armrCmp && armr.stats.maxDurability != armrCmp.stats.maxDurability) {
             compareStr = " ("..intToSignedStr(armr.stats.maxDurability - armrCmp.stats.maxDurability)..")";
+            compareClr = GetDifferenceColor(armr.stats.maxDurability - armrCmp.stats.maxDurability);
         }
         PrintTableLineAt("Durability:", armr.stats.currDurability.."/"..armr.stats.maxDurability..compareStr, 
                     linesX, y, armorStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White, compareClr);
 
         // if (armr.stats.DamageReduction > 0) {
         //     PrintTableLine("Incoming damage", "-"..armr.stats.DamageReduction, armorStatsTableWidth,
@@ -68,21 +70,23 @@ extend class MyCustomHUD {
         // }
         if (armrCmp && armr.stats.AbsorbsPercentage != armrCmp.stats.AbsorbsPercentage) {
             compareStr = " ("..intToSignedStr(armr.stats.AbsorbsPercentage - armrCmp.stats.AbsorbsPercentage).."%)";
+            compareClr = GetDifferenceColor(armr.stats.AbsorbsPercentage - armrCmp.stats.AbsorbsPercentage);
         } else {
             compareStr = "";
         }
         PrintTableLineAt("Damage absorption", armr.stats.AbsorbsPercentage.."%"..compareStr,
                     linesX, y, armorStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White, compareClr);
 
         if (armrCmp && armr.stats.BonusRepair != armrCmp.stats.BonusRepair) {
             compareStr = " ("..intToSignedStr(armr.stats.BonusRepair - armrCmp.stats.BonusRepair)..")";
+            compareClr = GetDifferenceColor(armr.stats.BonusRepair - armrCmp.stats.BonusRepair);
         } else {
             compareStr = "";
         }
         PrintTableLineAt("Repair amount", armr.stats.BonusRepair..compareStr,
                     linesX, y, armorStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);
+                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White, compareClr);
 
         foreach (aff : armr.appliedAffixes) {
             printAffixDescriptionLineAt(aff, x+16, y);
