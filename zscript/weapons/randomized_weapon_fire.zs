@@ -4,9 +4,10 @@ extend class RandomizedWeapon {
         Thrust(-invoker.stats.ShooterKickback);
         if (invoker.stats.firesProjectiles) {
             RWA_FireProjectile();
-            return;
+        } else {
+            RWA_FireBullets();
         }
-        RWA_FireBullets();
+        RWA_ApplyRecoil();
     }
 
     private action void RWA_FireBullets() {
@@ -46,5 +47,14 @@ extend class RandomizedWeapon {
                 RwProjectile(msl).pointBlank();
             }
         }
+    }
+
+    // TODO: call it from weapon's states?
+    // TODO: Return to normal (from weapon's states too)?
+    private action void RWA_ApplyRecoil() {
+        if (pitch - invoker.stats.recoil < 85.0) {
+            pitch -= invoker.stats.recoil;
+        }
+        angle += rnd.randf(-invoker.stats.recoil/2, invoker.stats.recoil/2);
     }
 }

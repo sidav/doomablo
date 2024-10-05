@@ -74,6 +74,7 @@ class rwShotgun : RandomizedWeapon
 			12.5,
 			3.0
 		);
+		stats.recoil = 1.5;
 		stats.clipSize = 5;
 		stats.ShooterKickback = 0.3;
         rwBaseName = "Shotgun";

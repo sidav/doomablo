@@ -8,6 +8,15 @@ class rnd {
         return Random(0, max-1);
     }
 
+    const floatRandomStep = 1024.0;
+    static float randf(float min, float max) {
+        return float(Random(min*floatRandomStep, max*floatRandomStep))/floatRandomStep;
+    }
+
+    static bool OneChanceFrom(int chances) {
+        return Random(0, chances-1) == 0;
+    }
+
     // Creates rand in range either of [min1, max1] or [min2, max2] (equal chance for any value from both ranges)
     // First range MUST be smaller than the second one, and min/max order is important
     static int RandInTwoRanges(int min1, int max1, int min2, int max2) {
@@ -40,15 +49,6 @@ class rnd {
         }
         // debug.print("Array "..debug.intArrToString(arr).." -> Balance is "..(size - leftEntries - leftEntries));
         return leftEntries;
-    }
-
-    static bool OneChanceFrom(int chances) {
-        return Random(0, chances-1) == 0;
-    }
-
-    const floatRandomStep = 1024.0;
-    static float randf(float min, float max) {
-        return float(Random(min*floatRandomStep, max*floatRandomStep))/floatRandomStep;
     }
 
     static int linearWeightedRand(int from, int to, int fromWeight, int toWeight) {

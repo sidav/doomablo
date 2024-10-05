@@ -269,10 +269,10 @@ class WPrefBiggerShooterKickback : RwWeaponPrefix {
 
 class WPrefSmallerShooterKickback : RwWeaponPrefix {
     override string getName() {
-        return "stable";
+        return "balanced";
     }
     override string getNameAsSuffix() {
-        return "stability";
+        return "balance";
     }
     override int getAlignment() {
         return 1;
@@ -290,6 +290,58 @@ class WPrefSmallerShooterKickback : RwWeaponPrefix {
         modifierLevel = remapQualityToRange(quality, 1, 95);
 
         wpn.stats.ShooterKickback *= double(100-modifierLevel)/100;
+    }
+}
+
+class WPrefBiggerRecoil : RwWeaponPrefix {
+    override string getName() {
+        return "unstable";
+    }
+    override string getNameAsSuffix() {
+        return "instability";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return "+"..modifierLevel.."% recoil";
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.recoil > 0;
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefSmallerRecoil';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 25, 200);
+
+        wpn.stats.Recoil *= double(100+modifierLevel)/100;
+    }
+}
+
+class WPrefSmallerRecoil : RwWeaponPrefix {
+    override string getName() {
+        return "stable";
+    }
+    override string getNameAsSuffix() {
+        return "stability";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return "-"..modifierLevel.."% recoil";
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.recoil > 0;
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefBiggerRecoil';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 95);
+
+        wpn.stats.recoil *= double(100-modifierLevel)/100;
     }
 }
 
