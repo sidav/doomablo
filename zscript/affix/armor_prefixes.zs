@@ -23,7 +23,6 @@ class APrefFragile : RwArmorPrefix {
         modifierLevel = remapQualityToRange(quality, 1, arm.stats.maxDurability/2); // 5*rnd.linearWeightedRand(1, arm.stats.maxDurability/10, 5, 1);
 
         arm.stats.maxDurability -= modifierLevel;
-        arm.stats.currDurability -= modifierLevel;
     }
 }
 
@@ -45,7 +44,6 @@ class APrefSturdy : RwArmorPrefix {
         modifierLevel = remapQualityToRange(quality, 1, arm.stats.maxDurability); // 5*rnd.linearWeightedRand(1, 10, 10, 1);
 
         arm.stats.maxDurability += modifierLevel;
-        arm.stats.currDurability += modifierLevel;
     }
 }
 

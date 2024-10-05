@@ -25,6 +25,11 @@ class RandomizedWeapon : DoomWeapon {
         // }
     }
 
+    // Needs to be called after generation
+    private void finalizeAfterGeneration() {
+        currentClipAmmo = stats.clipSize;
+    }
+
     override void BeginPlay() {
         RW_Reset();
     }

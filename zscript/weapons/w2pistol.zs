@@ -10,7 +10,6 @@ class rwPistol : RandomizedWeapon
 		Weapon.AmmoGive 0;
 		Weapon.AmmoType "Clip";
 		Obituary "$OB_MPPISTOL";
-		+WEAPON.WIMPY_WEAPON
 		Inventory.PickupMessage "$GOTPISTOL";
 		Tag "$TAG_PISTOL";
 	}

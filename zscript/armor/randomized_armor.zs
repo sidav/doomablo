@@ -16,6 +16,11 @@ class RandomizedArmor : Armor {
         debug.panicUnimplemented(self);
     }
 
+    // Needs to be called after generation
+    private void finalizeAfterGeneration() {
+        stats.currDurability = stats.maxDurability;
+    }
+
     // Needed if the armor should be re-generated
     private void RW_Reset() {
         appliedAffixes.Clear();
