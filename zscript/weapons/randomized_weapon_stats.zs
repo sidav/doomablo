@@ -14,14 +14,13 @@ class RWStatsClass {
     class <Actor> projClass;
     int projSpeedPercModifier;
     int ExplosionRadius;
+    int BaseExplosionRadius; // Should be set and not modified; it's used for explosion sprite scaling calculation.
 
     // Ammo specific
     int clipSize; // 0 means no clip (equals to infinite)
     int reloadSpeedModifier; // percentage, like rofModifier
     int ammoUsage;
     int freeShotPeriod; // each freeShotPeriod'th shot will be free. Better for auto-shot weapons, may be useful for RL.
-
-    int BaseExplosionRadius; // Should be set and not modified; it's used for explosion sprite scaling calculation.
 
     static RWStatsClass NewWeaponStats(int minDmg, int maxDmg, int pell, int ammousg, float hSpr, float vSpr) {
         let rws = New('RwStatsClass');

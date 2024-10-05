@@ -11,4 +11,5 @@ gameinfo
 	AddEventHandlers = "ConsoleDropsHandler"
 	AddEventHandlers = "PressToPickupHandler"
  	AddEventHandlers = "StartingItemsHandler"
+	AddEventHandlers = "RWSpecialDamageHandler"
 }

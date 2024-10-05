@@ -39,6 +39,9 @@ extend class Affix {
             case 21: return New('WPrefSmallerShooterKickback');
             case 22: return New('WPrefBiggerRecoil');
             case 23: return New('WPrefSmallerRecoil');
+            // Suffixes
+            case 24: return New('WSuffVampiric');
+
             default:
                 debug.panic("Some affixes are not added to GetRandomWeaponAffixInstance() instantiator.");
                 return New('Affix');
@@ -111,7 +114,7 @@ class AffixCountHandler : StaticEventHandler
         totalAffixesClasses = 0;
         foreach (cls : AllClasses)  {
             let ba = (class<Affix>)(cls);
-            if (ba && ba != 'Affix' && ba != 'RwWeaponPrefix' && ba != 'RwArmorPrefix' && ba != 'RwArmorSuffix') {
+            if (ba && ba != 'Affix' && ba != 'RwWeaponPrefix' && ba != 'RwWeaponSuffix' && ba != 'RwArmorPrefix' && ba != 'RwArmorSuffix') {
                 totalAffixesClasses++;
             }
         }
@@ -124,7 +127,8 @@ class AffixCountHandler : StaticEventHandler
         totalWeaponAffixesClasses = 0;
         foreach (cls : AllClasses)  {
             let asWPref = (class<RwWeaponPrefix>)(cls);
-            if (asWPref && asWPref != 'RwWeaponPrefix') {
+            let asWSuff = (class<RwWeaponSuffix>)(cls);
+            if (asWPref && asWPref != 'RwWeaponPrefix' || asWSuff && asWSuff != 'RwWeaponSuffix') {
                 totalWeaponAffixesClasses++;
             }
         }

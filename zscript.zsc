@@ -25,6 +25,7 @@ version "4.10.0"
 #include "zscript/affix/armor_suffixable.zs"
 #include "zscript/affix/rarity_indicator.zs"
 #include "zscript/affix/weapon_prefixes.zs"
+#include "zscript/affix/weapon_suffixes.zs"
 
 #include "zscript/armor/abonus.zs"
 #include "zscript/armor/agreen.zs"
@@ -38,6 +39,8 @@ version "4.10.0"
 #include "zscript/drops/console_drops_handler.zs"
 #include "zscript/drops/default_items_replacements_handler.zs"
 #include "zscript/drops/starting_items_handler.zs"
+
+#include "zscript/special_damage/special_damage_handler.zs"
 
 #include "zscript/weapons/randomized_weapon.zs"
 #include "zscript/weapons/randomized_weapon_fire.zs"
