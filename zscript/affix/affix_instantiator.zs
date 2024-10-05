@@ -34,6 +34,7 @@ extend class Affix {
             case 16: return New('WPrefBiggerMag');
             case 17: return New('WPrefSlowerReload');
             case 18: return New('WPrefFasterReload');
+            case 19: return New('WPrefTargetKickback');
             default:
                 debug.panic("Some affixes are not added to GetRandomWeaponAffixInstance() instantiator.");
                 return New('Affix');

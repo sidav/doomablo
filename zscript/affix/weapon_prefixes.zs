@@ -218,6 +218,29 @@ class WPrefFreeShots : RwWeaponPrefix {
     }
 }
 
+class WPrefTargetKickback : RwWeaponPrefix {
+    override string getName() {
+        return "kicking";
+    }
+    override string getNameAsSuffix() {
+        return "repulsion";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return modifierLevel.."% kickback";
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return true;
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 250, 2000);
+
+        wpn.stats.TargetKickback = math.getIntPercentage(wpn.stats.TargetKickback, modifierLevel);
+    }
+}
+
 // Magazine-related
 
 class WPrefSmallerMag : RwWeaponPrefix {
