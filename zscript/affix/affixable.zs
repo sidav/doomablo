@@ -28,6 +28,7 @@ mixin class Affixable {
 
         AssignRandomAffixesByAffQualityArr(affQualities);
         setNameAfterGeneration();
+        RarityIndicator.Attach(self, appliedAffixes.Size());
     }
 
     int, int goodAffixSpreadForQuality(int quality) {
