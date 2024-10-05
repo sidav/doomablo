@@ -3,10 +3,11 @@ class RwArmorBonus : Inventory
 {
 	Default
 	{
-		Inventory.Pickupmessage "$GOTARMBONUS";
+		Inventory.Pickupmessage "You repaired your armor.";
 		Inventory.Icon "BON2A0";
 		+COUNTITEM
-		+INVENTORY.ALWAYSPICKUP
+		// +INVENTORY.ALWAYSPICKUP - should be false
+		+Inventory.AUTOACTIVATE
 	}
 	States
 	{
@@ -15,21 +16,19 @@ class RwArmorBonus : Inventory
 		loop;
 	}
 
-	override void Touch(Actor toucher) {
+	override bool TryPickup(in out Actor toucher) {
         let plr = MyPlayer(toucher);
         if (plr && plr.CurrentEquippedArmor) {
             let arm = plr.CurrentEquippedArmor;
-			if (arm.stats.currDurability >= arm.stats.maxDurability) {
-				return;
+			if (arm.stats.BonusRepair > 0 && arm.stats.currDurability < arm.stats.maxDurability) {
+				arm.stats.currDurability += arm.stats.BonusRepair;
+				if (arm.stats.currDurability > arm.stats.maxDurability) {
+					arm.stats.currDurability = arm.stats.maxDurability;
+				}
+				Destroy();
+				return true;
 			}
-            if (arm.stats.BonusRepair > 0) {
-                arm.stats.currDurability += arm.stats.BonusRepair;
-                if (arm.stats.currDurability > arm.stats.maxDurability) {
-                    arm.stats.currDurability = arm.stats.maxDurability;
-                }
-                Destroy();
-                console.printf("You repaired your armor.");
-            }
         }
+		return false;
     }
 }
