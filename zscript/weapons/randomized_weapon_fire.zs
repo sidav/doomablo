@@ -1,6 +1,7 @@
 extend class RandomizedWeapon {
 
     action void RWA_DoFire() {
+        Thrust(-invoker.stats.ShooterKickback);
         if (invoker.stats.firesProjectiles) {
             RWA_FireProjectile();
             return;

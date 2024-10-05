@@ -218,9 +218,9 @@ class WPrefFreeShots : RwWeaponPrefix {
     }
 }
 
-class WPrefTargetKickback : RwWeaponPrefix {
+class WPrefTargetKickback : RwWeaponPrefix { // There is no bad counterpart, I don't think it's needed
     override string getName() {
-        return "kicking";
+        return "repulsive";
     }
     override string getNameAsSuffix() {
         return "repulsion";
@@ -229,15 +229,67 @@ class WPrefTargetKickback : RwWeaponPrefix {
         return 1;
     }
     override string getDescription() {
-        return modifierLevel.."% kickback";
+        return "+"..modifierLevel.."% target repulsion";
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return true;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 250, 2000);
+        modifierLevel = 100 + remapQualityToRange(quality, 50, 2000);
 
         wpn.stats.TargetKickback = math.getIntPercentage(wpn.stats.TargetKickback, modifierLevel);
+    }
+}
+
+class WPrefBiggerShooterKickback : RwWeaponPrefix {
+    override string getName() {
+        return "kicking";
+    }
+    override string getNameAsSuffix() {
+        return "kickback";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return "+"..modifierLevel.."% kickback";
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.ShooterKickback > 0;
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefSmallerShooterKickback';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 25, 200);
+
+        wpn.stats.ShooterKickback *= double(100+modifierLevel)/100;
+    }
+}
+
+class WPrefSmallerShooterKickback : RwWeaponPrefix {
+    override string getName() {
+        return "stable";
+    }
+    override string getNameAsSuffix() {
+        return "stability";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return "-"..modifierLevel.."% kickback";
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.ShooterKickback > 0;
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefBiggerShooterKickback';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 95);
+
+        wpn.stats.ShooterKickback *= double(100-modifierLevel)/100;
     }
 }
 

@@ -107,6 +107,7 @@ class RwSuperShotgun : RandomizedWeapon
 			15.6,
 			5.0
 		);
+		stats.ShooterKickback = 0.5;
         rwBaseName = "Super Shotgun";
     }
 
