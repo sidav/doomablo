@@ -81,7 +81,8 @@ class RwPlasmaRifle : RandomizedWeapon
 			5.0,
 			1.0
 		);
-		stats.clipSize = 20;
+		stats.recoil = 0.1;
+		stats.clipSize = 25;
 		stats.firesProjectiles = true;
 		stats.projClass = 'RwPlasmaBall';
 		rwBaseName = "Plasma rifle";

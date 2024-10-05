@@ -67,13 +67,13 @@ class rwPistol : RandomizedWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			4, 6,
+			5, 12,
 			1,
 			1,
 			2.0,
 			0.5
 		);
-		stats.clipSize = 6;
+		stats.clipSize = 8;
 		rwBaseName = "Pistol";
     }
 

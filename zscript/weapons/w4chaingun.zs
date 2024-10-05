@@ -81,7 +81,7 @@ class RwChaingun : RandomizedWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			1, 6,
+			4, 10,
 			1,
 			1,
 			7.0,
