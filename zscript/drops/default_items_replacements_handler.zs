@@ -4,9 +4,35 @@ class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
 	override void CheckReplacement(ReplaceEvent e)
 	{
 		let cls = e.Replacee.GetClassName();
+		int dropType;
         switch (cls) {
 
 		// WEAPONS
+		case 'Chainsaw':
+			dropType = rnd.weightedRand(0, 25, 0, 25, 1, 1);
+			switch (dropType) {
+                case 0: 
+                    e.Replacement ='RwPistol';
+                    break;
+                case 1: 
+                    e.Replacement ='RwShotgun';
+                    break;
+                case 2: 
+                    e.Replacement ='RwSuperShotgun';
+                    break;
+                case 3: 
+                    e.Replacement ='RwChaingun';
+                    break;
+                case 4: 
+                    e.Replacement ='RwRocketLauncher';
+                    break;
+                case 5: 
+                    e.Replacement ='RwPlasmarifle';
+                    break;
+                default:
+                    debug.panic("Chainsaw replacer crashed");
+            }
+			break;
 		case 'Pistol':
 			e.Replacement = 'rwPistol';
             break;
@@ -25,6 +51,31 @@ class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
 		case 'Plasmarifle':
 			e.Replacement = 'rwPlasmarifle';
             break;
+		case 'BFG9000': // TODO: rework when randomized BFG is implemented
+			dropType = rnd.weightedRand(0, 0, 0, 0, 5, 5);
+			switch (dropType) {
+                case 0: 
+                    e.Replacement ='RwPistol';
+                    break;
+                case 1: 
+                    e.Replacement ='RwShotgun';
+                    break;
+                case 2: 
+                    e.Replacement ='RwSuperShotgun';
+                    break;
+                case 3: 
+                    e.Replacement ='RwChaingun';
+                    break;
+                case 4: 
+                    e.Replacement ='RwRocketLauncher';
+                    break;
+                case 5: 
+                    e.Replacement ='RwPlasmarifle';
+                    break;
+                default:
+                    debug.panic("BFG replacer crashed");
+            }
+			break;
 
 		// ARMORS:
         case 'GreenArmor':
