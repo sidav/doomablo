@@ -13,6 +13,10 @@ class rnd {
         return float(Random(min*floatRandomStep, max*floatRandomStep))/floatRandomStep;
     }
 
+    static bool PercentChance(int percent) {
+        return randn(100) < percent;
+    }
+
     static bool OneChanceFrom(int chances) {
         return Random(0, chances-1) == 0;
     }

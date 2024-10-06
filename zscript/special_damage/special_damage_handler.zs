@@ -17,7 +17,7 @@ class RWSpecialDamageHandler : EventHandler
         Affix current;
         foreach (current : wpn.appliedAffixes) {
             if (current.GetClass() == 'WSuffVampiric') {
-                if (rnd.randn(100) <= current.modifierLevel) {
+                if (rnd.PercentChance(current.modifierLevel)) {
                     plr.Player.bonusCount += 3;
                     plr.GiveBody(1, 200);
                 }
