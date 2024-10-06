@@ -15,12 +15,21 @@ class RWSpecialDamageHandler : EventHandler
         let wpn = RandomizedWeapon(plr.Player.ReadyWeapon);
         if (!wpn) return;
 
+        // target.GiveInventory('RWPoisonToken', 10);
+
         Affix current;
         foreach (current : wpn.appliedAffixes) {
             if (current.GetClass() == 'WSuffVampiric') {
                 if (rnd.PercentChance(current.modifierLevel)) {
                     plr.Player.bonusCount += 3;
                     plr.GiveBody(1, 200);
+                }
+                continue;
+            }
+
+            if (current.GetClass() == 'WSuffPoison') {
+                if (rnd.PercentChance(current.modifierLevel)) {
+                    target.GiveInventory('RWPoisonToken', 10);
                 }
                 continue;
             }

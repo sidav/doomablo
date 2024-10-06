@@ -41,8 +41,9 @@ extend class Affix {
             case 23: return New('WPrefSmallerRecoil');
             // Suffixes
             case 24: return New('WSuffVampiric');
-            case 25: return New('WSuffMinirockets');
-            case 26: return New('WSuffFlechettes');
+            case 25: return New('WSuffPoison');
+            case 26: return New('WSuffMinirockets');
+            case 27: return New('WSuffFlechettes');
 
             default:
                 debug.panic("Some affixes are not added to GetRandomWeaponAffixInstance() instantiator.");

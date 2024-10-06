@@ -37,6 +37,25 @@ class WSuffVampiric : RwWeaponSuffix {
     }
 }
 
+class WSuffPoison : RwWeaponSuffix {
+    override string getName() {
+        return "Venom";
+    }
+    override string getDescription() {
+        return modifierLevel.."% chance to poison the target on hit";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        let maxPercentage = 50;
+        if (wpn.stats.Pellets > 1) {
+            maxPercentage = 15;
+        } else if (wpn.stats.clipSize > 5) {
+            maxPercentage = 25;
+        }
+        // debug.print("maxPerc is "..maxPercentage);
+        modifierLevel = remapQualityToRange(quality, 1, maxPercentage);
+    }
+}
+
 // Hitscan only
 class WSuffMinirockets : RwWeaponSuffix {
     override string getName() {
