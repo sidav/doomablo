@@ -5,6 +5,7 @@ class RWSpecialDamageHandler : EventHandler
         let inflictor = e.damageSource; // or try e.thing.target. yup, it's that strange
 
         if (inflictor is 'MyPlayer') {
+            // debug.print("Dealt "..e.damage.." damage");
             handleDamageFromPlayer(MyPlayer(inflictor), target, e.damage);
         }
 

@@ -36,3 +36,25 @@ class WSuffVampiric : RwWeaponSuffix {
         modifierLevel = remapQualityToRange(quality, 1, maxPercentage);
     }
 }
+
+// Hitscan only
+class WSuffMinirockets : RwWeaponSuffix {
+    override string getName() {
+        return "Minimissiles";
+    }
+    override string getDescription() {
+        return "Fires exploding mini-rockets with x"..(modifierLevel/10).."."..(modifierLevel%10).." damage";
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.firesProjectiles == false;
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 5, 20);
+        wpn.stats.firesProjectiles = true;
+        wpn.stats.projClass = 'RwMiniRocket';
+        wpn.stats.BaseExplosionRadius = 64;
+        wpn.stats.ExplosionRadius = 16;
+        wpn.stats.minDamage = math.divideIntWithRounding(wpn.stats.minDamage * modifierLevel, 10);
+        wpn.stats.maxDamage = math.divideIntWithRounding(wpn.stats.maxDamage * modifierLevel, 10);
+    }
+}
