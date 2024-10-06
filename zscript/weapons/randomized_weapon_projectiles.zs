@@ -92,3 +92,30 @@ class RwMiniRocket : RwProjectile
 		Stop;
 	}
 }
+
+class RwFlechette : RwProjectile
+{
+	Default
+	{
+		// Scale 0.4;
+		Radius 5;
+		Height 3;
+		Speed 32;
+		Projectile;
+		+RANDOMIZE
+		// +DEHEXPLOSION
+		+ROCKETTRAIL
+		+ZDOOMTRANS
+		// SeeSound "weapons/rocklf";
+		// DeathSound "weapons/rocklx";
+		// Obituary "$OB_MPROCKET";
+	}
+	States
+	{
+	Spawn:
+		TNT0 A 1 Bright;
+		Loop;
+	Death:
+		Stop;
+	}
+}

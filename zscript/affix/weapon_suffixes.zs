@@ -43,7 +43,7 @@ class WSuffMinirockets : RwWeaponSuffix {
         return "Minimissiles";
     }
     override string getDescription() {
-        return "Fires exploding mini-rockets with x"..(modifierLevel/10).."."..(modifierLevel%10).." damage";
+        return "Fires exploding mini-rockets. Damage x"..(modifierLevel/10).."."..(modifierLevel%10);
     }
     override bool IsCompatibleWithItem(Inventory item) {
         return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.firesProjectiles == false;
@@ -54,6 +54,25 @@ class WSuffMinirockets : RwWeaponSuffix {
         wpn.stats.projClass = 'RwMiniRocket';
         wpn.stats.BaseExplosionRadius = 64;
         wpn.stats.ExplosionRadius = 16;
+        wpn.stats.minDamage = math.divideIntWithRounding(wpn.stats.minDamage * modifierLevel, 10);
+        wpn.stats.maxDamage = math.divideIntWithRounding(wpn.stats.maxDamage * modifierLevel, 10);
+    }
+}
+
+class WSuffFlechettes : RwWeaponSuffix {
+    override string getName() {
+        return "Flechettes";
+    }
+    override string getDescription() {
+        return "Fires slower bullets. Damage x"..(modifierLevel/10).."."..(modifierLevel%10);
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.firesProjectiles == false;
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 11, 20);
+        wpn.stats.firesProjectiles = true;
+        wpn.stats.projClass = 'RwFlechette';
         wpn.stats.minDamage = math.divideIntWithRounding(wpn.stats.minDamage * modifierLevel, 10);
         wpn.stats.maxDamage = math.divideIntWithRounding(wpn.stats.maxDamage * modifierLevel, 10);
     }
