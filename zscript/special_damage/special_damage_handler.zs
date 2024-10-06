@@ -33,6 +33,13 @@ class RWSpecialDamageHandler : EventHandler
                 }
                 continue;
             }
+
+            if (current.GetClass() == 'WSuffPain') {
+                if (rnd.PercentChance(current.modifierLevel)) {
+                    target.GiveInventory('RWPainToken', 5);
+                }
+                continue;
+            }
         }
     }
     

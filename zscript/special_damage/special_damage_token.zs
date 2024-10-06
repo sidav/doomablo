@@ -7,6 +7,9 @@ class RWSpecialDamageToken : Inventory {
     override bool HandlePickup(Inventory pickedUp) {
         if (GetClass() == pickedUp.GetClass()) {
             amount += pickedUp.amount;
+            if (amount > MaxAmount) {
+                amount = MaxAmount;
+            }
             pickedUp.bPickupgood = true;
             return true;
         }

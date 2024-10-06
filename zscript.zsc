@@ -42,6 +42,7 @@ version "4.10.0"
 
 #include "zscript/special_damage/special_damage_handler.zs"
 #include "zscript/special_damage/special_damage_token.zs"
+#include "zscript/special_damage/pain_token.zs"
 #include "zscript/special_damage/poison_token.zs"
 
 #include "zscript/weapons/randomized_weapon.zs"

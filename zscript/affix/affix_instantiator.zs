@@ -42,8 +42,9 @@ extend class Affix {
             // Suffixes
             case 24: return New('WSuffVampiric');
             case 25: return New('WSuffPoison');
-            case 26: return New('WSuffMinirockets');
-            case 27: return New('WSuffFlechettes');
+            case 26: return New('WSuffPain');
+            case 27: return New('WSuffMinirockets');
+            case 28: return New('WSuffFlechettes');
 
             default:
                 debug.panic("Some affixes are not added to GetRandomWeaponAffixInstance() instantiator.");

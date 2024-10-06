@@ -5,7 +5,6 @@ class RWPoisonToken : RWSpecialDamageToken {
     }
 
     const DamageEach = TICRATE * 2;
-    const Spend = TICRATE / DamageEach;
 
     override void Tick() {
         super.Tick();
@@ -16,7 +15,10 @@ class RWPoisonToken : RWSpecialDamageToken {
         if (owner && (GetAge() % DamageEach == 0)) {
             debug.print("Damaging: amount "..amount..", damage "..damage());
             owner.damageMobj(null, null, damage(), 'Normal', DMG_NO_PROTECT);
-            amount -= Spend;
+        }
+
+        if (GetAge() % TICRATE == 0) {
+            amount--;
         }
 
         if (GetAge() % 5 == 0) {
