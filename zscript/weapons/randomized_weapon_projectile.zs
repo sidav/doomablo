@@ -35,7 +35,7 @@ class RwProjectile : Actor {
 	action void rwExplode() {
 		self.scale = (invoker.explosionSpriteScale, invoker.explosionSpriteScale);
 		A_Explode(
-			Damage,
+			invoker.rwSetDmg,
 			invoker.rwExplosionRadius, // Distance
 			XF_HURTSOURCE
 			// true, // Alert
@@ -51,7 +51,7 @@ class RwProjectile : Actor {
 	void pointBlank() {
 		RadiusAttack(
 			self,
-			Damage,
+			rwSetDmg,
 			rwExplosionRadius,
 			'None', // Damage type
 			RADF_HURTSOURCE,

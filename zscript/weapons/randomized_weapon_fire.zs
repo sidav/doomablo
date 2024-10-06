@@ -36,10 +36,13 @@ extend class RandomizedWeapon {
 			return;
 		}
 
+        if (!invoker.depleteAmmo(false, true, invoker.stats.ammoUsage, true)) {
+            return;
+        }
+
         for (let pellet = 0; pellet < invoker.stats.Pellets; pellet++) {
             Actor actuallyFired, msl;
-            // TODO: understand why "if (!invoker.depleteAmmo()..." is not required here
-            [actuallyFired, msl] = A_FireProjectile(invoker.stats.projClass);
+            [actuallyFired, msl] = A_FireProjectile(invoker.stats.projClass, useammo: false);
 
             RwProjectile(msl).applyWeaponStats(RandomizedWeapon(invoker).stats);
 
