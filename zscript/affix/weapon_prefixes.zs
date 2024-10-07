@@ -218,7 +218,7 @@ class WPrefFreeShots : RwWeaponPrefix {
     }
 }
 
-class WPrefTargetKickback : RwWeaponPrefix { // There is no bad counterpart, I don't think it's needed
+class WPrefTargetKnockback : RwWeaponPrefix { // There is no bad counterpart, I don't think it's needed
     override string getName() {
         return "repulsive";
     }
@@ -229,15 +229,15 @@ class WPrefTargetKickback : RwWeaponPrefix { // There is no bad counterpart, I d
         return 1;
     }
     override string getDescription() {
-        return "+"..modifierLevel.."% target repulsion";
+        return modifierLevel.."% target knockback";
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return true;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = 100 + remapQualityToRange(quality, 50, 2000);
+        modifierLevel = remapQualityToRange(quality, 150, 1000);
 
-        wpn.stats.TargetKickback = math.getIntPercentage(wpn.stats.TargetKickback, modifierLevel);
+        wpn.stats.TargetKnockback = math.getIntPercentage(wpn.stats.TargetKnockback, modifierLevel);
     }
 }
 
@@ -252,7 +252,7 @@ class WPrefBiggerShooterKickback : RwWeaponPrefix {
         return -1;
     }
     override string getDescription() {
-        return "+"..modifierLevel.."% kickback";
+        return "+"..modifierLevel.."% shooter kickback";
     }
     override bool IsCompatibleWithItem(Inventory item) {
         return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.ShooterKickback > 0;

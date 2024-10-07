@@ -5,8 +5,8 @@ class RWStatsClass {
     float HorizSpread;
     float VertSpread;
     int rofModifier; // Currently it's percentage modifier. 25 means the weapon fires 25% faster (75% base speed), -25 means 125% base speed.
-    int TargetKickback;
-    double ShooterKickback;
+    int TargetKnockback; // Called "Kickback" in Doom
+    double ShooterKickback; // Dunno if it is in Doom
     float Recoil; // In degrees.
 
     // Projectile-specific
@@ -30,7 +30,7 @@ class RWStatsClass {
         rws.ammoUsage = ammousg;
         rws.HorizSpread = hSpr;
         rws.VertSpread = vSpr;
-        rws.TargetKickback = 100; // Default "Kickback" value from Doom
+        rws.TargetKnockback = 128; // Default "Kickback" value from Doom is 100
 
         // TODO: Maybe remove those from here?..
         rws.ShooterKickback = 0.1; 

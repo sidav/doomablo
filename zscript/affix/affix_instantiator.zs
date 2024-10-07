@@ -34,7 +34,7 @@ extend class Affix {
             case 16: return New('WPrefBiggerMag');
             case 17: return New('WPrefSlowerReload');
             case 18: return New('WPrefFasterReload');
-            case 19: return New('WPrefTargetKickback');
+            case 19: return New('WPrefTargetKnockback');
             case 20: return New('WPrefBiggerShooterKickback');
             case 21: return New('WPrefSmallerShooterKickback');
             case 22: return New('WPrefBiggerRecoil');

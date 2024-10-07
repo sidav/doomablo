@@ -28,7 +28,7 @@ class RandomizedWeapon : DoomWeapon {
     // Needs to be called after generation
     private void finalizeAfterGeneration() {
         currentClipAmmo = stats.clipSize;
-        Kickback = stats.TargetKickback; // It uses weapon's default mechanism for kickback... Maybe its needed to rewrite that
+        Kickback = stats.TargetKnockback; // TARGET kickback. It uses weapon's default mechanism for kickback... Maybe its needed to rewrite that
     }
 
     override void BeginPlay() {

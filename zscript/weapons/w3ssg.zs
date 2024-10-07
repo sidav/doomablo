@@ -108,6 +108,7 @@ class RwSuperShotgun : RandomizedWeapon
 			5.0
 		);
 		stats.recoil = 1.5;
+		stats.TargetKnockback = 192;
 		stats.ShooterKickback = 0.5;
         rwBaseName = "Super Shotgun";
     }
