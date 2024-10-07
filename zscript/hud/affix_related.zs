@@ -3,10 +3,18 @@ extend class MyCustomHUD {
     void printAffixDescriptionLineAt(Affix aff, int x, int y) {
 
         let clr = Font.CR_White;
-        if (aff.getAlignment() > 0) {
-            clr = Font.CR_GREEN;
-        } else if (aff.getAlignment() < 0) {
-            clr = Font.CR_RED;
+        if (aff.isSuffix()) {
+            if (aff.getAlignment() > 0) {
+                clr = Font.CR_TEAL;
+            } else if (aff.getAlignment() < 0) {
+                clr = Font.CR_CREAM;
+            }
+        } else {
+            if (aff.getAlignment() > 0) {
+                clr = Font.CR_GREEN;
+            } else if (aff.getAlignment() < 0) {
+                clr = Font.CR_RED;
+            }
         }
 
         PrintLineAt("* "..aff.getName()..": "..aff.getDescription(),
