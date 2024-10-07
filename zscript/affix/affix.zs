@@ -27,6 +27,10 @@ class Affix {
         return 0;
     }
 
+    virtual int minRequiredRarity() {
+        return 0;
+    }
+
     virtual bool IsCompatibleWithItem(Inventory item) {
         debug.panicUnimplemented(self);
         return false;

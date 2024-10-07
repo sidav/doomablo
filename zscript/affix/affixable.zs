@@ -26,7 +26,7 @@ mixin class Affixable {
         //     ..debug.intArrToString(affQualities)
         // );
 
-        AssignRandomAffixesByAffQualityArr(affQualities);
+        AssignRandomAffixesByAffQualityArr(affQualities, rarity);
         setNameAfterGeneration();
         RarityIndicator.Attach(self, appliedAffixes.Size());
         finalizeAfterGeneration();
@@ -60,7 +60,7 @@ mixin class Affixable {
     }
 
     const ASSIGN_TRIES = 1000;
-    private void AssignRandomAffixesByAffQualityArr(array <int> affQualities) {
+    private void AssignRandomAffixesByAffQualityArr(array <int> affQualities, int itemRarity) {
         for (int i = 0; i < affQualities.Size(); i++) {
             Affix newAffix;
             let try = 0;
@@ -79,7 +79,8 @@ mixin class Affixable {
             } until (
                 newAffix.getAlignment() == math.sign(affQualities[i]) &&
                 newAffix.IsCompatibleWithItem(self) &&
-                newAffix.IsCompatibleWithListOfAffixes(appliedAffixes)
+                newAffix.IsCompatibleWithListOfAffixes(appliedAffixes) &&
+                newAffix.minRequiredRarity() <= itemRarity
             );
             appliedAffixes.push(newAffix);
         }
