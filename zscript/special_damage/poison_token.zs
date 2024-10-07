@@ -13,7 +13,7 @@ class RWPoisonToken : RWSpecialDamageToken {
             return;
         }
         if (owner && (GetAge() % DamageEach == 0)) {
-            debug.print("Damaging: amount "..amount..", damage "..damage());
+            // debug.print("Damaging: amount "..amount..", damage "..damage());
             owner.damageMobj(null, null, damage(), 'Normal', DMG_NO_PROTECT);
         }
 

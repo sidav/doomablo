@@ -25,12 +25,9 @@ class WSuffVampiric : RwWeaponSuffix {
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         let maxPercentage = 50;
         if (wpn.stats.Pellets > 1) {
-            maxPercentage = maxPercentage / (1 + wpn.stats.Pellets/2);
+            maxPercentage = 15;
         } else if (wpn.stats.clipSize > 5) {
-            maxPercentage = maxPercentage / (1 + wpn.stats.clipSize / 5);
-        }
-        if (maxPercentage == 0) {
-            maxPercentage = 3;
+            maxPercentage = 40;
         }
         // debug.print("maxPerc is "..maxPercentage);
         modifierLevel = remapQualityToRange(quality, 1, maxPercentage);
@@ -47,9 +44,9 @@ class WSuffPoison : RwWeaponSuffix {
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         let maxPercentage = 50;
         if (wpn.stats.Pellets > 1) {
-            maxPercentage = 15;
+            maxPercentage = 20;
         } else if (wpn.stats.clipSize > 5) {
-            maxPercentage = 25;
+            maxPercentage = 33;
         }
         // debug.print("maxPerc is "..maxPercentage);
         modifierLevel = remapQualityToRange(quality, 1, maxPercentage);
