@@ -84,7 +84,17 @@ mixin class Affixable {
             );
             appliedAffixes.push(newAffix);
         }
-        // Apply them in reverse order on purpose
+        // If there are suffixes, move them to the front of the list
+        int currSuffIndex = 0;
+        for (int i = 1; i < appliedAffixes.Size(); i++) {
+            if (appliedAffixes[i].isSuffix()) {
+                let t = appliedAffixes[currSuffIndex];
+                appliedAffixes[currSuffIndex] = appliedAffixes[i];
+                appliedAffixes[i] = t;
+                currSuffIndex++;
+            }
+        }
+        // Apply them in reverse order on purpose (so that the name generation will have correct affix order)
         for (int i = appliedAffixes.Size() - 1; i >= 0; i--) {
             appliedAffixes[i].InitAndApplyEffectToItem(self, math.abs(affQualities[i]));
         }
