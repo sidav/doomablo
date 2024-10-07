@@ -102,13 +102,13 @@ class WSuffFlechettes : RwWeaponSuffix {
         return "Flechettes";
     }
     override string getDescription() {
-        return "Fires slower bullets. Damage x"..(modifierLevel/10).."."..(modifierLevel%10);
+        return "Fires slow homing bullets. Damage x"..(modifierLevel/10).."."..(modifierLevel%10);
     }
     override bool IsCompatibleWithItem(Inventory item) {
         return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.firesProjectiles == false;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 11, 20);
+        modifierLevel = remapQualityToRange(quality, 8, 15);
         wpn.stats.firesProjectiles = true;
         wpn.stats.projClass = 'RwFlechette';
         wpn.stats.minDamage = math.divideIntWithRounding(wpn.stats.minDamage * modifierLevel, 10);
