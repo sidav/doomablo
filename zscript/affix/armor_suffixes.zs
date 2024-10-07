@@ -12,7 +12,11 @@ class RwArmorSuffix : Affix {
         return !(a2 is 'RwArmorSuffix'); // There may be only one suffix on an item
     }
     override bool IsCompatibleWithItem(Inventory item) {
-        return RandomizedArmor(item) != null;
+        return (RandomizedArmor(item) != null) && IsCompatibleWithRArmor(RandomizedArmor(item));
+    }
+    // Override this, and not IsCompatibleWithItem() in descendants. Stop excessive super.IsCompatibleWithItem() calls!
+    private virtual bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+        return true;
     }
 }
 

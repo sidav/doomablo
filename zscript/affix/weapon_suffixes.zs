@@ -12,7 +12,11 @@ class RwWeaponSuffix : Affix {
         return !(a2 is 'RwWeaponSuffix'); // There may be only one suffix on an item
     }
     override bool IsCompatibleWithItem(Inventory item) {
-        return RandomizedWeapon(item) != null;
+        return (RandomizedWeapon(item) != null) && IsCompatibleWithRWeapon(RandomizedWeapon(item));
+    }
+    // Override this, and not IsCompatibleWithItem() in descendants. Stop excessive super() calls!
+    private virtual bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return true;
     }
 }
 
@@ -83,8 +87,8 @@ class WSuffMinirockets : RwWeaponSuffix {
     override string getDescription() {
         return "Fires exploding mini-rockets. Damage x"..(modifierLevel/10).."."..(modifierLevel%10);
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.firesProjectiles == false;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.firesProjectiles == false;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = remapQualityToRange(quality, 5, 20);
@@ -104,8 +108,8 @@ class WSuffFlechettes : RwWeaponSuffix {
     override string getDescription() {
         return "Fires slow homing bullets. Damage x"..(modifierLevel/10).."."..(modifierLevel%10);
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.firesProjectiles == false;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.firesProjectiles == false;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = remapQualityToRange(quality, 8, 15);

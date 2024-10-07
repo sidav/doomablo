@@ -1,6 +1,10 @@
 class RwWeaponPrefix : Affix {
     override bool IsCompatibleWithItem(Inventory item) {
-        return RandomizedWeapon(item) != null;
+        return (RandomizedWeapon(item) != null) && IsCompatibleWithRWeapon(RandomizedWeapon(item));
+    }
+    // Override this, and not IsCompatibleWithItem() in descendants. Stop excessive super.IsCompatibleWithItem() calls!
+    private virtual bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return true;
     }
 }
 
@@ -22,8 +26,8 @@ class WPrefWorseMinDamage : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBetterMinDamage';
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.minDamage > 0;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.minDamage > 0;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, wpn.stats.minDamage);
@@ -48,9 +52,8 @@ class WPrefBetterMinDamage : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefWorseMinDamage';
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return super.IsCompatibleWithItem(item) && 
-            RandomizedWeapon(item).stats.getDamageSpread() > 0;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.getDamageSpread() > 0;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, wpn.stats.getDamageSpread());
@@ -72,9 +75,8 @@ class WPrefWorseMaxDamage : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBetterMaxDamage';
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return super.IsCompatibleWithItem(item) && 
-            RandomizedWeapon(item).stats.getDamageSpread() > 0;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.getDamageSpread() > 0;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, wpn.stats.getDamageSpread());
@@ -254,8 +256,8 @@ class WPrefBiggerShooterKickback : RwWeaponPrefix {
     override string getDescription() {
         return "+"..modifierLevel.."% shooter kickback";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.ShooterKickback > 0;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.ShooterKickback > 0;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefSmallerShooterKickback';
@@ -280,8 +282,8 @@ class WPrefSmallerShooterKickback : RwWeaponPrefix {
     override string getDescription() {
         return "-"..modifierLevel.."% kickback";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.ShooterKickback > 0;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.ShooterKickback > 0;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBiggerShooterKickback';
@@ -306,8 +308,8 @@ class WPrefBiggerRecoil : RwWeaponPrefix {
     override string getDescription() {
         return "+"..modifierLevel.."% recoil";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.recoil > 0;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.recoil > 0;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefSmallerRecoil';
@@ -332,8 +334,8 @@ class WPrefSmallerRecoil : RwWeaponPrefix {
     override string getDescription() {
         return "-"..modifierLevel.."% recoil";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.recoil > 0;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.recoil > 0;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBiggerRecoil';
@@ -360,8 +362,8 @@ class WPrefSmallerMag : RwWeaponPrefix {
     override string getDescription() {
         return "-"..modifierLevel.." magazine size";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.clipSize > 1;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.clipSize > 1;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBiggerMag';
@@ -386,8 +388,8 @@ class WPrefBiggerMag : RwWeaponPrefix {
     override string getDescription() {
         return "+"..modifierLevel.." magazine size";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.clipSize > 0;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.clipSize > 0;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefSmallerMag';
@@ -409,8 +411,8 @@ class WPrefSlowerReload : RwWeaponPrefix {
     override string getDescription() {
         return modifierLevel.."% slower reload";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.clipSize > 0;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.clipSize > 0;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefFasterReload';
@@ -435,8 +437,8 @@ class WPrefFasterReload : RwWeaponPrefix {
     override string getDescription() {
         return modifierLevel.."% faster reload";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.clipSize > 0;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.clipSize > 0;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefSlowerReload';
@@ -460,8 +462,8 @@ class WPrefPuny : RwWeaponPrefix {
     override string getDescription() {
         return "-"..modifierLevel.." pellets per shot";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.Pellets > 3;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.Pellets > 3;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBulk';
@@ -486,8 +488,8 @@ class WPrefBulk : RwWeaponPrefix {
     override string getDescription() {
         return "+"..modifierLevel.." pellets per shot";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.Pellets > 3;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.Pellets > 3;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefPuny';
@@ -511,8 +513,8 @@ class WPrefLazy : RwWeaponPrefix {
     override string getDescription() {
         return modifierLevel.."% slower projectile";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.firesProjectiles;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.firesProjectiles;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefQuick';
@@ -537,8 +539,8 @@ class WPrefQuick : RwWeaponPrefix {
     override string getDescription() {
         return modifierLevel.."% faster projectile";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.firesProjectiles;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.firesProjectiles;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefLazy';
@@ -565,8 +567,8 @@ class WPrefSmallerExplosion : RwWeaponPrefix {
     override string getDescription() {
         return modifierLevel.."% smaller explosion radius";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.ExplosionRadius > 0;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.ExplosionRadius > 0;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBiggerExplosion';
@@ -594,8 +596,8 @@ class WPrefBiggerExplosion : RwWeaponPrefix {
     override string getDescription() {
         return modifierLevel.."% bigger explosion radius";
     }
-    override bool IsCompatibleWithItem(Inventory item) {
-        return  super.IsCompatibleWithItem(item) && RandomizedWeapon(item).stats.ExplosionRadius > 0;
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.ExplosionRadius > 0;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefSmallerExplosion';
