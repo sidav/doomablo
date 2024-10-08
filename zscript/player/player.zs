@@ -3,7 +3,7 @@ class MyPlayer : DoomPlayer
     const WEAPON_SLOTS = 4; // this DOES count the fists
 
     RandomizedArmor CurrentEquippedArmor;
-    int useButtonPressedTicks;
+    int showStatsButtonPressedTicks;
 
     default {
         Player.DisplayName "RW Marine";
@@ -12,10 +12,10 @@ class MyPlayer : DoomPlayer
 
     override void Tick() {
         super.Tick();
-        if (Player.cmd.buttons & BT_USE) {
-            useButtonPressedTicks++;
+        if (Player.cmd.buttons & BT_RELOAD) {
+            showStatsButtonPressedTicks++;
         } else {
-            useButtonPressedTicks = 0;
+            showStatsButtonPressedTicks = 0;
         };
     }
 
