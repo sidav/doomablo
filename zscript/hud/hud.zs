@@ -54,10 +54,12 @@ class MyCustomHUD : DoomStatusBar
             BeginHUD();
 			// DrawString(mSmallFont, "Don't use this HUD size please", (0, 0), DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER);
             DrawFullScreenStuff();
-			DrawWeaponInHandsInfo();
 			DrawPickupableWeaponInfo();
-			DrawEquippedArmorInfo();
 			DrawPickupableArmorInfo();
+			if (MyPlayer(CPlayer.mo).useButtonPressedTicks > TICRATE/3) {
+				DrawFullCurrentItemsInfo();
+			}
+			DrawShortCurrentItemsInfo();
         }
     }
 

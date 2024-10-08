@@ -5,6 +5,7 @@ version "4.10.0"
 #include "zscript/hud/helpers.zs"
 #include "zscript/hud/randomized_weapon_hud.zs"
 #include "zscript/hud/randomized_armor_hud.zs"
+#include "zscript/hud/show_current_items.zs"
 
 #include "zscript/misc/debug.zs"
 #include "zscript/misc/game_detector.zs"

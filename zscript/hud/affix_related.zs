@@ -1,6 +1,6 @@
 extend class MyCustomHUD {
 
-    void printAffixDescriptionLineAt(Affix aff, int x, int y) {
+    void printAffixDescriptionLineAt(Affix aff, int x, int y, int textFlags) {
 
         let clr = Font.CR_White;
         if (aff.isSuffix()) {
@@ -18,8 +18,7 @@ extend class MyCustomHUD {
         }
 
         PrintLineAt("* "..aff.getName()..": "..aff.getDescription(),
-                    x, y, mSmallFont,
-                    DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, clr);
+                    x, y, mSmallFont, textFlags, clr);
     }
 
     string getRarityName(int rarity) {

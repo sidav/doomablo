@@ -1,25 +1,5 @@
 extend class MyCustomHUD {
 
-    void DrawEquippedArmorInfo() {
-        let armr = MyPlayer(CPlayer.mo).CurrentEquippedArmor;
-        if (armr) {
-            if (armr.stats.currDurability > 0)
-            {
-                DrawInventoryIcon(armr, (20, -22));
-                DrawString(mHUDFont, 
-                    FormatNumber(armr.stats.currDurability, 3),
-                    (44, -40), DI_SCREEN_LEFT_BOTTOM, PickColorForRwArmorAmount(armr));
-            }
-            DrawString(mSmallFont, 
-                "Equipped: "..armr.nameWithAppliedAffixes,
-                (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(armr));
-        } else {
-            DrawString(mSmallFont, 
-                "NO ARMOR",
-                (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, Font.CR_RED);
-        }
-    }
-
     void DrawPickupableArmorInfo() {
         let plr = MyPlayer(CPlayer.mo);
         if (!plr) return;
@@ -41,11 +21,11 @@ extend class MyCustomHUD {
         }
     
         currentLineHeight += 1;
-        printArmorStatsTableAt(armr, plr.CurrentEquippedArmor, defaultLeftStatsPosX, defaultLeftStatsPosY);
+        printArmorStatsTableAt(armr, plr.CurrentEquippedArmor, defaultLeftStatsPosX, defaultLeftStatsPosY, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT);
     }
 
     const armorStatsTableWidth = 160;
-    void printArmorStatsTableAt(RandomizedArmor armr, RandomizedArmor armrCmp, int x, int y) {
+    void printArmorStatsTableAt(RandomizedArmor armr, RandomizedArmor armrCmp, int x, int y, int textFlags) {
         let linesX = x+8;
         string compareStr = "";
         let compareClr = Font.CR_White;
@@ -53,7 +33,7 @@ extend class MyCustomHUD {
         PrintTableLineAt(
             "LVL "..armr.generatedQuality.." "..armr.nameWithAppliedAffixes, "("..getRarityName(armr.appliedAffixes.Size())..")",
             x, y, armorStatsTableWidth,
-            mSmallShadowFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, PickColorForAffixableItem(armr)
+            mSmallShadowFont, textFlags, PickColorForAffixableItem(armr)
         );
 
         if (armrCmp && armr.stats.maxDurability != armrCmp.stats.maxDurability) {
@@ -62,11 +42,11 @@ extend class MyCustomHUD {
         }
         PrintTableLineAt("Durability:", armr.stats.currDurability.."/"..armr.stats.maxDurability..compareStr, 
                     linesX, y, armorStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White, compareClr);
+                    mSmallFont, textFlags, Font.CR_White, compareClr);
 
         // if (armr.stats.DamageReduction > 0) {
         //     PrintTableLine("Incoming damage", "-"..armr.stats.DamageReduction, armorStatsTableWidth,
-        //             mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White);    
+        //             mSmallFont, textFlags, Font.CR_White);    
         // }
         if (armrCmp && armr.stats.AbsorbsPercentage != armrCmp.stats.AbsorbsPercentage) {
             compareStr = " ("..intToSignedStr(armr.stats.AbsorbsPercentage - armrCmp.stats.AbsorbsPercentage).."%)";
@@ -76,7 +56,7 @@ extend class MyCustomHUD {
         }
         PrintTableLineAt("Damage absorption", armr.stats.AbsorbsPercentage.."%"..compareStr,
                     linesX, y, armorStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White, compareClr);
+                    mSmallFont, textFlags, Font.CR_White, compareClr);
 
         if (armrCmp && armr.stats.BonusRepair != armrCmp.stats.BonusRepair) {
             compareStr = " ("..intToSignedStr(armr.stats.BonusRepair - armrCmp.stats.BonusRepair)..")";
@@ -86,10 +66,10 @@ extend class MyCustomHUD {
         }
         PrintTableLineAt("Repair amount", armr.stats.BonusRepair..compareStr,
                     linesX, y, armorStatsTableWidth,
-                    mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_White, compareClr);
+                    mSmallFont, textFlags, Font.CR_White, compareClr);
 
         foreach (aff : armr.appliedAffixes) {
-            printAffixDescriptionLineAt(aff, x+16, y);
+            printAffixDescriptionLineAt(aff, x+16, y, textFlags);
         }
     }
 
