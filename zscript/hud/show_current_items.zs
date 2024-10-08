@@ -1,24 +1,33 @@
 extend class MyCustomHUD {
+
+    const fullScreenStatusFlags = DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT;
+
     void DrawFullCurrentItemsInfo() {
         let plr = MyPlayer(CPlayer.mo);
         let wpn = RandomizedWeapon(CPlayer.ReadyWeapon);
         let arm = RandomizedArmor(plr.CurrentEquippedArmor);
 
         currentLineHeight = 0;
+        Screen.Dim(0x000000, 0.5, 0, 0, Screen.GetWidth(), Screen.GetHeight(), STYLE_Translucent);
 
+        PrintLineAt("===============  CURRENT EQUIPPED WEAPON:  ===============",
+                    0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
         if (wpn) {
-            PrintLineAt("==========  CURRENT EQUIPPED WEAPON:  ==========",
-                        0, 0, mSmallFont, DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT, Font.CR_WHITE);
-            printWeaponStatsAt(wpn, null, 0, 0, DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT);
-
-            PrintLineAt("", 0, 0, mSmallFont, DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT, Font.CR_WHITE);
-            PrintLineAt("", 0, 0, mSmallFont, DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT, Font.CR_WHITE);
+            printWeaponStatsAt(wpn, null, 0, 0, fullScreenStatusFlags);
+            PrintLineAt("", 0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
+        } else {
+            PrintLineAt("               no artifact weapon equipped", 0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
+        PrintLineAt("", 0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
+        
 
+        PrintLineAt("===============  CURRENT EQUIPPED ARMOR:  ================",
+                    0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
         if (arm) {
-            PrintLineAt("==========  CURRENT EQUIPPED ARMOR:  ==========",
-                        0, 0, mSmallFont, DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT, Font.CR_WHITE);
-            printArmorStatsTableAt(arm, null, 0, 0, DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT);
+            printArmorStatsTableAt(arm, null, 0, 0, fullScreenStatusFlags);
+            PrintLineAt("", 0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
+        } else {
+            PrintLineAt("               no artifact armor equipped", 0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
 
     }
@@ -37,7 +46,7 @@ extend class MyCustomHUD {
                     (-73, -40), DI_SCREEN_RIGHT_BOTTOM);
             }
             DrawString(mSmallFont, 
-                "Equipped: "..wpn.nameWithAppliedAffixes,
+                "Weapon: "..wpn.nameWithAppliedAffixes,
                 (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(wpn));
         }
 
@@ -50,7 +59,7 @@ extend class MyCustomHUD {
                     (44, -40), DI_SCREEN_LEFT_BOTTOM, PickColorForRwArmorAmount(armr));
             }
             DrawString(mSmallFont, 
-                "Equipped: "..armr.nameWithAppliedAffixes,
+                "Armor: "..armr.nameWithAppliedAffixes,
                 (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(armr));
         } else {
             DrawString(mSmallFont, 
