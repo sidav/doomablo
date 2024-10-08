@@ -1,8 +1,6 @@
 extend class MyCustomHUD {
 
-    void DrawPickupableWeaponInfo() {
-        let plr = MyPlayer(CPlayer.mo);
-        if (!plr) return;
+    void DrawPickupableWeaponInfo(RandomizedWeapon wpn, MyPlayer plr) {
         RandomizedWeapon wpnComp = RandomizedWeapon(CPlayer.ReadyWeapon);
 
         let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));

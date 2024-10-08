@@ -1,7 +1,23 @@
 extend class MyCustomHUD {
 
-    const fullScreenStatusFlags = DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT;
+    void DrawPickupableItemInfo() {
+        let lineHRel = mSmallFont.mFont.GetHeight();
+        let lineHAbs = lineHRel * CleanYFac_1;
 
+        let plr = MyPlayer(CPlayer.mo);
+        if (!plr) return;
+        let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
+
+        
+        if (RandomizedWeapon(handler.currentItemToPickUp)) {
+            
+            DrawPickupableWeaponInfo(RandomizedWeapon(handler.currentItemToPickUp), plr);
+        } else if (RandomizedArmor(handler.currentItemToPickUp)) {
+            DrawPickupableArmorInfo(RandomizedArmor(handler.currentItemToPickUp), plr);
+        }
+    }
+
+    const fullScreenStatusFlags = DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT;
     void DrawFullCurrentItemsInfo() {
         let plr = MyPlayer(CPlayer.mo);
         let wpn = RandomizedWeapon(CPlayer.ReadyWeapon);

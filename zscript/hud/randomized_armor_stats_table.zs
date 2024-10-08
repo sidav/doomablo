@@ -1,12 +1,7 @@
 extend class MyCustomHUD {
 
-    void DrawPickupableArmorInfo() {
-        let plr = MyPlayer(CPlayer.mo);
-        if (!plr) return;
-
-        let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
-        let armr = RandomizedArmor(handler.currentItemToPickUp);
-        if (!armr || plr.CurrentEquippedArmor == armr) return;
+    void DrawPickupableArmorInfo(RandomizedArmor armr, MyPlayer plr) {
+        if (plr.CurrentEquippedArmor == armr) return;
 
         currentLineHeight = 0;
         
