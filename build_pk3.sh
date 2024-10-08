@@ -1,0 +1,1 @@
+zip -r doomablo_$(date '+%d-%m-%Y_%H').pk3 * -x .git/**\*
