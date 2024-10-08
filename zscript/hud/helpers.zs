@@ -1,6 +1,6 @@
 extend class MyCustomHUD {
 
-    const defaultLeftStatsPosX = 40;
+    const defaultLeftStatsPosX = 30;
     const defaultLeftStatsPosY = -36;
     const defaultRightStatsPosX = 80;
     const defaultRightStatsPosY = 0;
@@ -9,6 +9,10 @@ extend class MyCustomHUD {
     void PrintLineAt(string line, int x, int y, HUDFont fnt, int flags, int trans) {
         DrawString(fnt, line,
             (x, y+currentLineHeight), flags, trans);
+        currentLineHeight += fnt.mFont.GetHeight();
+    }
+
+    void PrintEmptyLine(HUDFont fnt) {
         currentLineHeight += fnt.mFont.GetHeight();
     }
 

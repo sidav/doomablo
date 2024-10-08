@@ -10,11 +10,20 @@ extend class MyCustomHUD {
 
         
         if (RandomizedWeapon(handler.currentItemToPickUp)) {
-            
+            DimScreenForStats();
             DrawPickupableWeaponInfo(RandomizedWeapon(handler.currentItemToPickUp), plr);
         } else if (RandomizedArmor(handler.currentItemToPickUp)) {
+            DimScreenForStats();
             DrawPickupableArmorInfo(RandomizedArmor(handler.currentItemToPickUp), plr);
         }
+    }
+
+    void DimScreenForStats() {
+        let x = (defaultLeftStatsPosX - 5) * CleanXFac_1;
+        let y = Screen.GetHeight()/2 + (defaultLeftStatsPosY - 10) * CleanYFac_1;
+        let w = 5*Screen.GetWidth()/10;
+        let h = 32*Screen.GetHeight()/100;
+        Screen.Dim(0x000000, 0.35, x, y, w, h, STYLE_Translucent);
     }
 
     const fullScreenStatusFlags = DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT;
@@ -23,27 +32,29 @@ extend class MyCustomHUD {
         let wpn = RandomizedWeapon(CPlayer.ReadyWeapon);
         let arm = RandomizedArmor(plr.CurrentEquippedArmor);
 
-        currentLineHeight = 0;
+        let headerX = Screen.GetWidth() / (3 * CleanXFac_1);
+        let statsX = 26 * Screen.GetWidth() / (100 * CleanXFac_1);
+
+        currentLineHeight = 5;
         Screen.Dim(0x000000, 0.5, 0, 0, Screen.GetWidth(), Screen.GetHeight(), STYLE_Translucent);
 
-        PrintLineAt("===============  CURRENT EQUIPPED WEAPON:  ===============",
-                    0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
+        PrintLineAt("===  CURRENT EQUIPPED WEAPON:  ===", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
         if (wpn) {
-            printWeaponStatsAt(wpn, null, 0, 0, fullScreenStatusFlags);
-            PrintLineAt("", 0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
+            printWeaponStatsAt(wpn, null, statsX, 0, fullScreenStatusFlags);
+            PrintEmptyLine(mSmallFont);
         } else {
-            PrintLineAt("               no artifact weapon equipped", 0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
+            PrintLineAt("No artifact weapon equipped", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
-        PrintLineAt("", 0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
+        let lineH = (currentLineHeight + 10) * CleanYFac_1;
+        Screen.DrawThickLine(0, lineH, Screen.GetWidth(), lineH, 3, 0xAAAAAA, 255);
         
 
-        PrintLineAt("===============  CURRENT EQUIPPED ARMOR:  ================",
-                    0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
+        PrintLineAt("===  CURRENT EQUIPPED ARMOR:  ===", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
         if (arm) {
-            printArmorStatsTableAt(arm, null, 0, 0, fullScreenStatusFlags);
-            PrintLineAt("", 0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
+            printArmorStatsTableAt(arm, null, statsX, 0, fullScreenStatusFlags);
+            PrintEmptyLine(mSmallFont);
         } else {
-            PrintLineAt("               no artifact armor equipped", 0, 0, mSmallFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
+            PrintLineAt("No artifact armor equipped", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
 
     }
