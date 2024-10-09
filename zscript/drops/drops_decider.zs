@@ -12,8 +12,14 @@ class DropsDecider {
         return rnd.OneChanceFrom(chances);
     }
 
-    static bool dropArtifactOnly(int dropperHealth) {
-        return dropperHealth >= 500;
+    static int whatToDrop(int dropperHealth) {
+        // 0 - onetime item
+        // 1 - weapon
+        // 2 - armor
+        if (dropperHealth >= 500) {
+            return rnd.weightedRand(0, 5, 5); // Drop atrifacts only
+        }
+        return rnd.weightedRand(10, 4, 4);
     }
 
     static int, int rollRarQtyModifiers(int dropperHealth) {
@@ -32,10 +38,22 @@ class DropsDecider {
     }
 
     static int, int rollRarityAndQuality(int rarMod, int qtyMod) {
+        // Roll rarity
         let rar = rnd.weightedRand(50, 100, 50, 30, 15, 5);
         rar = min(rar+rarMod, 5);
-        let qty = rnd.linearWeightedRand(1, 100, 100, 1);
-        qty = rar == 0 ? 1 : min(qty+qtyMod, 100);
+
+        // Roll quality
+        int qty;
+        let plr = MyPlayer(Players[0].mo);
+        if (plr) {
+            int minQty = plr.minItemQuality;
+            int maxQty = plr.maxItemQuality;
+            qty = rnd.linearWeightedRand(minQty, maxQty, 5, 1);
+        } else {
+            debug.print("Non-player quality roll!");
+            qty = rnd.linearWeightedRand(1, 100, 100, 1);
+            qty = rar == 0 ? 1 : min(qty+qtyMod, 100);
+        }
 
         // debug.print("Rolling rarity (+"..rarMod..") and quality (+"..qtyMod.."): "..rar..", "..qty);
         return rar, qty;

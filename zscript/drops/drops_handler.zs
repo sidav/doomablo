@@ -9,15 +9,27 @@ class DropsHandler : EventHandler
 
     const zvel = 10.0;
     private void createDrop(Actor dropper) {
-        let whatToDrop = DropsDecider.dropArtifactOnly(dropper.GetMaxHealth()) ? rnd.weightedRand(0, 5, 5) : rnd.weightedRand(10, 5, 5);
+        let whatToDrop = DropsDecider.whatToDrop(dropper.GetMaxHealth());
 
         bool unused; // Required by zscript syntax for multiple returned values; is indeed unused
         Actor spawnedItem;
 
         if (whatToDrop == 0) { // drop one-time pickup
-
-            dropper.A_SpawnItemEx('RwArmorBonus', zvel: zvel);
-
+            int dropType;
+            dropType = rnd.weightedRand(100, 50, 10);
+            switch (dropType) {
+                case 0: 
+                    dropper.A_SpawnItemEx('RwArmorBonus', zvel: zvel);
+                    break;
+                case 1: 
+                    dropper.A_SpawnItemEx('RwMaxqItem', zvel: zvel);
+                    break;
+                case 2: 
+                    dropper.A_SpawnItemEx('RwMinqItem', zvel: zvel);
+                    break;
+                default:
+                    debug.panic("Drop spawner crashed");
+            }
         } else if (whatToDrop == 1) { // drop weapon
 
             int dropType;

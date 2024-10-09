@@ -1,9 +1,9 @@
-class MinQItem : Inventory
+class RwMinQItem : Inventory
 
 {
 	Default
 	{
-		Inventory.Pickupmessage "You have gained a level!";
+		Inventory.Pickupmessage "Emblem of chaos! Minimum item quality increased!";
 		// +INVENTORY.ALWAYSPICKUP - should be false
 		+Inventory.AUTOACTIVATE
 		+BRIGHT
@@ -18,6 +18,10 @@ class MinQItem : Inventory
 	override bool TryPickup(in out Actor toucher) {
         let plr = MyPlayer(toucher);
         if (plr) {
+			plr.minItemQuality = min(plr.minItemQuality + 2, 75);
+			if (plr.minItemQuality >= plr.maxItemQuality) {
+				plr.maxItemQuality = plr.minItemQuality+1;
+			}
 			Destroy();
 			return true;
         }

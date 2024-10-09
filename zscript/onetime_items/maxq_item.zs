@@ -1,9 +1,9 @@
-class MaxQItem : Inventory
+class RwMaxQItem : Inventory
 
 {
 	Default
 	{
-		Inventory.Pickupmessage "You have gained a level!";
+		Inventory.Pickupmessage "Tome of knowledge! Maximum item quality increased!";
 		// +INVENTORY.ALWAYSPICKUP - should be false
 		+Inventory.AUTOACTIVATE
 		+BRIGHT
@@ -18,6 +18,7 @@ class MaxQItem : Inventory
 	override bool TryPickup(in out Actor toucher) {
         let plr = MyPlayer(toucher);
         if (plr) {
+			plr.maxItemQuality = min(plr.maxItemQuality + 3, 100);
 			Destroy();
 			return true;
         }

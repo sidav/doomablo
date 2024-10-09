@@ -4,16 +4,24 @@ class MyPlayer : DoomPlayer
 
     RandomizedArmor CurrentEquippedArmor;
     int showStatsButtonPressedTicks;
+    int minItemQuality, maxItemQuality; // Instead of player level. Used for progression.
 
     default {
         Player.DisplayName "RW Marine";
         Health 100;
     }
 
+    override void BeginPlay() {
+        super.BeginPlay();
+        minItemQuality = 1;
+        maxItemQuality = 5;
+    }
+
     override void Tick() {
         super.Tick();
         if (Player.cmd.buttons & BT_RELOAD) {
             showStatsButtonPressedTicks++;
+            debug.print("MIQ "..minItemQuality.."; MXIQ "..maxItemQuality);
         } else {
             showStatsButtonPressedTicks = 0;
         };
