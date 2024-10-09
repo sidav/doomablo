@@ -35,6 +35,7 @@ version "4.10.0"
 #include "zscript/armor/randomized_armor_pickup.zs"
 #include "zscript/armor/randomized_armor_stats.zs"
 
+#include "zscript/drops/ammo_drops_handler.zs"
 #include "zscript/drops/drops_decider.zs"
 #include "zscript/drops/drops_handler.zs"
 #include "zscript/drops/console_drops_handler.zs"

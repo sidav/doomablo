@@ -5,7 +5,7 @@ class RwChaingun : RandomizedWeapon
         Weapon.SlotNumber 4;
 
 		Weapon.SelectionOrder 700;
-		Weapon.AmmoGive 20;
+		// Weapon.AmmoGive 20;
 		Weapon.AmmoType "Clip";
 		Inventory.PickupMessage "$GOTCHAINGUN";
 		Obituary "$OB_MPCHAINGUN";

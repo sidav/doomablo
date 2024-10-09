@@ -2,12 +2,10 @@ class rwPistol : RandomizedWeapon
 {
 	Default
 	{
-		Weapon.WeaponScaleX 1.3;
-		Weapon.WeaponScaleY 1;
 		Weapon.SlotNumber 2;
 
 		Weapon.SelectionOrder 1900;
-		Weapon.AmmoGive 0;
+		// Weapon.AmmoGive 0;
 		Weapon.AmmoType "Clip";
 		Obituary "$OB_MPPISTOL";
 		Inventory.PickupMessage "$GOTPISTOL";

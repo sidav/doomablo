@@ -5,7 +5,7 @@ class RwPlasmaRifle : RandomizedWeapon
 		Weapon.SlotNumber 6;
 
 		Weapon.SelectionOrder 100;
-		Weapon.AmmoGive 40;
+		// Weapon.AmmoGive 40;
 		Weapon.AmmoType "Cell";
 		Inventory.PickupMessage "$GOTPLASMA";
 		Tag "$TAG_PLASMARIFLE";

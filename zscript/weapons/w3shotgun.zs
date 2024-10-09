@@ -2,11 +2,10 @@ class rwShotgun : RandomizedWeapon
 {
 	Default
 	{
-		Weapon.WeaponScaleX 1.5;
         Weapon.SlotNumber 3;
 
 		Weapon.SelectionOrder 1300;
-		Weapon.AmmoGive 8;
+		// Weapon.AmmoGive 8;
 		Weapon.AmmoType "Shell";
 		Inventory.PickupMessage "$GOTSHOTGUN";
 		Obituary "$OB_MPSHOTGUN";

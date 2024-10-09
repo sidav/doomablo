@@ -6,9 +6,10 @@ class RandomizedWeapon : DoomWeapon {
     RWStatsClass stats;
     int shotsSinceLastFreeShot;
 
-    // Default {
-    //     Weapon.AmmoUse 1; // We use custom ammo usage routine anyway
-    // }
+    Default {
+        Weapon.AmmoUse 1; // We use custom ammo usage routine anyway
+        Weapon.AmmoGive 0; // Ammo is dropped separately so that the player doesn't have to "press use to pick it up"
+    }
 
     virtual void setBaseStats() {
         // Should be overridden

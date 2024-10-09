@@ -5,7 +5,7 @@ class RwSuperShotgun : RandomizedWeapon
 		Weapon.SlotNumber 3;
 
 		Weapon.SelectionOrder 400;
-		Weapon.AmmoGive 8;
+		// Weapon.AmmoGive 8;
 		Weapon.AmmoType "Shell";
 		Inventory.PickupMessage "$GOTSHOTGUN2";
 		Obituary "$OB_MPSSHOTGUN";

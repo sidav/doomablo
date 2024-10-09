@@ -5,7 +5,7 @@ class RwRocketLauncher : RandomizedWeapon
 		Weapon.SlotNumber 5;
 
 		Weapon.SelectionOrder 2500;
-		Weapon.AmmoGive 5;
+		// Weapon.AmmoGive 5;
 		Weapon.AmmoType "RocketAmmo";
 		+WEAPON.NOAUTOFIRE
 		Inventory.PickupMessage "$GOTLAUNCHER";
