@@ -28,7 +28,6 @@ version "4.10.0"
 #include "zscript/affix/weapon_prefixes.zs"
 #include "zscript/affix/weapon_suffixes.zs"
 
-#include "zscript/armor/abonus.zs"
 #include "zscript/armor/agreen.zs"
 #include "zscript/armor/ablue.zs"
 #include "zscript/armor/randomized_armor.zs"
@@ -41,6 +40,10 @@ version "4.10.0"
 #include "zscript/drops/console_drops_handler.zs"
 #include "zscript/drops/default_items_replacements_handler.zs"
 #include "zscript/drops/starting_items_handler.zs"
+
+#include "zscript/onetime_items/abonus.zs"
+#include "zscript/onetime_items/maxq_item.zs"
+#include "zscript/onetime_items/minq_item.zs"
 
 #include "zscript/special_damage/special_damage_handler.zs"
 #include "zscript/special_damage/special_damage_token.zs"
