@@ -21,12 +21,7 @@ class DropsHandler : EventHandler
         } else if (whatToDrop == 1) { // drop weapon
 
             int dropType;
-            if (GameDetector.isDoom1()) {
-                // Exclude SSG
-                dropType = rnd.weightedRand(25, 25, 0, 25, 10, 10);
-            } else {
-                dropType = rnd.weightedRand(25, 25, 15, 25, 10, 10);
-            }
+            dropType = rnd.weightedRand(25, 25, 15, 25, 10, 10); // SSG is supported even in Doom 1 now.
 
             switch (dropType) {
                 case 0: 
