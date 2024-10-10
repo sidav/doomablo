@@ -107,7 +107,7 @@ class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
 
 			// The item is map-placed by map design.
 			// Owner check is needed so that we know it's not in the inventory
-			if (itm.owner == null && level.maptime < 35) {
+			if (itm.owner == null && level.maptime < TICRATE) {
 				// let's generate (and give it better rarity and/or quality)
 				int rar, qty;
             	[rar, qty] = DropsDecider.rollRarityAndQuality(1, 25);

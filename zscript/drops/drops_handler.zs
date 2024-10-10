@@ -9,7 +9,8 @@ class DropsHandler : EventHandler
 
     override void WorldThingDied(WorldEvent e) {
         // debug.print("Actor "..e.Thing.GetClassName().." died; max health is "..e.Thing.GetMaxHealth());
-        if (DropsDecider.decideIfCreateDrop(e.Thing.GetMaxHealth())) {
+        let dropsCount = DropsDecider.decideDropsCount(e.Thing.GetMaxHealth());
+        for (let i = 0; i < dropsCount; i++) {
             createDrop(e.Thing);
         }
     }

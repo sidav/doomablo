@@ -1,25 +1,28 @@
 class DropsDecider {
 
-    static bool decideIfCreateDrop(int dropperHealth) {
-        int chances = 5;
+    static int decideDropsCount(int dropperHealth) {
         if (dropperHealth >= 1000) {
-            return true;
+            return rnd.weightedRand(0, 0, 2, 3, 1);
         } else if (dropperHealth >= 500) {
-            chances = 2;
+            return rnd.weightedRand(0, 2, 3, 1);
         } else if (dropperHealth >= 250) {
-            chances = 4;
+            return rnd.weightedRand(1, 4, 1);
         }
-        return rnd.OneChanceFrom(chances);
+        return rnd.weightedRand(4, 2, 1);
     }
 
     static int whatToDrop(int dropperHealth) {
         // 0 - onetime item (including ammo)
         // 1 - weapon
         // 2 - armor
-        if (dropperHealth >= 500) {
-            return rnd.weightedRand(0, 5, 5); // Drop atrifacts only
+        if (dropperHealth >= 1000) {
+            return rnd.weightedRand(1, 2, 2); // drop artifacts mostly.
+        } else if (dropperHealth >= 500) {
+            return rnd.weightedRand(3, 1, 1);
+        } else if (dropperHealth >= 250) {
+            return rnd.weightedRand(4, 1, 1);
         }
-        return rnd.weightedRand(10, 4, 4);
+        return rnd.weightedRand(10, 1, 1);
     }
 
     static int, int rollRarQtyModifiers(int dropperHealth) {
@@ -55,7 +58,7 @@ class DropsDecider {
                 qty = rnd.linearWeightedRand(1, 100, 100, 1);
             }
         }
-        qty = min(qty, 100);
+        qty = min(qty+qtyMod, 100);
 
         // debug.print("Rolling rarity (+"..rarMod..") and quality (+"..qtyMod.."): "..rar..", "..qty);
         return rar, qty;
