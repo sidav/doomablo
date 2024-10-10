@@ -5,9 +5,9 @@ class PressToPickupHandler : EventHandler {
     int manualPickupCooldown;
     const CHECK_PERIOD = 7;
     const PICKUP_DELAY = 35;
-    const PICKUP_DISTANCE_FACTOR = 3.0;
-    const PICKUP_X_ANGLE = 26.0;
-    const PICKUP_Y_ANGLE = 24.0;
+    const PICKUP_DISTANCE_FACTOR = 4.0;
+    const PICKUP_X_ANGLE = 24.0;
+    const PICKUP_Y_ANGLE = 20.0;
 
     override void WorldTick() {
         if (manualPickupCooldown > 0) {
