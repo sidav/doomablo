@@ -26,7 +26,6 @@ class MyPlayer : DoomPlayer
         super.Tick();
         if (Player.cmd.buttons & BT_RELOAD) {
             showStatsButtonPressedTicks++;
-            debug.print("MIQ "..minItemQuality.."; MXIQ "..maxItemQuality);
         } else {
             showStatsButtonPressedTicks = 0;
         };
