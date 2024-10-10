@@ -38,6 +38,10 @@ extend class MyCustomHUD {
         currentLineHeight = 5;
         Screen.Dim(0x000000, 0.5, 0, 0, Screen.GetWidth(), Screen.GetHeight(), STYLE_Translucent);
 
+        PrintEmptyLine(mSmallFont);
+        PrintLineAt("Drops level: "..plr.minItemQuality.."-"..plr.maxItemQuality, 0, 0, mSmallFont, DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_WHITE);
+        PrintEmptyLine(mSmallFont);
+
         PrintLineAt("===  CURRENT EQUIPPED WEAPON:  ===", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
         if (wpn) {
             printWeaponStatsAt(wpn, null, statsX, 0, fullScreenStatusFlags);
@@ -46,7 +50,7 @@ extend class MyCustomHUD {
             PrintLineAt("No artifact weapon equipped", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
         let lineH = (currentLineHeight + 10) * CleanYFac_1;
-        Screen.DrawThickLine(0, lineH, Screen.GetWidth(), lineH, 3, 0xAAAAAA, 255);
+        // Screen.DrawThickLine(0, lineH, Screen.GetWidth(), lineH, 3, 0xAAAAAA, 255);
         
 
         PrintLineAt("===  CURRENT EQUIPPED ARMOR:  ===", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);

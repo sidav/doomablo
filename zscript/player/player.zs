@@ -4,10 +4,22 @@ class MyPlayer : DoomPlayer
 
     RandomizedArmor CurrentEquippedArmor;
     int showStatsButtonPressedTicks;
+    int minItemQuality, maxItemQuality; // Instead of player level. Used for progression.
 
     default {
         Player.DisplayName "RW Marine";
         Health 100;
+    }
+
+    override void BeginPlay() {
+        super.BeginPlay();
+        if (CVar.GetCVar('rw_progression_enabled', null).GetBool()) {
+            minItemQuality = 1;
+            maxItemQuality = 5;
+        } else {
+            minItemQuality = 1;
+            maxItemQuality = 100;
+        }
     }
 
     override void Tick() {
