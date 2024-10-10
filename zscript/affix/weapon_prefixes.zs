@@ -191,7 +191,7 @@ class WPrefFast : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefSlow';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 100);
+        modifierLevel = remapQualityToRange(quality, 1, 85);
 
         wpn.stats.rofModifier = modifierLevel;
     }
@@ -495,7 +495,7 @@ class WPrefBulk : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefPuny';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 3*wpn.stats.Pellets/2);
+        modifierLevel = remapQualityToRange(quality, 1, 2*wpn.stats.Pellets);
 
         wpn.stats.Pellets += modifierLevel;
     }

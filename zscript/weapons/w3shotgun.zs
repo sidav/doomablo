@@ -67,11 +67,11 @@ class rwShotgun : RandomizedWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			3, 8,
+			5, 11,
 			7,
 			1,
-			12.5,
-			3.0
+			10.5,
+			2.5
 		);
 		stats.recoil = 1.5;
 		stats.clipSize = 5;

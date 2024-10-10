@@ -101,11 +101,11 @@ class RwSuperShotgun : RandomizedWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			3, 8,
+			5, 11,
 			16,
 			2,
-			15.6,
-			5.0
+			15.0,
+			4.0
 		);
 		stats.recoil = 1.5;
 		stats.TargetKnockback = 192;
