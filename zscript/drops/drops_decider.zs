@@ -13,7 +13,7 @@ class DropsDecider {
     }
 
     static int whatToDrop(int dropperHealth) {
-        // 0 - onetime item
+        // 0 - onetime item (including ammo)
         // 1 - weapon
         // 2 - armor
         if (dropperHealth >= 500) {
@@ -43,17 +43,19 @@ class DropsDecider {
         rar = min(rar+rarMod, 5);
 
         // Roll quality
-        int qty;
-        let plr = MyPlayer(Players[0].mo);
-        if (plr) {
-            int minQty = plr.minItemQuality;
-            int maxQty = plr.maxItemQuality;
-            qty = rnd.linearWeightedRand(minQty, maxQty, 5, 1);
-        } else {
-            debug.print("Non-player quality roll!");
-            qty = rnd.linearWeightedRand(1, 100, 100, 1);
-            qty = rar == 0 ? 1 : min(qty+qtyMod, 100);
+        int qty = 1;
+        if (rar > 0) {
+            let plr = MyPlayer(Players[0].mo);
+            if (plr) {
+                int minQty = plr.minItemQuality;
+                int maxQty = plr.maxItemQuality;
+                qty = rnd.linearWeightedRand(minQty, maxQty, 5, 1);
+            } else {
+                debug.print("Non-player quality roll!");
+                qty = rnd.linearWeightedRand(1, 100, 100, 1);
+            }
         }
+        qty = min(qty, 100);
 
         // debug.print("Rolling rarity (+"..rarMod..") and quality (+"..qtyMod.."): "..rar..", "..qty);
         return rar, qty;
