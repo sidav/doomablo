@@ -1,5 +1,8 @@
 class RWSpecialDamageHandler : EventHandler
 {
+
+    mixin DropSpreadable;
+
     override void WorldThingDamaged(WorldEvent e) {
         let target = e.thing;
         let inflictor = e.damageSource; // or try e.thing.target. yup, it's that strange
@@ -37,6 +40,14 @@ class RWSpecialDamageHandler : EventHandler
             if (current.GetClass() == 'WSuffPain') {
                 if (rnd.PercentChance(current.modifierLevel)) {
                     target.GiveInventory('RWPainToken', 5);
+                }
+                continue;
+            }
+
+            if (current.GetClass() == 'WSuffAmmoDrops') {
+                if (target.health <= 0 && rnd.PercentChance(current.modifierLevel)) {
+                    let ammoitem = DropsHandler.SpawnRandomAmmoDrop(target);
+                    AssignSpreadVelocityTo(ammoitem);
                 }
                 continue;
             }

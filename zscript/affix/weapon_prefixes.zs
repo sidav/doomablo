@@ -380,7 +380,7 @@ class WPrefBiggerMag : RwWeaponPrefix {
         return "capacious";
     }
     override string getNameAsSuffix() {
-        return "abundance";
+        return "stocks";
     }
     override int getAlignment() {
         return 1;

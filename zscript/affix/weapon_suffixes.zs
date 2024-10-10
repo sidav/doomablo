@@ -79,6 +79,18 @@ class WSuffPain : RwWeaponSuffix {
     }
 }
 
+class WSuffAmmoDrops : RwWeaponSuffix {
+    override string getName() {
+        return "Abundance";
+    }
+    override string getDescription() {
+        return modifierLevel.."% chance for killed enemy to drop additional ammo";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 15, 100);
+    }
+}
+
 // Hitscan only
 class WSuffMinirockets : RwWeaponSuffix {
     override string getName() {
