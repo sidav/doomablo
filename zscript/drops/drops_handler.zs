@@ -1,5 +1,12 @@
 class DropsHandler : EventHandler
 {
+
+    bool progressionEnabled;
+
+    override void OnRegister() {
+        progressionEnabled = CVar.GetCVar('rw_progression_enabled', null).GetBool();
+    }
+
     override void WorldThingDied(WorldEvent e) {
         // debug.print("Actor "..e.Thing.GetClassName().." died; max health is "..e.Thing.GetMaxHealth());
         if (DropsDecider.decideIfCreateDrop(e.Thing.GetMaxHealth())) {
@@ -16,7 +23,12 @@ class DropsHandler : EventHandler
 
         if (whatToDrop == 0) { // drop one-time pickup
             int dropType;
-            dropType = rnd.weightedRand(100, 50, 10);
+            if (progressionEnabled) {
+                dropType = rnd.weightedRand(100, 50, 10);
+            } else {
+                // Don't drop progression items
+                dropType = rnd.weightedRand(100, 0, 0);
+            }
             switch (dropType) {
                 case 0: 
                     dropper.A_SpawnItemEx('RwArmorBonus', zvel: zvel);

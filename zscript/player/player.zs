@@ -13,8 +13,13 @@ class MyPlayer : DoomPlayer
 
     override void BeginPlay() {
         super.BeginPlay();
-        minItemQuality = 1;
-        maxItemQuality = 5;
+        if (CVar.GetCVar('rw_progression_enabled', null).GetBool()) {
+            minItemQuality = 1;
+            maxItemQuality = 5;
+        } else {
+            minItemQuality = 1;
+            maxItemQuality = 100;
+        }
     }
 
     override void Tick() {

@@ -1,1 +1,2 @@
 server int totalAffixesClasses = 0;
+server bool rw_progression_enabled = false;
