@@ -1,6 +1,8 @@
 class DropsHandler : EventHandler
 {
 
+    mixin DropSpreadable;
+
     bool progressionEnabled;
 
     override void OnRegister() {
@@ -22,16 +24,14 @@ class DropsHandler : EventHandler
         Actor spawnedItem;
 
         if (whatToDrop == 0) { // drop one-time pickup
-            SpawnOneTimeItemDrop(dropper);
+            spawnedItem = SpawnOneTimeItemDrop(dropper);
         } else if (whatToDrop == 1) { // drop weapon
             spawnedItem = SpawnRWeaponDrop(dropper);
         } else if (whatToDrop == 2) { // Drop armor
             spawnedItem = SpawnRArmorDrop(dropper);
         }
 
-        if (spawnedItem) {
-            // Add random speed for the spawned item.
-            spawnedItem.Vel3DFromAngle(rnd.randf(8.0, 10.0), rnd.randf(1.0, 360.0), rnd.randf(-80.0, -60.0));
+        if (spawnedItem) {            
             // Generate stats/affixes for the spawned item.
             if (RandomizedWeapon(spawnedItem) || RandomizedArmor(spawnedItem)) {
 
@@ -47,6 +47,7 @@ class DropsHandler : EventHandler
                 }
             }
         }
+        AssignSpreadVelocityTo(spawnedItem); // Add random speed for the spawned item.
         return;
     }
 
@@ -79,10 +80,10 @@ class DropsHandler : EventHandler
         return spawnedItem;
     }
 
-    Actor SpawnRandomAmmoDrop(Actor dropper) {
+    static Actor SpawnRandomAmmoDrop(Actor dropper) {
         bool unused;
         Actor spawnedItem;
-        int dropType = rnd.weightedRand(10, 10, 1, 5);
+        int dropType = rnd.weightedRand(8, 10, 1, 4);
         switch (dropType) {
             case 0: 
                 [unused, spawnedItem] = dropper.A_SpawnItemEx('Clip');
@@ -98,6 +99,12 @@ class DropsHandler : EventHandler
                 break;
             default:
                 debug.panic("Ammo random drop spawner crashed");
+        }
+        let invitem = Inventory(spawnedItem);
+        if (invitem) {
+            // Randomly increase dropped ammo amount
+            invitem.amount = rnd.Rand(invitem.amount, 2*invitem.amount);
+            return Actor(invitem);
         }
         return spawnedItem;
     }
