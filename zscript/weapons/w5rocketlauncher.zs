@@ -84,8 +84,8 @@ class RwRocketLauncher : RandomizedWeapon
 			96, 128,
 			1,
 			1,
-			2.0,
-			0.5
+			4.0,
+			2.0
 		);
 
 		stats.recoil = 0.5;
