@@ -42,7 +42,13 @@ extend class RandomizedWeapon {
 
         for (let pellet = 0; pellet < invoker.stats.Pellets; pellet++) {
             Actor actuallyFired, msl;
-            [actuallyFired, msl] = A_FireProjectile(invoker.stats.projClass, useammo: false);
+            [actuallyFired, msl] = A_FireProjectile(
+                invoker.stats.projClass,
+                angle: rnd.randf(-invoker.stats.HorizSpread, invoker.stats.HorizSpread),
+                useammo: false,
+                flags: FPF_NOAUTOAIM,
+                pitch: rnd.randf(-invoker.stats.VertSpread, invoker.stats.VertSpread)
+            );
 
             RwProjectile(msl).applyWeaponStats(RandomizedWeapon(invoker).stats);
 

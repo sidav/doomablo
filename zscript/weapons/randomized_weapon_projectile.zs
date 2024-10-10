@@ -19,12 +19,6 @@ class RwProjectile : Actor {
 		rwExplosionRadius = stats.ExplosionRadius;
 		explosionSpriteScale = stats.GetExplosionSpriteScale();
 
-		// Rotate (apply spread)
-		let horiz = RotateVector((vel.x, vel.y), rnd.Randf(-stats.HorizSpread, stats.HorizSpread));
-		vel.x = horiz.x;
-		vel.y = horiz.y;
-		vel.z += rnd.Randf(-stats.VertSpread, stats.VertSpread);
-
 		// Apply speed
 		let factor = stats.getProjSpeedFactor();
 		vel.x *= factor;
