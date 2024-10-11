@@ -1,4 +1,10 @@
 class RwArmorPrefix : Affix {
+    override void InitAndApplyEffectToItem(Inventory item, int quality) {
+        initAndapplyEffectToRArmor(RandomizedArmor(item), quality);
+    }
+    protected virtual void initAndapplyEffectToRArmor(RandomizedArmor armor, int quality) {
+        debug.panicUnimplemented(self);
+    }
     override bool IsCompatibleWithItem(Inventory item) {
         return (RandomizedArmor(item) != null) && IsCompatibleWithRArmor(RandomizedArmor(item));
     }
