@@ -6,7 +6,7 @@ gameinfo
 
 	AddEventHandlers = "RwTestsHandler"
  	AddEventHandlers = "DefaultItemsToRWCounterpartsReplacementHandler"
-	AddEventHandlers = "AffixCountHandler"
+	AddEventHandlers = "AffixClassesCacheHandler"
 	AddEventHandlers = "AmmoDropsHandler"
 	AddEventHandlers = "DropsHandler"
 	AddEventHandlers = "ConsoleDropsHandler"
