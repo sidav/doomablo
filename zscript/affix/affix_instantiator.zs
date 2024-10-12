@@ -7,6 +7,9 @@ extend class Affix {
         if (item is 'RandomizedArmor') {
             return GetRandomArmorAffixInstance();
         }
+        if (item is 'RwBackpack') {
+            return GetRandomBackpackAffixInstance();
+        }
         debug.panic("Unknown class to give affix for: "..item.GetClassName());
         return null;
     }
@@ -46,6 +49,24 @@ extend class Affix {
         }
         return affToReturn;
     }
+
+    private static Affix GetRandomBackpackAffixInstance() {
+        let handler = AffixClassesCacheHandler(StaticEventHandler.Find('AffixClassesCacheHandler'));
+        let index = rnd.randn(handler.totalBackpackAffixesClasses);
+
+        Affix affToReturn;
+        foreach (affClass : handler.applicableAffixClasses) {
+            if (affClass is 'RwBackpackPrefix' || affClass is 'RwBackpackSuffix') {
+                if (index > 0) {
+                    index--;
+                } else {
+                    affToReturn = Affix(New(affClass));
+                    break;
+                }
+            }
+        }
+        return affToReturn;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,6 +79,7 @@ class AffixClassesCacheHandler : StaticEventHandler
     int totalUnknownAffixesClasses;
     int totalWeaponAffixesClasses;
     int totalArmorAffixesClasses;
+    int totalBackpackAffixesClasses;
 
 	override void OnRegister() {
         debug.print("===== RW_ACCH REPORT BEGIN =====");
@@ -84,6 +106,9 @@ class AffixClassesCacheHandler : StaticEventHandler
                 } else if (isAffixForArmor(affClass)) {
                     specifyStr = "(armor affix)";
                     totalArmorAffixesClasses++;
+                } else if (isAffixForBackpack(affClass)) {
+                    specifyStr = "(backpack affix)";
+                    totalBackpackAffixesClasses++;
                 } else {
                     specifyStr = "(!! unknown !!)";
                     totalUnknownAffixesClasses++;
@@ -100,6 +125,7 @@ class AffixClassesCacheHandler : StaticEventHandler
         debug.print("   From them:");
         debug.print("             "..totalWeaponAffixesClasses.." for weapons");
         debug.print("             "..totalArmorAffixesClasses.." for armor");
+        debug.print("             "..totalBackpackAffixesClasses.." for backpacks");
         debug.print("             "..totalUnknownAffixesClasses.." unknown");
 
         debug.print("===== RW_ACCH REPORT END =====");
@@ -111,7 +137,8 @@ class AffixClassesCacheHandler : StaticEventHandler
     static bool isAffixASuperclass(class<Affix> cls) {
         return (cls == 'Affix') 
             || (cls == 'RwWeaponPrefix') || (cls == 'RwWeaponSuffix')
-            || (cls == 'RwArmorPrefix') || (cls == 'RwArmorSuffix');
+            || (cls == 'RwArmorPrefix') || (cls == 'RwArmorSuffix')
+            || (cls == 'RwBackpackPrefix') || (cls == 'RwBackpackSuffix');
     }
 
     static bool isAffixForWeapon(class<Affix> cls) {
@@ -120,5 +147,9 @@ class AffixClassesCacheHandler : StaticEventHandler
 
     static bool isAffixForArmor(class<Affix> cls) {
         return (cls is 'RwArmorPrefix') || (cls is 'RwArmorSuffix');
+    }
+
+    static bool isAffixForBackpack(class<Affix> cls) {
+        return (cls is 'RwBackpackPrefix') || (cls is 'RwBackpackSuffix');
     }
 }
