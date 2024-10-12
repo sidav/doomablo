@@ -1,4 +1,10 @@
 class RwWeaponPrefix : Affix {
+    override void InitAndApplyEffectToItem(Inventory item, int quality) {
+        initAndApplyEffectToRWeapon(RandomizedWeapon(item), quality);
+    }
+    protected virtual void initAndApplyEffectToRWeapon(RandomizedWeapon weapon, int quality) {
+        debug.panicUnimplemented(self);
+    }
     override bool IsCompatibleWithItem(Inventory item) {
         return (RandomizedWeapon(item) != null) && IsCompatibleWithRWeapon(RandomizedWeapon(item));
     }

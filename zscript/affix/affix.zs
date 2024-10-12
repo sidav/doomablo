@@ -37,21 +37,6 @@ class Affix {
     }
 
     virtual void InitAndApplyEffectToItem(Inventory item, int quality) {
-        if (RandomizedWeapon(item) != null) {
-            initAndApplyEffectToRWeapon(RandomizedWeapon(item), quality);
-            return;
-        }
-        if (RandomizedArmor(item) != null) {
-            initAndapplyEffectToRArmor(RandomizedArmor(item), quality);
-            return;
-        }
-    }
-
-    protected virtual void initAndApplyEffectToRWeapon(RandomizedWeapon weapon, int quality) {
-        debug.panicUnimplemented(self);
-    }
-
-    protected virtual void initAndapplyEffectToRArmor(RandomizedArmor armor, int quality) {
         debug.panicUnimplemented(self);
     }
 

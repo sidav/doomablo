@@ -1,4 +1,10 @@
 class RwArmorSuffix : Affix {
+    override void InitAndApplyEffectToItem(Inventory item, int quality) {
+        initAndapplyEffectToRArmor(RandomizedArmor(item), quality);
+    }
+    protected virtual void initAndapplyEffectToRArmor(RandomizedArmor armor, int quality) {
+        debug.panicUnimplemented(self);
+    }
     override bool isSuffix() {
         return true;
     }
