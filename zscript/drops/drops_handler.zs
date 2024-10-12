@@ -1,6 +1,7 @@
 class DropsHandler : EventHandler
 {
 
+    mixin AffixableGenerationHelperable;
     mixin DropSpreadable;
 
     bool progressionEnabled;
@@ -33,18 +34,14 @@ class DropsHandler : EventHandler
 
         if (spawnedItem) {            
             // Generate stats/affixes for the spawned item.
-            if (RandomizedWeapon(spawnedItem) || RandomizedArmor(spawnedItem)) {
+            if (AffixableDetector.IsAffixableItem(spawnedItem)) {
 
                 int rarmod, qtymod;
                 [rarmod, qtymod] = DropsDecider.rollRarQtyModifiers(dropper.GetMaxHealth());
                 int rar, qty;
                 [rar, qty] = DropsDecider.rollRarityAndQuality(rarmod, qtymod);
 
-                if (spawnedItem is 'RandomizedWeapon') {
-                    RandomizedWeapon(spawnedItem).Generate(rar, qty);
-                } else if (spawnedItem is 'RandomizedArmor') {
-                    RandomizedArmor(spawnedItem).Generate(rar, qty);
-                }
+                GenerateAffixableItem(spawnedItem, rar, qty);
             }
         }
         AssignSpreadVelocityTo(spawnedItem); // Add random speed for the spawned item.

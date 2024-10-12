@@ -35,12 +35,15 @@ extend class MyCustomHUD {
     }
 
     static int PickColorForAffixableItem(Inventory i) {
-        int rarity;
+        int rarity = -1;
         if (i is 'RandomizedWeapon') {
             rarity = RandomizedWeapon(i).appliedAffixes.Size();
         }
         if (i is 'RandomizedArmor') {
             rarity = RandomizedArmor(i).appliedAffixes.Size();
+        }
+        if (rarity == -1) {
+            debug.panic("Unknown affixable item to pick color for: "..i.GetClassName());
         }
         switch (rarity) {
             case 0: return Font.CR_WHITE;

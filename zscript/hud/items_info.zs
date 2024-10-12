@@ -4,9 +4,13 @@ extend class MyCustomHUD {
         let lineHRel = mSmallFont.mFont.GetHeight();
         let lineHAbs = lineHRel * CleanYFac_1;
 
+        let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
+        if (handler.currentItemToPickUp == null) {
+            return;
+        }
+
         let plr = MyPlayer(CPlayer.mo);
         if (!plr) return;
-        let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
 
         
         if (RandomizedWeapon(handler.currentItemToPickUp)) {
@@ -15,6 +19,8 @@ extend class MyCustomHUD {
         } else if (RandomizedArmor(handler.currentItemToPickUp)) {
             DimScreenForStats();
             DrawPickupableArmorInfo(RandomizedArmor(handler.currentItemToPickUp), plr);
+        } else {
+            debug.panic("Unknown item to draw pickupable stats for: "..handler.currentItemToPickUp.GetClassName());
         }
     }
 
