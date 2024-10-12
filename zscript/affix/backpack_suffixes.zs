@@ -1,0 +1,78 @@
+class RwBackpackSuffix : Affix {
+    override void InitAndApplyEffectToItem(Inventory item, int quality) {
+        initAndapplyEffectToRBackpack(RWBackpack(item), quality);
+    }
+    protected virtual void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
+        debug.panicUnimplemented(self);
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return (RWBackpack(item) != null);
+    }
+    override bool isSuffix() {
+        return true;
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override int minRequiredRarity() {
+        return 3; // Most suffixes require at least "rare"
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return !(a2 is 'RwBackpackSuffix'); // There may be only one suffix on an item
+    }
+}
+
+class BSuffNoisy : RwBackpackSuffix {
+    override string getName() {
+        return "Noise";
+    }
+    override string getDescription() {
+        return "Has a "..modifierLevel.."% chance to aggro monsters around you";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 100); // Chance 1-100
+    }
+}
+
+class BSuffRestoreCells : RwBackpackSuffix {
+    override string getName() {
+        return "RITEG";
+    }
+    override string getDescription() {
+        return "Each "
+            ..
+            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
+            .." seconds restores an energy cell";
+    }
+    override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
+        let secondsx10 = 100 - remapQualityToRange(quality, 5, 95);
+        modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+    }
+}
+
+class BSuffBetterMedikits : RwBackpackSuffix {
+    override string getName() {
+        return "Surgeon";
+    }
+    override string getDescription() {
+        return "+"..modifierLevel.." to each non-bonus health pickup";
+    }
+    override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 5);
+    }
+}
+
+class BSuffMoreAmmoChance : RwBackpackSuffix {
+    override string getName() {
+        return "Optimization";
+    }
+    override string getDescription() {
+        return "Ammo pickups have "..modifierLevel.."% chance to have more ammo";
+    }
+    override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 50);
+    }
+}
