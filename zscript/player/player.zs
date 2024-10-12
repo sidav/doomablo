@@ -24,6 +24,14 @@ class MyPlayer : DoomPlayer
 
     override void Tick() {
         super.Tick();
+        let ba = FindInventory('BasicArmor');
+        if (ba != null) {
+            // debug.print("Basic armor exists! Amount: "..ba.Amount);
+            if (CurrentEquippedArmor != null) {
+                CurrentEquippedArmor.RepairFor(ba.Amount);
+            }
+            ba.Destroy();
+        }
         if (Player.cmd.buttons & BT_RELOAD) {
             showStatsButtonPressedTicks++;
         } else {

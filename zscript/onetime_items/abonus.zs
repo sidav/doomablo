@@ -21,10 +21,7 @@ class RwArmorBonus : Inventory
         if (plr && plr.CurrentEquippedArmor) {
             let arm = plr.CurrentEquippedArmor;
 			if (arm.stats.BonusRepair > 0 && arm.stats.currDurability < arm.stats.maxDurability) {
-				arm.stats.currDurability += arm.stats.BonusRepair;
-				if (arm.stats.currDurability > arm.stats.maxDurability) {
-					arm.stats.currDurability = arm.stats.maxDurability;
-				}
+				arm.RepairFor(arm.stats.BonusRepair);
 				Destroy();
 				return true;
 			}

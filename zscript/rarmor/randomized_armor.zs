@@ -38,11 +38,11 @@ class RandomizedArmor : Armor {
     }
 
     override void DoEffect() {
-        if (owner.FindInventory('BasicArmor') != null) {
-            debug.print("Basic armor exists! Tick: "..GetAge());
-        }
-
         RWA_SuffOnDoEffect();
+    }
+
+    void RepairFor(int repairAmount) {
+        stats.currDurability = min(stats.currDurability + repairAmount, stats.maxDurability);
     }
 
     virtual string GetRandomFluffName() {
