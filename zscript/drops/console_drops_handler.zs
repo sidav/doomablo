@@ -2,6 +2,8 @@
 // to be used instead of "summon <item>"
 class ConsoleDropsHandler : EventHandler
 {
+    mixin AffixableGenerationHelperable;
+
     override void NetworkProcess(ConsoleEvent e) {
         if (e.Name == "spawn") {
             spawnItem(players[e.Player].mo, e.args[0], e.args[1], e.args[2]);
@@ -57,11 +59,7 @@ class ConsoleDropsHandler : EventHandler
                 quality = rnd.Rand(1, 100);
             }
 
-            if (spawnedItem is 'RandomizedWeapon') {
-                RandomizedWeapon(spawnedItem).Generate(rarity, quality);
-            } else if (spawnedItem is 'RandomizedArmor') {
-                RandomizedArmor(spawnedItem).Generate(rarity, quality);
-            }
+            GenerateAffixableItem(spawnedItem, rarity, quality);
         }
     }
 }

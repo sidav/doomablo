@@ -1,6 +1,8 @@
 // Handles the replacement of default weapons/items. 
 class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
 {
+	mixin AffixableGenerationHelperable;
+
 	override void CheckReplacement(ReplaceEvent e)
 	{
 		let cls = e.Replacee.GetClassName();
@@ -95,7 +97,7 @@ class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
 	override void WorldThingSpawned(worldEvent e)
 	{
 		let itm = Inventory(e.thing);
-		let isRWInstance = (itm is 'RandomizedArmor' || itm is 'RandomizedWeapon');
+		let isRWInstance = (AffixableDetector.IsAffixableItem(itm));
 
 		if (itm && isRWInstance) {
 			if (itm.bTossed) {
@@ -112,11 +114,7 @@ class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
 				int rar, qty;
             	[rar, qty] = DropsDecider.rollRarityAndQuality(1, 25);
 
-				if (itm is 'RandomizedWeapon') {
-					RandomizedWeapon(itm).Generate(rar, qty);
-				} else if (itm is 'RandomizedArmor') {
-					RandomizedArmor(itm).Generate(rar, qty);
-				}
+				GenerateAffixableItem(itm, rar, qty);
 			}
 		}
 	}

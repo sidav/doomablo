@@ -46,7 +46,7 @@ class PressToPickupHandler : EventHandler {
 			if (!itm || itm.bNOSECTOR || itm.owner)
 				continue;
 
-            if (!RandomizedWeapon(itm) && !RandomizedArmor(itm))
+            if (!AffixableDetector.IsAffixableItem(itm))
                 continue;
 
             let newDist = source.Distance3D(it.thing);
