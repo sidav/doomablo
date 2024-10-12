@@ -72,6 +72,8 @@ mixin class Affixable {
                     foreach(a : appliedAffixes) {
                         debug.print("  "..a.getName());
                     }
+                    debug.print("Arguments: affQualities "..debug.intArrToString(affQualities).."; rarity "..itemRarity);
+                    debug.print("Current quality is "..i.."th, value "..affQualities[i]);
                     debug.panic();
                 }
                 try++;
