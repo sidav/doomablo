@@ -11,6 +11,9 @@ class DropsHandler : EventHandler
     }
 
     override void WorldThingDied(WorldEvent e) {
+        if (e.Thing is 'ExplosiveBarrel') {
+            return;
+        }
         // debug.print("Actor "..e.Thing.GetClassName().." died; max health is "..e.Thing.GetMaxHealth());
         let dropsCount = DropsDecider.decideDropsCount(e.Thing.GetMaxHealth());
         for (let i = 0; i < dropsCount; i++) {
@@ -56,10 +59,10 @@ class DropsHandler : EventHandler
         Actor spawnedItem;
         int dropType;
         if (progressionEnabled) {
-            dropType = rnd.weightedRand(80, 100, 50, 10);
+            dropType = rnd.weightedRand(100, 100, 50, 10);
         } else {
             // Don't drop progression items
-            dropType = rnd.weightedRand(80, 100, 0, 0);
+            dropType = rnd.weightedRand(100, 100, 0, 0);
         }
         switch (dropType) {
             case 0: 
@@ -100,12 +103,12 @@ class DropsHandler : EventHandler
             default:
                 debug.panic("Ammo random drop spawner crashed");
         }
-        let invitem = Inventory(spawnedItem);
-        if (invitem) {
-            // Randomly increase dropped ammo amount
-            invitem.amount = rnd.Rand(invitem.amount, 2*invitem.amount);
-            return Actor(invitem);
-        }
+        // Randomly increase dropped ammo amount - not needed currently, there are new affixes for that
+        // let invitem = Inventory(spawnedItem);
+        // if (invitem) {
+        //     invitem.amount = rnd.Rand(invitem.amount, 2*invitem.amount);
+        //     return Actor(invitem);
+        // }
         return spawnedItem;
     }
 

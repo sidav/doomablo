@@ -6,9 +6,9 @@ class DropsDecider {
         } else if (dropperHealth >= 500) {
             return rnd.weightedRand(0, 2, 3, 1);
         } else if (dropperHealth >= 250) {
-            return rnd.weightedRand(1, 4, 1);
+            return rnd.weightedRand(3, 4, 1);
         }
-        return rnd.weightedRand(4, 2, 1);
+        return rnd.weightedRand(7, 2, 1);
     }
 
     static int whatToDrop(int dropperHealth) {
@@ -17,13 +17,13 @@ class DropsDecider {
         // 2 - armor
         // 3 - backpack
         if (dropperHealth >= 1000) {
-            return rnd.weightedRand(1, 2, 2, 1); // drop artifacts mostly.
+            return rnd.weightedRand(1, 3, 2, 1); // drop artifacts mostly.
         } else if (dropperHealth >= 500) {
-            return rnd.weightedRand(3, 1, 1, 1);
+            return rnd.weightedRand(5, 3, 2, 1);
         } else if (dropperHealth >= 250) {
-            return rnd.weightedRand(4, 1, 1, 1);
+            return rnd.weightedRand(8, 3, 2, 1);
         }
-        return rnd.weightedRand(10, 1, 1, 1);
+        return rnd.weightedRand(15, 3, 2, 1);
     }
 
     static int, int rollRarQtyModifiers(int dropperHealth) {
