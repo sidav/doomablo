@@ -37,8 +37,17 @@ extend class MyCustomHUD {
         }
 
         // Compare only if the weapon in hands is of the same class.
-        if (wpnComp && wpn.GetClass() != wpnComp.GetClass()) {
-            wpnComp = null;
+        if (wpnComp) {
+            let wpnClass = wpn.GetClass();
+            let wpnCompClass = wpnComp.GetClass();
+            // Explicitly allow comparing Shotgun and SSG
+            bool allowCompare = (wpnClass == wpnCompClass) ||
+                (wpnClass == 'RwSuperShotgun' && wpnCompClass == 'RwShotgun') ||
+                (wpnClass == 'RwShotgun' && wpnCompClass == 'RwSuperShotgun');
+
+            if (!allowCompare) {
+                wpnComp = null;
+            }
         }
         
         printWeaponStatsAt(wpn, wpnComp, defaultLeftStatsPosX, defaultLeftStatsPosY, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT);
@@ -118,7 +127,7 @@ extend class MyCustomHUD {
                     mSmallFont, textFlags, Font.CR_White, compareClr);
         }
         if (wpn.stats.clipSize > 1) {
-            if (wpnComp && wpn.stats.clipSize != wpnComp.stats.clipSize) {
+            if (wpnComp && wpn.stats.clipSize != wpnComp.stats.clipSize && wpnComp.stats.clipSize > 0) {
                 compareStr = " ("..intToSignedStr(wpn.stats.clipSize - wpnComp.stats.clipSize)..")";
                 compareClr = GetDifferenceColor(wpn.stats.clipSize - wpnComp.stats.clipSize);
             } else {
