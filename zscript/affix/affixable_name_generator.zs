@@ -32,7 +32,9 @@ class NameGenerator {
 
     static string createPossessiveName(string baseName) {
         static const string pref[] = {
+            "Agent Ash's",
             "Baratus'",
+            "Bertruger's",
             "Bitterman's",
             "Blazkowicz's",
             "Caleb's",
@@ -43,11 +45,15 @@ class NameGenerator {
             "Dawn's",
             "Daedolon's",
             "Duke's",
+            "Hayden's",
             "Lo Wang's",
             "Parias'",
+            "Pierce's",
             "Ranger's",
             "Ripley's",
             "Slayer's",
+            "Tekla's",
+            "Xanthippe's",
             "Yendor's"
         };
         return pref[rnd.randn(pref.Size())].." "..baseName;
