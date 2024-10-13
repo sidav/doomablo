@@ -7,7 +7,13 @@ class StartingItemsHandler : EventHandler
 		// which causes bugs. Thus we skip this routine if pmo.Inv is null.
 		// TODO: solve this via some unremovable item in inventory and changing default weapons in HandlePickup() for that item.
 		// This may event make this handler redundant
-		if (pmo && pmo.Inv) {
+
+		// Update: this damn bug returns once again and I once again don't know why
+		// WeapCheck is a new shiny workaround for that
+		let rWeap = players[e.PlayerNumber].ReadyWeapon;
+		bool weapCheck = (rWeap.GetClass() != 'Fist') && (RandomizedWeapon(rWeap) == null);
+
+		if (pmo && pmo.Inv && weapCheck) {
 			clearBasicItems(pmo);
 		}
 	}
