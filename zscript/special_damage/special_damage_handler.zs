@@ -5,11 +5,15 @@ class RWSpecialDamageHandler : EventHandler
 
     override void WorldThingDamaged(WorldEvent e) {
         let target = e.thing;
-        let inflictor = e.damageSource; // or try e.thing.target. yup, it's that strange
+        let whoDidDamage = e.damageSource; // or try e.thing.target. e.Inflictor is NOT who did the damage. Yup, it's that strange
 
-        if (inflictor is 'MyPlayer') {
+        // debug.print("Target: "..target.GetClassName()
+        //     .."; who did: "..whoDidDamage.GetClassName()
+        //     .."; Inflictor: "..e.Inflictor.GetClassName());
+
+        if (whoDidDamage is 'MyPlayer' && !(target is 'ExplosiveBarrel') && !(e.Inflictor is 'ExplosiveBarrel')) {
             // debug.print("Dealt "..e.damage.." damage");
-            handleDamageFromPlayer(MyPlayer(inflictor), target, e.damage);
+            handleDamageFromPlayer(MyPlayer(whoDidDamage), target, e.damage);
         }
 
     }
