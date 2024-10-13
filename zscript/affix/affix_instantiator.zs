@@ -92,7 +92,7 @@ class AffixClassesCacheHandler : StaticEventHandler
             }
         }
 
-        debug.print("  --- AFFIX SUBCLASSES:");
+        // debug.print("  --- AFFIX SUBCLASSES:");
         foreach (cls : AllClasses)  {
 
             string specifyStr;
@@ -114,7 +114,7 @@ class AffixClassesCacheHandler : StaticEventHandler
                     totalUnknownAffixesClasses++;
                 }
 
-                debug.print("   |- "..affClass.GetClassName().." "..specifyStr);
+                // debug.print("   |- "..affClass.GetClassName().." "..specifyStr);
                 applicableAffixClasses.push(affClass);
                 totalAffixesClasses++;
             }
