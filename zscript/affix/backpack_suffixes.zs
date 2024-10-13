@@ -37,6 +37,21 @@ class BSuffNoisy : RwBackpackSuffix {
     }
 }
 
+class BSuffLessAmmoChance : RwBackpackSuffix {
+    override string getName() {
+        return "Holes";
+    }
+    override string getDescription() {
+        return "Ammo pickups have "..modifierLevel.."% chance to have less ammo";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 50);
+    }
+}
+
 class BSuffRestoreCells : RwBackpackSuffix {
     override string getName() {
         return "RITEG";
@@ -45,11 +60,27 @@ class BSuffRestoreCells : RwBackpackSuffix {
         return "Each "
             ..
             String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
-            .." seconds restores an energy cell";
+            .." seconds gives an energy cell";
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        let secondsx10 = 100 - remapQualityToRange(quality, 5, 95);
+        let secondsx10 = 100 - remapQualityToRange(quality, 0, 95);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+    }
+}
+
+class BSuffAutoreload : RwBackpackSuffix {
+    override string getName() {
+        return "Auto-reload";
+    }
+    override string getDescription() {
+        return "Each "
+            ..
+            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
+            .." seconds reloads your weapons";
+    }
+    override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
+        let seconds = 30 - remapQualityToRange(quality, 0, 25);
+        modifierLevel = gametime.secondsToTicks(seconds);
     }
 }
 
