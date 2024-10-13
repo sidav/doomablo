@@ -46,6 +46,11 @@ class ConsoleDropsHandler : EventHandler
             case 11:
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwBlueArmor', xofs: xofs, zvel: zvel);
                 break;
+
+            // Backpack
+            case 20: 
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwBackpack', xofs: xofs, zvel: zvel);
+                break;
             
             default:
                 debug.print("Unknown drop code "..itemID);

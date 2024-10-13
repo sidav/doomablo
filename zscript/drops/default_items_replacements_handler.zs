@@ -87,6 +87,11 @@ class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
 			e.Replacement = 'RwBlueArmor';
             break;
 
+        // BACKPACK:
+        case 'Backpack':
+            e.Replacement = 'RwBackpack';
+            break;
+
 		// ONE-TIME PICKUPS:
 		case 'ArmorBonus':
 			e.Replacement = 'RwArmorBonus';

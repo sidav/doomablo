@@ -57,8 +57,9 @@ class MyCustomHUD : DoomStatusBar
 			DrawPickupableItemInfo();
 			if (MyPlayer(CPlayer.mo).showStatsButtonPressedTicks > TICRATE/3) {
 				DrawFullCurrentItemsInfo();
+			} else {
+				DrawShortCurrentItemsInfo();
 			}
-			DrawShortCurrentItemsInfo();
         }
     }
 

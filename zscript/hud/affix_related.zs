@@ -42,6 +42,9 @@ extend class MyCustomHUD {
         if (i is 'RandomizedArmor') {
             rarity = RandomizedArmor(i).appliedAffixes.Size();
         }
+        if (i is 'RwBackpack') {
+            rarity = RwBackpack(i).appliedAffixes.Size();
+        }
         if (rarity == -1) {
             debug.panic("Unknown affixable item to pick color for: "..i.GetClassName());
         }

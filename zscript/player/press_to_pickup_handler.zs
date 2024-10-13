@@ -17,8 +17,12 @@ class PressToPickupHandler : EventHandler {
             if (currentItemToPickUp && players[0].mo && (players[0].cmd.buttons & BT_USE)) {
                 if (RandomizedWeapon(currentItemToPickUp)) {
                     RandomizedWeapon(currentItemToPickUp).rwTouch(players[0].mo);
+
                 } else if (RandomizedArmor(currentItemToPickUp)) {
                     RandomizedArmor(currentItemToPickUp).rwTouch(players[0].mo);
+
+                } else if (RwBackpack(currentItemToPickUp)) {
+                    RwBackpack(currentItemToPickUp).rwTouch(players[0].mo);
                 }
                 manualPickupCooldown = PICKUP_DELAY;
             }

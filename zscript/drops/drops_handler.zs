@@ -30,6 +30,9 @@ class DropsHandler : EventHandler
             spawnedItem = SpawnRWeaponDrop(dropper);
         } else if (whatToDrop == 2) { // Drop armor
             spawnedItem = SpawnRArmorDrop(dropper);
+        } else if (whatToDrop == 3) { // Drop backpack
+            bool unused;
+            [unused, spawnedItem] = dropper.A_SpawnItemEx('RwBackpack');
         }
 
         if (spawnedItem) {            
