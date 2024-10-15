@@ -3,6 +3,8 @@ class RandomizedArmor : Armor {
     mixin Affixable;
     mixin ArmorSuffixable;
 
+    int lastDamageTick;
+
     RwArmorStats stats;
     string rwbaseName;
 
@@ -57,6 +59,9 @@ class RandomizedArmor : Armor {
         let damageToArmor = math.getIntPercentage(damage, stats.AbsorbsPercentage);
         if (damageToArmor > stats.currDurability) {
             damageToArmor = stats.currDurability;
+        }
+        if (stats.currDurability > 0 && damageToArmor > 0) {
+            lastDamageTick = GetAge();
         }
         stats.currDurability -= damageToArmor;
         newdamage = damage - damageToArmor;
