@@ -11,7 +11,7 @@ class StartingItemsHandler : EventHandler
 		// Update: this damn bug returns once again and I once again don't know why
 		// WeapCheck is a new shiny workaround for that
 		let rWeap = players[e.PlayerNumber].ReadyWeapon;
-		bool weapCheck = (rWeap.GetClass() != 'Fist') && (RandomizedWeapon(rWeap) == null);
+		bool weapCheck = (rWeap == null) || ((rWeap.GetClass() != 'Fist') && (RandomizedWeapon(rWeap) == null));
 
 		if (pmo && pmo.Inv && weapCheck) {
 			clearBasicItems(pmo);
