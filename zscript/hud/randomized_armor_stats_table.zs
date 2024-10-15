@@ -48,20 +48,57 @@ extend class MyCustomHUD {
             compareClr = GetDifferenceColor(armr.stats.AbsorbsPercentage - armrCmp.stats.AbsorbsPercentage);
         } else {
             compareStr = "";
+            compareClr = Font.CR_White;
         }
         PrintTableLineAt("Damage absorption", armr.stats.AbsorbsPercentage.."%"..compareStr,
                     linesX, y, armorStatsTableWidth,
                     mSmallFont, textFlags, Font.CR_White, compareClr);
 
-        if (armrCmp && armr.stats.BonusRepair != armrCmp.stats.BonusRepair) {
-            compareStr = " ("..intToSignedStr(armr.stats.BonusRepair - armrCmp.stats.BonusRepair)..")";
-            compareClr = GetDifferenceColor(armr.stats.BonusRepair - armrCmp.stats.BonusRepair);
-        } else {
-            compareStr = "";
+        ////////////////////////////////////////////////////////////////////////////////
+        // Stop comparing energy and non-energy armor at this point
+        if (armrCmp && (armr.stats.IsEnergyArmor() != armrCmp.stats.IsEnergyArmor())) {
+            armrCmp = null;
         }
-        PrintTableLineAt("Repair amount", armr.stats.BonusRepair..compareStr,
-                    linesX, y, armorStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);
+
+        if (armr.stats.IsEnergyArmor()) {
+
+            if (armrCmp && armr.stats.delayUntilRecharge != armrCmp.stats.delayUntilRecharge) {
+                compareStr = " ("..floatToSignedStr(Gametime.ticksToSeconds(armr.stats.delayUntilRecharge) - Gametime.ticksToSeconds(armrCmp.stats.delayUntilRecharge))..")";
+                compareClr = GetDifferenceColor(armr.stats.delayUntilRecharge - armrCmp.stats.delayUntilRecharge);
+            } else {
+                compareStr = "";
+                compareClr = Font.CR_White;
+            }
+            PrintTableLineAt("Delay until recharge", String.Format("%.1fs", Gametime.ticksToSeconds(armr.stats.delayUntilRecharge))..compareStr,
+                        linesX, y, armorStatsTableWidth,
+                        mSmallFont, textFlags, Font.CR_White, compareClr);
+
+
+            if (armrCmp && armr.stats.RestorePerSecond() != armrCmp.stats.RestorePerSecond()) {
+                compareStr = " ("..floatToSignedStr(armr.stats.RestorePerSecond() - armrCmp.stats.RestorePerSecond())..")";
+                compareClr = GetDifferenceColor(10*(armr.stats.RestorePerSecond() - armrCmp.stats.RestorePerSecond()));
+            } else {
+                compareStr = "";
+                compareClr = Font.CR_White;
+            }
+            PrintTableLineAt("Recharge speed", String.Format("%.2f/s", Gametime.ticksToSeconds(armr.stats.RestorePerSecond()))..compareStr,
+                        linesX, y, armorStatsTableWidth,
+                        mSmallFont, textFlags, Font.CR_White, compareClr);
+
+        } else {
+
+            if (armrCmp && armr.stats.BonusRepair != armrCmp.stats.BonusRepair) {
+                compareStr = " ("..intToSignedStr(armr.stats.BonusRepair - armrCmp.stats.BonusRepair)..")";
+                compareClr = GetDifferenceColor(armr.stats.BonusRepair - armrCmp.stats.BonusRepair);
+            } else {
+                compareStr = "";
+                compareClr = Font.CR_White;
+            }
+            PrintTableLineAt("Repair amount", armr.stats.BonusRepair..compareStr,
+                        linesX, y, armorStatsTableWidth,
+                        mSmallFont, textFlags, Font.CR_White, compareClr);
+
+        }
 
         foreach (aff : armr.appliedAffixes) {
             printAffixDescriptionLineAt(aff, x+16, y, textFlags);

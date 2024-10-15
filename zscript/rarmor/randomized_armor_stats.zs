@@ -9,7 +9,12 @@ class RwArmorStats {
     int delayUntilRecharge; // Ticks. Only for energy armor
     int energyRestorePeriod; // Each this many ticks 1 armor is restored.
 
+
     bool IsEnergyArmor() {
         return (delayUntilRecharge > 0) && (energyRestorePeriod > 0);
+    }
+
+    double RestorePerSecond() {
+        return double(TICRATE)/double(energyRestorePeriod);
     }
 }
