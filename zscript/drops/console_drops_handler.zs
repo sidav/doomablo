@@ -46,6 +46,9 @@ class ConsoleDropsHandler : EventHandler
             case 11:
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwBlueArmor', xofs: xofs, zvel: zvel);
                 break;
+            case 12:
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwEnergyArmor', xofs: xofs, zvel: zvel);
+                break;
 
             // Backpack
             case 20: 

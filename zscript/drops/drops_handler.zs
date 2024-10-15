@@ -138,13 +138,16 @@ class DropsHandler : EventHandler
     Actor SpawnRArmorDrop(Actor dropper) {
         bool unused;
         Actor spawnedItem;
-        let dropType = rnd.weightedRand(10, 5);
+        let dropType = rnd.weightedRand(10, 10, 5);
         switch (dropType) {
             case 0: 
                 [unused, spawnedItem] = dropper.A_SpawnItemEx('RwGreenArmor');
                 break;
             case 1: 
                 [unused, spawnedItem] = dropper.A_SpawnItemEx('RwBlueArmor');
+                break;
+            case 2:
+                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwEnergyArmor');
                 break;
             default:
                 debug.panic("Drop spawner crashed");
