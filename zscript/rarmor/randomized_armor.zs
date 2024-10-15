@@ -1,7 +1,6 @@
 class RandomizedArmor : Armor {
 
     mixin Affixable;
-    mixin ArmorSuffixable;
 
     int lastDamageTick;
 
@@ -40,7 +39,7 @@ class RandomizedArmor : Armor {
     }
 
     override void DoEffect() {
-        RWA_SuffOnDoEffect();
+        RWA_DoSuffixEffect();
     }
 
     void RepairFor(int repairAmount) {

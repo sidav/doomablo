@@ -1,12 +1,10 @@
 // Suffixes are unique things gameplay-wise, so they require this separate definition.
 // TODO: optimization of this logic...
 
-mixin class ArmorSuffixable {
-
-    const TPS = 35; // ticks per second
+extend class RandomizedArmor {
 
     // call this inside "DoEffect" method for armor
-    action void RWA_SuffOnDoEffect() {
+    action void RWA_DoSuffixEffect() {
         let age = GetAge();
 
         // First: self-repair
