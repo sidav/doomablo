@@ -4,6 +4,7 @@ class RWRadiationToken : RWSpecialDamageToken {
         Inventory.Amount 1;
     }
 
+    const particleColor = 0x11ff11;
     const DamageEach = TICRATE;
     const RadiationDamageRadiusFactor = 4;
 
@@ -30,7 +31,7 @@ class RWRadiationToken : RWSpecialDamageToken {
             let pspeed = owner.Radius * RadiationDamageRadiusFactor;
             let pVect = AngleToVector(rnd.Randf(0.0, 360.0), pspeed/double(TICRATE));
             owner.A_SpawnParticle(
-                0xffaa00,
+                particleColor,
                 flags: SPF_FULLBRIGHT | SPF_REPLACE,
                 lifetime: TICRATE,
                 size: 4.0,

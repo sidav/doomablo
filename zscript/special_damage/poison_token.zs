@@ -4,6 +4,7 @@ class RWPoisonToken : RWSpecialDamageToken {
         Inventory.Amount 10;
     }
 
+    const particleColor = 0x228800;
     const DamageEach = TICRATE * 2;
 
     override void Tick() {
@@ -23,7 +24,7 @@ class RWPoisonToken : RWSpecialDamageToken {
 
         if (GetAge() % 5 == 0) {
             owner.A_SpawnParticle(
-                0x00ff00,
+                particleColor,
                 flags: SPF_FULLBRIGHT | SPF_REPLACE,
                 lifetime: rnd.rand(DamageEach, DamageEach * 2),
                 size: 4.0,
@@ -36,7 +37,7 @@ class RWPoisonToken : RWSpecialDamageToken {
     }
 
     private int damage() {
-        return (amount/4 + 1);
+        return (amount/3 + 1);
     }
 
 }
