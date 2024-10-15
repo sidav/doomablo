@@ -1,6 +1,6 @@
 extend class MyCustomHUD {
 
-    void DrawPickupableBackpackInfo(RWBackpack bkpk, MyPlayer plr) {
+    void DrawPickupableBackpackInfo(RWBackpack bkpk, RwPlayer plr) {
         if (plr.CurrentEquippedBackpack == bkpk) return;
 
         currentLineHeight = 0;

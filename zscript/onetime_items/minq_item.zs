@@ -16,7 +16,7 @@ class RwMinQItem : Inventory
 	}
 
 	override bool TryPickup(in out Actor toucher) {
-        let plr = MyPlayer(toucher);
+        let plr = RwPlayer(toucher);
         if (plr) {
 			plr.minItemQuality = min(plr.minItemQuality + 2, 75);
 			if (plr.minItemQuality >= plr.maxItemQuality) {

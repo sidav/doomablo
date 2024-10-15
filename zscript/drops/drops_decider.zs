@@ -49,7 +49,7 @@ class DropsDecider {
         // Roll quality
         int qty = 1;
         if (rar > 0) {
-            let plr = MyPlayer(Players[0].mo);
+            let plr = RwPlayer(Players[0].mo);
             if (plr) {
                 int minQty = plr.minItemQuality;
                 int maxQty = plr.maxItemQuality;

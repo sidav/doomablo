@@ -17,7 +17,7 @@ extend class RandomizedWeapon {
             return true;
         } else {
             if (autoSwitch) {
-                MyPlayer(Owner).PickNewWeapon(null);
+                RwPlayer(Owner).PickNewWeapon(null);
             }
             return false;
         }
@@ -60,7 +60,7 @@ extend class RandomizedWeapon {
             if (invoker.ammo1.amount >= invoker.stats.ammoUsage) {
                 return ResolveState("Reload");
             }
-            MyPlayer(invoker.Owner).PickNewWeapon(null);
+            RwPlayer(invoker.Owner).PickNewWeapon(null);
             return ResolveState(null);    
         }
         return ResolveState(null);

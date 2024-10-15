@@ -57,7 +57,7 @@ extend class RwBackpack {
         aff = findAppliedAffix('BSuffBetterMedikits');
         // Caution here: this affix-caused healing may chain-trigger itself on next tick.
         // To prevent that the min allowed lastHealedBy should be bigger than the max affix heal amount.
-        if (aff != null && MyPlayer(owner).lastHealedBy >= 10 && MyPlayer(owner).lastHealedBy > aff.modifierLevel) {
+        if (aff != null && RwPlayer(owner).lastHealedBy >= 10 && RwPlayer(owner).lastHealedBy > aff.modifierLevel) {
             owner.GiveBody(aff.modifierLevel, 100);
         }
 

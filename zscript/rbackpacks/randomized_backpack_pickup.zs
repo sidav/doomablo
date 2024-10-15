@@ -11,7 +11,7 @@ extend class RwBackpack {
         let plrInfo = toucher.player;
 		if (plrInfo)
 		{
-            let plrActor = MyPlayer(toucher);
+            let plrActor = RwPlayer(toucher);
             plrActor.PickUpBackpack(self);
             onPickup(toucher);
 		}
@@ -52,8 +52,8 @@ extend class RwBackpack {
     override void DetachFromOwner ()
 	{
 		// When removing a backpack, drop the player's ammo maximums to normal
-		if (MyPlayer(owner)) {
-            MyPlayer(owner).ResetMaxAmmoToDefault();
+		if (RwPlayer(owner)) {
+            RwPlayer(owner).ResetMaxAmmoToDefault();
         }
 	}
 }

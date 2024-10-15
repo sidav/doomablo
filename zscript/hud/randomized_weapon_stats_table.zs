@@ -1,6 +1,6 @@
 extend class MyCustomHUD {
 
-    void DrawPickupableWeaponInfo(RandomizedWeapon wpn, MyPlayer plr) {
+    void DrawPickupableWeaponInfo(RandomizedWeapon wpn, RwPlayer plr) {
         RandomizedWeapon wpnComp = RandomizedWeapon(CPlayer.ReadyWeapon);
 
         let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
@@ -9,7 +9,7 @@ extend class MyCustomHUD {
 
         currentLineHeight = 0;
 
-        // let plr = MyPlayer(CPlayer.mo);
+        // let plr = RwPlayer(CPlayer.mo);
         // if (plr.HasEmptyWeaponSlotFor(wpn)) {
         //     PrintLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
         // } else {

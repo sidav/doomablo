@@ -55,7 +55,7 @@ class MyCustomHUD : DoomStatusBar
 			// DrawString(mSmallFont, "Don't use this HUD size please", (0, 0), DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER);
             DrawFullScreenStuff();
 			DrawPickupableItemInfo();
-			if (MyPlayer(CPlayer.mo).showStatsButtonPressedTicks > TICRATE/3) {
+			if (RwPlayer(CPlayer.mo).showStatsButtonPressedTicks > TICRATE/3) {
 				DrawFullCurrentItemsInfo();
 			} else {
 				DrawShortCurrentItemsInfo();

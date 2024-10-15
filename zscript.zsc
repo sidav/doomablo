@@ -15,7 +15,8 @@ version "4.10.0"
 #include "zscript/misc/rnd.zs"
 #include "zscript/misc/tests_handler.zs"
 
-#include "zscript/player/player.zs"
+#include "zscript/player/base_player.zs"
+#include "zscript/player/progression_player.zs"
 #include "zscript/player/press_to_pickup_handler.zs"
 
 #include "zscript/affix/affix.zs"

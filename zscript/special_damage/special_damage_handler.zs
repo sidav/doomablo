@@ -11,14 +11,14 @@ class RWSpecialDamageHandler : EventHandler
         //     .."; who did: "..whoDidDamage.GetClassName()
         //     .."; Inflictor: "..e.Inflictor.GetClassName());
 
-        if (whoDidDamage is 'MyPlayer' && !(target is 'ExplosiveBarrel') && !(e.Inflictor is 'ExplosiveBarrel')) {
+        if (whoDidDamage is 'RwPlayer' && !(target is 'ExplosiveBarrel') && !(e.Inflictor is 'ExplosiveBarrel')) {
             // debug.print("Dealt "..e.damage.." damage");
-            handleDamageFromPlayer(MyPlayer(whoDidDamage), target, e.damage);
+            handleDamageFromPlayer(RwPlayer(whoDidDamage), target, e.damage);
         }
 
     }
 
-    static void handleDamageFromPlayer(MyPlayer plr, Actor target, int damage) {
+    static void handleDamageFromPlayer(RwPlayer plr, Actor target, int damage) {
         let wpn = RandomizedWeapon(plr.Player.ReadyWeapon);
         if (!wpn) return;
 

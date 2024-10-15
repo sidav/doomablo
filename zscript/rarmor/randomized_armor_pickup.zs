@@ -9,7 +9,7 @@ extend class RandomizedArmor {
         let plrInfo = toucher.player;
 		if (plrInfo)
 		{
-            let plrActor = MyPlayer(toucher);
+            let plrActor = RwPlayer(toucher);
             plrActor.PickUpArmor(self);
             onPickup(toucher);
 		}

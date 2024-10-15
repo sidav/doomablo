@@ -10,7 +10,7 @@ extend class RandomizedWeapon {
         let plrInfo = toucher.player;
 		if (plrInfo)
 		{
-            let plrActor = MyPlayer(toucher);
+            let plrActor = RwPlayer(toucher);
             plrActor.PickUpWeapon(self);
             onPickup(toucher);
 		}

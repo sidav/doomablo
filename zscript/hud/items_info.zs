@@ -9,7 +9,7 @@ extend class MyCustomHUD {
             return;
         }
 
-        let plr = MyPlayer(CPlayer.mo);
+        let plr = RwPlayer(CPlayer.mo);
         if (!plr) return;
 
         
@@ -37,7 +37,7 @@ extend class MyCustomHUD {
 
     const fullScreenStatusFlags = DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT;
     void DrawFullCurrentItemsInfo() {
-        let plr = MyPlayer(CPlayer.mo);
+        let plr = RwPlayer(CPlayer.mo);
         let wpn = RandomizedWeapon(CPlayer.ReadyWeapon);
         let arm = RandomizedArmor(plr.CurrentEquippedArmor);
 
@@ -80,7 +80,7 @@ extend class MyCustomHUD {
     }
 
     void DrawShortCurrentItemsInfo() {
-        let plr = MyPlayer(CPlayer.mo);
+        let plr = RwPlayer(CPlayer.mo);
         let wpn = RandomizedWeapon(CPlayer.ReadyWeapon);
         let armr = RandomizedArmor(plr.CurrentEquippedArmor);
 

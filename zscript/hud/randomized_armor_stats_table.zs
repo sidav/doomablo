@@ -1,6 +1,6 @@
 extend class MyCustomHUD {
 
-    void DrawPickupableArmorInfo(RandomizedArmor armr, MyPlayer plr) {
+    void DrawPickupableArmorInfo(RandomizedArmor armr, RwPlayer plr) {
         if (plr.CurrentEquippedArmor == armr) return;
 
         currentLineHeight = 0;

@@ -1,6 +1,6 @@
 gameinfo
 {
-	PlayerClasses = "MyPlayer" //, "DoomPlayer" // Defines 2 classes for the player to choose from
+	PlayerClasses = "RwPlayer", "RWProgressionPlayer" // Defines 2 classes for the player to choose from
 
 	statusbarclass = "MyCustomHUD"
 

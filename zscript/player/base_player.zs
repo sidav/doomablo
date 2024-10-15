@@ -1,4 +1,4 @@
-class MyPlayer : DoomPlayer
+class RwPlayer : DoomPlayer
 {
     const WEAPON_SLOTS = 4; // this DOES count the fists
 
@@ -12,20 +12,19 @@ class MyPlayer : DoomPlayer
     int previousHealth, lastHealedBy; // May be needed for altering picked up health amount by other items
 
     default {
-        Player.DisplayName "RW Marine";
+        Player.DisplayName "Random Drops";
         Health 100;
+    }
+
+    virtual bool ProgressionEnabled() {
+        return false;
     }
 
     override void BeginPlay() {
         super.BeginPlay();
         ResetMaxAmmoToDefault();
-        if (CVar.GetCVar('rw_progression_enabled', null).GetBool()) {
-            minItemQuality = 1;
-            maxItemQuality = 5;
-        } else {
-            minItemQuality = 1;
-            maxItemQuality = 100;
-        }
+        minItemQuality = 1;
+        maxItemQuality = 100;
     }
 
     override void Tick() {

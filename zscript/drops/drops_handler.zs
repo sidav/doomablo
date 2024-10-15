@@ -4,12 +4,6 @@ class DropsHandler : EventHandler
     mixin AffixableGenerationHelperable;
     mixin DropSpreadable;
 
-    bool progressionEnabled;
-
-    override void OnRegister() {
-        progressionEnabled = CVar.GetCVar('rw_progression_enabled', null).GetBool();
-    }
-
     override void WorldThingDied(WorldEvent e) {
         if (e.Thing is 'ExplosiveBarrel') {
             return;
@@ -58,7 +52,7 @@ class DropsHandler : EventHandler
         bool unused;
         Actor spawnedItem;
         int dropType;
-        if (progressionEnabled) {
+        if (RwPlayer(Players[0].mo).ProgressionEnabled()) {
             dropType = rnd.weightedRand(100, 100, 50, 10);
         } else {
             // Don't drop progression items
