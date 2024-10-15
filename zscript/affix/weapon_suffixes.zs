@@ -97,6 +97,18 @@ class WSuffAmmoDrops : RwWeaponSuffix {
     }
 }
 
+class WSuffSpawnBarrelOnKill : RwWeaponSuffix {
+    override string getName() {
+        return "Barrels";
+    }
+    override string getDescription() {
+        return modifierLevel.."% chance to create explosive barrel on kill";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 25);
+    }
+}
+
 // Hitscan only
 class WSuffMinirockets : RwWeaponSuffix {
     override string getName() {

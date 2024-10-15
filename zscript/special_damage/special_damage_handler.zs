@@ -55,6 +55,14 @@ class RWSpecialDamageHandler : EventHandler
                 }
                 continue;
             }
+
+            if (current.GetClass() == 'WSuffSpawnBarrelOnKill') {
+                if (target.health <= 0 && rnd.PercentChance(current.modifierLevel)) {
+                    let brl = Target.Spawn('ExplosiveBarrel', target.Pos);
+                    AssignSpreadVelocityTo(brl);
+                }
+                continue;
+            }
         }
     }
     
