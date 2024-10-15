@@ -59,6 +59,8 @@ version "4.10.0"
 #include "zscript/rarmor/randomized_armor_stats.zs"
 
 #include "zscript/rbackpacks/randomized_backpack.zs"
+#include "zscript/rbackpacks/backpack_variant_2.zs"
+#include "zscript/rbackpacks/backpack_variant_3.zs"
 #include "zscript/rbackpacks/randomized_backpack_pickup.zs"
 #include "zscript/rbackpacks/randomized_backpack_stats.zs"
 #include "zscript/rbackpacks/randomized_backpack_suffix_effect.zs"

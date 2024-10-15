@@ -89,7 +89,7 @@ class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
 
         // BACKPACK:
         case 'Backpack':
-            e.Replacement = 'RwBackpack';
+            e.Replacement = RwBackpack.GetRandomVariantClass();
             break;
 
 		// ONE-TIME PICKUPS:

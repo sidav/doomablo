@@ -13,6 +13,17 @@ class RwBackpack : Inventory {
 		stats.maxCell = 300;
     }
 
+    // The only difference in variants is only the sprite currently. That's why the names are obscure.
+    static class <RwBackpack> GetRandomVariantClass() {
+        let v = rnd.randn(3);
+        switch (v) {
+            case 0: return 'RwBackpack';
+            case 1: return 'RwBackpackVariant2';
+            case 2: return 'RwBackpackVariant3';
+        }
+        return 'RwBackpack';
+    }
+
     // Needs to be called after generation
     private void finalizeAfterGeneration() {
         return;

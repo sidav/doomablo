@@ -49,7 +49,7 @@ class ConsoleDropsHandler : EventHandler
 
             // Backpack
             case 20: 
-                [unused, spawnedItem] = player.A_SpawnItemEx('RwBackpack', xofs: xofs, zvel: zvel);
+                [unused, spawnedItem] = player.A_SpawnItemEx(RwBackpack.GetRandomVariantClass(), xofs: xofs, zvel: zvel);
                 break;
             
             default:
