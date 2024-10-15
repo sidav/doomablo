@@ -41,6 +41,13 @@ class RWSpecialDamageHandler : EventHandler
                 continue;
             }
 
+            if (current.GetClass() == 'WSuffRadiation') {
+                if (rnd.PercentChance(current.modifierLevel)) {
+                    target.GiveInventory('RWRadiationToken', 1);
+                }
+                continue;
+            }
+
             if (current.GetClass() == 'WSuffPain') {
                 if (rnd.PercentChance(current.modifierLevel)) {
                     target.GiveInventory('RWPainToken', 5);

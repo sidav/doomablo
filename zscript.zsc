@@ -49,6 +49,7 @@ version "4.10.0"
 #include "zscript/special_damage/special_damage_token.zs"
 #include "zscript/special_damage/pain_token.zs"
 #include "zscript/special_damage/poison_token.zs"
+#include "zscript/special_damage/radiation_token.zs"
 
 #include "zscript/rarmor/agreen.zs"
 #include "zscript/rarmor/ablue.zs"

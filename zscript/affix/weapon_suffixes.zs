@@ -61,7 +61,24 @@ class WSuffPoison : RwWeaponSuffix {
         } else if (wpn.stats.clipSize > 5) {
             maxPercentage = 33;
         }
-        // debug.print("maxPerc is "..maxPercentage);
+        modifierLevel = remapQualityToRange(quality, 1, maxPercentage);
+    }
+}
+
+class WSuffRadiation : RwWeaponSuffix {
+    override string getName() {
+        return "Irradiation";
+    }
+    override string getDescription() {
+        return modifierLevel.."% chance to irradiate the target on hit";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        let maxPercentage = 50;
+        if (wpn.stats.Pellets > 1) {
+            maxPercentage = 20;
+        } else if (wpn.stats.clipSize > 5) {
+            maxPercentage = 33;
+        }
         modifierLevel = remapQualityToRange(quality, 1, maxPercentage);
     }
 }
