@@ -16,8 +16,8 @@ class RwBlueArmor : RandomizedArmor
 	override void setBaseStats() {
 		rwbaseName = "Blue Armor";
 		stats = New('RwArmorStats');
-		stats.currDurability = 200;
-		stats.maxDurability = 200;
+		stats.currDurability = 100;
+		stats.maxDurability = 100;
 		stats.AbsorbsPercentage = 50;
 		stats.DamageReduction = 0;
 		stats.BonusRepair = 5;
