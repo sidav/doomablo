@@ -1,6 +1,7 @@
 gameinfo
 {
 	PlayerClasses = "RwPlayer", "RWProgressionPlayer" // Defines 2 classes for the player to choose from
+	NoRandomPlayerClass = true
 
 	statusbarclass = "MyCustomHUD"
 
