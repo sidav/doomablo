@@ -84,7 +84,11 @@ class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
 			e.Replacement = 'RwGreenArmor';
             break;
         case 'BlueArmor':
-			e.Replacement = 'RwBlueArmor';
+            if (rnd.OneChanceFrom(3)) {
+                e.Replacement = 'RwEnergyArmor';
+            } else {
+			    e.Replacement = 'RwBlueArmor';
+            }
             break;
 
         // BACKPACK:

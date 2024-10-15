@@ -1,7 +1,8 @@
 class RandomizedArmor : Armor {
 
     mixin Affixable;
-    mixin ArmorSuffixable;
+
+    int lastDamageTick;
 
     RwArmorStats stats;
     string rwbaseName;
@@ -38,7 +39,7 @@ class RandomizedArmor : Armor {
     }
 
     override void DoEffect() {
-        RWA_SuffOnDoEffect();
+        RWA_DoSuffixEffect();
     }
 
     void RepairFor(int repairAmount) {
@@ -49,6 +50,10 @@ class RandomizedArmor : Armor {
         return "EX-ST "..rnd.Rand(100, 200);
     }
 
+    int ticksSinceDamage() {
+        return GetAge() - lastDamageTick;
+    }
+
     override void AbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
         damage -= stats.DamageReduction;
         if (damage <= 0) {
@@ -57,6 +62,9 @@ class RandomizedArmor : Armor {
         let damageToArmor = math.getIntPercentage(damage, stats.AbsorbsPercentage);
         if (damageToArmor > stats.currDurability) {
             damageToArmor = stats.currDurability;
+        }
+        if (stats.currDurability > 0 && damageToArmor > 0) {
+            lastDamageTick = GetAge();
         }
         stats.currDurability -= damageToArmor;
         newdamage = damage - damageToArmor;
