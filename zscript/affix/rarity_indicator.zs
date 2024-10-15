@@ -9,6 +9,7 @@ class RarityIndicator : Actor
     +NOINTERACTION
     +NOBLOCKMAP
     +BRIGHT
+    +MOVEWITHSECTOR
     Renderstyle 'AddShaded';
     Scale 0.25;
     Alpha 2.0;

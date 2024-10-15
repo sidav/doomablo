@@ -3,6 +3,7 @@ mixin class Affixable {
     array <Affix> appliedAffixes;
     int generatedQuality;
     string nameWithAppliedAffixes;
+    RarityIndicator attachedRarityIndicator;
 
     // Rarity is equal to number of affixes, affixQuality defines their min/max generated values.
     void Generate(int rarity, int affixQuality) {
@@ -28,7 +29,7 @@ mixin class Affixable {
 
         AssignRandomAffixesByAffQualityArr(affQualities, rarity);
         setNameAfterGeneration();
-        RarityIndicator.Attach(self, appliedAffixes.Size());
+        attachRarityIndicatorIfNone();
         finalizeAfterGeneration();
     }
 
@@ -189,5 +190,16 @@ mixin class Affixable {
         }
 
         return setName.." of "..appliedAffixes[appliedAffixes.Size()-1].getNameAsSuffix();
+    }
+
+    void attachRarityIndicatorIfNone() {
+        if (attachedRarityIndicator == null) {
+            attachedRarityIndicator = RarityIndicator.Attach(self, appliedAffixes.Size());
+        }
+    }
+
+    override void onDrop(Actor dropper) {
+        super.onDrop(dropper);
+        attachRarityIndicatorIfNone();
     }
 }
