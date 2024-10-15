@@ -51,6 +51,10 @@ class RandomizedArmor : Armor {
         return "EX-ST "..rnd.Rand(100, 200);
     }
 
+    int ticksSinceDamage() {
+        return GetAge() - lastDamageTick;
+    }
+
     override void AbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
         damage -= stats.DamageReduction;
         if (damage <= 0) {

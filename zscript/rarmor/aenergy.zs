@@ -15,13 +15,12 @@ class RwEnergyArmor : RandomizedArmor
 
 
 	override void DoEffect() {
-		let ticksSinceDamage = GetAge() - lastDamageTick;
-		if (ticksSinceDamage >= stats.delayUntilRecharge) {
-			if (ticksSinceDamage % stats.energyRestorePeriod == 0) {
+		super.DoEffect();
+		if (ticksSinceDamage() >= stats.delayUntilRecharge) {
+			if (ticksSinceDamage() % stats.energyRestorePeriod == 0) {
 				stats.currDurability = min(stats.currDurability+1, stats.maxDurability);
 			}
 		}
-        super.DoEffect();
     }
 
 	override void setBaseStats() {
