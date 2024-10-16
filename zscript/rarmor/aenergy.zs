@@ -18,6 +18,9 @@ class RwEnergyArmor : RandomizedArmor
 		super.DoEffect();
 		if (ticksSinceDamage() >= stats.delayUntilRecharge) {
 			if (ticksSinceDamage() % stats.energyRestorePeriod == 0) {
+				if (stats.currDurability == 0) {
+					owner.Player.bonusCount += 5;
+				}
 				stats.currDurability = min(stats.currDurability+1, stats.maxDurability);
 			}
 		}

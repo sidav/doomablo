@@ -2,7 +2,9 @@ class RandomizedArmor : Armor {
 
     mixin Affixable;
 
+    // needed for affixes:
     int lastDamageTick;
+    int cumulativeRepair; 
 
     RwArmorStats stats;
     string rwbaseName;
@@ -43,7 +45,9 @@ class RandomizedArmor : Armor {
     }
 
     void RepairFor(int repairAmount) {
+        let before = stats.currDurability;
         stats.currDurability = min(stats.currDurability + repairAmount, stats.maxDurability);
+        cumulativeRepair += stats.currDurability - before;
     }
 
     virtual string GetRandomFluffName() {

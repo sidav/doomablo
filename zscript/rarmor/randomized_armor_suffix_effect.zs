@@ -3,6 +3,9 @@
 
 extend class RandomizedArmor {
 
+    const RepairForAbsUpgrade = 50;
+    const RepairForDrbUpgrade = 25;
+
     // call this inside "DoEffect" method for armor
     action void RWA_DoSuffixEffect() {
         let age = GetAge();
@@ -76,6 +79,25 @@ extend class RandomizedArmor {
                         mo.damageMobj(null, invoker.owner, aff.modifierLevel, 'Normal', DMG_NO_PROTECT);
                     }
                 }
+                return; // There may be no other affix anyway
+            }
+        }
+
+        if (invoker.cumulativeRepair >= RepairForAbsUpgrade) {
+            let aff = invoker.findAppliedAffix('ASuffAbsImprove');
+            if (aff != null) {
+                invoker.stats.AbsorbsPercentage += 1;
+                invoker.cumulativeRepair = 0;
+                return; // There may be no other affix anyway
+            }
+        }
+
+        if (invoker.cumulativeRepair >= RepairForDrbUpgrade) {
+            let aff = invoker.findAppliedAffix('ASuffDrbImprove');
+            if (aff != null) {
+                invoker.stats.maxDurability += 1;
+                invoker.stats.currDurability += 1;
+                invoker.cumulativeRepair = 0;
                 return; // There may be no other affix anyway
             }
         }
