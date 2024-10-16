@@ -3,105 +3,123 @@
 
 extend class RandomizedArmor {
 
+    // needed for affixes:
+    int lastDamageTick;
+    int cumulativeRepair; 
     const RepairForAbsUpgrade = 50;
     const RepairForDrbUpgrade = 25;
 
-    // call this inside "DoEffect" method for armor
-    action void RWA_DoSuffixEffect() {
+    override void DoEffect() {
         let age = GetAge();
 
         // First: self-repair
-        if (invoker.stats.currDurability < invoker.stats.maxDurability) {
-            let aff = invoker.findAppliedAffix('ASuffSelfrepair');
+        if (stats.currDurability < stats.maxDurability) {
+            let aff = findAppliedAffix('ASuffSelfrepair');
             if (aff != null) {
                 if (age % aff.modifierLevel == 0) {
-                    invoker.stats.currDurability++;
+                    stats.currDurability++;
                 }
                 return; // There may be no other affix anyway
             }
         }
 
         // Second: heal the owner
-        if (invoker.stats.currDurability > 0 && invoker.owner.health < 100) {
-            let aff = invoker.findAppliedAffix('ASuffDurabToHealth');
+        if (stats.currDurability > 0 && owner.health < 100) {
+            let aff = findAppliedAffix('ASuffDurabToHealth');
             if (aff != null) {
                 if (age % aff.modifierLevel == 0) {
-                    invoker.owner.GiveBody(1, 100);
-                    invoker.stats.currDurability--;
+                    owner.GiveBody(1, 100);
+                    stats.currDurability--;
                 }
                 return; // There may be no other affix anyway
             }
         }
 
-        if (invoker.stats.currDurability > 0 && invoker.owner.health < 100) {
-            let aff = invoker.findAppliedAffix('ASuffSlowHeal');
+        if (stats.currDurability > 0 && owner.health < 100) {
+            let aff = findAppliedAffix('ASuffSlowHeal');
             if (aff != null) {
                 if (age % aff.modifierLevel == 0) {
-                    invoker.owner.GiveBody(1, 125);
+                    owner.GiveBody(1, 125);
                 }
                 return; // There may be no other affix anyway
             }
         }
 
         // Loses durability
-        if (invoker.stats.currDurability > 0) {
-            let aff = invoker.findAppliedAffix('ASuffDegrading');
+        if (stats.currDurability > 0) {
+            let aff = findAppliedAffix('ASuffDegrading');
             if (aff != null) {
                 if (age % aff.modifierLevel == 0) {
-                    invoker.stats.currDurability--;
-                    RandomizedArmor(invoker).lastDamageTick = invoker.GetAge();
+                    stats.currDurability--;
+                    lastDamageTick = GetAge();
                 }
                 return; // There may be no other affix anyway
             }
         }
 
-        if (invoker.stats.currDurability == 0 && (invoker.ticksSinceDamage() == invoker.stats.delayUntilRecharge)) {
-            let aff = invoker.findAppliedAffix('ASuffECellsSpend');
+        if (stats.currDurability == 0 && (ticksSinceDamage() == stats.delayUntilRecharge)) {
+            let aff = findAppliedAffix('ASuffECellsSpend');
             if (aff != null) {
-                let cl = invoker.owner.FindInventory('Cell');
+                let cl = owner.FindInventory('Cell');
                 if (cl && cl.Amount >= aff.modifierLevel) {
                     cl.Amount -= aff.modifierLevel;
                 } else {
-                    invoker.lastDamageTick += TICRATE; // call this again 1 sec later hehe
+                    lastDamageTick += TICRATE; // call this again 1 sec later hehe
                 }
                 return; // There may be no other affix anyway
             }
         }
 
-        if (invoker.stats.currDurability == 0 && (invoker.ticksSinceDamage() == 1)) {
-            let aff = invoker.findAppliedAffix('ASuffEDamageOnEmpty');
+        if (stats.currDurability == 0 && (ticksSinceDamage() == 1)) {
+            let aff = findAppliedAffix('ASuffEDamageOnEmpty');
             if (aff != null) {
                 let ti = ThinkerIterator.Create('Actor');
                 Actor mo;
                 while (mo = Actor(ti.next())) {
-                    let reqDistance = invoker.owner.radius * 10;
-                    if (mo && invoker.owner != mo && invoker.owner.Distance2D(mo) <= reqDistance) {
-                        mo.damageMobj(null, invoker.owner, aff.modifierLevel, 'Normal', DMG_NO_PROTECT);
+                    let reqDistance = owner.radius * 10;
+                    if (mo && owner != mo && owner.Distance2D(mo) <= reqDistance) {
+                        mo.damageMobj(null, owner, aff.modifierLevel, 'Normal', DMG_NO_PROTECT);
                     }
                 }
                 return; // There may be no other affix anyway
             }
         }
 
-        if (invoker.cumulativeRepair >= RepairForAbsUpgrade) {
-            let aff = invoker.findAppliedAffix('ASuffAbsImprove');
+        if (cumulativeRepair >= RepairForAbsUpgrade) {
+            let aff = findAppliedAffix('ASuffAbsImprove');
             if (aff != null) {
-                invoker.stats.AbsorbsPercentage += 1;
-                invoker.cumulativeRepair = 0;
+                stats.AbsorbsPercentage += 1;
+                cumulativeRepair = 0;
                 return; // There may be no other affix anyway
             }
         }
 
-        if (invoker.cumulativeRepair >= RepairForDrbUpgrade) {
-            let aff = invoker.findAppliedAffix('ASuffDrbImprove');
+        if (cumulativeRepair >= RepairForDrbUpgrade) {
+            let aff = findAppliedAffix('ASuffDrbImprove');
             if (aff != null) {
-                invoker.stats.maxDurability += 1;
-                invoker.stats.currDurability += 1;
-                invoker.cumulativeRepair = 0;
+                stats.maxDurability += 1;
+                stats.currDurability += 1;
+                cumulativeRepair = 0;
                 return; // There may be no other affix anyway
             }
         }
 
+    }
+
+    override void AbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
+        damage -= stats.DamageReduction;
+        if (damage <= 0) {
+            damage = 1;
+        }
+        let damageToArmor = math.getIntPercentage(damage, stats.AbsorbsPercentage);
+        if (damageToArmor > stats.currDurability) {
+            damageToArmor = stats.currDurability;
+        }
+        if (stats.currDurability > 0 && damageToArmor > 0) {
+            lastDamageTick = GetAge();
+        }
+        stats.currDurability -= damageToArmor;
+        newdamage = damage - damageToArmor;
     }
 
 }
