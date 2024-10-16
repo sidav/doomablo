@@ -16,12 +16,21 @@ class RwEnergyArmor : RandomizedArmor
 
 	override void DoEffect() {
 		super.DoEffect();
-		if (ticksSinceDamage() >= stats.delayUntilRecharge) {
-			if (ticksSinceDamage() % stats.energyRestorePeriod == 0) {
-				if (stats.currDurability == 0) {
-					owner.Player.bonusCount += 5;
+		if (stats.currDurability < stats.maxDurability) {
+			let delay = stats.delayUntilRecharge;
+			if (RwPlayer(owner) && RwPlayer(owner).CurrentEquippedBackpack) {
+				let aff = RwPlayer(owner).CurrentEquippedBackpack.FindAppliedAffix('BSuffBetterEarmorDelay');
+				if (aff) {
+					delay = math.getIntPercentage(delay, aff.modifierLevel);
 				}
-				stats.currDurability = min(stats.currDurability+1, stats.maxDurability);
+			}
+			if (ticksSinceDamage() >= delay) {
+				if (ticksSinceDamage() % stats.energyRestorePeriod == 0) {
+					if (stats.currDurability == 0) {
+						owner.Player.bonusCount += 5;
+					}
+					stats.currDurability = min(stats.currDurability+1, stats.maxDurability);
+				}
 			}
 		}
     }
