@@ -107,3 +107,15 @@ class BSuffMoreAmmoChance : RwBackpackSuffix {
         modifierLevel = remapQualityToRange(quality, 1, 50);
     }
 }
+
+class BSuffBetterEarmorDelay : RwBackpackSuffix {
+    override string getName() {
+        return "Circuitry";
+    }
+    override string getDescription() {
+        return String.Format("Reduces energy armor recharge delay to %d%%", (modifierLevel));
+    }
+    override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
+        modifierLevel = 100 - remapQualityToRange(quality, 1, 50);
+    }
+}

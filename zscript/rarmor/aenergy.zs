@@ -16,9 +16,21 @@ class RwEnergyArmor : RandomizedArmor
 
 	override void DoEffect() {
 		super.DoEffect();
-		if (ticksSinceDamage() >= stats.delayUntilRecharge) {
-			if (ticksSinceDamage() % stats.energyRestorePeriod == 0) {
-				stats.currDurability = min(stats.currDurability+1, stats.maxDurability);
+		if (stats.currDurability < stats.maxDurability) {
+			let delay = stats.delayUntilRecharge;
+			if (RwPlayer(owner) && RwPlayer(owner).CurrentEquippedBackpack) {
+				let aff = RwPlayer(owner).CurrentEquippedBackpack.FindAppliedAffix('BSuffBetterEarmorDelay');
+				if (aff) {
+					delay = math.getIntPercentage(delay, aff.modifierLevel);
+				}
+			}
+			if (ticksSinceDamage() >= delay) {
+				if (ticksSinceDamage() % stats.energyRestorePeriod == 0) {
+					if (stats.currDurability == 0) {
+						owner.Player.bonusCount += 5;
+					}
+					stats.currDurability = min(stats.currDurability+1, stats.maxDurability);
+				}
 			}
 		}
     }
@@ -27,10 +39,10 @@ class RwEnergyArmor : RandomizedArmor
 		rwbaseName = "Energy Armor";
 		stats = New('RwArmorStats');
 		stats.currDurability = 0;
-		stats.maxDurability = 10;
+		stats.maxDurability = 15;
 		stats.AbsorbsPercentage = 75;
 		
-		stats.energyRestorePeriod = TICRATE/2;
+		stats.energyRestorePeriod = 2*TICRATE/3;
 		stats.delayUntilRecharge = TICRATE*10;
     }
 

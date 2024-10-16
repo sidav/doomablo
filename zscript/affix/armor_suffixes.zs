@@ -28,28 +28,9 @@ class RwArmorSuffix : Affix {
 
 // Universal ones
 
-class ASuffSelfrepair : RwArmorSuffix {
-    override string getName() {
-        return "UAC Nanotech";
-    }
-    override string getDescription() {
-        return "Repairs itself each "
-            ..
-            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
-            .." seconds";
-    }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
-        return !(arm.stats.IsEnergyArmor());
-    }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        let secondsx10 = 100 - remapQualityToRange(quality, 5, 100);
-        modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
-    }
-}
-
 class ASuffDegrading : RwArmorSuffix {
     override string getName() {
-        return "Lacking the license";
+        return "No license";
     }
     override int getAlignment() {
         return -1;
@@ -69,9 +50,64 @@ class ASuffDegrading : RwArmorSuffix {
     }
 }
 
+class ASuffSlowHeal : RwArmorSuffix {
+    override string getName() {
+        return "UAC RegenTech";
+    }
+    override string getDescription() {
+        return "Each "
+            ..
+            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
+            ..
+            " sec heals you for free";
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        let secondsx10 = 150 - remapQualityToRange(quality, 0, 140);
+        modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+    }
+}
+
+// Non-energy only
+
+class ASuffAbsImprove : RwArmorSuffix {
+    override string getName() {
+        return "AdapTek";
+    }
+    override string getDescription() {
+        return "Gain +1% ABS (max "..modifierLevel..") for each "..RandomizedArmor.RepairForAbsUpgrade.." repaired";
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return !(a2 is 'RwArmorSuffix' || a2 is 'APrefHard');
+    }
+    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+        return !(arm.stats.IsEnergyArmor());
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        modifierLevel = remapQualityToRange(quality, 5*arm.stats.AbsorbsPercentage/4, min(5*arm.stats.AbsorbsPercentage/2, 100));
+    }
+}
+
+class ASuffDrbImprove : RwArmorSuffix {
+    override string getName() {
+        return "Overbuild";
+    }
+    override string getDescription() {
+        return "Gain +1 DRB (max "..modifierLevel..") for each "..RandomizedArmor.RepairForDrbUpgrade.." repaired";
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return !(a2 is 'RwArmorSuffix' || a2 is 'APrefSturdy');
+    }
+    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+        return !(arm.stats.IsEnergyArmor());
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        modifierLevel = remapQualityToRange(quality, 3*arm.stats.maxDurability/2, 2*arm.stats.maxDurability);
+    }
+}
+
 class ASuffDurabToHealth : RwArmorSuffix {
     override string getName() {
-        return "UAC Auto-Surgeon";
+        return "UAC MediTech";
     }
     override string getDescription() {
         return "Each "
@@ -89,20 +125,38 @@ class ASuffDurabToHealth : RwArmorSuffix {
     }
 }
 
-class ASuffSlowHeal : RwArmorSuffix {
+class ASuffSelfrepair : RwArmorSuffix {
     override string getName() {
-        return "UAC HealTech";
+        return "UAC Nanotech";
     }
     override string getDescription() {
-        return "Each "
+        return "Repairs itself each "
             ..
             String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
-            ..
-            " sec heals you";
+            .." seconds";
+    }
+    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+        return !(arm.stats.IsEnergyArmor());
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        let secondsx10 = 150 - remapQualityToRange(quality, 0, 140);
+        let secondsx10 = 100 - remapQualityToRange(quality, 5, 100);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+    }
+}
+
+class ASuffThorns : RwArmorSuffix {
+    override string getName() {
+        return "Feedback";
+    }
+    override string getDescription() {
+        return String.Format("%d%% chance to return %d%% of damage to the attacker",
+            (modifierLevel, RandomizedArmor.ThornsReturnedPercentage));
+    }
+    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+        return !(arm.stats.IsEnergyArmor());
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 50);
     }
 }
 
@@ -122,7 +176,7 @@ class ASuffECellsSpend : RwArmorSuffix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 50);
+        modifierLevel = remapQualityToRange(quality, 1, 40);
     }
 }
 
@@ -140,7 +194,7 @@ class ASuffEBonusRepair : RwArmorSuffix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, arm.stats.maxDurability);
+        modifierLevel = remapQualityToRange(quality, 1, arm.stats.maxDurability/2);
         arm.stats.BonusRepair = modifierLevel;
     }
 }
@@ -150,7 +204,7 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
         return "UAC A-Def";
     }
     override string getDescription() {
-        return String.Format("On emptying deals %d dmg to everyone around", modifierLevel);
+        return String.Format("On emptying deals %d dmg to everyone nearby", modifierLevel);
     }
     override int getAlignment() {
         return 1;
@@ -159,6 +213,6 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 10);
+        modifierLevel = remapQualityToRange(quality, 1, 15);
     }
 }

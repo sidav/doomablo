@@ -2,8 +2,6 @@ class RandomizedArmor : Armor {
 
     mixin Affixable;
 
-    int lastDamageTick;
-
     RwArmorStats stats;
     string rwbaseName;
 
@@ -38,12 +36,10 @@ class RandomizedArmor : Armor {
         super.Tick();
     }
 
-    override void DoEffect() {
-        RWA_DoSuffixEffect();
-    }
-
     void RepairFor(int repairAmount) {
+        let before = stats.currDurability;
         stats.currDurability = min(stats.currDurability + repairAmount, stats.maxDurability);
+        cumulativeRepair += stats.currDurability - before;
     }
 
     virtual string GetRandomFluffName() {
@@ -52,22 +48,6 @@ class RandomizedArmor : Armor {
 
     int ticksSinceDamage() {
         return GetAge() - lastDamageTick;
-    }
-
-    override void AbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
-        damage -= stats.DamageReduction;
-        if (damage <= 0) {
-            damage = 1;
-        }
-        let damageToArmor = math.getIntPercentage(damage, stats.AbsorbsPercentage);
-        if (damageToArmor > stats.currDurability) {
-            damageToArmor = stats.currDurability;
-        }
-        if (stats.currDurability > 0 && damageToArmor > 0) {
-            lastDamageTick = GetAge();
-        }
-        stats.currDurability -= damageToArmor;
-        newdamage = damage - damageToArmor;
     }
 
 }
