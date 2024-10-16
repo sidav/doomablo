@@ -64,7 +64,7 @@ extend class MyCustomHUD {
 
             if (armrCmp && armr.stats.delayUntilRecharge != armrCmp.stats.delayUntilRecharge) {
                 compareStr = " ("..floatToSignedStr(Gametime.ticksToSeconds(armr.stats.delayUntilRecharge) - Gametime.ticksToSeconds(armrCmp.stats.delayUntilRecharge))..")";
-                compareClr = GetDifferenceColor(armr.stats.delayUntilRecharge - armrCmp.stats.delayUntilRecharge);
+                compareClr = GetDifferenceColor(armr.stats.delayUntilRecharge - armrCmp.stats.delayUntilRecharge, true);
             } else {
                 compareStr = "";
                 compareClr = Font.CR_White;

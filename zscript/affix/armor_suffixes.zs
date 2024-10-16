@@ -89,7 +89,7 @@ class ASuffAbsImprove : RwArmorSuffix {
 
 class ASuffDrbImprove : RwArmorSuffix {
     override string getName() {
-        return "Rebuild";
+        return "Overbuild";
     }
     override string getDescription() {
         return "Gain +1 DRB (max "..modifierLevel..") for each "..RandomizedArmor.RepairForDrbUpgrade.." repaired";
@@ -213,6 +213,6 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 10);
+        modifierLevel = remapQualityToRange(quality, 1, 15);
     }
 }

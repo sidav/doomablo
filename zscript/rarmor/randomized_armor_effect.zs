@@ -115,9 +115,11 @@ extend class RandomizedArmor {
                 source.damageMobj(null, owner, thornDamage, 'Normal', DMG_NO_PROTECT);
             }
         }
-        damage -= stats.DamageReduction;
-        if (damage <= 0) {
-            damage = 1;
+        if (stats.currDurability > 0) {
+            damage -= stats.DamageReduction;
+            if (damage <= 0) {
+                damage = 1;
+            }
         }
         let damageToArmor = math.getIntPercentage(damage, stats.AbsorbsPercentage);
         if (damageToArmor > stats.currDurability) {

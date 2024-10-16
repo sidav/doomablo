@@ -30,10 +30,10 @@ class RwEnergyArmor : RandomizedArmor
 		rwbaseName = "Energy Armor";
 		stats = New('RwArmorStats');
 		stats.currDurability = 0;
-		stats.maxDurability = 10;
+		stats.maxDurability = 15;
 		stats.AbsorbsPercentage = 75;
 		
-		stats.energyRestorePeriod = TICRATE/2;
+		stats.energyRestorePeriod = 2*TICRATE/3;
 		stats.delayUntilRecharge = TICRATE*10;
     }
 
