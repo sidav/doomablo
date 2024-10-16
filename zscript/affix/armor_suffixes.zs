@@ -144,6 +144,22 @@ class ASuffSelfrepair : RwArmorSuffix {
     }
 }
 
+class ASuffThorns : RwArmorSuffix {
+    override string getName() {
+        return "Feedback";
+    }
+    override string getDescription() {
+        return String.Format("%d%% chance to return %d%% of damage to the attacker",
+            (modifierLevel, RandomizedArmor.ThornsReturnedPercentage));
+    }
+    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+        return !(arm.stats.IsEnergyArmor());
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 50);
+    }
+}
+
 // Energy-only
 
 class ASuffECellsSpend : RwArmorSuffix {

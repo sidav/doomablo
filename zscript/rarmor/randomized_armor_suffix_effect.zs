@@ -8,6 +8,7 @@ extend class RandomizedArmor {
     int cumulativeRepair; 
     const RepairForAbsUpgrade = 50;
     const RepairForDrbUpgrade = 25;
+    const ThornsReturnedPercentage = 25;
 
     override void DoEffect() {
         let age = GetAge();
@@ -87,7 +88,7 @@ extend class RandomizedArmor {
 
         if (cumulativeRepair >= RepairForAbsUpgrade) {
             let aff = findAppliedAffix('ASuffAbsImprove');
-            if (aff != null) {
+            if (aff != null && aff.modifierLevel > stats.AbsorbsPercentage) {
                 stats.AbsorbsPercentage += 1;
                 cumulativeRepair = 0;
                 return; // There may be no other affix anyway
@@ -96,7 +97,7 @@ extend class RandomizedArmor {
 
         if (cumulativeRepair >= RepairForDrbUpgrade) {
             let aff = findAppliedAffix('ASuffDrbImprove');
-            if (aff != null) {
+            if (aff != null && aff.modifierLevel > stats.maxDurability) {
                 stats.maxDurability += 1;
                 stats.currDurability += 1;
                 cumulativeRepair = 0;
@@ -107,6 +108,13 @@ extend class RandomizedArmor {
     }
 
     override void AbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
+        if (source && damage > 1) {
+            let aff = findAppliedAffix('ASuffThorns');
+            if (aff != null && rnd.PercentChance(aff.modifierLevel)) {
+                let thornDamage = max(1, math.getIntPercentage(damage, ThornsReturnedPercentage));
+                source.damageMobj(null, owner, thornDamage, 'Normal', DMG_NO_PROTECT);
+            }
+        }
         damage -= stats.DamageReduction;
         if (damage <= 0) {
             damage = 1;
