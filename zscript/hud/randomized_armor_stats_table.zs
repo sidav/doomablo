@@ -69,7 +69,7 @@ extend class MyCustomHUD {
                 compareStr = "";
                 compareClr = Font.CR_White;
             }
-            PrintTableLineAt("Delay until recharge", String.Format("%.1fs", Gametime.ticksToSeconds(armr.stats.delayUntilRecharge))..compareStr,
+            PrintTableLineAt("Delay until recharge", String.Format("%.1f s", Gametime.ticksToSeconds(armr.stats.delayUntilRecharge))..compareStr,
                         linesX, y, armorStatsTableWidth,
                         mSmallFont, textFlags, Font.CR_White, compareClr);
 
@@ -81,7 +81,7 @@ extend class MyCustomHUD {
                 compareStr = "";
                 compareClr = Font.CR_White;
             }
-            PrintTableLineAt("Recharge speed", String.Format("%.2f/s", Gametime.ticksToSeconds(armr.stats.RestorePerSecond()))..compareStr,
+            PrintTableLineAt("Recharge speed", String.Format("%.1f/s", armr.stats.RestorePerSecond())..compareStr,
                         linesX, y, armorStatsTableWidth,
                         mSmallFont, textFlags, Font.CR_White, compareClr);
 
