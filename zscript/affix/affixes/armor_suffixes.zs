@@ -125,6 +125,21 @@ class ASuffDurabToHealth : RwArmorSuffix {
     }
 }
 
+class ASuffMedikitsRepairArmor : RwArmorSuffix {
+    override string getName() {
+        return "Biosteel";
+    }
+    override string getDescription() {
+        return String.Format("Repair %d DRB on non-bonus heal", (modifierLevel));
+    }
+    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+        return !(arm.stats.IsEnergyArmor());
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 10);
+    }
+}
+
 class ASuffSelfrepair : RwArmorSuffix {
     override string getName() {
         return "UAC Nanotech";

@@ -366,16 +366,16 @@ class WPrefSmallerMag : RwWeaponPrefix {
         return -1;
     }
     override string getDescription() {
-        return "-"..modifierLevel.." magazine size";
+        return "-"..modifierLevel.." mag size";
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.clipSize > 1;
+        return wpn.stats.clipSize > 2;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBiggerMag';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.clipSize-1);
+        modifierLevel = remapQualityToRange(quality, 1, math.divideIntWithRounding(wpn.stats.clipSize, 2));
 
         wpn.stats.clipSize -= modifierLevel;
     }
@@ -392,7 +392,7 @@ class WPrefBiggerMag : RwWeaponPrefix {
         return 1;
     }
     override string getDescription() {
-        return "+"..modifierLevel.." magazine size";
+        return "+"..modifierLevel.." mag size";
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.stats.clipSize > 0;
@@ -501,7 +501,7 @@ class WPrefBulk : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefPuny';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 2*wpn.stats.Pellets);
+        modifierLevel = remapQualityToRange(quality, 1, 16*wpn.stats.Pellets/10);
 
         wpn.stats.Pellets += modifierLevel;
     }

@@ -22,6 +22,12 @@ extend class RandomizedArmor {
                 }
                 return; // There may be no other affix anyway
             }
+
+            aff = findAppliedAffix('ASuffMedikitsRepairArmor');
+            if (aff != null && RwPlayer(owner).lastHealedBy >= 10) {
+                stats.currDurability += aff.modifierLevel;
+                return;
+            }
         }
 
         // Second: heal the owner
