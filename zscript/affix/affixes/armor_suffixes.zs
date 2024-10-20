@@ -45,7 +45,7 @@ class ASuffDegrading : RwArmorSuffix {
             .." seconds";
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        let secondsx10 = 150 - remapQualityToRange(quality, 50, 100);
+        let secondsx10 = remapQualityToRange(quality, 100, 50);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
 }
@@ -55,14 +55,10 @@ class ASuffSlowHeal : RwArmorSuffix {
         return "UAC RegenTech";
     }
     override string getDescription() {
-        return "Each "
-            ..
-            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
-            ..
-            " sec heals you for free";
+        return String.Format("Each %.1f sec heals you for free", (Gametime.TicksToSeconds(modifierLevel)));
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        let secondsx10 = 150 - remapQualityToRange(quality, 0, 140);
+        let secondsx10 = remapQualityToRange(quality, 150, 10);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
 }
@@ -110,17 +106,13 @@ class ASuffDurabToHealth : RwArmorSuffix {
         return "UAC MediTech";
     }
     override string getDescription() {
-        return "Each "
-            ..
-            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
-            ..
-            " sec spends 1 durability to heal you";
+        return String.Format("Each %.1f sec spends 1 durability to heal you", (Gametime.TicksToSeconds(modifierLevel)));
     }
     override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        let secondsx10 = 80 - remapQualityToRange(quality, 0, 75);
+        let secondsx10 = remapQualityToRange(quality, 80, 5);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
 }
@@ -154,7 +146,7 @@ class ASuffSelfrepair : RwArmorSuffix {
         return !(arm.stats.IsEnergyArmor());
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        let secondsx10 = 100 - remapQualityToRange(quality, 5, 100);
+        let secondsx10 = remapQualityToRange(quality, 100, 5);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
 }

@@ -16,6 +16,12 @@ class Math {
 
     // Remaps integer from the range [fromMin, fromMax] to range [toMin, toMax] preserving the scale.
     static int remapIntRange(int val, int fromMin, int fromMax, int toMin, int toMax) {
+        if (toMax < toMin) {
+            let t = toMax;
+            toMax = toMin;
+            toMin = t;
+            val = fromMax - val; // "Reverse" the argument in its range.
+        }
         let fromLength = fromMax - fromMin;
         let toLength = toMax - toMin;
         // We need to solve the equation:
@@ -24,6 +30,7 @@ class Math {
         //    fromLength            toLength
         //
         // Then result = x + toMin.
+        // let x = divideIntWithRounding(toLength * (val-fromMin), fromLength);
         return toMin + divideIntWithRounding(toLength * (val-fromMin), fromLength);
     }
 

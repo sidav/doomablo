@@ -63,7 +63,7 @@ class BSuffRestoreCells : RwBackpackSuffix {
             .." seconds gives an energy cell";
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        let secondsx10 = 100 - remapQualityToRange(quality, 0, 95);
+        let secondsx10 = remapQualityToRange(quality, 100, 5);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
 }
@@ -79,7 +79,7 @@ class BSuffAutoreload : RwBackpackSuffix {
             .." seconds reloads your weapons";
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        let seconds = 30 - remapQualityToRange(quality, 0, 25);
+        let seconds = remapQualityToRange(quality, 30, 5);
         modifierLevel = gametime.secondsToTicks(seconds);
     }
 }
@@ -116,6 +116,6 @@ class BSuffBetterEarmorDelay : RwBackpackSuffix {
         return String.Format("Reduces energy armor recharge delay to %d%%", (modifierLevel));
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        modifierLevel = 100 - remapQualityToRange(quality, 1, 50);
+        modifierLevel = remapQualityToRange(quality, 95, 50);
     }
 }
