@@ -7,11 +7,11 @@ extend class MyCustomHUD {
         
         if (plr.CurrentEquippedArmor) {
             PrintLineAt("Press USE to switch to:",
-            defaultLeftStatsPosX, defaultLeftStatsPosY, mSmallFont,
+            defaultLeftStatsPosX, defaultLeftStatsPosY, itemStatsFont,
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         } else {
             PrintLineAt("Press USE to equip:", 
-            defaultLeftStatsPosX, defaultLeftStatsPosY, mSmallFont,
+            defaultLeftStatsPosX, defaultLeftStatsPosY, itemStatsFont,
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         }
     
@@ -26,8 +26,8 @@ extend class MyCustomHUD {
 
         PrintTableLineAt(
             "LVL "..bkpk.generatedQuality.." "..bkpk.nameWithAppliedAffixes, "("..getRarityName(bkpk.appliedAffixes.Size())..")",
-            x, y, armorStatsTableWidth,
-            mSmallShadowFont, textFlags, PickColorForAffixableItem(bkpk)
+            x, y, pickupableStatsTableWidth,
+            itemNameFont, textFlags, PickColorForAffixableItem(bkpk)
         );
 
         if (bkpkCmp && bkpk.stats.maxBull != bkpkCmp.stats.maxBull) {
@@ -38,8 +38,8 @@ extend class MyCustomHUD {
             compareClr = Font.CR_White;
         }
         PrintTableLineAt("Max bullets:", bkpk.stats.maxBull..compareStr,
-                    linesX, y, armorStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);
 
         // SHELLS
         if (bkpkCmp && bkpk.stats.maxShel != bkpkCmp.stats.maxShel) {
@@ -50,8 +50,8 @@ extend class MyCustomHUD {
             compareClr = Font.CR_White;
         }
         PrintTableLineAt("Max shells:", bkpk.stats.maxShel..compareStr,
-                    linesX, y, armorStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);
 
         // ROCKETS
         if (bkpkCmp && bkpk.stats.maxRckt != bkpkCmp.stats.maxRckt) {
@@ -62,8 +62,8 @@ extend class MyCustomHUD {
             compareClr = Font.CR_White;
         }
         PrintTableLineAt("Max Rockets:", bkpk.stats.maxRckt..compareStr,
-                    linesX, y, armorStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);
 
         // CELLS
         if (bkpkCmp && bkpk.stats.maxCell != bkpkCmp.stats.maxCell) {
@@ -74,8 +74,8 @@ extend class MyCustomHUD {
             compareClr = Font.CR_White;
         }
         PrintTableLineAt("Max Cells:", bkpk.stats.maxCell..compareStr,
-                    linesX, y, armorStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);
 
         foreach (aff : bkpk.appliedAffixes) {
             printAffixDescriptionLineAt(aff, x+16, y, textFlags);

@@ -7,11 +7,11 @@ extend class MyCustomHUD {
         
         if (plr.CurrentEquippedArmor) {
             PrintLineAt("Press USE to switch to:",
-            defaultLeftStatsPosX, defaultLeftStatsPosY, mSmallFont,
+            defaultLeftStatsPosX, defaultLeftStatsPosY, itemStatsFont,
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         } else {
             PrintLineAt("Press USE to equip:", 
-            defaultLeftStatsPosX, defaultLeftStatsPosY, mSmallFont,
+            defaultLeftStatsPosX, defaultLeftStatsPosY, itemStatsFont,
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         }
     
@@ -19,7 +19,6 @@ extend class MyCustomHUD {
         printArmorStatsTableAt(armr, plr.CurrentEquippedArmor, defaultLeftStatsPosX, defaultLeftStatsPosY, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT);
     }
 
-    const armorStatsTableWidth = 160;
     void printArmorStatsTableAt(RandomizedArmor armr, RandomizedArmor armrCmp, int x, int y, int textFlags) {
         let linesX = x+8;
         string compareStr = "";
@@ -27,8 +26,8 @@ extend class MyCustomHUD {
 
         PrintTableLineAt(
             "LVL "..armr.generatedQuality.." "..armr.nameWithAppliedAffixes, "("..getRarityName(armr.appliedAffixes.Size())..")",
-            x, y, armorStatsTableWidth,
-            mSmallShadowFont, textFlags, PickColorForAffixableItem(armr)
+            x, y, pickupableStatsTableWidth,
+            itemNameFont, textFlags, PickColorForAffixableItem(armr)
         );
 
         if (armrCmp && armr.stats.maxDurability != armrCmp.stats.maxDurability) {
@@ -36,12 +35,12 @@ extend class MyCustomHUD {
             compareClr = GetDifferenceColor(armr.stats.maxDurability - armrCmp.stats.maxDurability);
         }
         PrintTableLineAt("Durability:", armr.stats.currDurability.."/"..armr.stats.maxDurability..compareStr, 
-                    linesX, y, armorStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);
 
         // if (armr.stats.DamageReduction > 0) {
-        //     PrintTableLine("Incoming damage", "-"..armr.stats.DamageReduction, armorStatsTableWidth,
-        //             mSmallFont, textFlags, Font.CR_White);    
+        //     PrintTableLine("Incoming damage", "-"..armr.stats.DamageReduction, pickupableStatsTableWidth,
+        //             itemStatsFont, textFlags, Font.CR_White);    
         // }
         if (armrCmp && armr.stats.AbsorbsPercentage != armrCmp.stats.AbsorbsPercentage) {
             compareStr = " ("..intToSignedStr(armr.stats.AbsorbsPercentage - armrCmp.stats.AbsorbsPercentage).."%)";
@@ -51,8 +50,8 @@ extend class MyCustomHUD {
             compareClr = Font.CR_White;
         }
         PrintTableLineAt("Damage absorption", armr.stats.AbsorbsPercentage.."%"..compareStr,
-                    linesX, y, armorStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);
 
         ////////////////////////////////////////////////////////////////////////////////
         // Stop comparing energy and non-energy armor at this point
@@ -70,8 +69,8 @@ extend class MyCustomHUD {
                 compareClr = Font.CR_White;
             }
             PrintTableLineAt("Delay until recharge", String.Format("%.1f s", Gametime.ticksToSeconds(armr.stats.delayUntilRecharge))..compareStr,
-                        linesX, y, armorStatsTableWidth,
-                        mSmallFont, textFlags, Font.CR_White, compareClr);
+                        linesX, y, pickupableStatsTableWidth,
+                        itemStatsFont, textFlags, Font.CR_White, compareClr);
 
 
             if (armrCmp && armr.stats.RestorePerSecond() != armrCmp.stats.RestorePerSecond()) {
@@ -82,8 +81,8 @@ extend class MyCustomHUD {
                 compareClr = Font.CR_White;
             }
             PrintTableLineAt("Recharge speed", String.Format("%.1f/s", armr.stats.RestorePerSecond())..compareStr,
-                        linesX, y, armorStatsTableWidth,
-                        mSmallFont, textFlags, Font.CR_White, compareClr);
+                        linesX, y, pickupableStatsTableWidth,
+                        itemStatsFont, textFlags, Font.CR_White, compareClr);
 
         } else {
 
@@ -95,8 +94,8 @@ extend class MyCustomHUD {
                 compareClr = Font.CR_White;
             }
             PrintTableLineAt("Repair amount", armr.stats.BonusRepair..compareStr,
-                        linesX, y, armorStatsTableWidth,
-                        mSmallFont, textFlags, Font.CR_White, compareClr);
+                        linesX, y, pickupableStatsTableWidth,
+                        itemStatsFont, textFlags, Font.CR_White, compareClr);
 
         }
 

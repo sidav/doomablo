@@ -1,6 +1,7 @@
 version "4.10.0"
 
 #include "zscript/hud/hud.zs"
+#include "zscript/hud/hud_fonts.zs"
 #include "zscript/hud/affix_related.zs"
 #include "zscript/hud/helpers.zs"
 #include "zscript/hud/randomized_weapon_stats_table.zs"

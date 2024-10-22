@@ -11,9 +11,9 @@ extend class MyCustomHUD {
 
         // let plr = RwPlayer(CPlayer.mo);
         // if (plr.HasEmptyWeaponSlotFor(wpn)) {
-        //     PrintLine("Press USE to pick up:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
+        //     PrintLine("Press USE to pick up:", itemStatsFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
         // } else {
-        //     PrintLine("Press USE to switch to:", mSmallFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
+        //     PrintLine("Press USE to switch to:", itemStatsFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
         // }
 
         Inventory playerWpnOfSameClass;
@@ -28,11 +28,11 @@ extend class MyCustomHUD {
         
         if (playerWpnOfSameClass) {
             PrintLineAt("Press USE to switch your "..wpn.rwBaseName.." to:",
-            defaultLeftStatsPosX, defaultLeftStatsPosY, mSmallFont,
+            defaultLeftStatsPosX, defaultLeftStatsPosY, itemStatsFont,
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         } else {
             PrintLineAt("Press USE to pick up:", 
-            defaultLeftStatsPosX, defaultLeftStatsPosY, mSmallFont,
+            defaultLeftStatsPosX, defaultLeftStatsPosY, itemStatsFont,
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         }
 
@@ -53,7 +53,6 @@ extend class MyCustomHUD {
         printWeaponStatsAt(wpn, wpnComp, defaultLeftStatsPosX, defaultLeftStatsPosY, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT);
     }
 
-    const weaponStatsTableWidth = 170;
     void printWeaponStatsAt(RandomizedWeapon wpn, RandomizedWeapon wpnComp, int x, int y, int textFlags) {
         let linesX = x+8;
         string compareStr = "";
@@ -61,8 +60,8 @@ extend class MyCustomHUD {
 
         PrintTableLineAt(
             "LVL "..wpn.generatedQuality.." "..wpn.nameWithAppliedAffixes, "("..getRarityName(wpn.appliedAffixes.Size())..")",
-            x, y, weaponStatsTableWidth,
-            mSmallShadowFont, textFlags, PickColorForAffixableItem(wpn)
+            x, y, pickupableStatsTableWidth,
+            itemNameFont, textFlags, PickColorForAffixableItem(wpn)
         );
 
         if (wpn.stats.pellets > 1) {
@@ -79,8 +78,8 @@ extend class MyCustomHUD {
                 compareStr = "";
             }
             PrintTableLineAt("Damage per pellet:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage..compareStr, 
-                    linesX, y, weaponStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);
 
             if (wpnComp && wpn.stats.pellets != wpnComp.stats.pellets) {
                 compareStr = " ("..intToSignedStr(wpn.stats.pellets - wpnComp.stats.pellets)..")";
@@ -90,8 +89,8 @@ extend class MyCustomHUD {
                 compareClr = Font.CR_White;
             }
             PrintTableLineAt("Pellets per shot:", ""..wpn.stats.pellets..compareStr, 
-                    linesX, y, weaponStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);
 
             if (wpnComp) {
                 compareStr = makeDamageDifferenceString(
@@ -106,8 +105,8 @@ extend class MyCustomHUD {
                 compareStr = "";
             }
             PrintTableLineAt("Total shot damage:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage*wpn.stats.pellets..compareStr,
-                    linesX, y, weaponStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);    
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);    
         } else {
             if (wpnComp) {
                 compareStr = makeDamageDifferenceString(
@@ -123,8 +122,8 @@ extend class MyCustomHUD {
                 compareClr = Font.CR_White;
             }
             PrintTableLineAt("Damage:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage..compareStr,
-                    linesX, y, weaponStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);
         }
         if (wpn.stats.clipSize > 1) {
             if (wpnComp && wpn.stats.clipSize != wpnComp.stats.clipSize && wpnComp.stats.clipSize > 0) {
@@ -135,8 +134,8 @@ extend class MyCustomHUD {
                 compareClr = Font.CR_White;
             }
             PrintTableLineAt("Magazine capacity:", ""..wpn.stats.clipSize..compareStr, 
-                    linesX, y, weaponStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);    
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);    
         }
         if (wpnComp && wpn.stats.horizSpread != wpnComp.stats.horizSpread) {
             compareStr = " ("..floatToSignedStr(wpn.stats.horizSpread - wpnComp.stats.horizSpread)..")";
@@ -146,8 +145,8 @@ extend class MyCustomHUD {
             compareClr = Font.CR_White;
         }
         PrintTableLineAt("Spread:", String.Format("%.2f", (wpn.stats.horizSpread))..compareStr, 
-                    linesX, y, weaponStatsTableWidth,
-                    mSmallFont, textFlags, Font.CR_White, compareClr);
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);
 
         foreach (aff : wpn.appliedAffixes) {
             printAffixDescriptionLineAt(aff, x+16, y, textFlags);

@@ -1,7 +1,8 @@
 extend class MyCustomHUD {
 
+    const pickupableStatsTableWidth = 185;
     void DrawPickupableItemInfo() {
-        let lineHRel = mSmallFont.mFont.GetHeight();
+        let lineHRel = itemStatsFont.mFont.GetHeight();
         let lineHAbs = lineHRel * CleanYFac_1;
 
         let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
@@ -47,34 +48,34 @@ extend class MyCustomHUD {
         currentLineHeight = 5;
         Screen.Dim(0x000000, 0.5, 0, 0, Screen.GetWidth(), Screen.GetHeight(), STYLE_Translucent);
 
-        PrintLineAt("Drops level: "..plr.minItemQuality.."-"..plr.maxItemQuality, 0, 0, mSmallFont, DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_WHITE);
-        PrintEmptyLine(mSmallFont);
+        PrintLineAt("Drops level: "..plr.minItemQuality.."-"..plr.maxItemQuality, 0, 0, itemStatsFont, DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_WHITE);
+        PrintEmptyLine(itemStatsFont);
 
-        PrintLineAt("===  CURRENT EQUIPPED WEAPON:  ===", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
+        PrintLineAt("===  CURRENT EQUIPPED WEAPON:  ===", headerX, 0, itemStatsFont, fullScreenStatusFlags, Font.CR_WHITE);
         if (wpn) {
             printWeaponStatsAt(wpn, null, statsX, 0, fullScreenStatusFlags);
         } else {
-            PrintLineAt("No artifact weapon equipped", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
+            PrintLineAt("No artifact weapon equipped", headerX, 0, itemStatsFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
-        PrintEmptyLine(mSmallFont);
+        PrintEmptyLine(itemStatsFont);
         // let lineH = (currentLineHeight + 10) * CleanYFac_1;
         // Screen.DrawThickLine(0, lineH, Screen.GetWidth(), lineH, 3, 0xAAAAAA, 255);
         
 
-        PrintLineAt("===  CURRENT EQUIPPED ARMOR:  ===", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
+        PrintLineAt("===  CURRENT EQUIPPED ARMOR:  ===", headerX, 0, itemStatsFont, fullScreenStatusFlags, Font.CR_WHITE);
         if (arm) {
             printArmorStatsTableAt(arm, null, statsX, 0, fullScreenStatusFlags);
         } else {
-            PrintLineAt("No artifact armor equipped", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
+            PrintLineAt("No artifact armor equipped", headerX, 0, itemStatsFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
-        PrintEmptyLine(mSmallFont);
+        PrintEmptyLine(itemStatsFont);
 
         let bkpk = RwBackpack(plr.CurrentEquippedBackpack);
-        PrintLineAt("===  CURRENT EQUIPPED BACKPACK:  ===", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_WHITE);
+        PrintLineAt("===  CURRENT EQUIPPED BACKPACK:  ===", headerX, 0, itemStatsFont, fullScreenStatusFlags, Font.CR_WHITE);
         if (bkpk) {
             printBackpackStatsTableAt(bkpk, null, statsX, 0, fullScreenStatusFlags);
         } else {
-            PrintLineAt("No backpack equipped", headerX, 0, mSmallFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
+            PrintLineAt("No backpack equipped", headerX, 0, itemStatsFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
 
     }
@@ -92,7 +93,7 @@ extend class MyCustomHUD {
                     FormatNumber(wpn.currentClipAmmo, 3),
                     (-73, -40), DI_SCREEN_RIGHT_BOTTOM);
             }
-            DrawString(mSmallFont, 
+            DrawString(itemNameFont, 
                 "Weapon: "..wpn.nameWithAppliedAffixes,
                 (0, -30), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(wpn));
         }
@@ -102,11 +103,11 @@ extend class MyCustomHUD {
             DrawString(mHUDFont, 
                 FormatNumber(armr.stats.currDurability, 3),
                 (44, -40), DI_SCREEN_LEFT_BOTTOM, PickColorForRwArmorAmount(armr));
-            DrawString(mSmallFont, 
+            DrawString(itemNameFont, 
                 "Armor: "..armr.nameWithAppliedAffixes,
                 (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(armr));
         } else {
-            DrawString(mSmallFont, 
+            DrawString(itemNameFont, 
                 "NO ARMOR",
                 (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, Font.CR_RED);
         }
@@ -114,11 +115,11 @@ extend class MyCustomHUD {
         let bkpk = RwBackpack(plr.CurrentEquippedBackpack);
         if (bkpk) {
             // DrawInventoryIcon(bkpk, (-12, -1));
-            DrawString(mSmallFont, 
+            DrawString(itemNameFont, 
                 "Backpack: "..bkpk.nameWithAppliedAffixes,
                 (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(bkpk));
         } else {
-            DrawString(mSmallFont, 
+            DrawString(itemNameFont, 
                 "NO BACKPACK",
                 (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, Font.CR_RED);
         }

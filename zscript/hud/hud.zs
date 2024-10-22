@@ -1,14 +1,5 @@
 class MyCustomHUD : DoomStatusBar
 {
-    // As with all ZScript classes, here you can
-    // declare class fields, constants and such.
-	HUDFont mHUDFont;
-	HUDFont mIndexFont;
-	HUDFont mAmountFont;
-	InventoryBarState diparms;
-	HUDFont mBigFont;
-	HUDFont mSmallFont;
-	HUDFont mSmallShadowFont;
 
     override void Init()
     {
@@ -18,19 +9,7 @@ class MyCustomHUD : DoomStatusBar
         // For example, HUD fonts are commonly
         // created here.
 		super.Init();
-		Font fnt = "BIGFONT";
-		mBigFont = HUDFont.Create(fnt, fnt.GetCharWidth("0"), Mono_CellLeft, 2, 2);
-		fnt = "SMALLFONT";
-		mSmallFont = HUDFont.Create(fnt, 0, false);
-		mSmallShadowFont = HUDFont.Create(fnt, 0, false, 2, 2);
-		
-		// Create the font used for the fullscreen HUD
-		fnt = "HUDFONT_DOOM";
-		mHUDFont = HUDFont.Create(fnt, fnt.GetCharWidth("0"), Mono_CellLeft, 1, 1);
-		// fnt = "INDEXFONT_DOOM";
-		// mIndexFont = HUDFont.Create(fnt, fnt.GetCharWidth("0"), Mono_CellLeft);
-		// mAmountFont = HUDFont.Create("INDEXFONT");
-		// diparms = InventoryBarState.Create();
+		initFonts();
     }
 
     override void Draw(int state, double ticFrac)
@@ -43,17 +22,17 @@ class MyCustomHUD : DoomStatusBar
 		
 		if (state == HUD_StatusBar)
         {
-            BeginStatusBar();
-            DrawMainBar(TicFrac);
-			// DrawString(mSmallFont, "Don't use this HUD size please", (0, 0), DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER);
+            // BeginStatusBar();
+            // DrawMainBar(TicFrac);
+			// DrawString(itemStatsFont, "Don't use this HUD size please", (0, 0), DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER);
 			// DrawWeaponInHandsInfo();
 			// DrawPickupableWeaponInfo();
         }
         else if (state == HUD_Fullscreen)
         {
-            BeginHUD();
-			// DrawString(mSmallFont, "Don't use this HUD size please", (0, 0), DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER);
-            DrawFullScreenStuff();
+            // BeginHUD();
+			// DrawString(itemStatsFont, "Don't use this HUD size please", (0, 0), DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER);
+            // DrawFullScreenStuff();
 			DrawPickupableItemInfo();
 			if (RwPlayer(CPlayer.mo).showStatsButtonPressedTicks > TICRATE/3) {
 				DrawFullCurrentItemsInfo();

@@ -18,7 +18,7 @@ extend class MyCustomHUD {
         }
 
         PrintLineAt("* "..aff.getName()..": "..aff.getDescription(),
-                    x, y, mSmallFont, textFlags, clr);
+                    x, y, itemStatsFont, textFlags, clr);
     }
 
     string getRarityName(int rarity) {
