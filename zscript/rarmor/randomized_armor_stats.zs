@@ -14,6 +14,10 @@ class RwArmorStats {
         return (delayUntilRecharge > 0) && (energyRestorePeriod > 0);
     }
 
+    bool IsFull() {
+        return (currDurability >= maxDurability);
+    }
+
     double RestorePerSecond() {
         // debug.print(String.Format("TICRATE %d, Period %d", TICRATE, energyRestorePeriod));
         return double(TICRATE)/double(energyRestorePeriod);

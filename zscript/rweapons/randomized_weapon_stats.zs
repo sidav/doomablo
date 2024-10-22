@@ -53,10 +53,6 @@ class RWStatsClass {
         return clipSize > 0;
     }
 
-    int rollDamage() {
-        return random(minDamage, maxDamage); // DamageDice.Roll();
-    }
-
     float GetExplosionSpriteScale() {
         if (ExplosionRadius > 0 && BaseExplosionRadius == 0) {
             debug.panic("Unset BaseExplosionRadius setting!");

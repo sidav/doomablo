@@ -45,6 +45,80 @@ class WSuffVampiric : RwWeaponSuffix {
         // debug.print("maxPerc is "..maxPercentage);
         modifierLevel = remapQualityToRange(quality, 1, maxPercentage);
     }
+
+    override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (rnd.PercentChance(modifierLevel)) {
+            plr.Player.bonusCount += 3;
+            plr.GiveBody(1, 200);
+        }
+    }
+}
+
+class WSuffDamageIncreaseOnLowHealth : RwWeaponSuffix {
+    const requiredHp = 25;
+    override string getName() {
+        return "Last Resort";
+    }
+    override string getDescription() {
+        return String.Format("%d%% damage when you have %d HP or less", (modifierLevel, requiredHp));
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        let maxPercentage = 250;
+        if (wpn.stats.Pellets > 1) {
+            maxPercentage = 200;
+        }
+        modifierLevel = remapQualityToRange(quality, 150, maxPercentage);
+    }
+    override int modifyRolledDamage(int rolledDmg, RwPlayer owner) {
+        if (owner.health <= requiredHp) {
+            return math.getIntPercentage(rolledDmg, modifierLevel);
+        }
+        return rolledDmg;
+    }
+}
+
+class WSuffDamageIncreaseOnZeroArmor : RwWeaponSuffix {
+    override string getName() {
+        return "Glass Cannon";
+    }
+    override string getDescription() {
+        return modifierLevel.."% damage when you have zero armor";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        let maxPercentage = 200;
+        if (wpn.stats.Pellets > 1) {
+            maxPercentage = 150;
+        }
+        modifierLevel = remapQualityToRange(quality, 105, maxPercentage);
+    }
+    override int modifyRolledDamage(int rolledDmg, RwPlayer owner) {
+        if (owner.CurrentEquippedArmor == null || owner.CurrentEquippedArmor.stats.currDurability == 0) {
+            return math.getIntPercentage(rolledDmg, modifierLevel);
+        }
+        return rolledDmg;
+    }
+}
+
+class WSuffDamageIncreaseOnFullArmor : RwWeaponSuffix {
+    override string getName() {
+        return "Best defense";
+    }
+    override string getDescription() {
+        return modifierLevel.."% damage when you have full non-energy armor";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        let maxPercentage = 200;
+        if (wpn.stats.Pellets > 1) {
+            maxPercentage = 175;
+        }
+        modifierLevel = remapQualityToRange(quality, 105, maxPercentage);
+    }
+    override int modifyRolledDamage(int rolledDmg, RwPlayer owner) {
+        if (owner.CurrentEquippedArmor != null && !owner.CurrentEquippedArmor.stats.IsEnergyArmor() && owner.CurrentEquippedArmor.stats.IsFull()) {
+            return math.getIntPercentage(rolledDmg, modifierLevel);
+        }
+        return rolledDmg;
+    }
 }
 
 class WSuffPoison : RwWeaponSuffix {
@@ -63,6 +137,11 @@ class WSuffPoison : RwWeaponSuffix {
         }
         modifierLevel = remapQualityToRange(quality, 1, maxPercentage);
     }
+    override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (rnd.PercentChance(modifierLevel)) {
+            target.GiveInventory('RWPoisonToken', 10);
+        }
+    }
 }
 
 class WSuffRadiation : RwWeaponSuffix {
@@ -80,6 +159,11 @@ class WSuffRadiation : RwWeaponSuffix {
             maxPercentage = 33;
         }
         modifierLevel = remapQualityToRange(quality, 1, maxPercentage);
+    }
+    override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (rnd.PercentChance(modifierLevel)) {
+            target.GiveInventory('RWRadiationToken', 1);
+        }
     }
 }
 
@@ -100,9 +184,15 @@ class WSuffPain : RwWeaponSuffix {
         // debug.print("maxPerc is "..maxPercentage);
         modifierLevel = remapQualityToRange(quality, 1, maxPercentage);
     }
+    override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (rnd.PercentChance(modifierLevel)) {
+            target.GiveInventory('RWPainToken', 5);
+        }
+    }
 }
 
 class WSuffAmmoDrops : RwWeaponSuffix {
+    mixin DropSpreadable;
     override string getName() {
         return "Abundance";
     }
@@ -112,9 +202,16 @@ class WSuffAmmoDrops : RwWeaponSuffix {
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = remapQualityToRange(quality, 15, 100);
     }
+    override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (rnd.PercentChance(modifierLevel)) {
+            let ammoitem = DropsHandler.SpawnRandomAmmoDrop(target);
+            AssignSpreadVelocityTo(ammoitem);
+        }
+    }
 }
 
 class WSuffSpawnBarrelOnKill : RwWeaponSuffix {
+    mixin DropSpreadable;
     override string getName() {
         return "Barrels";
     }
@@ -123,6 +220,12 @@ class WSuffSpawnBarrelOnKill : RwWeaponSuffix {
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 25);
+    }
+    override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (rnd.PercentChance(modifierLevel)) {
+            let brl = Target.Spawn('ExplosiveBarrel', target.Pos);
+            AssignSpreadVelocityTo(brl);
+        }
     }
 }
 

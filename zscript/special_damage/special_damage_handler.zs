@@ -8,6 +8,7 @@ class RWSpecialDamageHandler : EventHandler
         let whoDidDamage = e.damageSource; // or try e.thing.target. e.Inflictor is NOT who did the damage. Yup, it's that strange
 
         // debug.print("Target: "..target.GetClassName()
+        //     .." got "..e.damage.." damage"
         //     .."; who did: "..whoDidDamage.GetClassName()
         //     .."; Inflictor: "..e.Inflictor.GetClassName());
 
@@ -26,49 +27,10 @@ class RWSpecialDamageHandler : EventHandler
 
         Affix current;
         foreach (current : wpn.appliedAffixes) {
-            if (current.GetClass() == 'WSuffVampiric') {
-                if (rnd.PercentChance(current.modifierLevel)) {
-                    plr.Player.bonusCount += 3;
-                    plr.GiveBody(1, 200);
-                }
-                continue;
-            }
+            current.onDamageDealtByPlayer(damage, target, plr);
 
-            if (current.GetClass() == 'WSuffPoison') {
-                if (rnd.PercentChance(current.modifierLevel)) {
-                    target.GiveInventory('RWPoisonToken', 10);
-                }
-                continue;
-            }
-
-            if (current.GetClass() == 'WSuffRadiation') {
-                if (rnd.PercentChance(current.modifierLevel)) {
-                    target.GiveInventory('RWRadiationToken', 1);
-                }
-                continue;
-            }
-
-            if (current.GetClass() == 'WSuffPain') {
-                if (rnd.PercentChance(current.modifierLevel)) {
-                    target.GiveInventory('RWPainToken', 5);
-                }
-                continue;
-            }
-
-            if (current.GetClass() == 'WSuffAmmoDrops') {
-                if (target.health <= 0 && rnd.PercentChance(current.modifierLevel)) {
-                    let ammoitem = DropsHandler.SpawnRandomAmmoDrop(target);
-                    AssignSpreadVelocityTo(ammoitem);
-                }
-                continue;
-            }
-
-            if (current.GetClass() == 'WSuffSpawnBarrelOnKill') {
-                if (target.health <= 0 && rnd.PercentChance(current.modifierLevel)) {
-                    let brl = Target.Spawn('ExplosiveBarrel', target.Pos);
-                    AssignSpreadVelocityTo(brl);
-                }
-                continue;
+            if (target.health <= 0) {
+                current.onFatalDamageDealtByPlayer(damage, target, plr);
             }
         }
     }

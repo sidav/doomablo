@@ -21,6 +21,7 @@ version "4.10.0"
 #include "zscript/player/press_to_pickup_handler.zs"
 
 #include "zscript/affix/affix.zs"
+#include "zscript/affix/affix_effect_methods.zs"
 #include "zscript/affix/affix_instantiator.zs"
 
 #include "zscript/affix/affixes/armor_prefixes.zs"
