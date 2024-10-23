@@ -9,14 +9,18 @@ class DropsHandler : EventHandler
             return;
         }
         // debug.print("Actor "..e.Thing.GetClassName().." died; max health is "..e.Thing.GetMaxHealth());
-        let dropsCount = DropsDecider.decideDropsCount(e.Thing.GetMaxHealth());
+        let dropperRarity = 0;
+        if (e.Thing.FindInventory('RwMonsterAffixator') != null) {
+            dropperRarity = RwMonsterAffixator(e.Thing.FindInventory('RwMonsterAffixator')).AppliedAffixes.Size();
+        }
+        let dropsCount = DropsDecider.decideDropsCount(e.Thing.GetMaxHealth(), dropperRarity);
         for (let i = 0; i < dropsCount; i++) {
-            createDrop(e.Thing);
+            createDrop(e.Thing, dropperRarity);
         }
     }
 
-    private void createDrop(Actor dropper) {
-        let whatToDrop = DropsDecider.whatToDrop(dropper.GetMaxHealth());
+    private void createDrop(Actor dropper, int dropperRarity) {
+        let whatToDrop = DropsDecider.whatToDrop(dropper.GetMaxHealth(), dropperRarity);
 
         bool unused; // Required by zscript syntax for multiple returned values; is indeed unused
         Actor spawnedItem;
@@ -37,7 +41,7 @@ class DropsHandler : EventHandler
             if (AffixableDetector.IsAffixableItem(spawnedItem)) {
 
                 int rarmod, qtymod;
-                [rarmod, qtymod] = DropsDecider.rollRarQtyModifiers(dropper.GetMaxHealth());
+                [rarmod, qtymod] = DropsDecider.rollRarQtyModifiers(dropper.GetMaxHealth(), dropperRarity);
                 int rar, qty;
                 [rar, qty] = DropsDecider.rollRarityAndQuality(rarmod, qtymod);
 
@@ -53,7 +57,7 @@ class DropsHandler : EventHandler
         Actor spawnedItem;
         int dropType;
         if (RwPlayer(Players[0].mo).ProgressionEnabled()) {
-            dropType = rnd.weightedRand(100, 100, 50, 10);
+            dropType = rnd.weightedRand(100, 100, 30, 10);
         } else {
             // Don't drop progression items
             dropType = rnd.weightedRand(100, 100, 0, 0);
