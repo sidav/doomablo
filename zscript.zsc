@@ -31,6 +31,7 @@ version "4.10.0"
 #include "zscript/affix/affixes/backpack_prefixes.zs"
 #include "zscript/affix/affixes/backpack_suffixes.zs"
 #include "zscript/affix/affixes/monster_prefixes.zs"
+#include "zscript/affix/affixes/monster_suffixes.zs"
 #include "zscript/affix/affixes/weapon_prefixes.zs"
 #include "zscript/affix/affixes/weapon_suffixes.zs"
 

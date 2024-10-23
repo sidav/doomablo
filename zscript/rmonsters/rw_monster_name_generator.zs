@@ -96,10 +96,15 @@ extend class RwMonsterAffixator {
             "Sinful"
         };
         static const string word2[] = {
+            "Annihilator",
             "End",
             "Devourer",
             "Disciple",
-            "Legion"
+            "Legion",
+            "Obliterator",
+
+            "of Abaddon",
+            "of Gehenna"
         };
         return word1[rnd.randn(word1.Size())].." "..word2[rnd.randn(word2.Size())];
     }

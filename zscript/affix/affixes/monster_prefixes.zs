@@ -34,6 +34,9 @@ class MPrefMoreHealth : RwMonsterPrefix {
 
 // Stub for "negative" affix
 class MPrefMoreHealth2 : MPrefMoreHealth {
+    override string getName() {
+        return "STUB";
+    }
     override int getAlignment() {
         return -1;
     }
@@ -43,6 +46,9 @@ class MPrefLowerDamage : RwMonsterPrefix {
     override string getName() {
         return "weak";
     }
+    override string getDescription() {
+        return "DMG -"..modifierLevel.."%";
+    }
     override int getAlignment() {
         return -1;
     }
@@ -50,16 +56,19 @@ class MPrefLowerDamage : RwMonsterPrefix {
         return a2.GetClass() != 'MPrefHigherDamage';
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 85, 75);
+        modifierLevel = remapQualityToRange(quality, 5, 25);
     }
     override void onModifyDamageDealtByOwner(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
-        newdamage = math.getIntPercentage(damage, modifierLevel);
+        newdamage = math.getIntPercentage(damage, 100-modifierLevel);
     }
 }
 
 class MPrefHigherDamage : RwMonsterPrefix {
     override string getName() {
         return "strong";
+    }
+    override string getDescription() {
+        return "DMG +"..modifierLevel.."%";
     }
     override int getAlignment() {
         return 1;
@@ -68,9 +77,9 @@ class MPrefHigherDamage : RwMonsterPrefix {
         return a2.GetClass() != 'MPrefLowerDamage';
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 125, 300);
+        modifierLevel = remapQualityToRange(quality, 25, 200);
     }
     override void onModifyDamageDealtByOwner(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
-        newdamage = math.getIntPercentage(damage, modifierLevel);
+        newdamage = math.getIntPercentage(damage, 100+modifierLevel);
     }
 }
