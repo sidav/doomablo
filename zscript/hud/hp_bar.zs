@@ -36,16 +36,21 @@ extend class MyCustomHUD {
         x += InsideHpRectOffset * CleanXFac_1;
         h = (HPBarHeight - InsideHpRectOffset2) * CleanYFac_1;
         y += InsideHpRectOffset * CleanYFac_1;
-        Screen.Dim(0xff0000, 0.3, x, y, w, h, STYLE_Translucent);
+        Screen.Dim(0xaa0000, 0.3, x, y, w, h, STYLE_Translucent);
 
+        let clr = Font.CR_WHITE;
+        if (currAffixator) {
+            clr = PickColorForAffixableItem(currAffixator);
+        }
         // Text
-        DrawString(monsterNameFont, str, (0, y/(CleanYFac_1) - 2), DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_WHITE);
+        DrawString(monsterNameFont, str, (0, y/(CleanYFac_1) - 2), DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, clr);
         // Screen.DrawText("SMALLFONT", 0xffffff, Screen.GetWidth()/2, y, str);
 
         // Affixes
         if (currAffixator) {
             y += (monsterNameFont.mFont.GetHeight() + 2) * CleanYFac_1;
-            DrawString(monsterNameFont, currAffixator.descriptionStr, (0, y/(CleanYFac_1) - 2), DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_RED);
+            DrawString(monsterNameFont, currAffixator.descriptionStr, (0, y/(CleanYFac_1) - 2), 
+                DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_BRICK);
         }
     }
 }

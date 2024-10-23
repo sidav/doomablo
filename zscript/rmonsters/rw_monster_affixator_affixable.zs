@@ -6,8 +6,14 @@ extend class RwMonsterAffixator {
             Affix aff;
             foreach (aff : appliedAffixes) {
                 aff.onPutIntoMonsterInventory(owner);
+
+                // Save all the descriptions to string
                 if (aff.getDescription() != "") {
-                    descriptionStr = descriptionStr.." "..aff.GetDescription();
+                    if (descriptionStr == "") {
+                        descriptionStr = aff.GetDescription();
+                    } else {
+                        descriptionStr = descriptionStr.."   "..aff.GetDescription();
+                    }
                 }
             }
             GenerateOwnersName();
