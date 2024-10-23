@@ -10,6 +10,7 @@ gameinfo
 	AddEventHandlers = "AffixClassesCacheHandler"
 	AddEventHandlers = "AmmoDropsHandler"
 	AddEventHandlers = "DropsHandler"
+	AddEventHandlers = "DroppedItemsSpreadHandler"
 	AddEventHandlers = "ConsoleDropsHandler"
 	AddEventHandlers = "PressToPickupHandler"
  	AddEventHandlers = "StartingItemsHandler"
