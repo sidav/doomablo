@@ -82,7 +82,7 @@ mixin class Affixable {
                 // debug.print("Checking "..newAffix.GetClassName());
             } until (
                 // (newAffix.GetClass() == 'ASuffHealthToDurab' || (rnd.randn(4000) == 0)) &&  // Uncomment for specific affix testing
-                newAffix.getAlignment() == math.sign(affQualities[i]) &&
+                ((newAffix.getAlignment() == 0) || (newAffix.getAlignment() == math.sign(affQualities[i]))) &&
                 newAffix.IsCompatibleWithItem(self) &&
                 newAffix.IsCompatibleWithListOfAffixes(appliedAffixes) &&
                 newAffix.minRequiredRarity() <= itemRarity

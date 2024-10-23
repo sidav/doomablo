@@ -21,7 +21,7 @@ class Affix {
         return false;
     }
 
-    // Alignment is -1 for bad affixes and 1 for good ones.
+    // Alignment is -1 for bad affixes and 1 for good ones. Alignment of 0 allows using Affix as any.
     virtual int getAlignment() {
         debug.panicUnimplemented(self);
         return 0;
