@@ -25,11 +25,18 @@ class MPrefMoreHealth : RwMonsterAffix {
         return "Unholy";
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 125, 2000);
+        modifierLevel = remapQualityToRange(quality, 125, 500);
     }
     override void onPutIntoMonsterInventory(Actor owner) {
         owner.starthealth = math.getIntPercentage(owner.health, modifierLevel);
         owner.A_SetHealth(owner.starthealth);
+    }
+}
+
+// Yes, allow it to synergize with affix above
+class MPrefMoreHealth2 : MPrefMoreHealth {
+    override string getName() {
+        return "Unyelding";
     }
 }
 
