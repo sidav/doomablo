@@ -60,7 +60,7 @@ mixin class Affixable {
         return 0;
     }
 
-    const ASSIGN_TRIES = 100000;
+    const ASSIGN_TRIES = 1000;
     private void AssignRandomAffixesByAffQualityArr(array <int> affQualities, int itemRarity) {
         for (int i = 0; i < affQualities.Size(); i++) {
             Affix newAffix;
@@ -79,6 +79,7 @@ mixin class Affixable {
                 }
                 try++;
                 newAffix = Affix.GetRandomAffixFor(self);
+                // debug.print("Checking "..newAffix.GetClassName());
             } until (
                 // (newAffix.GetClass() == 'ASuffHealthToDurab' || (rnd.randn(4000) == 0)) &&  // Uncomment for specific affix testing
                 newAffix.getAlignment() == math.sign(affQualities[i]) &&
