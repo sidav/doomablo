@@ -4,11 +4,11 @@ class DropsDecider {
         if (dropperHealth >= 1000) {
             return rnd.weightedRand(0, 0, 2, 3, 1);
         } else if (dropperHealth >= 500) {
-            return rnd.weightedRand(0, 2, 3, 1);
+            return rnd.weightedRand(1, 3, 2, 1);
         } else if (dropperHealth >= 250) {
             return rnd.weightedRand(3, 4, 1);
         }
-        return rnd.weightedRand(7, 2, 1);
+        return rnd.weightedRand(8, 2, 1);
     }
 
     static int whatToDrop(int dropperHealth) {
@@ -23,7 +23,7 @@ class DropsDecider {
         } else if (dropperHealth >= 250) {
             return rnd.weightedRand(8, 3, 2, 1);
         }
-        return rnd.weightedRand(15, 3, 2, 1);
+        return rnd.weightedRand(16, 3, 2, 1);
     }
 
     static int, int rollRarQtyModifiers(int dropperHealth) {
