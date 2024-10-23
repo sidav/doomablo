@@ -6,6 +6,9 @@ class RwMonsterAffixator : Inventory {
     string descriptionStr;
 
     override void DoEffect() {
+        if (owner.Health <= 0) {
+            return;
+        }
         Affix aff;
         foreach (aff : appliedAffixes) {
             aff.onDoEffect(owner);
@@ -13,19 +16,22 @@ class RwMonsterAffixator : Inventory {
     }
 
     override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags) {
-        debug.print("Owner "..owner.GetClassName()..": damage before "..damage);
+        if (owner.Health <= 0) {
+            return;
+        }
+        // debug.print("Owner "..owner.GetClassName()..": damage before "..damage);
         // Passive is True if the attack is being received by the owner. False if the attack is being dealt by the owner.
         if (passive) {
             Affix aff;
             foreach (aff : appliedAffixes) {
-                aff.onModifyDamageToOwner(damage, damageType, newdamage, inflictor, source, flags);
+                aff.onModifyDamageToOwner(damage, damageType, newdamage, inflictor, source, owner, flags);
             }
         } else {
             Affix aff;
             foreach (aff : appliedAffixes) {
-                aff.onModifyDamageDealtByOwner(damage, damageType, newdamage, inflictor, source, flags);
+                aff.onModifyDamageDealtByOwner(damage, damageType, newdamage, inflictor, source, owner, flags);
             }
         }
-        debug.print("  Damage after "..newdamage);
+        // debug.print("  Damage after "..newdamage);
     }
 }
