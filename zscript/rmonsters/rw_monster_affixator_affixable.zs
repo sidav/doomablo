@@ -6,6 +6,9 @@ extend class RwMonsterAffixator {
             Affix aff;
             foreach (aff : appliedAffixes) {
                 aff.onPutIntoMonsterInventory(owner);
+                if (aff.getDescription() != "") {
+                    descriptionStr = descriptionStr.." "..aff.GetDescription();
+                }
             }
             GenerateOwnersName();
         } else {

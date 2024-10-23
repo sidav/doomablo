@@ -15,10 +15,10 @@ extend class MyCustomHUD {
         let plr = RwPlayer(CPlayer.mo);
         if (!plr) return;
 
-        DrawHpBarRect(handler.currentTargetMonster);
+        DrawHpBarRect(handler.currentTargetMonster, handler.currentMonsterAffixator);
     }
 
-    void DrawHpBarRect(Actor currentTargetMonster) {
+    void DrawHpBarRect(Actor currentTargetMonster, RwMonsterAffixator currAffixator) {
         let str = currentTargetMonster.GetTag()..String.Format(" (%d/%d)", (currentTargetMonster.health, currentTargetMonster.GetMaxHealth()));
         // str = String.Format("Terrifying Ba'ra-kul, the doomsday harbinger"
         //     ..String.Format(" (%d/%d)", (11*currentTargetMonster.health, 11*currentTargetMonster.GetMaxHealth())));
@@ -41,5 +41,11 @@ extend class MyCustomHUD {
         // Text
         DrawString(monsterNameFont, str, (0, y/(CleanYFac_1) - 2), DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_WHITE);
         // Screen.DrawText("SMALLFONT", 0xffffff, Screen.GetWidth()/2, y, str);
+
+        // Affixes
+        if (currAffixator) {
+            y += (monsterNameFont.mFont.GetHeight() + 2) * CleanYFac_1;
+            DrawString(monsterNameFont, currAffixator.descriptionStr, (0, y/(CleanYFac_1) - 2), DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_RED);
+        }
     }
 }

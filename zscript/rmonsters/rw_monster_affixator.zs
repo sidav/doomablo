@@ -3,6 +3,8 @@
 class RwMonsterAffixator : Inventory {
     mixin Affixable; // Maybe it's NOT Affixable? The logic is quite different (at least for now)
 
+    string descriptionStr;
+
     override void DoEffect() {
         Affix aff;
         foreach (aff : appliedAffixes) {

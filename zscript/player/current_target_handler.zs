@@ -1,10 +1,12 @@
 class CurrentTargetHandler : EventHandler {
 
     Actor currentTargetMonster;
+    RwMonsterAffixator currentMonsterAffixator;
+
     int ticksSinceLastCheck;
-    const CHECK_PERIOD = 11;
+    const CHECK_PERIOD = 7;
     const CHECK_DISTANCE = 1024;
-    const PICKUP_X_ANGLE = 5.0;
+    const PICKUP_X_ANGLE = 7.0;
     const PICKUP_Y_ANGLE = 10.0;
 
     override void WorldTick() {
@@ -16,11 +18,13 @@ class CurrentTargetHandler : EventHandler {
 
         let source =  players[0].mo;
         currentTargetMonster = UpdateCurrentTarget(source);
-        // if (currentTargetMonster) {
-        //     debug.print("Current target monster "..currentTargetMonster.GetClassName());
-        // } else {
-        //     debug.print("No current target monster ");
-        // }
+        if (currentTargetMonster) {
+            currentMonsterAffixator = RwMonsterAffixator(currentTargetMonster.FindInventory('RwMonsterAffixator'));
+            // debug.print("Current target monster "..currentTargetMonster.GetClassName());
+        } else {
+            currentMonsterAffixator = null;
+            // debug.print("No current target monster ");
+        }
     }
 
     Actor UpdateCurrentTarget(Actor source) {
