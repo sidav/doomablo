@@ -77,7 +77,7 @@ extend class Affix {
 
         Affix affToReturn;
         foreach (affClass : handler.applicableAffixClasses) {
-            if (affClass is 'RwMonsterPrefix' || affClass is 'RwMonsterSuffix') {
+            if (affClass is 'RwMonsterAffix') {
                 if (index > 0) {
                     index--;
                 } else {
@@ -165,7 +165,7 @@ class AffixClassesCacheHandler : StaticEventHandler
             || (cls == 'RwWeaponPrefix') || (cls == 'RwWeaponSuffix')
             || (cls == 'RwArmorPrefix') || (cls == 'RwArmorSuffix')
             || (cls == 'RwBackpackPrefix') || (cls == 'RwBackpackSuffix')
-            || (cls == 'RwMonsterPrefix') || (cls == 'RwMonsterSuffix');
+            || (cls == 'RwMonsterAffix');
     }
 
     static bool isAffixForWeapon(class<Affix> cls) {
@@ -181,6 +181,6 @@ class AffixClassesCacheHandler : StaticEventHandler
     }
 
     static bool isAffixForMonster(class<Affix> cls) {
-        return (cls is 'RwMonsterPrefix') || (cls is 'RwMonsterSuffix');
+        return (cls is 'RwMonsterAffix');
     }
 }
