@@ -6,6 +6,8 @@ extend class RandomizedArmor {
     // needed for affixes:
     int lastDamageTick;
     int cumulativeRepair; 
+    const HpDrainThreshold = 25;
+    const DurabToHealthAmount = 2;
     const RepairForAbsUpgrade = 50;
     const RepairForDrbUpgrade = 25;
     const ThornsReturnedPercentage = 25;
@@ -28,6 +30,13 @@ extend class RandomizedArmor {
                 stats.currDurability += aff.modifierLevel;
                 return;
             }
+
+            aff = findAppliedAffix('ASuffHealthToDurab');
+            if (aff != null && RwPlayer(owner).health > HpDrainThreshold && (age % aff.modifierLevel == 0)) {
+                RepairFor(5);
+                owner.damageMobj(null, null, 5, 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR);
+                return;
+            }
         }
 
         // Second: heal the owner
@@ -35,8 +44,8 @@ extend class RandomizedArmor {
             let aff = findAppliedAffix('ASuffDurabToHealth');
             if (aff != null) {
                 if (age % aff.modifierLevel == 0) {
-                    owner.GiveBody(1, 100);
-                    stats.currDurability--;
+                    owner.GiveBody(DurabToHealthAmount, 100);
+                    stats.currDurability -= DurabToHealthAmount;
                 }
                 return; // There may be no other affix anyway
             }

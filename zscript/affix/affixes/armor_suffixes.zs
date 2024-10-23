@@ -50,6 +50,23 @@ class ASuffDegrading : RwArmorSuffix {
     }
 }
 
+class ASuffHealthToDurab : RwArmorSuffix {
+    override string getName() {
+        return "Blood pact";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return String.Format("If damaged, feeds on you each %.1f secs", 
+            (Gametime.TicksToSeconds(modifierLevel)));
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        let secondsx10 = remapQualityToRange(quality, 100, 5);
+        modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+    }
+}
+
 class ASuffSlowHeal : RwArmorSuffix {
     override string getName() {
         return "UAC RegenTech";
@@ -106,7 +123,8 @@ class ASuffDurabToHealth : RwArmorSuffix {
         return "UAC MediTech";
     }
     override string getDescription() {
-        return String.Format("Each %.1f sec spends 1 durability to heal you", (Gametime.TicksToSeconds(modifierLevel)));
+        return String.Format("Each %.1f sec spends %d durability to heal you", 
+            (Gametime.TicksToSeconds(modifierLevel), RandomizedArmor.DurabToHealthAmount));
     }
     override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
         return !(arm.stats.IsEnergyArmor());
