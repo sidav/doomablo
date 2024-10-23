@@ -15,6 +15,7 @@ extend class RwMonsterAffixator {
                         descriptionStr = descriptionStr.."   "..aff.GetDescription();
                     }
                 }
+                attachLight();
             }
             GenerateOwnersName();
         } else {
