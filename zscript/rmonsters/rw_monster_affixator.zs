@@ -9,4 +9,21 @@ class RwMonsterAffixator : Inventory {
             aff.onDoEffect(owner);
         }
     }
+
+    override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags) {
+        debug.print("Owner "..owner.GetClassName()..": damage before "..damage);
+        // Passive is True if the attack is being received by the owner. False if the attack is being dealt by the owner.
+        if (passive) {
+            Affix aff;
+            foreach (aff : appliedAffixes) {
+                aff.onModifyDamageToOwner(damage, damageType, newdamage, inflictor, source, flags);
+            }
+        } else {
+            Affix aff;
+            foreach (aff : appliedAffixes) {
+                aff.onModifyDamageDealtByOwner(damage, damageType, newdamage, inflictor, source, flags);
+            }
+        }
+        debug.print("  Damage after "..newdamage);
+    }
 }

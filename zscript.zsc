@@ -74,8 +74,10 @@ version "4.10.0"
 #include "zscript/rbackpacks/randomized_backpack_stats.zs"
 #include "zscript/rbackpacks/randomized_backpack_suffix_effect.zs"
 
+#include "zscript/rmonsters/monster_affixing_handler.zs"
 #include "zscript/rmonsters/rw_monster_affixator.zs"
 #include "zscript/rmonsters/rw_monster_affixator_affixable.zs"
+#include "zscript/rmonsters/rw_monster_name_generator.zs"
 
 #include "zscript/rweapons/randomized_weapon.zs"
 #include "zscript/rweapons/randomized_weapon_fire.zs"

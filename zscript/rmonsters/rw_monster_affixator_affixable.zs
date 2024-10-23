@@ -7,6 +7,7 @@ extend class RwMonsterAffixator {
             foreach (aff : appliedAffixes) {
                 aff.onPutIntoMonsterInventory(owner);
             }
+            GenerateOwnersName();
         } else {
             debug.panic("Oh noes, finalizing before being given");
         }

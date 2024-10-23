@@ -15,17 +15,27 @@ class RwMonsterPrefix : Affix {
 
 class MPrefMoreHealth : RwMonsterPrefix {
     override string getName() {
-        return "Think of a name for me";
+        return "Unholy";
     }
     override int getAlignment() {
         return 1;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return true;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToRange(quality, 125, 300);
     }
     override void onPutIntoMonsterInventory(Actor owner) {
-        owner.starthealth = math.getIntPercentage(owner.starthealth, modifierLevel);
+        owner.starthealth = math.getIntPercentage(owner.health, modifierLevel);
         owner.A_SetHealth(owner.starthealth);
+    }
+}
+
+// Stub for "negative" affix
+class MPrefMoreHealth2 : MPrefMoreHealth {
+    override int getAlignment() {
+        return -1;
     }
 }
 
@@ -42,6 +52,9 @@ class MPrefLowerDamage : RwMonsterPrefix {
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToRange(quality, 85, 75);
     }
+    override void onModifyDamageDealtByOwner(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
+        newdamage = math.getIntPercentage(damage, modifierLevel);
+    }
 }
 
 class MPrefHigherDamage : RwMonsterPrefix {
@@ -57,7 +70,7 @@ class MPrefHigherDamage : RwMonsterPrefix {
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToRange(quality, 125, 300);
     }
-    override void onPutIntoMonsterInventory(Actor owner) {
-        
+    override void onModifyDamageDealtByOwner(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
+        newdamage = math.getIntPercentage(damage, modifierLevel);
     }
 }
