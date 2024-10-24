@@ -10,10 +10,10 @@ extend class RwMonsterAffixator {
                 owner.SetTag(levelString()..owner.GetTag().." "..getRandomNameSuffix());
                 return;
             case 3:
-                owner.SetTag(levelString()..generateRandomAlias());
+                owner.SetTag(levelString()..getRandomAdjective().." "..getRandomNameSuffix());
                 return;
             case 4:
-                owner.SetTag(levelString()..getRandomAdjective().." "..generateRandomAlias());
+                owner.SetTag(levelString()..generateRandomAlias().." the "..getRandomAdjective());
                 return;
             case 5:
                 owner.SetTag(levelString()..getRandomAdjective().." "..generateRandomName()..", the "..generateRandomDignity());
@@ -30,6 +30,7 @@ extend class RwMonsterAffixator {
             "Berserker",
             "Captain",
             "Commander",
+            "Disciple",
             "Eater",
             "Enforcer",
             "Executor",
@@ -41,6 +42,7 @@ extend class RwMonsterAffixator {
             "Mutant",
             "Tempter",
             "Torturer",
+            "Undead",
             "Warrior"
         };
         return suffs[rnd.randn(suffs.Size())];
@@ -51,13 +53,19 @@ extend class RwMonsterAffixator {
             "It-who-",
             "It-what-",
             "That-which-",
-            "One who "
+            "One-who-"
         };
         static const string word2[] = {
             "devastates",
+            "feeds",
+            "foresees",
             "glows",
+            "lives",
+            "lurks",
+            "moves",
             "obliterates",
             "preys",
+            "quivers",
             "screams",
             "suffers",
             "thirsts",
@@ -73,17 +81,25 @@ extend class RwMonsterAffixator {
             "Blasphemous",
             "Bloodthirsty",
             "Corrupted",
+            "Cosmic",
             "Cursed",
             "Cyclopic",
             "Demonic",
             "Devouring",
             "Evil",
+            "Gargantuan",
             "Infamous",
+            "Insufferable",
             "Maddening",
             "Miasmic",
             "Possessed",
+            "Promised",
+            "Propheted",
             "Scary",
+            "Sinful",
             "Terrifying",
+            "Unholy",
+            "Unliving",
             "Vile"
         };
         return Adjs[rnd.randn(Adjs.Size())];
@@ -92,8 +108,8 @@ extend class RwMonsterAffixator {
     static string generateRandomName() {
         static const string specialChars[] =
         {
-            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
-            "'", "'", "'",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "'", "'", "'", 
             "-",
             "-al-",
             "-ul-"
@@ -177,32 +193,39 @@ extend class RwMonsterAffixator {
 
     static string generateRandomDignity() {
         static const string word1[] = {
+            "Acolyte",
             "Aeons",
+            "Annihilator",
             "Dark Will",
             "Dark Might",
-            "Doomsday",
-            "Evil",
-            "Gargantuan",
-            "Insufferable",
-            "Nightmare",
-            "Promised",
-            "Propheted",
-            "Sinful"
-        };
-        static const string word2[] = {
-            "Annihilator",
-            "End",
             "Devourer",
             "Disciple",
+            "Doomsday",
             "Harbinger",
             "Legion",
+            "Mentor",
+            "Nightmare",
             "Obliterator",
+            "Preacher",
+            "Promised one",
+            "Propheted one",
             "Terrifier",
-
-            "one of Abaddon",
-            "one of Gehennah",
-            "one of Hell's depth",
-            "one of Tartarus"
+            "Unborn",
+            "Worst"
+        };
+        static const string word2[] = {
+            "of Abaddon",
+            "of dark prophecy",
+            "of doom",
+            "of fate",
+            "of Gehennah",
+            "of Hell's depths",
+            "of insanity",
+            "of the end",
+            "of Tartarus",
+            "of times to come",
+            "of unimaginable",
+            "of what comes"
         };
         return word1[rnd.randn(word1.Size())].." "..word2[rnd.randn(word2.Size())];
     }
