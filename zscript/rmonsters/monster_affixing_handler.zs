@@ -4,7 +4,7 @@ class MonstersAffixingHandler : EventHandler
 
 	override void WorldThingSpawned(worldEvent e) {
 		let mo = e.thing;
-		if (!mo.bIsMonster) {
+		if (!(mo && mo.bIsMonster)) {
             return;
         }
 
@@ -14,7 +14,7 @@ class MonstersAffixingHandler : EventHandler
         [rar, qty] = rollRarityAndQuality(rarmod, qtymod);
 
         if (rar == 0) {
-            return;
+            return; // We don't need to give the affixator to monster with zero rarity
         }
 
         // debug.print("Giving the affixator to "..mo.GetClassName());
