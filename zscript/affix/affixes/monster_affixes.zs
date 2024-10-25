@@ -40,6 +40,8 @@ class MPrefMoreHealth2 : MPrefMoreHealth {
     }
 }
 
+// On damage
+
 class MPrefHigherDamage : RwMonsterAffix {
     override string getName() {
         return "Strong";
@@ -50,8 +52,85 @@ class MPrefHigherDamage : RwMonsterAffix {
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToRange(quality, 25, 200);
     }
-    override void onModifyDamageDealtByOwner(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor owner, int flags) {
-        newdamage = math.getIntPercentage(damage, 100+modifierLevel);
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (!passive) {
+            newdamage = math.getIntPercentage(damage, 100+modifierLevel);
+        }
+    }
+}
+
+class MSuffThorns : RwMonsterAffix {
+    override string getName() {
+        return "Untouchable";
+    }
+    override string getDescription() {
+        return "Thorns "..modifierLevel;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 5);
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (passive && source && source != owner && canOccurThisTick(owner.GetAge())) {
+            source.damageMobj(null, null, modifierLevel, 'Normal');
+            setLastEffectTick(owner.GetAge());
+        }
+    }
+}
+
+class MSuffVampiric : RwMonsterAffix {
+    override string getName() {
+        return "Blood-feeding";
+    }
+    override string getDescription() {
+        return "Vamp "..modifierLevel;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 50);
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (!passive) {
+            // debug.print("VAMPIRIC Source is "..source.GetClassName().." and owner is "..owner.GetClassName());
+            owner.GiveBody(modifierLevel, owner.GetMaxHealth());
+        }
+    }
+}
+
+class MSuffIncreaseDamageEachDealt : RwMonsterAffix {
+    override string getName() {
+        return "Raging";
+    }
+    override string getDescription() {
+        return "Rage";
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = 0;
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (passive) {
+            modifierLevel++;
+        } else {
+            newdamage += modifierLevel;
+        }
+    }
+}
+
+// Each tick
+
+class MSuffMagnet : RwMonsterAffix {
+    override string getName() {
+        return "Devouring";
+    }
+    override string getDescription() {
+        return "Magnet "..modifierLevel;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 50);
+    }
+    override void onDoEffect(Actor owner) {
+        if (owner.target && owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)) {
+            let pullAngle = owner.target.AngleTo(owner);
+            owner.target.Thrust(double(modifierLevel+50)/400, pullAngle);
+        }
     }
 }
 
@@ -68,75 +147,6 @@ class MSuffRegen : RwMonsterAffix {
     override void onDoEffect(Actor owner) {
         if (owner.GetAge() % TICRATE == 0) {
             owner.GiveBody(modifierLevel);
-        }
-    }
-}
-
-class MSuffThorns : RwMonsterAffix {
-    override string getName() {
-        return "Untouchable";
-    }
-    override string getDescription() {
-        return "Thorns "..modifierLevel;
-    }
-    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 5);
-    }
-    override void onModifyDamageToOwner(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor owner, int flags) {
-        if (source) {
-            source.damageMobj(null, null, modifierLevel, 'Normal');
-        }
-    }
-}
-
-class MSuffVampiric : RwMonsterAffix {
-    override string getName() {
-        return "Blood-feeding";
-    }
-    override string getDescription() {
-        return "Vamp "..modifierLevel;
-    }
-    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 25);
-    }
-    override void onModifyDamageDealtByOwner(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor owner, int flags) {
-        // debug.print("VAMPIRIC Source is "..source.GetClassName().." and owner is "..owner.GetClassName());
-        owner.GiveBody(modifierLevel, 1000);
-    }
-}
-
-class MSuffIncreaseDamageEachDealt : RwMonsterAffix {
-    override string getName() {
-        return "Raging";
-    }
-    override string getDescription() {
-        return "Rage";
-    }
-    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = 0;
-    }
-    override void onModifyDamageToOwner(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor owner, int flags) {
-        modifierLevel++;
-    }
-    override void onModifyDamageDealtByOwner(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor owner, int flags) {
-        newdamage += modifierLevel;
-    }
-}
-
-class MSuffMagnet : RwMonsterAffix {
-    override string getName() {
-        return "Devouring";
-    }
-    override string getDescription() {
-        return "Magnet "..modifierLevel;
-    }
-    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 100);
-    }
-    override void onDoEffect(Actor owner) {
-        if (owner.target && owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)) {
-            let pullAngle = owner.target.AngleTo(owner);
-            owner.target.Thrust(double(modifierLevel)/1000, pullAngle);
         }
     }
 }

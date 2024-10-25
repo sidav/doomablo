@@ -8,6 +8,10 @@ class MonstersAffixingHandler : EventHandler
             return;
         }
 
+        if (level.maptime > TICRATE) {
+            return; // Affixate only map-placed monsters.
+        }
+
         int rarmod, qtymod;
         [rarmod, qtymod] = rollRarQtyModifiers(mo.health);
         int rar, qty;

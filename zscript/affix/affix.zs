@@ -1,6 +1,7 @@
 class Affix {
 
     int modifierLevel;
+    int lastEffectTick; // For affixes which should be triggered not more than once per tick
 
     bool IsCompatibleWithListOfAffixes(out array <Affix> list) {
         foreach (aff : list) {
@@ -66,5 +67,13 @@ class Affix {
     virtual string getDescription() {
         debug.panicUnimplemented(self);
         return "";
+    }
+
+    bool canOccurThisTick(int tck) {
+        return lastEffectTick != tck;
+    }
+
+    void setLastEffectTick(int tck) {
+        lastEffectTick = tck;
     }
 }

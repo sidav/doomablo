@@ -8,8 +8,7 @@ extend class Affix {
 
     // Universal
     virtual play void onDoEffect(Actor owner) {}
-    virtual play void onModifyDamageToOwner(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor owner, int flags) {}
-    virtual play void onModifyDamageDealtByOwner(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source,  Actor owner, int flags) {}
+    virtual play void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {}
 
     // Weapons
     virtual play void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {}

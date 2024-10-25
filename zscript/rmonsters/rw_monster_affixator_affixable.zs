@@ -15,9 +15,15 @@ extend class RwMonsterAffixator {
                         descriptionStr = descriptionStr.."   "..aff.GetDescription();
                     }
                 }
-                attachLight();
             }
             GenerateOwnersName();
+            attachLight();
+            if (appliedAffixes.Size() >= 2) {
+                bNOINFIGHTING = true;
+            }
+            if (appliedAffixes.Size() >= 3) {
+                bNOTARGET = true;
+            }
         } else {
             debug.panic("Oh noes, finalizing before being given");
         }

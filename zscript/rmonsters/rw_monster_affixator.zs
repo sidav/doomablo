@@ -26,16 +26,11 @@ class RwMonsterAffixator : Inventory {
         }
         // debug.print("Owner "..owner.GetClassName()..": damage before "..damage);
         // Passive is True if the attack is being received by the owner. False if the attack is being dealt by the owner.
-        if (passive) {
-            Affix aff;
-            foreach (aff : appliedAffixes) {
-                aff.onModifyDamageToOwner(damage, damageType, newdamage, inflictor, source, owner, flags);
-            }
-        } else {
-            Affix aff;
-            foreach (aff : appliedAffixes) {
-                aff.onModifyDamageDealtByOwner(damage, damageType, newdamage, inflictor, source, owner, flags);
-            }
+        newdamage = damage;
+        Affix aff;
+        foreach (aff : appliedAffixes) {
+            aff.onModifyDamage(damage, newdamage, passive, inflictor, source, owner, flags);
+            damage = newdamage;
         }
         // debug.print("  Damage after "..newdamage);
     }
@@ -67,8 +62,8 @@ class RwMonsterAffixator : Inventory {
     static Color, int lightColorAndFlagsForRarity(int rarity) {
         switch (rarity) {
             case 0: return 0xFFFFFF, 0;
-            case 1: return 0x00FF00, DYNAMICLIGHT.LF_DONTLIGHTMAP;
-            case 2: return 0x1111FF, DYNAMICLIGHT.LF_DONTLIGHTMAP;
+            case 1: return 0x005500, DYNAMICLIGHT.LF_DONTLIGHTMAP;
+            case 2: return 0x000088, DYNAMICLIGHT.LF_DONTLIGHTMAP;
             case 3: return 0xCC00FF, DYNAMICLIGHT.LF_SUBTRACTIVE|DYNAMICLIGHT.LF_DONTLIGHTMAP;
             case 4: return 0xAA0000, DYNAMICLIGHT.LF_SUBTRACTIVE;
             case 5: return 0xFFEEEE, DYNAMICLIGHT.LF_SUBTRACTIVE;
