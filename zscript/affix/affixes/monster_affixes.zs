@@ -148,6 +148,7 @@ class MAffFastOnBeingDamaged : RwMonsterAffix { // Monster becomes fast and feel
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (passive && source && source != owner && !occuredThisTick()) {
             owner.bALWAYSFAST = true;
+            owner.bALLOWPAIN = false;
             updateLastEffectTick();
         }
     }
@@ -155,6 +156,7 @@ class MAffFastOnBeingDamaged : RwMonsterAffix { // Monster becomes fast and feel
     override void onDoEffect(Actor owner) {
         if (owner.bALWAYSFAST && occuredMoreThanTicksAgo(modifierLevel)) {
             owner.bALWAYSFAST = false;
+            owner.bALLOWPAIN = true;
             updateLastEffectTick();
         }
     }
@@ -245,7 +247,7 @@ class MAffCorrosion : RwMonsterAffix {
         return "Corrosive";
     }
     override string getDescription() {
-        return String.Format("CORR %.1f", 1/Gametime.TicksToSeconds(modifierLevel));
+        return String.Format("CORR %.1f", Gametime.ticksToPeriod(modifierLevel));
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToTicksFromSecondsRange(quality, 2, 0.1);
@@ -259,6 +261,83 @@ class MAffCorrosion : RwMonsterAffix {
                     pTarget.CurrentEquippedArmor.stats.currDurability = max(pTarget.CurrentEquippedArmor.stats.currDurability, 0);
                 }
             }
+        }
+    }
+}
+
+class MAffBlinking : RwMonsterAffix {
+    override string getName() {
+        return "Blinking";
+    }
+    override string getDescription() {
+        return String.Format("BLNK %.1f", Gametime.ticksToPeriod(modifierLevel));
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 1);
+    }
+    override void onDoEffect(Actor owner) {
+        if (owner && owner.target && (owner.GetAge() % modifierLevel == 0)) {
+            let pTarget = RwPlayer(owner.target);
+            if (pTarget) {
+                let newCoords = LevelHelper.GetRandomCoordinatesInLevelAtRangeFrom(4 * owner.radius, pTarget.Pos);
+                newCoords.Z += 1;
+                if (newCoords.X == 0 && newCoords.Y == 0) {
+                    return; // don't crash haha
+                }
+                owner.A_SpawnItemEx('TeleportFog');
+                owner.SetOrigin(newCoords, false);
+                owner.A_SpawnItemEx('TeleportFog');
+            }
+        }
+    }
+}
+
+class MAffPeriodicallyInvulnerable : RwMonsterAffix {
+    override string getName() {
+        return "Phasing";
+    }
+    override string getDescription() {
+        return String.Format("INVL %.1f", gametime.ticksToSeconds(modifierLevel));
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 1);
+    }
+    const InvulDuration = 3 * TICRATE;
+    override void onDoEffect(Actor owner) {
+        if (owner.bINVULNERABLE && occuredMoreThanTicksAgo(InvulDuration)) {
+            owner.bINVULNERABLE = false;
+            owner.A_SetRenderStyle(1, STYLE_Normal);
+            updateLastEffectTick();
+            return;
+        }
+        if (!owner.bINVULNERABLE && occuredMoreThanTicksAgo(modifierLevel)) {
+            owner.bINVULNERABLE = true;
+            owner.A_SetRenderStyle(1, STYLE_Fuzzy);
+            updateLastEffectTick();
+        }
+    }
+}
+
+class MAffPeriodicallyInvisible : RwMonsterAffix {
+    override string getName() {
+        return "Spectral";
+    }
+    override string getDescription() {
+        return String.Format("INVIS %.1f", gametime.ticksToSeconds(modifierLevel));
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 1);
+    }
+    const InvisDuration = 5 * TICRATE;
+    override void onDoEffect(Actor owner) {
+        if (owner.bSTEALTH && occuredMoreThanTicksAgo(InvisDuration)) {
+            owner.bSTEALTH = false;
+            updateLastEffectTick();
+            return;
+        }
+        if (!owner.bSTEALTH && occuredMoreThanTicksAgo(modifierLevel)) {
+            owner.bSTEALTH = true;
+            updateLastEffectTick();
         }
     }
 }
@@ -282,10 +361,45 @@ class MAffSpawnHordeOnDeath : RwMonsterAffix {
             owner.A_SpawnItemEx('TeleportFog');
             for (let i = 0; i < modifierLevel; i++) {
                 // debug.print("    Spawning "..i);
-                let newMo = owner.Spawn(owner.GetClass(), owner.Pos);
+                let newCoords = LevelHelper.GetRandomCoordinatesInLevelAtRangeFrom(4 * owner.radius, owner.Pos);
+                newCoords.Z += 1;
+                if (newCoords.X == 0 && newCoords.Y == 0) {
+                    continue; // don't crash haha
+                }
+                let newMo = owner.Spawn(owner.GetClass(), newCoords);
                 newMo.bNOINFIGHTING = true;
                 newMo.bNOTARGET = true;
+                newMo.target = owner.target;
                 AssignMajorSpreadVelocityTo(newMo);
+            }
+        }
+    }
+}
+
+class MAffFireballRevenge : RwMonsterAffix {
+    override string getName() {
+        return "Vengeful";
+    }
+    override string getDescription() {
+        return "REVENGE "..modifierLevel;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToRange(quality, 3, 10);
+    }
+    const missileHSpread = 4.0; // Degrees
+    const missileVSpread = 0.25; // Abs value for code simplification
+    override void onOwnerDied(Actor owner) {
+        if (owner) {
+            for (let i = 0; i < modifierLevel; i++) {
+                // TODO: direct missile to the one who is the killer
+                let msl = owner.SpawnMissile(Players[0].mo, 'DoomImpBall');
+                if (msl) {
+                    msl.vel *= rnd.randf(0.7, 1.5);
+                    let newXY = msl.rotateVector((msl.vel.X, msl.vel.Y), rnd.randf(-missileHSpread, missileHSpread));
+                    msl.vel.x = newXY.X;
+                    msl.vel.y = newXY.Y;
+                    msl.vel.z += rnd.randf(-missileVSpread, missileVSpread);
+                }
             }
         }
     }
