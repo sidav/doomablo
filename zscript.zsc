@@ -46,7 +46,7 @@ version "4.10.0"
 #include "zscript/drops/dropped_items_spread_handler.zs"
 #include "zscript/drops/drop_spreadable.zs"
 #include "zscript/drops/console_drops_handler.zs"
-#include "zscript/drops/default_items_replacements_handler.zs"
+#include "zscript/drops/map_placed_items_replacements_handler.zs"
 #include "zscript/drops/starting_items_handler.zs"
 
 #include "zscript/onetime_items/abonus.zs"

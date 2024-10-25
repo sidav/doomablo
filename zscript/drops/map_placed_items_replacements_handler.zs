@@ -1,5 +1,5 @@
 // Handles the replacement of default weapons/items. 
-class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
+class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 {
 	mixin AffixableGenerationHelperable;
 
@@ -121,7 +121,10 @@ class DefaultItemsToRWCounterpartsReplacementHandler : EventHandler
 			if (itm.owner == null && level.maptime < TICRATE) {
 				// let's generate (and give it better rarity and/or quality)
 				int rar, qty;
-            	[rar, qty] = DropsDecider.rollRarityAndQuality(1, 25);
+            	[rar, qty] = DropsDecider.rollRarityAndQuality(
+                    rnd.weightedRand(0, 100, 25, 1),
+                    rnd.rand(1, 10)
+                );
 
 				GenerateAffixableItem(itm, rar, qty);
 			}

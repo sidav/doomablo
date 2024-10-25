@@ -6,7 +6,7 @@ gameinfo
 	statusbarclass = "MyCustomHUD"
 
 	AddEventHandlers = "RwTestsHandler"
- 	AddEventHandlers = "DefaultItemsToRWCounterpartsReplacementHandler"
+ 	AddEventHandlers = "MapPlacedItemsToRWCounterpartsReplacementHandler"
 	AddEventHandlers = "AffixClassesCacheHandler"
 	AddEventHandlers = "AmmoDropsHandler"
 	AddEventHandlers = "DropsHandler"
