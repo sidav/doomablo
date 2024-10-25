@@ -22,9 +22,12 @@ class RwMonsterAffix : Affix {
 
 // On put into inventory
 
-class MAffMoreHealth : RwMonsterAffix {
+class MAffMoreHealth : RwMonsterAffix { // It WILL synergize with the affixator-given health.
     override string getName() {
         return "Unyelding";
+    }
+    override string getDescription() {
+        return "HLTH +"..(modifierLevel-100).."%";
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToRange(quality, 125, 500);
@@ -32,13 +35,6 @@ class MAffMoreHealth : RwMonsterAffix {
     override void onPutIntoMonsterInventory(Actor owner) {
         owner.starthealth = math.getIntPercentage(owner.health, modifierLevel);
         owner.A_SetHealth(owner.starthealth);
-    }
-}
-
-// Yes, allow it to synergize with affix above
-class MAffMoreHealth2 : MAffMoreHealth {
-    override string getName() {
-        return "Unyelding";
     }
 }
 
