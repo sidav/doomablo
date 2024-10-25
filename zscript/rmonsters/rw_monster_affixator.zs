@@ -18,6 +18,10 @@ class RwMonsterAffixator : Inventory {
 
     override void OwnerDied () {
         removeLight();
+        Affix aff;
+        foreach (aff : appliedAffixes) {
+            aff.onOwnerDied(owner);
+        }
     }
 
     override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags) {

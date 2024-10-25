@@ -1,7 +1,6 @@
 class Affix {
 
     int modifierLevel;
-    int lastEffectTick; // For affixes which should be triggered not more than once per tick
 
     bool IsCompatibleWithListOfAffixes(out array <Affix> list) {
         foreach (aff : list) {
@@ -49,6 +48,17 @@ class Affix {
         return math.remapIntRange(qty, 1, 100, rmin, rmax);
     }
 
+    // Helper method for code readability.
+    // Transforms quality to ticks based on provided float seconds range.
+    protected static int remapQualityToTicksFromSecondsRange(int qty, double minSeconds, double maxSeconds) {
+        if (qty <= 0) {
+            debug.panic("Negative quality in range mapping");
+        }
+        int minS = (TICRATE*int(minSeconds*10))/10;
+        int maxS = (TICRATE*int(maxSeconds*10))/10;
+        return math.remapIntRange(qty, 1, 100, minS, maxS);
+    }
+
     virtual string getName() {
         debug.panicUnimplemented(self);
         return "";
@@ -69,11 +79,23 @@ class Affix {
         return "";
     }
 
-    bool canOccurThisTick(int tck) {
-        return lastEffectTick != tck;
+    // Affix effect frequency control
+
+    int lastEffectTick; // For affixes which should be triggered not more than once per tick
+
+    bool occuredThisTick() {
+        return lastEffectTick == level.maptime;
     }
 
-    void setLastEffectTick(int tck) {
-        lastEffectTick = tck;
+    bool occuredMoreThanTicksAgo(int ticks) {
+        if (level.maptime < lastEffectTick) {
+            debug.print("WARNING: Tick correction occured. Report if you see this.");
+            lastEffectTick = level.maptime;
+        }
+        return (level.maptime - lastEffectTick) > ticks;
+    }
+
+    void updateLastEffectTick() {
+        lastEffectTick = level.maptime;
     }
 }
