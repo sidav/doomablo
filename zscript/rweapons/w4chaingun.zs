@@ -25,10 +25,11 @@ class RwChaingun : RandomizedWeapon
 		Loop;
 	Fire:
 		CHGG AB 4 {
-			RWA_ReloadOrSwitchIfEmpty(); // Need to call that because the chaingun fires two bullets at once
 			RWA_ApplyRateOfFire();
-            RWA_DoFire();
-			RWA_ChaingunFlash();
+			if (invoker.currentClipAmmo >= invoker.stats.ammoUsage) {
+				RWA_DoFire();
+				RWA_ChaingunFlash();
+			}
         }
 		CHGG B 0 RWA_ReFire;
 		Goto Ready;
