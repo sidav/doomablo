@@ -25,23 +25,18 @@ extend class RandomizedWeapon {
 
     // All the arguments are there just because it's an override (so they're partially unused and it's on purpose)
     override bool depleteAmmo(bool altFire, bool checkEnough, int ammouse, bool forceammouse) {
-        if (stats.freeShotPeriod > 0) {
-            shotsSinceLastFreeShot++;
+        if (rnd.PercentChance(stats.freeShotChance)) {
+            return true;
         }
-        if (stats.freeShotPeriod > 0 && shotsSinceLastFreeShot % stats.freeShotPeriod == 0) {
-            shotsSinceLastFreeShot = 0; // and don't consume ammo!
+        if (checkAmmo(0, true, true, stats.ammoUsage)) {
+            if (stats.reloadable()) {
+                currentClipAmmo -= stats.ammoUsage;
+            } else {
+                Ammo1.Amount -= stats.ammoUsage;
+            }
             return true;
         } else {
-            if (checkAmmo(0, true, true, stats.ammoUsage)) {
-                if (stats.reloadable()) {
-                    currentClipAmmo -= stats.ammoUsage;
-                } else {
-                    Ammo1.Amount -= stats.ammoUsage;
-                }
-                return true;
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 

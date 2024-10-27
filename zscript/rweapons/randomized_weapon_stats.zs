@@ -20,7 +20,7 @@ class RWStatsClass {
     int clipSize; // 0 means no clip (equals to infinite)
     int reloadSpeedModifier; // percentage, like rofModifier
     int ammoUsage;
-    int freeShotPeriod; // each freeShotPeriod'th shot will be free. Better for auto-shot weapons, may be useful for RL.
+    int freeShotChance; // Percentage chance that a shot will be free. Better for auto-shot weapons, may be useful for RL.
 
     static RWStatsClass NewWeaponStats(int minDmg, int maxDmg, int pell, int ammousg, float hSpr, float vSpr) {
         let rws = New('RwStatsClass');
@@ -46,6 +46,13 @@ class RWStatsClass {
             let t = maxDamage;
             maxDamage = minDamage;
             minDamage = t;
+        }
+    }
+
+    void increaseMinDamagePushingMax(int minMod) {
+        minDamage += minMod;
+        if (minDamage > maxDamage) {
+            maxDamage = minDamage;
         }
     }
 

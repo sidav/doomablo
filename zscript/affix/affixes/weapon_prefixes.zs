@@ -59,12 +59,12 @@ class WPrefBetterMinDamage : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefWorseMinDamage';
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.getDamageSpread() > 0;
+        return true;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.getDamageSpread());
+        modifierLevel = remapQualityToRange(quality, 1, 1+wpn.stats.minDamage);
 
-        wpn.stats.modifyDamageRange(modifierLevel, 0);
+        wpn.stats.increaseMinDamagePushingMax(modifierLevel);
     }
 }
 
@@ -108,7 +108,7 @@ class WPrefBetterMaxDamage : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefWorseMaxDamage';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.maxDamage);
+        modifierLevel = remapQualityToRange(quality, 1, math.getIntPercentage(wpn.stats.maxDamage, 150));
 
         wpn.stats.modifyDamageRange(0, modifierLevel);
     }
@@ -214,15 +214,14 @@ class WPrefFreeShots : RwWeaponPrefix {
         return 1;
     }
     override string getDescription() {
-        return "Each "..modifierLevel.."th shot is free";
+        return String.format("%d%% chance for a shot to be free", (modifierLevel) );
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return true;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = 12 - remapQualityToRange(quality, 1, 10);
-
-        wpn.stats.freeShotPeriod = modifierLevel;
+        modifierLevel = remapQualityToRange(quality, 5, 70);
+        wpn.stats.freeShotChance = modifierLevel;
     }
 }
 

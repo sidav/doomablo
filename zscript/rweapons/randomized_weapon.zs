@@ -4,7 +4,6 @@ class RandomizedWeapon : DoomWeapon {
 
     string rwbaseName;
     RWStatsClass stats;
-    int shotsSinceLastFreeShot;
 
     Default {
         Weapon.AmmoUse 1; // We use custom ammo usage routine anyway
