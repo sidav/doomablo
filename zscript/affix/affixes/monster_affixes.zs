@@ -270,22 +270,18 @@ class MAffBlinking : RwMonsterAffix {
         return "Blinking";
     }
     override string getDescription() {
-        return String.Format("BLNK %.1f", Gametime.ticksToPeriod(modifierLevel));
+        return String.Format("BLNK %.1f", Gametime.ticksToSeconds(modifierLevel));
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 1);
+        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 15, 5);
     }
     override void onDoEffect(Actor owner) {
-        if (owner && owner.target && (owner.GetAge() % modifierLevel == 0)) {
-            let pTarget = RwPlayer(owner.target);
-            if (pTarget) {
-                let newCoords = LevelHelper.GetRandomCoordinatesInLevelAtRangeFrom(4 * owner.radius, pTarget.Pos);
-                newCoords.Z += 1;
-                if (newCoords.X == 0 && newCoords.Y == 0) {
-                    return; // don't crash haha
-                }
-                owner.A_SpawnItemEx('TeleportFog');
-                owner.SetOrigin(newCoords, false);
+        if (owner && owner.target && (owner.GetAge() % modifierLevel == 0) && rnd.OneChanceFrom(3)) {
+            let target = owner.target;
+            let originalPos = owner.Pos;
+            if (LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(owner, 4*owner.radius, target.Pos)) {
+                let tfog = owner.Spawn('TeleportFog');
+                tfog.SetOrigin(originalPos, false);
                 owner.A_SpawnItemEx('TeleportFog');
             }
         }
@@ -361,16 +357,15 @@ class MAffSpawnHordeOnDeath : RwMonsterAffix {
             owner.A_SpawnItemEx('TeleportFog');
             for (let i = 0; i < modifierLevel; i++) {
                 // debug.print("    Spawning "..i);
-                let newCoords = LevelHelper.GetRandomCoordinatesInLevelAtRangeFrom(4 * owner.radius, owner.Pos);
-                newCoords.Z += 1;
-                if (newCoords.X == 0 && newCoords.Y == 0) {
-                    continue; // don't crash haha
+                let newMo = owner.Spawn(owner.GetClass(), owner.Pos);
+                if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, 4 * owner.radius, owner.Pos)) {
+                    newMo.destroy();
+                    continue;
                 }
-                let newMo = owner.Spawn(owner.GetClass(), newCoords);
                 newMo.bNOINFIGHTING = true;
                 newMo.bNOTARGET = true;
                 newMo.target = owner.target;
-                AssignMajorSpreadVelocityTo(newMo);
+                AssignMinorSpreadVelocityTo(newMo);
             }
         }
     }
