@@ -29,6 +29,9 @@ class MAffMoreHealth : RwMonsterAffix { // It WILL synergize with the affixator-
     override string getDescription() {
         return "HLTH +"..(modifierLevel-100).."%";
     }
+    override int minRequiredRarity() {
+        return 2;
+    }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToRange(quality, 125, 500);
     }
@@ -68,6 +71,9 @@ class MAffPoisonous : RwMonsterAffix {
     }
     override string getDescription() {
         return "VENM "..modifierLevel;
+    }
+    override int minRequiredRarity() {
+        return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 20);
@@ -123,6 +129,9 @@ class MAffThorns : RwMonsterAffix {
     override string getDescription() {
         return "Thorns "..modifierLevel;
     }
+    override int minRequiredRarity() {
+        return 2;
+    }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 5);
     }
@@ -157,6 +166,9 @@ class MAffFastOnBeingDamaged : RwMonsterAffix { // Monster becomes fast and feel
     }
     override string getDescription() {
         return String.Format("RAGE %.1f", gametime.ticksToSeconds(modifierLevel));
+    }
+    override int minRequiredRarity() {
+        return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToTicksFromSecondsRange(quality, 3, 15);
@@ -253,7 +265,7 @@ class MAffRegen : RwMonsterAffix {
         modifierLevel = remapQualityToRange(quality, 1, 10);
     }
     override void onDoEffect(Actor owner) {
-        if (owner.GetAge() % (TICRATE/2) == 0) {
+        if (owner.GetAge() % (2*TICRATE/3) == 0) {
             owner.GiveBody(modifierLevel);
         }
     }
@@ -265,6 +277,9 @@ class MAffCorrosion : RwMonsterAffix {
     }
     override string getDescription() {
         return String.Format("CORR %.1f", Gametime.ticksToPeriod(modifierLevel));
+    }
+    override int minRequiredRarity() {
+        return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToTicksFromSecondsRange(quality, 2, 0.1);
@@ -308,12 +323,48 @@ class MAffBlinking : RwMonsterAffix {
     }
 }
 
+class MAffSummoner : RwMonsterAffix {
+    override string getName() {
+        return "Summoning";
+    }
+    override string getDescription() {
+        return "SMMN "..modifierLevel;
+    }
+    override int minRequiredRarity() {
+        return 3;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 75);
+    }
+    const TRY_SUMMON_EACH = TICRATE;
+    override void onDoEffect(Actor owner) {
+        if (level.maptime % TRY_SUMMON_EACH == 0 && owner.target != null) {
+            let maxChance = (100 - modifierLevel) + (owner.GetMaxHealth() / 5);
+            if (!rnd.OneChanceFrom(maxChance)) {
+                return;
+            }
+            // debug.print("    Spawning "..i);
+            let newMo = owner.Spawn(owner.GetClass(), owner.Pos);
+            if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, 4 * owner.radius, owner.Pos)) {
+                newMo.destroy();
+                return;
+            }
+            owner.A_SpawnItemEx('TeleportFog');
+            newMo.A_SpawnItemEx('TeleportFog');
+            newMo.target = owner.target;
+        }
+    }
+}
+
 class MAffPeriodicallyInvulnerable : RwMonsterAffix {
     override string getName() {
         return "Phasing";
     }
     override string getDescription() {
         return String.Format("INVL %.1f", gametime.ticksToSeconds(modifierLevel));
+    }
+    override int minRequiredRarity() {
+        return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 1);
@@ -340,6 +391,9 @@ class MAffPeriodicallyInvisible : RwMonsterAffix {
     }
     override string getDescription() {
         return String.Format("INVIS %.1f", gametime.ticksToSeconds(modifierLevel));
+    }
+    override int minRequiredRarity() {
+        return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 1);
@@ -369,6 +423,9 @@ class MAffSpawnHordeOnDeath : RwMonsterAffix {
     override string getDescription() {
         return "Horde "..modifierLevel;
     }
+    override int minRequiredRarity() {
+        return 3;
+    }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 10);
     }
@@ -387,6 +444,7 @@ class MAffSpawnHordeOnDeath : RwMonsterAffix {
                 newMo.bNOINFIGHTING = true;
                 newMo.bNOTARGET = true;
                 newMo.target = owner.target;
+                newMo.A_SpawnItemEx('TeleportFog');
                 AssignMinorSpreadVelocityTo(newMo);
             }
         }
@@ -399,6 +457,9 @@ class MAffFireballRevenge : RwMonsterAffix {
     }
     override string getDescription() {
         return "REVENGE "..modifierLevel;
+    }
+    override int minRequiredRarity() {
+        return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToRange(quality, 3, 10);
