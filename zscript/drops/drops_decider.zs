@@ -11,6 +11,9 @@ class DropsDecider {
         } else {
             count = rnd.weightedRand(8, 2, 1);
         }
+        if (dropperRarity == 1 && count == 0) {
+            count++;
+        }
         if (dropperRarity > 1) {
             count += rnd.weightedRand(0, dropperRarity/2, dropperRarity/3, dropperRarity/5);
         }
@@ -21,19 +24,20 @@ class DropsDecider {
     }
 
     static int whatToDrop(int dropperHealth, int dropperRarity) {
-        let rarityIncrease = dropperRarity/2;
-        // 0 - onetime item (including ammo)
-        // 1 - weapon
-        // 2 - armor
-        // 3 - backpack
+        // 0 - onetime item (armor bonus or health)
+        // 1 - ammo
+        // 2 - progression item
+        // 3 - Randomizable artifact (weapon/armor/backpack)
         if (dropperHealth > 1000) {
-            return rnd.weightedRand(1, 3+rarityIncrease, 2+rarityIncrease, 1+rarityIncrease); // drop artifacts mostly.
+            return rnd.weightedRand(1, 1, 1+dropperRarity, 1+2*dropperRarity); // drop artifacts mostly.
         } else if (dropperHealth >= 500) {
-            return rnd.weightedRand(8, 3+rarityIncrease, 3+rarityIncrease, 1+rarityIncrease);
+            return rnd.weightedRand(10, 5, 1+dropperRarity, 1+2*dropperRarity);
         } else if (dropperHealth >= 250) {
-            return rnd.weightedRand(10, 3+rarityIncrease, 3+rarityIncrease, 1+rarityIncrease);
+            return rnd.weightedRand(10, 5, 1+dropperRarity, 1+2*dropperRarity);
+        } else {
+            return rnd.weightedRand(10, 15, 1+dropperRarity, 1+2*dropperRarity);
         }
-        return rnd.weightedRand(20, 3+rarityIncrease, 2+rarityIncrease, 1+rarityIncrease);
+        return 0;
     }
 
     static int, int rollRarQtyModifiers(int dropperHealth, int dropperRarity) {

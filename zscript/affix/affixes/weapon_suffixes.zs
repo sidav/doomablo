@@ -204,7 +204,7 @@ class WSuffAmmoDrops : RwWeaponSuffix {
     }
     override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (rnd.PercentChance(modifierLevel)) {
-            let ammoitem = DropsHandler.SpawnRandomAmmoDrop(target);
+            let ammoitem = DropsSpawner.SpawnRandomAmmoDrop(target);
             AssignSpreadVelocityTo(ammoitem);
         }
     }
