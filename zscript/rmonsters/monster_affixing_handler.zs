@@ -12,10 +12,10 @@ class MonstersAffixingHandler : EventHandler
             return; // Affixate only map-placed monsters.
         }
 
-        int rarmod, qtymod;
-        [rarmod, qtymod] = rollRarQtyModifiers(mo.health);
+        // int rarmod, qtymod;
+        // [rarmod, qtymod] = rollRarQtyModifiers(mo.health);
         int rar, qty;
-        [rar, qty] = rollRarityAndQuality(rarmod, qtymod);
+        [rar, qty] = rollRarityAndQuality(0, 0);
 
         if (rar == 0) {
             return; // We don't need to give the affixator to monster with zero rarity
@@ -27,24 +27,25 @@ class MonstersAffixingHandler : EventHandler
         given.Generate(rar, qty);
 	}
 
-    static int, int rollRarQtyModifiers(int monsterHealth) {
-        int rarmod, qtymod;
-        if (monsterHealth >= 1000) {
-            rarmod = rnd.weightedRand(0, 50, 10, 5, 2, 1);
-            qtymod = rnd.rand(1, 5);
-        } else if (monsterHealth >= 500) {
-            rarmod = rnd.weightedRand(10, 3, 1);
-            qtymod = rnd.rand(1, 3);
-        } else if (monsterHealth >= 250) {
-            rarmod = rnd.weightedRand(10, 1);
-            qtymod = rnd.rand(0, 1);
-        }
-        return rarmod, qtymod;
-    }
+    // static int, int rollRarQtyModifiers(int monsterHealth) {
+    //     return 0, 0
+    //     int rarmod, qtymod;
+    //     if (monsterHealth >= 1000) {
+    //         rarmod = rnd.weightedRand(100, 40, 10, 5, 2, 1);
+    //         qtymod = rnd.rand(1, 5);
+    //     } else if (monsterHealth >= 500) {
+    //         rarmod = rnd.weightedRand(10, 3, 1);
+    //         qtymod = rnd.rand(1, 3);
+    //     } else if (monsterHealth >= 250) {
+    //         rarmod = rnd.weightedRand(10, 1);
+    //         qtymod = rnd.rand(0, 1);
+    //     }
+    //     return rarmod, qtymod;
+    // }
 
     static int, int rollRarityAndQuality(int rarMod, int qtyMod) {
         // Roll rarity
-        let rar = rnd.weightedRand(1000, 250, 60, 15, 4, 1);
+        let rar = rnd.weightedRand(600, 200, 80, 20, 7, 1);
         rar = min(rar+rarMod, 5);
 
         // Roll quality

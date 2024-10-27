@@ -62,6 +62,23 @@ class MAffKnockback : RwMonsterAffix {
     }
 }
 
+class MAffPoisonous : RwMonsterAffix {
+    override string getName() {
+        return "Poison";
+    }
+    override string getDescription() {
+        return "VENM "..modifierLevel;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 20);
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (!passive && source && source != owner) {
+            source.GiveInventory('RWPoisonToken', modifierLevel);
+        }
+    }
+}
+
 class MAffHigherDamage : RwMonsterAffix {
     override string getName() {
         return "Strong";
@@ -111,7 +128,7 @@ class MAffThorns : RwMonsterAffix {
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (passive && source && source != owner && !occuredThisTick()) {
-            source.damageMobj(null, null, modifierLevel, 'Normal');
+            source.damageMobj(null, null, Random(0, modifierLevel), 'Normal');
             updateLastEffectTick();
         }
     }
@@ -276,7 +293,10 @@ class MAffBlinking : RwMonsterAffix {
         modifierLevel = remapQualityToTicksFromSecondsRange(quality, 15, 5);
     }
     override void onDoEffect(Actor owner) {
-        if (owner && owner.target && (owner.GetAge() % modifierLevel == 0) && rnd.OneChanceFrom(3)) {
+        if (owner && owner.target && (owner.GetAge() % modifierLevel == 0) && 
+            (rnd.OneChanceFrom(10) || owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)) ) 
+        {
+
             let target = owner.target;
             let originalPos = owner.Pos;
             if (LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(owner, 4*owner.radius, target.Pos)) {
@@ -308,7 +328,7 @@ class MAffPeriodicallyInvulnerable : RwMonsterAffix {
         }
         if (!owner.bINVULNERABLE && occuredMoreThanTicksAgo(modifierLevel)) {
             owner.bINVULNERABLE = true;
-            owner.A_SetRenderStyle(1, STYLE_Fuzzy);
+            owner.A_SetRenderStyle(1, STYLE_Add);
             updateLastEffectTick();
         }
     }
@@ -324,14 +344,16 @@ class MAffPeriodicallyInvisible : RwMonsterAffix {
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 1);
     }
-    const InvisDuration = 5 * TICRATE;
+    const InvisDuration = 4 * TICRATE;
     override void onDoEffect(Actor owner) {
         if (owner.bSTEALTH && occuredMoreThanTicksAgo(InvisDuration)) {
+            // owner.A_SetRenderStyle(1, STYLE_Normal);
             owner.bSTEALTH = false;
             updateLastEffectTick();
             return;
         }
         if (!owner.bSTEALTH && occuredMoreThanTicksAgo(modifierLevel)) {
+            // owner.A_SetRenderStyle(1, STYLE_Fuzzy); - this causes bugs
             owner.bSTEALTH = true;
             updateLastEffectTick();
         }

@@ -40,7 +40,7 @@ class RwMonsterAffixator : Inventory {
     }
 
     void attachLight() {
-        let rarity = appliedAffixes.Size();
+        let rarity = getRarity();
         if (rarity == 0) {
             return;
         }

@@ -133,6 +133,10 @@ mixin class Affixable {
         return true;
     }
 
+    int getRarity() {
+        return appliedAffixes.Size();
+    }
+
     /////////////////////////
     ///  NAME GENERATION  ///
     /////////////////////////
