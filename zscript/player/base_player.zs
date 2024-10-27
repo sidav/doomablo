@@ -20,6 +20,10 @@ class RwPlayer : DoomPlayer
         return false;
     }
 
+    virtual ui bool ProgressionEnabledUI() {
+        return false;
+    }
+
     override void BeginPlay() {
         super.BeginPlay();
         ResetMaxAmmoToDefault();

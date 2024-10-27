@@ -13,4 +13,8 @@ class RwProgressionPlayer : RwPlayer {
     override bool ProgressionEnabled() {
         return true;
     }
+
+    override bool ProgressionEnabledUI() {
+        return true;
+    }
 }

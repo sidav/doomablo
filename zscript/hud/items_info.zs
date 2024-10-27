@@ -48,34 +48,44 @@ extend class MyCustomHUD {
         currentLineHeight = 5;
         Screen.Dim(0x000000, 0.5, 0, 0, Screen.GetWidth(), Screen.GetHeight(), STYLE_Translucent);
 
-        PrintLineAt("Drops level: "..plr.minItemQuality.."-"..plr.maxItemQuality, 0, 0, itemStatsFont, DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_WHITE);
-        PrintEmptyLine(itemStatsFont);
+        let levelsStr = "Drops and monsters levels: "..plr.minItemQuality.."-"..plr.maxItemQuality;
+        if (plr.ProgressionEnabledUI()) {
+            DrawString(itemNameFont,
+                levelsStr,
+                (0, 5), DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_WHITE);
+        } else {
+            DrawString(itemNameFont, 
+                levelsStr.." (progression disabled)",
+                (0, 5), DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_DARKGRAY);
+        }
+        PrintEmptyLine(itemNameFont);
+        PrintEmptyLine(itemNameFont);
 
-        PrintLineAt("===  CURRENT EQUIPPED WEAPON:  ===", headerX, 0, itemStatsFont, fullScreenStatusFlags, Font.CR_WHITE);
+        PrintLineAt("===  CURRENT EQUIPPED WEAPON:  ===", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_WHITE);
         if (wpn) {
             printWeaponStatsAt(wpn, null, statsX, 0, fullScreenStatusFlags);
         } else {
-            PrintLineAt("No artifact weapon equipped", headerX, 0, itemStatsFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
+            PrintLineAt("No artifact weapon equipped", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
         PrintEmptyLine(itemStatsFont);
         // let lineH = (currentLineHeight + 10) * CleanYFac_1;
         // Screen.DrawThickLine(0, lineH, Screen.GetWidth(), lineH, 3, 0xAAAAAA, 255);
         
 
-        PrintLineAt("===  CURRENT EQUIPPED ARMOR:  ===", headerX, 0, itemStatsFont, fullScreenStatusFlags, Font.CR_WHITE);
+        PrintLineAt("===  CURRENT EQUIPPED ARMOR:  ===", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_WHITE);
         if (arm) {
             printArmorStatsTableAt(arm, null, statsX, 0, fullScreenStatusFlags);
         } else {
-            PrintLineAt("No artifact armor equipped", headerX, 0, itemStatsFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
+            PrintLineAt("No artifact armor equipped", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
         PrintEmptyLine(itemStatsFont);
 
         let bkpk = RwBackpack(plr.CurrentEquippedBackpack);
-        PrintLineAt("===  CURRENT EQUIPPED BACKPACK:  ===", headerX, 0, itemStatsFont, fullScreenStatusFlags, Font.CR_WHITE);
+        PrintLineAt("===  CURRENT EQUIPPED BACKPACK:  ===", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_WHITE);
         if (bkpk) {
             printBackpackStatsTableAt(bkpk, null, statsX, 0, fullScreenStatusFlags);
         } else {
-            PrintLineAt("No backpack equipped", headerX, 0, itemStatsFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
+            PrintLineAt("No backpack equipped", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
 
     }
