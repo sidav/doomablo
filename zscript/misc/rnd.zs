@@ -13,6 +13,10 @@ class rnd {
         return float(Random(min*floatRandomStep, max*floatRandomStep))/floatRandomStep;
     }
 
+    // static int randTicksFromSeconds(double minSeconds, double maxSeconds) {
+    //     return TICRATE * randf(minSeconds, maxSeconds);
+    // }
+
     static bool PercentChance(int percent) {
         return randn(100) < percent;
     }

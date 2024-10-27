@@ -38,12 +38,12 @@ extend class MyCustomHUD {
         int rarity = -1;
         if (i is 'RandomizedWeapon') {
             rarity = RandomizedWeapon(i).appliedAffixes.Size();
-        }
-        if (i is 'RandomizedArmor') {
+        } else if (i is 'RandomizedArmor') {
             rarity = RandomizedArmor(i).appliedAffixes.Size();
-        }
-        if (i is 'RwBackpack') {
+        } else if (i is 'RwBackpack') {
             rarity = RwBackpack(i).appliedAffixes.Size();
+        } else if (i is 'RwMonsterAffixator') {
+            rarity = RwMonsterAffixator(i).appliedAffixes.Size();
         }
         if (rarity == -1) {
             debug.panic("Unknown affixable item to pick color for: "..i.GetClassName());
