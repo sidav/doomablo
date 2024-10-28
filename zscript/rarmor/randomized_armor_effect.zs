@@ -129,6 +129,14 @@ extend class RandomizedArmor {
                 let thornDamage = max(1, math.getIntPercentage(damage, ThornsReturnedPercentage));
                 source.damageMobj(null, owner, thornDamage, 'Normal', DMG_NO_PROTECT);
             }
+
+            // TODO: maybe it's too OP? Increase absorption only?
+            if (stats.currDurability > 0) {
+                aff = findAppliedAffix('ASuffHoly');
+                if (aff != null) {
+                    damage = max(1, math.getIntPercentage(damage, 100 - aff.modifierLevel));
+                }
+            }
         }
         if (stats.currDurability > 0) {
             damage -= stats.DamageReduction;

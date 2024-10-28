@@ -80,6 +80,18 @@ class ASuffSlowHeal : RwArmorSuffix {
     }
 }
 
+class ASuffHoly : RwArmorSuffix {
+    override string getName() {
+        return "Holy";
+    }
+    override string getDescription() {
+        return String.Format("-%d%% damage from legendary and mythic monsters", (modifierLevel));
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 50);
+    }
+}
+
 // Non-energy only
 
 class ASuffAbsImprove : RwArmorSuffix {
