@@ -8,7 +8,7 @@ class DropsSpawner {
     }
 
     static play Actor SpawnRandomOneTimeItemDrop(Actor dropper) {
-        int dropType = rnd.weightedRand(3, 2, 1);
+        int dropType = rnd.weightedRand(650, 650, 100, 10, 7, 5, 1, 1);
         switch (dropType) {
             case 0: 
                 return createDropByClass(dropper, 'RwArmorBonus');
@@ -16,14 +16,24 @@ class DropsSpawner {
                 return createDropByClass(dropper, 'HealthBonus');
             case 2: 
                 return createDropByClass(dropper, 'Stimpack');
+            case 3:
+                return createDropByClass(dropper, 'BlurSphere');
+            case 4:
+                return createDropByClass(dropper, 'SoulSphere');
+            case 5:
+                return createDropByClass(dropper, 'Berserk');
+            case 6:
+                return createDropByClass(dropper, 'MegaSphere');
+            case 7:
+                return createDropByClass(dropper, 'InvulnerabilitySphere');
             default:
                 debug.panic("Ammo random drop spawner crashed");
         }
         return null;
     }
 
-    static play Actor SpawnRandomAmmoDrop(Actor dropper) {
-        int dropType = rnd.weightedRand(8, 10, 1, 4);
+    static play Actor SpawnRandomAmmoDrop(Actor dropper, int maxAmmoPercentage = 200) {
+        int dropType = rnd.weightedRand(5, 5, 1, 2);
         Actor ammoDrop;
         switch (dropType) {
             case 0: 
@@ -44,7 +54,7 @@ class DropsSpawner {
         // Randomly increase dropped ammo amount
         let invItem = Inventory(ammoDrop);
         if (invItem) {
-            invItem.amount = Random(invItem.amount, 2*invItem.amount);
+            invItem.amount = Random(invItem.amount, math.getIntPercentage(invItem.amount, maxAmmoPercentage));
         }
         return invItem;
     }
