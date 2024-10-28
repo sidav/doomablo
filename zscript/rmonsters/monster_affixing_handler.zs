@@ -22,9 +22,8 @@ class MonstersAffixingHandler : EventHandler
         }
 
         // debug.print("Giving the affixator to "..mo.GetClassName());
-        // debug.print(String.format("       Rar %d qty %d; rarmod %d, qtymod %d", rar, qty, rarmod, qtyMod));
-        let given = RwMonsterAffixator(mo.GiveInventoryType('RwMonsterAffixator'));
-        given.Generate(rar, qty);
+        // debug.print(String.format("       Rar %d qty %d;", rar, qty));
+        RwMonsterAffixator.AffixateMonster(mo, rar, qty);
 	}
 
     // static int, int rollRarQtyModifiers(int monsterHealth) {

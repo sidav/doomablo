@@ -191,6 +191,24 @@ class WSuffPain : RwWeaponSuffix {
     }
 }
 
+class WSuffHoly : RwWeaponSuffix {
+    override string getName() {
+        return "Holy";
+    }
+    override string getDescription() {
+        return modifierLevel.."% additional damage to Legedary and Mythic enemies";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 15, 100);
+    }
+    override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (RwMonsterAffixator.GetMonsterRarity(target) > 3) {
+            // TODO: do this in ModifyDamage() instead of this? The on-death triggers will be better this way. Or not.
+            target.damageMobj(null, plr, math.getIntPercentage(damage, modifierLevel), 'Normal');
+        }
+    }
+}
+
 class WSuffAmmoDrops : RwWeaponSuffix {
     mixin DropSpreadable;
     override string getName() {

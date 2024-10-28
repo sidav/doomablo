@@ -65,7 +65,6 @@ class NameGenerator {
         static const string pref[] = {
             "Angelic",
             "Blessed",
-            "Holy",
             "Righteous",
             "Shining",
             "Zealous"
