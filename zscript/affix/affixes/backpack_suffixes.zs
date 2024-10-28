@@ -96,6 +96,18 @@ class BSuffBetterMedikits : RwBackpackSuffix {
     }
 }
 
+class BSuffBetterArmorRepair : RwBackpackSuffix {
+    override string getName() {
+        return "Repair kit";
+    }
+    override string getDescription() {
+        return String.Format("%d%% chance to repair more armor DRB", (modifierLevel));
+    }
+    override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 50);
+    }
+}
+
 class BSuffMoreAmmoChance : RwBackpackSuffix {
     override string getName() {
         return "Optimization";
