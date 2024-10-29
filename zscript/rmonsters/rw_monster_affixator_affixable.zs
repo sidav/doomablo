@@ -5,16 +5,7 @@ extend class RwMonsterAffixator {
         if (owner) {
             Affix aff;
             foreach (aff : appliedAffixes) {
-                aff.onPutIntoMonsterInventory(owner);
-
-                // Save all the descriptions to string
-                if (aff.getDescription() != "") {
-                    if (descriptionStr == "") {
-                        descriptionStr = aff.GetDescription();
-                    } else {
-                        descriptionStr = descriptionStr.."   "..aff.GetDescription();
-                    }
-                }
+                aff.onPutIntoMonsterInventory(owner);                
             }
 
             // After affixes are applied

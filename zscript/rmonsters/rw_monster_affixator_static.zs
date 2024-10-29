@@ -8,6 +8,10 @@ extend class RwMonsterAffixator {
         return 0;
     }
 
+    static RwMonsterAffixator GetMonsterAffixator(Actor monster) {
+        return RwMonsterAffixator(monster.FindInventory('RwMonsterAffixator'));
+    }
+
     static void AffixateMonster(Actor monster, int rar, int qty) {
         let a = monster.FindInventory('RwMonsterAffixator');
         if (a) {

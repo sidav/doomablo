@@ -196,7 +196,10 @@ class MAffIncreaseDamageEachDealt : RwMonsterAffix { // Each time monster is dam
         return "Angrying";
     }
     override string getDescription() {
-        return "ANGER";
+        if (modifierLevel == 0) {
+            return "ANGER";
+        }
+        return "ANGER "..modifierLevel;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = 0;
@@ -367,7 +370,7 @@ class MAffPeriodicallyInvulnerable : RwMonsterAffix {
         return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 1);
+        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 15, 5);
     }
     const InvulDuration = 3 * TICRATE;
     override void onDoEffect(Actor owner) {
@@ -396,19 +399,21 @@ class MAffPeriodicallyInvisible : RwMonsterAffix {
         return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 1);
+        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 15, 5);
     }
     const InvisDuration = 4 * TICRATE;
     override void onDoEffect(Actor owner) {
         if (owner.bSTEALTH && occuredMoreThanTicksAgo(InvisDuration)) {
-            // owner.A_SetRenderStyle(1, STYLE_Normal);
+            owner.A_SetRenderStyle(1, STYLE_Normal);
             owner.bSTEALTH = false;
+            RwMonsterAffixator.GetMonsterAffixator(owner).attachLight();
             updateLastEffectTick();
             return;
         }
         if (!owner.bSTEALTH && occuredMoreThanTicksAgo(modifierLevel)) {
             // owner.A_SetRenderStyle(1, STYLE_Fuzzy); - this causes bugs
             owner.bSTEALTH = true;
+            RwMonsterAffixator.GetMonsterAffixator(owner).removeLight();
             updateLastEffectTick();
         }
     }

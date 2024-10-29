@@ -2,8 +2,6 @@
 // The item itself is affixable, not the monster (for ensuring universal compatibility)
 class RwMonsterAffixator : Inventory {
     mixin Affixable; // Maybe it's NOT Affixable? The logic is quite different (at least for now)
-
-    string descriptionStr;
     string lightId;
 
     override void DoEffect() {
@@ -39,6 +37,22 @@ class RwMonsterAffixator : Inventory {
         // debug.print("  Damage after "..newdamage);
     }
 
+    // TODO: cache this, maybe it's too slow
+    ui string getDescriptionString() {
+        string descriptionStr;
+        Affix aff;
+        foreach (aff : appliedAffixes) {
+            if (aff.getDescription() != "") {
+                if (descriptionStr == "") {
+                    descriptionStr = aff.GetDescription();
+                } else {
+                    descriptionStr = descriptionStr.."   "..aff.GetDescription();
+                }
+            }
+        }
+        return descriptionStr;
+    }
+
     void attachLight() {
         let rarity = getRarity();
         if (rarity == 0) {
@@ -70,7 +84,7 @@ class RwMonsterAffixator : Inventory {
             case 2: return 0x000088, DYNAMICLIGHT.LF_DONTLIGHTMAP;
             case 3: return 0xCC00FF, DYNAMICLIGHT.LF_SUBTRACTIVE|DYNAMICLIGHT.LF_DONTLIGHTMAP;
             case 4: return 0xAA0000, DYNAMICLIGHT.LF_SUBTRACTIVE;
-            case 5: return 0xFFEEEE, DYNAMICLIGHT.LF_SUBTRACTIVE;
+            case 5: return 0xAA7777, DYNAMICLIGHT.LF_SUBTRACTIVE;
         }
         return 0xff00ff;
     }

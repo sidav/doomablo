@@ -49,7 +49,7 @@ extend class MyCustomHUD {
         // Affixes
         if (currAffixator) {
             y += (monsterNameFont.mFont.GetHeight() + 2) * CleanYFac_1;
-            DrawString(monsterNameFont, currAffixator.descriptionStr, (0, y/(CleanYFac_1) - 2), 
+            DrawString(monsterNameFont, currAffixator.getDescriptionString(), (0, y/(CleanYFac_1) - 2), 
                 DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_BRICK);
         }
     }
