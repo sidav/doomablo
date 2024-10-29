@@ -43,14 +43,26 @@ class RwProjectile : Actor {
 	// WORKAROUND: Call this only when A_FireProjectile doesn't return the first value (that means point-blank shot, 
 	//      so applyWeaponStats() won't be called in time)
 	void pointBlank() {
-		RadiusAttack(
-			self,
-			rwSetDmg,
-			rwExplosionRadius,
-			'None', // Damage type
-			RADF_HURTSOURCE,
-			0.0,
-			'None'
-		);
+		if (rwExplosionRadius > 0) {
+			RadiusAttack(
+				target,
+				rwSetDmg,
+				rwExplosionRadius,
+				'None', // Damage type
+				RADF_HURTSOURCE,
+				0.0,
+				'None'
+			);
+		} else { // non-exploding projectile, like plasma ball
+			RadiusAttack(
+				target,
+				rwSetDmg,
+				radius/2,
+				'None', // Damage type
+				0, // RADF_HURTSOURCE is disabled
+				radius/2,
+				'None'
+			);
+		}
 	}
 }
