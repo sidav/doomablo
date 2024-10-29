@@ -22,7 +22,7 @@ extend class RwMonsterAffixator {
             // Increase owner's health. It occurs for ALL affixed monsters, analogous to "More Health" affix and stacks with it.
             let minPerc = 125+(appliedAffixes.Size() * 25); // 150% min
             let maxPerc = 250+(appliedAffixes.Size() * 50); // 500% max
-            let newHpPercent = math.remapIntRange(generatedQuality, 1, 100, minPerc, maxPerc);
+            let newHpPercent = math.remapIntRange(generatedQuality, 1, 100, minPerc, maxPerc, true);
             // debug.print("Increasing owner HP from "..owner.health.." by "..newHpPercent.."% via rar/qty "..appliedAffixes.Size().."/"..generatedQuality);
             owner.starthealth = math.getIntPercentage(owner.health, newHpPercent);
             owner.A_SetHealth(owner.starthealth);

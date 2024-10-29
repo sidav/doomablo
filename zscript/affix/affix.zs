@@ -45,7 +45,7 @@ class Affix {
         if (qty <= 0) {
             debug.panic("Negative quality in range mapping");
         }
-        return math.remapIntRange(qty, 1, 100, rmin, rmax);
+        return math.remapIntRange(qty, 1, 100, rmin, rmax, true);
     }
 
     // Helper method for code readability.
@@ -56,7 +56,7 @@ class Affix {
         }
         int minS = (TICRATE*int(minSeconds*10))/10;
         int maxS = (TICRATE*int(maxSeconds*10))/10;
-        return math.remapIntRange(qty, 1, 100, minS, maxS);
+        return math.remapIntRange(qty, 1, 100, minS, maxS, true);
     }
 
     virtual string getName() {

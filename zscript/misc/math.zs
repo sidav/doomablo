@@ -15,7 +15,7 @@ class Math {
     }
 
     // Remaps integer from the range [fromMin, fromMax] to range [toMin, toMax] preserving the scale.
-    static int remapIntRange(int val, int fromMin, int fromMax, int toMin, int toMax) {
+    static int remapIntRange(int val, int fromMin, int fromMax, int toMin, int toMax, bool randomizeMidStepResults = false) {
         if (toMax < toMin) {
             let t = toMax;
             toMax = toMin;
@@ -30,8 +30,21 @@ class Math {
         //    fromLength            toLength
         //
         // Then result = x + toMin.
-        // let x = divideIntWithRounding(toLength * (val-fromMin), fromLength);
-        return toMin + divideIntWithRounding(toLength * (val-fromMin), fromLength);
+        // where x = divideIntWithRounding(toLength * (val-fromMin), fromLength);
+
+        let toReturn = toMin + divideIntWithRounding(toLength * (val-fromMin), fromLength);
+
+        // Randomize "mid-step" values, if there's a room for it. It reduces accuracy, but allows for more varied results.
+        if (randomizeMidStepResults) {
+            let diff = (toLength / fromLength);
+            if (diff > 1) {
+                // Remain in the range if applicable:
+                let minRnd = val <= fromMin ? 0 : -diff/2;
+                let maxRnd = val >= fromMax ? 0 : diff/2;
+                toReturn += Random(minRnd, maxRnd);
+            }
+        }
+        return toReturn;
     }
 
     static int divideIntWithRounding(int divisible, int divisor) {

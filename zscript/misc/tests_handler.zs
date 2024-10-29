@@ -6,6 +6,15 @@ class RwTestsHandler : StaticEventHandler
 
 	override void OnRegister()
 	{
+        // for (int i = 0; i <= 10; i++) {
+        //     let str = i.."-> ";
+        //     for (let j = 0; j < 20; j++) {
+        //         str = str.." "..math.remapIntRange(i, 0, 10, 50, 10000, true);
+        //     }
+        //     debug.print(str);
+        // }
+        // debug.panic();
+
         // for (let try = 0; try < 1000; try++) {
         //     let min1 = -5; let max1 = -1;
         //     let min2 = 5;  let max2 = 8;
