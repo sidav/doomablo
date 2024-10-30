@@ -56,6 +56,27 @@ extend class MyCustomHUD {
         return Font.CR_WHITE;
     }
 
+    const changePickupHintEachTics = 3*TICRATE/2;
+    string BuildDefaultPickUpHintStr(string actionStr) {
+        if ((level.maptime/changePickupHintEachTics) % 2 == 0) {
+            return "Press "..GetKeysStrForCommand("+use").." to "..actionStr..":";
+        } else {
+            return "Hold "..GetKeysStrForCommand("+user1").." to scrap:";
+        }
+    }
+
+    string GetKeysStrForCommand(string command, bool onlyFirst = false) {
+        array<int> keyIDs;
+        bindings.GetAllKeysForCommand(keyIDs, command);
+        if (onlyFirst) {
+            keyIDs.Resize(1);
+            return bindings.NameAllKeys(keyIDs, false);
+        }
+        let str = bindings.NameAllKeys(keyIDs, false);
+        str.Substitute(", ", " or ");
+        return str;
+    }
+
     string intToSignedStr(int v) {
         if (v > 0) {
             return "+"..v;

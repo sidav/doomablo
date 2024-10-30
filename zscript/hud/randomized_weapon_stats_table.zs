@@ -27,11 +27,11 @@ extend class MyCustomHUD {
         };
         
         if (playerWpnOfSameClass) {
-            PrintLineAt("Press USE to switch your "..wpn.rwBaseName.." to:",
+            PrintLineAt(BuildDefaultPickUpHintStr("switch your "..wpn.rwBaseName.." to"),
             defaultLeftStatsPosX, defaultLeftStatsPosY, itemStatsFont,
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         } else {
-            PrintLineAt("Press USE to pick up:", 
+            PrintLineAt(BuildDefaultPickUpHintStr("pick up"),
             defaultLeftStatsPosX, defaultLeftStatsPosY, itemStatsFont,
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         }

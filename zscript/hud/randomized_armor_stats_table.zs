@@ -6,11 +6,11 @@ extend class MyCustomHUD {
         currentLineHeight = 0;
         
         if (plr.CurrentEquippedArmor) {
-            PrintLineAt("Press USE to switch to:",
+            PrintLineAt(BuildDefaultPickUpHintStr("switch to"),
             defaultLeftStatsPosX, defaultLeftStatsPosY, itemStatsFont,
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         } else {
-            PrintLineAt("Press USE to equip:", 
+            PrintLineAt(BuildDefaultPickUpHintStr("wear"),
             defaultLeftStatsPosX, defaultLeftStatsPosY, itemStatsFont,
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
         }
