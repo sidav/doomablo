@@ -6,6 +6,9 @@ class RwPlayer : DoomPlayer
     RwBackpack CurrentEquippedBackpack;
 
     int showStatsButtonPressedTicks;
+    const ticksToRecycleItem = 3*TICRATE/2;
+    int recycleItemButtonPressedTicks;
+
     int minItemQuality, maxItemQuality; // Instead of player level. Used for progression.
 
     // Health pickups do not trigger HandlePickup(), so that's a workaround for that if needed:
@@ -47,6 +50,17 @@ class RwPlayer : DoomPlayer
         } else {
             showStatsButtonPressedTicks = 0;
         };
+
+        // "Recycle item" button
+        if (Player.cmd.buttons & BT_USER1) {
+            recycleItemButtonPressedTicks++;
+            if (recycleItemButtonPressedTicks % ticksToRecycleItem == 0) {
+                tryRecycleCurrentTargetedItem();
+                recycleItemButtonPressedTicks = 0;
+            }
+        } else {
+            recycleItemButtonPressedTicks = 0;
+        }
 
          // Health pickups do not trigger HandlePickup(), so that's a workaround:
         if (previousHealth < Health) {
