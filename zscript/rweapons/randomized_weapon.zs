@@ -12,6 +12,7 @@ class RandomizedWeapon : DoomWeapon {
 
     virtual void setBaseStats() {
         // Should be overridden
+        debug.panicUnimplemented(self);
     }
 
     // Needed if a weapon should be re-generated

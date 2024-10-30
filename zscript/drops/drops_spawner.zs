@@ -84,27 +84,39 @@ class DropsSpawner {
 
     private static play Actor SpawnRWeaponDrop(Actor dropper) {
         Actor spawnedItem;
-        int dropType = rnd.weightedRand(25, 25, 15, 20, 15, 10, 10); // SSG is supported even in Doom 1 now.
+        int dropType = rnd.weightedRand(
+            5,  // Chainsaw
+            25, // Pistol
+            25, // Shotgun
+            15, // SSG (it is supported in Doom 1 too)
+            20, // Chaingun
+            15, // SMG
+            10, // Rocket Launcher
+            10  // Plasma Rifle
+        );
         switch (dropType) {
             case 0: 
-                spawnedItem = createDropByClass(dropper, 'RwPistol');
+                spawnedItem = createDropByClass(dropper, 'RwChainsaw');
                 break;
             case 1: 
-                spawnedItem = createDropByClass(dropper, 'RwShotgun');
+                spawnedItem = createDropByClass(dropper, 'RwPistol');
                 break;
             case 2: 
-                spawnedItem = createDropByClass(dropper, 'RwSuperShotgun');
+                spawnedItem = createDropByClass(dropper, 'RwShotgun');
                 break;
             case 3: 
+                spawnedItem = createDropByClass(dropper, 'RwSuperShotgun');
+                break;
+            case 4: 
                 spawnedItem = createDropByClass(dropper, 'RwChaingun');
                 break;
-            case 4:
+            case 5:
                 spawnedItem = createDropByClass(dropper, 'RwSmg');
                 break;
-            case 5: 
+            case 6: 
                 spawnedItem = createDropByClass(dropper, 'RwRocketLauncher');
                 break;
-            case 6: 
+            case 7: 
                 spawnedItem = createDropByClass(dropper, 'RwPlasmarifle');
                 break;
             default:

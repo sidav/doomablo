@@ -9,6 +9,10 @@ class RWStatsClass {
     double ShooterKickback; // Dunno if it is in Doom
     float Recoil; // In degrees.
 
+    // Melee-specific
+    bool isMelee;
+    int attackRange; // currently used for melee only
+
     // Projectile-specific
     bool firesProjectiles;
     class <Actor> projClass;
