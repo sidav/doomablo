@@ -6,7 +6,7 @@ extend class RandomizedWeapon {
             return; // no change required
         }
         let baseTicks = self.player.FindPSprite(PSP_WEAPON).tics;
-        let newTicks = math.getIntPercentage(baseTicks, 100 - rof);
+        let newTicks = math.getIntPercentage(baseTicks, getFrameDurationPercentageWithSpeedBonus(rof));
         newTicks = clamp(newTicks, 1, 200);
         A_SetTics(newTicks);
     }
@@ -17,7 +17,7 @@ extend class RandomizedWeapon {
             return; // no change required
         }
         let baseTicks = self.player.FindPSprite(PSP_FLASH).tics;
-        let newTicks = math.getIntPercentage(baseTicks, 100 - rof);
+        let newTicks = math.getIntPercentage(baseTicks, getFrameDurationPercentageWithSpeedBonus(rof));
         newTicks = clamp(newTicks, 1, 200);
         A_SetTics(newTicks);
     }
@@ -28,9 +28,18 @@ extend class RandomizedWeapon {
             return; // no change required
         }
         let baseTicks = self.player.FindPSprite(PSP_WEAPON).tics;
-        let newTicks = math.getIntPercentage(baseTicks, 100 - rsm);
+        let newTicks = math.getIntPercentage(baseTicks, getFrameDurationPercentageWithSpeedBonus(rsm));
         newTicks = clamp(newTicks, 1, 200);
         A_SetTics(newTicks);
+    }
+
+    // Speed bonus is in percents difference from 100% (for example, 25% bonus is 25 here, not 125), and is not the fraction (not 0.25).
+    // ROF is FRAME SPEED, not FRAME DURATION - there was a mistake about it which caused extreme bonuses from RoF affixes.
+    private static int getFrameDurationPercentageWithSpeedBonus(int speedBonusPerc) {
+        // In "reals" without percents it would be 1 / (1 + speedBonus)
+        // We multiply top and bottom parts of the fraction by 100, and then multiply result by 100 again to get the percentage
+        // Hence: 100 * (100 / (100 + speedBonus*100)) -> 100 * (100 / (100 + speedBonusPercentage))
+        return 10000/(100 + speedBonusPerc);
     }
     
     // int modifiedStatesThisSequence;
