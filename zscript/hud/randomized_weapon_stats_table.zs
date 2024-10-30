@@ -148,6 +148,20 @@ extend class MyCustomHUD {
                     linesX, y, pickupableStatsTableWidth,
                     itemStatsFont, textFlags, Font.CR_White, compareClr);
 
+        // Attack range
+        if (wpn.stats.isMelee) {
+            if (wpnComp && wpn.stats.attackRange != wpnComp.stats.attackRange) {
+                compareStr = " ("..intToSignedStr(wpn.stats.attackRange - wpnComp.stats.attackRange)..")";
+                compareClr = GetDifferenceColor((wpn.stats.attackRange - wpnComp.stats.attackRange) * 100);
+            } else {
+                compareStr = "";
+                compareClr = Font.CR_White;
+            }
+            PrintTableLineAt("Reach:", String.Format("%d", (wpn.stats.attackRange))..compareStr, 
+                        linesX, y, pickupableStatsTableWidth,
+                        itemStatsFont, textFlags, Font.CR_White, compareClr);
+        }
+
         foreach (aff : wpn.appliedAffixes) {
             printAffixDescriptionLineAt(aff, x+16, y, textFlags);
         }

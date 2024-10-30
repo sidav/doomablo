@@ -646,3 +646,50 @@ class WPrefBiggerExplosion : RwWeaponPrefix {
         );
     }
 }
+
+// Melee-specific
+
+class WPrefLessMeleeRange : RwWeaponPrefix {
+    override string getName() {
+        return "short";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return String.format("-%d%% attack range", (modifierLevel) );
+    }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.isMelee;
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefMoreMeleeRange';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 50);
+
+        wpn.stats.attackRange = math.getIntPercentage(wpn.stats.attackRange, 100 - modifierLevel);
+    }
+}
+
+class WPrefMoreMeleeRange : RwWeaponPrefix {
+    override string getName() {
+        return "reaching";
+    }
+    override string getNameAsSuffix() {
+        return "reach";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return String.format("+%d%% attack range", (modifierLevel) );
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefLessMeleeRange';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 100);
+        wpn.stats.attackRange = math.getIntPercentage(wpn.stats.attackRange, 100 + modifierLevel);
+    }
+}
