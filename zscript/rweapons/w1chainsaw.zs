@@ -49,6 +49,16 @@ class RwChainsaw : RandomizedWeapon
 		Stop;
 	}
 
+	override string GetRandomFluffName() {
+        static const string specialNames[] =
+        {
+			"Ripper",
+			"Splitter",
+			"Tearer"
+        };
+        return specialNames[rnd.randn(specialNames.Size())];
+    }
+
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
 			2, 8,

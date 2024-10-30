@@ -685,6 +685,9 @@ class WPrefMoreMeleeRange : RwWeaponPrefix {
     override string getDescription() {
         return String.format("+%d%% attack range", (modifierLevel) );
     }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.isMelee;
+    }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefLessMeleeRange';
     }
