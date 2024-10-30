@@ -2,6 +2,8 @@
 class MonstersAffixingHandler : EventHandler
 {
 
+    bool warningPrinted;
+
 	override void WorldThingSpawned(worldEvent e) {
 		let mo = e.thing;
 		if (!(mo && mo.bIsMonster)) {
@@ -24,6 +26,10 @@ class MonstersAffixingHandler : EventHandler
         // debug.print("Giving the affixator to "..mo.GetClassName());
         // debug.print(String.format("       Rar %d qty %d;", rar, qty));
         RwMonsterAffixator.AffixateMonster(mo, rar, qty);
+        if (rar > 4 && !warningPrinted) {
+            warningPrinted = true;
+            mo.A_PrintBold("$RAREMONSTERSPAWNED");
+        }
 	}
 
     // static int, int rollRarQtyModifiers(int monsterHealth) {

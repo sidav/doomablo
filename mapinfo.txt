@@ -17,4 +17,16 @@ gameinfo
 	AddEventHandlers = "CurrentTargetHandler"
  	AddEventHandlers = "StartingItemsHandler"
 	AddEventHandlers = "RWSpecialDamageHandler"
+
+	QuitMessages = 
+		"Do you know?\nDamage reduction affixes never put the damage below 1",
+		"Do you know?\nYou can scrap unneeded artifacts.\nBind \"Weapon State 1\" to use this",
+
+		"Do you know?\nAffix pools for regular armor and energy armor are different",
+
+		"Do you know?\nMonsters with ANGER affix increase their damage each time they get hit",
+		"Do you know?\nCorrosive monsters gradually drain your armor while you're in their sight",
+		"Do you know?\nMonsters with HORDE affix summon a throng of lesser creatures when they die.\nGood luck if you find it on boss!",
+
+		"Do you know?\nI have no idea where else to put all those gameplay tips!"
 }
