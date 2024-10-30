@@ -256,7 +256,7 @@ class WSuffMinirockets : RwWeaponSuffix {
         return "Fires exploding mini-rockets. Damage x"..(modifierLevel/10).."."..(modifierLevel%10);
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.firesProjectiles == false;
+        return !wpn.stats.isMelee && wpn.stats.firesProjectiles == false;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = remapQualityToRange(quality, 5, 20);
@@ -277,7 +277,7 @@ class WSuffFlechettes : RwWeaponSuffix {
         return "Fires slow homing bullets. Damage x"..(modifierLevel/10).."."..(modifierLevel%10);
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.firesProjectiles == false;
+        return !wpn.stats.isMelee && wpn.stats.firesProjectiles == false;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = remapQualityToRange(quality, 8, 15);

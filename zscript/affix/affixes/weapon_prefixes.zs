@@ -216,6 +216,9 @@ class WPrefFreeShots : RwWeaponPrefix {
     override string getDescription() {
         return String.format("%d%% chance for a shot to be free", (modifierLevel) );
     }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.ammoUsage > 0;
+    }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return true;
     }
@@ -237,6 +240,9 @@ class WPrefTargetKnockback : RwWeaponPrefix { // There is no bad counterpart, I 
     }
     override string getDescription() {
         return modifierLevel.."% target knockback";
+    }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return !wpn.stats.isMelee;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return true;
@@ -262,7 +268,7 @@ class WPrefBiggerShooterKickback : RwWeaponPrefix {
         return "+"..modifierLevel.."% shooter kickback";
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.ShooterKickback > 0;
+        return !wpn.stats.isMelee && wpn.stats.ShooterKickback > 0;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefSmallerShooterKickback';
@@ -288,7 +294,7 @@ class WPrefSmallerShooterKickback : RwWeaponPrefix {
         return "-"..modifierLevel.."% kickback";
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.ShooterKickback > 0;
+        return !wpn.stats.isMelee && wpn.stats.ShooterKickback > 0;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBiggerShooterKickback';
