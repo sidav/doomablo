@@ -93,6 +93,7 @@ version "4.10.0"
 #include "zscript/rweapons/w3shotgun.zs"
 #include "zscript/rweapons/w3ssg.zs"
 #include "zscript/rweapons/w4chaingun.zs"
+#include "zscript/rweapons/w4smg.zs"
 #include "zscript/rweapons/w5rocketlauncher.zs"
 #include "zscript/rweapons/w6plasmarifle.zs"
 

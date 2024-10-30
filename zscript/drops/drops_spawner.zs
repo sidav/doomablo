@@ -83,27 +83,29 @@ class DropsSpawner {
     }
 
     private static play Actor SpawnRWeaponDrop(Actor dropper) {
-        bool unused;
         Actor spawnedItem;
-        int dropType = rnd.weightedRand(25, 25, 15, 25, 10, 10); // SSG is supported even in Doom 1 now.
+        int dropType = rnd.weightedRand(25, 25, 15, 20, 15, 10, 10); // SSG is supported even in Doom 1 now.
         switch (dropType) {
             case 0: 
-                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwPistol');
+                spawnedItem = createDropByClass(dropper, 'RwPistol');
                 break;
             case 1: 
-                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwShotgun');
+                spawnedItem = createDropByClass(dropper, 'RwShotgun');
                 break;
             case 2: 
-                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwSuperShotgun');
+                spawnedItem = createDropByClass(dropper, 'RwSuperShotgun');
                 break;
             case 3: 
-                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwChaingun');
+                spawnedItem = createDropByClass(dropper, 'RwChaingun');
                 break;
-            case 4: 
-                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwRocketLauncher');
+            case 4:
+                spawnedItem = createDropByClass(dropper, 'RwSmg');
                 break;
             case 5: 
-                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwPlasmarifle');
+                spawnedItem = createDropByClass(dropper, 'RwRocketLauncher');
+                break;
+            case 6: 
+                spawnedItem = createDropByClass(dropper, 'RwPlasmarifle');
                 break;
             default:
                 debug.panic("RWeapon drop spawner crashed");
