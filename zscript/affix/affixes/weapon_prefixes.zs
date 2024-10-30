@@ -197,7 +197,7 @@ class WPrefFast : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefSlow';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 85);
+        modifierLevel = remapQualityToRange(quality, 1, 65);
 
         wpn.stats.rofModifier = modifierLevel;
     }
