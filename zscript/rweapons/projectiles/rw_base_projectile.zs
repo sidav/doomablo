@@ -1,5 +1,6 @@
 class RwProjectile : Actor {
 
+	bool noDamageToOwner; // makes sense only for exploding projectiles
 	int rwExplosionRadius;
 	int rwSetDmg; // It is needed to override the default behaviour of damage randomization.
 
@@ -18,6 +19,7 @@ class RwProjectile : Actor {
 
 		rwExplosionRadius = weapon.stats.ExplosionRadius;
 		explosionSpriteScale = weapon.stats.GetExplosionSpriteScale();
+		noDamageToOwner = weapon.stats.noDamageToOwner;
 
 		// Apply speed
 		let factor = weapon.stats.getProjSpeedFactor();
@@ -31,7 +33,7 @@ class RwProjectile : Actor {
 		A_Explode(
 			invoker.rwSetDmg,
 			invoker.rwExplosionRadius, // Distance
-			XF_HURTSOURCE
+			invoker.noDamageToOwner ? 0 : XF_HURTSOURCE
 			// true, // Alert
 			// 0 // The area within which full damage is inflicted. 
 			// 0, // Nails
@@ -42,6 +44,7 @@ class RwProjectile : Actor {
 
 	// WORKAROUND: Call this only when A_FireProjectile doesn't return the first value (that means point-blank shot, 
 	//      so applyWeaponStats() won't be called in time)
+	// BUG HERE: there's no explosion at point blank shot.
 	void pointBlank() {
 		if (rwExplosionRadius > 0) {
 			RadiusAttack(
@@ -49,7 +52,7 @@ class RwProjectile : Actor {
 				rwSetDmg,
 				rwExplosionRadius,
 				'None', // Damage type
-				RADF_HURTSOURCE,
+				noDamageToOwner ? 0 : RADF_HURTSOURCE,
 				0.0,
 				'None'
 			);

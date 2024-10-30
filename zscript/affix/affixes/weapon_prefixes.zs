@@ -559,12 +559,36 @@ class WPrefQuick : RwWeaponPrefix {
 
 // Explosion-weapon specific
 
+class WPrefNoSelfExplosionDamage : RwWeaponPrefix {
+    override string getName() {
+        return "safe";
+    }
+    override string getDescription() {
+        return "No self damage from explosion";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return true;
+    }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.ExplosionRadius > 0;
+    }
+    override int minRequiredRarity() {
+        return 3; // It's quite a rare affix
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        wpn.stats.noDamageToOwner = true;
+    }
+}
+
 class WPrefSmallerExplosion : RwWeaponPrefix {
     override string getName() {
-        return "safer";
+        return "fizzling";
     }
     override string getNameAsSuffix() {
-        return "safety";
+        return "fizzle";
     }
     override int getAlignment() {
         return -1;

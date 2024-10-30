@@ -15,6 +15,7 @@ class RWStatsClass {
     int projSpeedPercModifier;
     int ExplosionRadius;
     int BaseExplosionRadius; // Should be set and not modified; it's used for explosion sprite scaling calculation.
+    bool noDamageToOwner;
 
     // Ammo specific
     int clipSize; // 0 means no clip (equals to infinite)
