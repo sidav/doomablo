@@ -18,10 +18,16 @@ class LevelHelper {
         return result;
     }
 
-    static play bool TryMoveActorToRandomCoordsInRangeFrom(Actor act, double range, Vector3 origin) {
+    static play bool TryMoveActorToRandomCoordsInRangeFrom(Actor act, double minRange, double maxRange, Vector3 origin) {
         let originalOrigin = act.Pos;
         for (let i = 0; i < tries; i++) {
-            let newOrigin = GetRandomCoordinatesInLevelAtRangeFrom(range, origin);
+            let newOrigin = GetRandomCoordinatesInLevelAtRangeFrom(maxRange, origin);
+
+            // TODO: use better (two-range) random, it will be faster
+            if ((originalOrigin - newOrigin).Length() < minRange) {
+                continue;
+            }
+
             act.SetOrigin(newOrigin, false);
             if (act.TestMobjLocation()) {
                 return true;

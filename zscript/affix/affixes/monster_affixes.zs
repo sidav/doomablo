@@ -229,9 +229,13 @@ class MAffMagnet : RwMonsterAffix {
         modifierLevel = remapQualityToRange(quality, 1, 50);
     }
     override void onDoEffect(Actor owner) {
-        if (owner.target && owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)) {
+        if (
+            owner.target && 
+            (owner.Distance3DSquared(owner.target) < (owner.radius * 10) ** 2) && // pull only at some distance
+            owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)
+        ) {
             let pullAngle = owner.target.AngleTo(owner);
-            owner.target.Thrust(double(modifierLevel+40)/500, pullAngle);
+            owner.target.Thrust(double(modifierLevel+40)/600, pullAngle);
         }
     }
 }
@@ -250,9 +254,13 @@ class MAffRepulsive : RwMonsterAffix {
         modifierLevel = remapQualityToRange(quality, 1, 50);
     }
     override void onDoEffect(Actor owner) {
-        if (owner.target && owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)) {
+        if (
+            owner.target && 
+            (owner.Distance3DSquared(owner.target) < (owner.radius * 10) ** 2) && // pull only at some distance
+            owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)
+        ) {
             let pullAngle = owner.target.AngleTo(owner);
-            owner.target.Thrust(-double(modifierLevel+50)/400, pullAngle);
+            owner.target.Thrust(-double(modifierLevel+50)/600, pullAngle);
         }
     }
 }
@@ -312,12 +320,12 @@ class MAffBlinking : RwMonsterAffix {
     }
     override void onDoEffect(Actor owner) {
         if (owner && owner.target && (owner.GetAge() % modifierLevel == 0) && 
-            (rnd.OneChanceFrom(10) || owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)) ) 
+            (rnd.OneChanceFrom(30) || owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)) )
         {
 
             let target = owner.target;
             let originalPos = owner.Pos;
-            if (LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(owner, 4*owner.radius, target.Pos)) {
+            if (LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(owner, 3*target.radius, 10*owner.radius, target.Pos)) {
                 let tfog = owner.Spawn('TeleportFog');
                 tfog.SetOrigin(originalPos, false);
                 owner.A_SpawnItemEx('TeleportFog');
@@ -348,7 +356,7 @@ class MAffSummoner : RwMonsterAffix {
             }
             // debug.print("    Spawning "..i);
             let newMo = owner.Spawn(owner.GetClass(), owner.Pos);
-            if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, 4 * owner.radius, owner.Pos)) {
+            if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, owner.radius * 2, 5 * owner.radius, owner.Pos)) {
                 newMo.destroy();
                 return;
             }
@@ -442,7 +450,7 @@ class MAffSpawnHordeOnDeath : RwMonsterAffix {
             for (let i = 0; i < modifierLevel; i++) {
                 // debug.print("    Spawning "..i);
                 let newMo = owner.Spawn(owner.GetClass(), owner.Pos);
-                if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, 4 * owner.radius, owner.Pos)) {
+                if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, 0, 6 * owner.radius, owner.Pos)) {
                     newMo.destroy();
                     continue;
                 }
