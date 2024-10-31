@@ -86,7 +86,7 @@ class RwMonsterAffixator : Inventory {
             case 4: return 0xAA0000, DYNAMICLIGHT.LF_SUBTRACTIVE;
             case 5: return 0xAA7777, DYNAMICLIGHT.LF_SUBTRACTIVE;
         }
-        return 0xff00ff;
+        return 0xff00ff, 0;
     }
     
     void removeLight() {

@@ -70,9 +70,13 @@ extend class RandomizedWeapon {
 
     // TODO: call it from weapon's states?
     // TODO: Return to normal (from weapon's states too)?
-    private action void RWA_ApplyRecoil() {
-        if (pitch - invoker.stats.recoil < 85.0) {
-            pitch -= invoker.stats.recoil;
+    action void RWA_ApplyRecoil(bool randomPitchDirection = false) {
+        double pitchChange = invoker.stats.recoil;
+        if (randomPitchDirection && rnd.OneChanceFrom(2)) {
+            pitchChange = -pitchChange;
+        }
+        if (pitch - pitchChange < 85.0) {
+            pitch -= pitchChange;
         }
         angle += rnd.randf(-invoker.stats.recoil/2, invoker.stats.recoil/2);
     }

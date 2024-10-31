@@ -83,27 +83,41 @@ class DropsSpawner {
     }
 
     private static play Actor SpawnRWeaponDrop(Actor dropper) {
-        bool unused;
         Actor spawnedItem;
-        int dropType = rnd.weightedRand(25, 25, 15, 25, 10, 10); // SSG is supported even in Doom 1 now.
+        int dropType = rnd.weightedRand(
+            5,  // Chainsaw
+            25, // Pistol
+            25, // Shotgun
+            15, // SSG (it is supported in Doom 1 too)
+            20, // Chaingun
+            15, // SMG
+            10, // Rocket Launcher
+            10  // Plasma Rifle
+        );
         switch (dropType) {
             case 0: 
-                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwPistol');
+                spawnedItem = createDropByClass(dropper, 'RwChainsaw');
                 break;
             case 1: 
-                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwShotgun');
+                spawnedItem = createDropByClass(dropper, 'RwPistol');
                 break;
             case 2: 
-                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwSuperShotgun');
+                spawnedItem = createDropByClass(dropper, 'RwShotgun');
                 break;
             case 3: 
-                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwChaingun');
+                spawnedItem = createDropByClass(dropper, 'RwSuperShotgun');
                 break;
             case 4: 
-                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwRocketLauncher');
+                spawnedItem = createDropByClass(dropper, 'RwChaingun');
                 break;
-            case 5: 
-                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwPlasmarifle');
+            case 5:
+                spawnedItem = createDropByClass(dropper, 'RwSmg');
+                break;
+            case 6: 
+                spawnedItem = createDropByClass(dropper, 'RwRocketLauncher');
+                break;
+            case 7: 
+                spawnedItem = createDropByClass(dropper, 'RwPlasmarifle');
                 break;
             default:
                 debug.panic("RWeapon drop spawner crashed");

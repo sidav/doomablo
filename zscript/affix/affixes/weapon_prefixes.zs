@@ -125,7 +125,7 @@ class WPrefInaccurate : RwWeaponPrefix {
         return -1;
     }
     override string getDescription() {
-        return "accuracy decreased by "..modifierLevel.."%";
+        return String.format("Shot spread +%d%%", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefPrecise';
@@ -146,7 +146,7 @@ class WPrefPrecise : RwWeaponPrefix {
         return 1;
     }
     override string getDescription() {
-        return "accuracy increased by "..modifierLevel.."%";
+        return String.format("Shot spread -%d%%", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefInaccurate';
@@ -168,13 +168,13 @@ class WPrefSlow : RwWeaponPrefix {
         return -1;
     }
     override string getDescription() {
-        return modifierLevel.."% slower rate of fire";
+        return String.format("Rate of fire -%d%%", (modifierLevel) );
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefFast';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 75);
+        modifierLevel = remapQualityToRange(quality, 1, 60);
 
         wpn.stats.rofModifier = -modifierLevel;
     }
@@ -191,13 +191,13 @@ class WPrefFast : RwWeaponPrefix {
         return 1;
     }
     override string getDescription() {
-        return modifierLevel.."% faster rate of fire";
+        return String.format("Rate of fire +%d%%", (modifierLevel) );
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefSlow';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 85);
+        modifierLevel = remapQualityToRange(quality, 1, 75);
 
         wpn.stats.rofModifier = modifierLevel;
     }
@@ -215,6 +215,9 @@ class WPrefFreeShots : RwWeaponPrefix {
     }
     override string getDescription() {
         return String.format("%d%% chance for a shot to be free", (modifierLevel) );
+    }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.ammoUsage > 0;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return true;
@@ -237,6 +240,9 @@ class WPrefTargetKnockback : RwWeaponPrefix { // There is no bad counterpart, I 
     }
     override string getDescription() {
         return modifierLevel.."% target knockback";
+    }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return !wpn.stats.isMelee;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return true;
@@ -262,7 +268,7 @@ class WPrefBiggerShooterKickback : RwWeaponPrefix {
         return "+"..modifierLevel.."% shooter kickback";
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.ShooterKickback > 0;
+        return !wpn.stats.isMelee && wpn.stats.ShooterKickback > 0;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefSmallerShooterKickback';
@@ -288,7 +294,7 @@ class WPrefSmallerShooterKickback : RwWeaponPrefix {
         return "-"..modifierLevel.."% kickback";
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.ShooterKickback > 0;
+        return !wpn.stats.isMelee && wpn.stats.ShooterKickback > 0;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBiggerShooterKickback';
@@ -414,7 +420,7 @@ class WPrefSlowerReload : RwWeaponPrefix {
         return -1;
     }
     override string getDescription() {
-        return modifierLevel.."% slower reload";
+        return String.format("Reload speed -%d%%", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.stats.clipSize > 0;
@@ -440,7 +446,7 @@ class WPrefFasterReload : RwWeaponPrefix {
         return 1;
     }
     override string getDescription() {
-        return modifierLevel.."% faster reload";
+        return String.format("Reload speed +%d%%", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.stats.clipSize > 0;
@@ -516,7 +522,7 @@ class WPrefLazy : RwWeaponPrefix {
         return -1;
     }
     override string getDescription() {
-        return modifierLevel.."% slower projectile";
+        return String.format("Projectile speed -%d%%", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.stats.firesProjectiles;
@@ -542,7 +548,7 @@ class WPrefQuick : RwWeaponPrefix {
         return 1;
     }
     override string getDescription() {
-        return modifierLevel.."% faster projectile";
+        return String.format("Projectile speed +%d%%", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.stats.firesProjectiles;
@@ -594,7 +600,7 @@ class WPrefSmallerExplosion : RwWeaponPrefix {
         return -1;
     }
     override string getDescription() {
-        return modifierLevel.."% smaller explosion radius";
+        return String.format("Explosion radius -%d%%", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.stats.ExplosionRadius > 0;
@@ -623,7 +629,7 @@ class WPrefBiggerExplosion : RwWeaponPrefix {
         return 1;
     }
     override string getDescription() {
-        return modifierLevel.."% bigger explosion radius";
+        return String.format("Explosion radius +%d%%", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.stats.ExplosionRadius > 0;
@@ -638,5 +644,55 @@ class WPrefBiggerExplosion : RwWeaponPrefix {
             wpn.stats.ExplosionRadius,
             100+modifierLevel
         );
+    }
+}
+
+// Melee-specific
+
+class WPrefLessMeleeRange : RwWeaponPrefix {
+    override string getName() {
+        return "short";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return String.format("attack range -%d%%", (modifierLevel) );
+    }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.isMelee;
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefMoreMeleeRange';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 50);
+
+        wpn.stats.attackRange = math.getIntPercentage(wpn.stats.attackRange, 100 - modifierLevel);
+    }
+}
+
+class WPrefMoreMeleeRange : RwWeaponPrefix {
+    override string getName() {
+        return "reaching";
+    }
+    override string getNameAsSuffix() {
+        return "reach";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return String.format("attack range +%d%%", (modifierLevel) );
+    }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.isMelee;
+    }
+    override bool IsCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefLessMeleeRange';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 100);
+        wpn.stats.attackRange = math.getIntPercentage(wpn.stats.attackRange, 100 + modifierLevel);
     }
 }
