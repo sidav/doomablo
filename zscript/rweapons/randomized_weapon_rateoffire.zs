@@ -34,15 +34,23 @@ extend class RandomizedWeapon {
 
     // Uses the accumulator to determine if a frame should be shortened.
     // Algorithm idea is similar to "slope accumulator" in Bresenham's line.
-    // Allows working with rate of fire bonuses (circumvents the "80% if 3 frames" problem by shortening some durations where applicable)
-    private static int getFrameDurationWithSpeedBonus(int baseDuration, int speedBonusPerc, out int accumulator) {
-        if (accumulator < 0) { accumulator = 0; } // Handle the possible overflow
-
+    // Allows working with rate of fire bonuses (resolves the "80% of 3 frames" problem by periodically shortening only some durations)
+    static int getFrameDurationWithSpeedBonus(int baseDuration, int speedBonusPerc, out int accumulator) {
         let expectedTicksX100 = baseDuration * 10000 / (100 + speedBonusPerc);
-        let prevAccum = accumulator / 100;
         accumulator += expectedTicksX100;
-        // debug.print(String.format("BaseTicks %d, speedBonus %d, x %d", (baseDuration, speedBonusPerc, expectedTicksX100)));
-        // debug.print(String.format("currAccum %d, prevAccum %d, result %d", (accumulator, prevAccum, (accumulator - prevAccum * 100)/100)));
-        return (accumulator - prevAccum * 100)/100;
+        let result = accumulator/100;
+        accumulator = accumulator % 100; // Store only the fraction in the accumulator
+        return result;
     }
+
+    // static int getFrameDurationWithSpeedBonusOld(int baseDuration, int speedBonusPerc, out int accumulator) {
+    //     if (accumulator < 0) { accumulator = 0; } // Handle the possible overflow
+
+    //     let expectedTicksX100 = baseDuration * 10000 / (100 + speedBonusPerc);
+    //     let prevAccum = accumulator / 100;
+    //     accumulator += expectedTicksX100;
+    //     // debug.print(String.format("BaseTicks %d, speedBonus %d, x %d", (baseDuration, speedBonusPerc, expectedTicksX100)));
+    //     // debug.print(String.format("currAccum %d, prevAccum %d, result %d", (accumulator, prevAccum, (accumulator - prevAccum * 100)/100)));
+    //     return (accumulator - prevAccum * 100)/100;
+    // }
 }
