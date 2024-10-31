@@ -15,6 +15,18 @@ class RwTestsHandler : StaticEventHandler
         // }
         // debug.panic();
 
+        // let triesForSum = 10000;
+        // for (int i = 0; i <= 100; i++) {
+        //     let str = i.."-> ";
+        //     let accumulated = 0;
+        //     for (let j = 0; j < triesForSum; j++) {
+        //         accumulated += math.remapIntRange(i, 0, 100, 0, 10, true);
+        //     }
+        //     str = str.." mean "..(double(accumulated)/double(triesForSum));
+        //     debug.print(str);
+        // }
+        // debug.panic();
+
         // for (let try = 0; try < 1000; try++) {
         //     let min1 = -5; let max1 = -1;
         //     let min2 = 5;  let max2 = 8;
