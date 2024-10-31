@@ -427,6 +427,30 @@ class MAffPeriodicallyInvisible : RwMonsterAffix {
     }
 }
 
+class MAffDamagingAura : RwMonsterAffix {
+    override string getName() {
+        return "Draining";
+    }
+    override string getDescription() {
+        return "DRAIN "..modifierLevel;
+    }
+    override int minRequiredRarity() {
+        return 3;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 30);
+    }
+    override void onDoEffect(Actor owner) {
+        if (
+            Players[0].mo &&
+            (level.maptime % 17 == 0) &&
+            (owner.Distance3DSquared(Players[0].mo) < ((Players[0].mo.radius + owner.radius + modifierLevel*4.0) ** 2))
+        ) {
+            Players[0].mo.damageMobj(null, owner, 1, 'Normal', DMG_NO_ARMOR);
+        }
+    }
+}
+
 // On owner died
 
 class MAffSpawnHordeOnDeath : RwMonsterAffix {

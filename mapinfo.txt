@@ -19,14 +19,20 @@ gameinfo
 	AddEventHandlers = "RWSpecialDamageHandler"
 
 	QuitMessages = 
+		// General mechanics tips
 		"Do you know?\nDamage reduction affixes never put the damage below 1",
 		"Do you know?\nYou can scrap unneeded artifacts.\nBind \"Weapon State 1\" to use this",
 
+		// Artifact affixes tips
 		"Do you know?\nAffix pools for regular armor and energy armor are different",
 
+		// Monster affixes tips
 		"Do you know?\nMonsters with ANGER affix increase their damage each time they get hit",
 		"Do you know?\nCorrosive monsters gradually drain your armor while you're in their sight",
 		"Do you know?\nMonsters with HORDE affix summon a throng of lesser creatures when they die.\nGood luck if you find it on boss!",
+		"Do you know?\nMonsters with DRAIN affix gradually reduce your health if you're close enough",
 
+		// Other and joke tips
+		"Do you know?\nYou are free to give false answer to those exit questions!",
 		"Do you know?\nI have no idea where else to put all those gameplay tips!"
 }
