@@ -2,8 +2,32 @@ extend class RwPlayer {
 
     mixin DropSpreadable;
 
-    void tryRecycleCurrentTargetedItem() {
+    const ticksToScrapItem = 3*TICRATE/2;
+    Inventory currentItemBeingScrapped;
 
+    void onScrapItemButtonPressed() {
+        if (scrapItemButtonPressedTicks == 1) { // Save current targeted item
+            let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
+            currentItemBeingScrapped = handler.currentItemToPickUp;
+
+        } else if (scrapItemButtonPressedTicks % 7 == 0) { // Check if the targeted item is still the one being scrapped
+            let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
+            if (handler.currentItemToPickUp == null || handler.currentItemToPickUp != currentItemBeingScrapped) {
+                // ... if not, reset the progress
+                scrapItemButtonPressedTicks = 1;
+                currentItemBeingScrapped = null;
+                return;
+            }
+        }
+        scrapItemButtonPressedTicks++;
+
+        if (scrapItemButtonPressedTicks % ticksToScrapItem == 0) {
+            tryScrapCurrentTargetedItem();
+            scrapItemButtonPressedTicks = 0;
+        }
+    }
+
+    void tryScrapCurrentTargetedItem() {
         let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
         let itm = handler.currentItemToPickUp;
 
@@ -47,7 +71,7 @@ extend class RwPlayer {
             }
 
         } else {
-            debug.print("Unhandled recycled item class (report this): "..itm.GetClassName());
+            debug.print("Unhandled scrapped item class (report this): "..itm.GetClassName());
         }
 
         handler.currentItemToPickUp = null;
@@ -55,8 +79,8 @@ extend class RwPlayer {
 
     }
 
-    ui int getRecycleProgressPercentage() {
-        return math.getPercentageFromInt(recycleItemButtonPressedTicks, ticksToRecycleItem);
+    ui int getScrapProgressPercentage() {
+        return math.getPercentageFromInt(scrapItemButtonPressedTicks, ticksToScrapItem);
     }
 
 }

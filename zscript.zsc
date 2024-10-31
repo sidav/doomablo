@@ -52,7 +52,7 @@ version "4.10.0"
 
 #include "zscript/player/base_player.zs"
 #include "zscript/player/progression_player.zs"
-#include "zscript/player/recycle_item.zs"
+#include "zscript/player/scrap_item.zs"
 #include "zscript/player/current_target_handler.zs"
 #include "zscript/player/press_to_pickup_handler.zs"
 

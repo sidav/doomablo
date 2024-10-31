@@ -13,8 +13,8 @@ extend class MyCustomHUD {
         let plr = RwPlayer(CPlayer.mo);
         if (!plr) return;
 
-        if (plr.recycleItemButtonPressedTicks > 0 && AffixableDetector.IsAffixableItem(handler.currentItemToPickUp)) {
-            DrawString(itemNameFont, "RECYCLING: "..plr.getRecycleProgressPercentage().."%",
+        if (plr.scrapItemButtonPressedTicks > 0 && AffixableDetector.IsAffixableItem(handler.currentItemToPickUp)) {
+            DrawString(itemNameFont, "RECYCLING: "..plr.getScrapProgressPercentage().."%",
                 (0, 0), DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_Red);
             return;
         }
