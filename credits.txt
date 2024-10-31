@@ -1,1 +1,10 @@
-Armor and backpack sprites: cybermonday https://forum.zdoom.org/viewtopic.php?t=78536
+Mod by sidav
+
+Thanks:
+    Agent_Ash - for his invaluable help with everything
+    ZDoom discord server - for answering my stupid questions
+    Zerobyte666 - for the general design help
+
+Resources:
+    Additional graphics and mods's base: Id Software, Raven Software
+    Armor and backpack sprites: cybermonday https://forum.zdoom.org/viewtopic.php?t=78536
