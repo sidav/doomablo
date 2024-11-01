@@ -13,6 +13,14 @@ extend class RwBackpack {
             return; // There may be no other suffix anyway
         }
 
+        aff = findAppliedAffix('BSuffRestoreBullets');
+        if (aff != null) {
+            if (age % aff.modifierLevel == 0) {
+                owner.GiveInventory('Clip', 1);
+            }
+            return; // There may be no other suffix anyway
+        }
+
         aff = findAppliedAffix('BSuffNoisy');
         if (aff != null) {
             if (age % (TICRATE * 5) == 0 && rnd.PercentChance(aff.modifierLevel)) {

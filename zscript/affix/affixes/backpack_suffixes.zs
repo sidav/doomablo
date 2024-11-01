@@ -68,6 +68,22 @@ class BSuffRestoreCells : RwBackpackSuffix {
     }
 }
 
+class BSuffRestoreBullets : RwBackpackSuffix {
+    override string getName() {
+        return "Nanoassembler";
+    }
+    override string getDescription() {
+        return "Each "
+            ..
+            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
+            .." seconds gives a bullet";
+    }
+    override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
+        let secondsx10 = remapQualityToRange(quality, 75, 5);
+        modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+    }
+}
+
 class BSuffAutoreload : RwBackpackSuffix {
     override string getName() {
         return "Auto-reload";

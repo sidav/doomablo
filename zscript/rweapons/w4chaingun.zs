@@ -36,7 +36,7 @@ class RwChaingun : RandomizedWeapon
 		TNT1 A 0 {
 			invoker.currentFireFrame = 0;
 		}
-		CHGG ABABABA 3 {
+		CHGG ABABABABABA 3 {
 			RWA_ApplyRateOfFire();
 			if (invoker.currentClipAmmo >= invoker.stats.ammoUsage) {
 				RWA_DoFire();
@@ -100,10 +100,10 @@ class RwChaingun : RandomizedWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			3, 6,
+			4, 7,
 			1,
 			1,
-			12.0,
+			12.5,
 			5.0
 		);
 		stats.clipSize = 100;
