@@ -39,7 +39,12 @@ extend class RwPlayer {
 
             let dropAmount = RandomizedWeapon(itm).GetRarity() + 1;
             for (let i = 0; i < dropAmount; i++) {
-                let drop = DropsSpawner.createDropByClass(itm, RandomizedWeapon(itm).ammotype1);
+                Actor drop;
+                if (RandomizedWeapon(itm).ammotype1) {
+                    drop = DropsSpawner.createDropByClass(itm, RandomizedWeapon(itm).ammotype1);
+                } else {
+                    drop = DropsSpawner.SpawnRandomAmmoDrop(itm);
+                }
                 AssignVeryMinorSpreadVelocityTo(drop);
             }
 
