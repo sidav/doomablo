@@ -10,8 +10,14 @@ class AmmoDropsHandler : EventHandler
             bool spawned;
             Actor ammoitm;
 			[spawned, ammoitm] = wpn.A_SpawnItemEx(wpn.ammotype1, xvel: rnd.randf(-2.5, 2.5), yvel: rnd.randf(-2.5, 2.5), zvel: 5.0);
-            if (spawned && ammoitm && wpn.stats.clipSize > 0) {
-                Inventory(ammoitm).Amount = wpn.stats.clipSize;
+            if (spawned && ammoitm) {
+				if (wpn.stats.clipSize > 0) {
+                	Inventory(ammoitm).Amount = wpn.stats.clipSize;
+				}
+				// Resolves e.g. BFG dropping too little ammo
+				if (wpn.stats.ammoUsage > Inventory(ammoitm).Amount) {
+					Inventory(ammoitm).Amount = wpn.stats.ammoUsage;
+				}
             }
 		}
 	}
