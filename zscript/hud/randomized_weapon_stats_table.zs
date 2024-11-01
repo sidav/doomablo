@@ -9,22 +9,7 @@ extend class MyCustomHUD {
 
         currentLineHeight = 0;
 
-        // let plr = RwPlayer(CPlayer.mo);
-        // if (plr.HasEmptyWeaponSlotFor(wpn)) {
-        //     PrintLine("Press USE to pick up:", itemStatsFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
-        // } else {
-        //     PrintLine("Press USE to switch to:", itemStatsFont, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_White);
-        // }
-
-        Inventory playerWpnOfSameClass;
-        let invlist = plr.inv;
-        while(invlist != null) {
-            if ( invlist.GetClass() == wpn.GetClass()) {
-                playerWpnOfSameClass = Weapon(invlist);
-                break;
-            }
-            invlist=invlist.Inv;
-        };
+        Inventory playerWpnOfSameClass = plr.GetWeaponInInvByClass(wpn.GetClass());
         
         if (playerWpnOfSameClass) {
             PrintLineAt(BuildDefaultPickUpHintStr("switch your "..wpn.rwBaseName.." to"),
