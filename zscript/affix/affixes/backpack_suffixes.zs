@@ -79,7 +79,7 @@ class BSuffAutoreload : RwBackpackSuffix {
             .." seconds reloads your weapons";
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        let seconds = remapQualityToRange(quality, 30, 5);
+        let seconds = remapQualityToRange(quality, 20, 5);
         modifierLevel = gametime.secondsToTicks(seconds);
     }
 }

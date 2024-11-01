@@ -40,7 +40,7 @@ extend class RwBackpack {
                 let invlist = owner.Inv;
                 while(invlist != null) {
                     let toReload = RandomizedWeapon(invlist);
-                    if (toReload && owner.Player.ReadyWeapon != invlist) {
+                    if (toReload && owner.Player.ReadyWeapon != invlist && toReload.ammotype1 != null) {
                         let clipBefore = toReload.currentClipAmmo;
                         toReload.A_MagazineReload();
                         atLeastOneReloaded = atLeastOneReloaded || (toReload.currentClipAmmo > clipBefore);
