@@ -47,14 +47,16 @@ class Math {
                 let maxRnd = val >= fromMax ? 0 : ratio/2;
                 toReturn += Random(minRnd, maxRnd);
             } else {
-                ratio = (fromLength / toLength);
-                if (ratio > 1) {
-                    // CASE 2: to-range is smaller than the from-range
-                    // It's more complicated... Well. 
-                    // Example: 52 remapped from [1, 100] range to [1, 10] range should be 5 80% of the time and 6 the remaining 20% of the time.
-                    // Their mean expected value is 5.2, so it's close enough to non-integer range remapping
-                    toReturn = toMin + divideIntWithRounding(toLength * (val+Random(-toLength/2, toLength/2 - 1)-fromMin), fromLength);
-                }
+                // CASE 2: to-range is smaller than the from-range
+                // It's more complicated... Well. 
+                // Example: 52 remapped from [1, 100] range to [1, 10] range should be 5 80% of the time and 6 the remaining 20% of the time.
+                // Their mean expected value is 5.2, so it's close enough to non-integer range remapping
+                // CURRENTLY DISABLED because it is buggy as hell
+
+                // ratio = (fromLength / toLength);
+                // if (ratio > 1) {    
+                //     toReturn = toMin + divideIntWithRounding(toLength * (val+Random(-toLength/2, toLength/2 - 1)-fromMin), fromLength);
+                // }
 
             }
         }

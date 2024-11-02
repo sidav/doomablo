@@ -6,14 +6,7 @@ class RwTestsHandler : StaticEventHandler
 
 	override void OnRegister()
 	{
-        // for (int i = 0; i <= 10; i++) {
-        //     let str = i.."-> ";
-        //     for (let j = 0; j < 20; j++) {
-        //         str = str.." "..math.remapIntRange(i, 0, 10, 50, 10000, true);
-        //     }
-        //     debug.print(str);
-        // }
-        // debug.panic();
+        // testRemapping();
 
         // let triesForSum = 10000;
         // for (int i = 0; i <= 100; i++) {
@@ -53,6 +46,32 @@ class RwTestsHandler : StaticEventHandler
         // }
         // debug.panic("Tests passed. Balances results is "..debug.intArrToString(balances));
 	}
+
+    void testRemapping() {
+        let fmin = 0;
+        let fmax = 10;
+        let tmin = 50;
+        let tmax = 100;
+        let shownVals = 30;
+        debug.print("Remapping from "..fmin..".."..fmax.." to range "..tmin..".."..tmax);
+        for (int i = fmin; i <= fmax; i++) {
+            let str = i.."-> ";
+            let minValue = tmax;
+            let maxValue = tmin;
+            for (let j = 0; j < shownVals; j++) {
+                let remapped = math.remapIntRange(i, fmin, fmax, tmin, tmax, true);
+                let remappedback = math.remapIntRange(remapped, tmin, tmax, fmin, fmax, false);
+                str = str.." "..remapped;
+                if (remappedback != i) {
+                    str = str.."("..remappedback..")  ";
+                }
+                if (remapped < minValue) minValue = remapped;
+                if (remapped > maxValue) maxValue = remapped;
+            }
+            debug.print(str.." observed range is ["..minValue..".."..maxValue.."]");
+        }
+        debug.panic();
+    }
 
     void testRandom() {
         for (let try = 0; try < 5; try++) {
