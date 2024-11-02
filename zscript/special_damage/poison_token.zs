@@ -1,33 +1,48 @@
-class RWPoisonToken : RWSpecialDamageToken {
+class RWPoisonToken : RwStatusEffectToken {
 
     Default {
         Inventory.Amount 10;
     }
 
-    const particleColor = 0x228800;
     const DamageEach = TICRATE * 2;
 
-    override void Tick() {
-        super.Tick();
-        if (!owner || owner.health <= 0 || amount <= 0) {
-            Destroy();
-            return;
-        }
-        if (owner && (GetAge() % DamageEach == 0)) {
-            // debug.print("Damaging: amount "..amount..", damage "..damage());
-            owner.damageMobj(null, null, damage(), 'Normal', DMG_NO_PROTECT);
-        }
+    override string GetStatusName() {
+        return "POISON";
+    }
 
+    override Color GetColorForUi() {
+        return Font.CR_GREEN;
+    }
+
+    override void doEffectOnRwPlayer() {
+        if (amount > 30) {
+            amount = 30;
+        }
+        if (GetAge() % DamageEach == 0) {
+            // debug.print("Damaging: amount "..amount..", damage "..damage());
+            owner.damageMobj(null, null, 1, 'Normal', DMG_NO_ARMOR);
+        }
+    }
+
+    override void doEffectOnMonster() {
+        if (GetAge() % DamageEach == 0) {
+            // debug.print("Damaging: amount "..amount..", damage "..damage());
+            owner.damageMobj(null, null, (amount/3 + 1), 'Normal', DMG_NO_PROTECT);
+        }
+    }
+
+    const particleColor = 0x22CC00;
+    override void doAlways() {
         if (GetAge() % TICRATE == 0) {
             amount--;
         }
 
-        if (GetAge() % 5 == 0) {
+        if (GetAge() % 4 == 0) {
             owner.A_SpawnParticle(
                 particleColor,
                 flags: SPF_FULLBRIGHT | SPF_REPLACE,
                 lifetime: rnd.rand(DamageEach, DamageEach * 2),
-                size: 4.0,
+                size: 4.5,
                 angle: 0,
                 xoff: rnd.randf(-owner.radius, owner.radius), yoff: rnd.randf(-owner.radius, owner.radius), zoff: rnd.randf(0, owner.height * 0.7),
                 velx: 0.0, vely: 0.0, velz: rnd.randf(0.5, 1.5)
@@ -35,9 +50,4 @@ class RWPoisonToken : RWSpecialDamageToken {
             );
         }
     }
-
-    private int damage() {
-        return (amount/3 + 1);
-    }
-
 }

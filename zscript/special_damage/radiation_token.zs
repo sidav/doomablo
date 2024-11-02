@@ -1,20 +1,33 @@
-class RWRadiationToken : RWSpecialDamageToken {
+class RWRadiationToken : RwStatusEffectToken {
 
     Default {
-        Inventory.Amount 1;
+        Inventory.Amount 3;
     }
 
-    const particleColor = 0x11ff11;
+    const particleColor = 0xffff11;
     const DamageEach = TICRATE;
     const RadiationDamageRadiusFactor = 4;
 
-    override void Tick() {
-        super.Tick();
-        if (!owner || owner.health <= 0 || amount <= 0) {
-            Destroy();
-            return;
+    override string GetStatusName() {
+        return "IRRADIATED";
+    }
+
+    override Color GetColorForUi() {
+        return Font.CR_ORANGE;
+    }
+
+    override void doEffectOnRwPlayer() {
+        if (GetAge() % TICRATE == 0) {
+            owner.damageMobj(null, owner, 1, 'Normal', DMG_NO_PROTECT);
         }
-        if (owner && (GetAge() % DamageEach == 0)) {
+    }
+
+    override void doAlways() {
+        if (GetAge() % TICRATE == 0) {
+            amount--;
+        }
+
+        if (GetAge() % DamageEach == 0) {
             // Damage all actors in an area surrounding the irradiated actor
             let ti = ThinkerIterator.Create('Actor');
             Actor mo;
@@ -22,13 +35,13 @@ class RWRadiationToken : RWSpecialDamageToken {
                 let reqDistance = owner.radius * RadiationDamageRadiusFactor;
                 if (mo && owner != mo && owner.Distance2D(mo) <= reqDistance) {
                     // "Source" of the damage is this actor. This causes infighting (on purpose, hehe). Maybe this makes this affix too OP.
-                    mo.damageMobj(null, owner, damage(), 'Normal', DMG_NO_PROTECT);
+                    mo.damageMobj(null, owner, Random(1, 5), 'Normal', DMG_NO_PROTECT);
                 }
             }
         }
 
         if (GetAge() % 4 == 0) {
-            let pspeed = owner.Radius * RadiationDamageRadiusFactor;
+            let pspeed = 2 * owner.Radius * RadiationDamageRadiusFactor;
             let pVect = AngleToVector(rnd.Randf(0.0, 360.0), pspeed/double(TICRATE));
             owner.A_SpawnParticle(
                 particleColor,
@@ -36,15 +49,11 @@ class RWRadiationToken : RWSpecialDamageToken {
                 lifetime: TICRATE,
                 size: 4.0,
                 angle: 0,
-                xoff: 0.0, yoff: 0.0, zoff: rnd.randf(0, owner.height * 0.7),
-                velx: pVect.X, vely: pVect.Y, velz: 0.0
+                xoff: 0.0, yoff: 0.0, zoff: 2*owner.height/3,
+                velx: pVect.X, vely: pVect.Y, velz: rnd.randf(-0.5, 0.5)
                 // double accelx = 0, double accely = 0, double accelz = 0, double startalphaf = 1, double fadestepf = -1, double sizestep = 0
             );
         }
-    }
-
-    private int damage() {
-        return amount * 2;
     }
 
 }

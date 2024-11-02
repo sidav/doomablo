@@ -39,6 +39,7 @@ class MyCustomHUD : DoomStatusBar
 			} else {
 				DrawShortCurrentItemsInfo();
 			}
+			DrawPlayerStatusEffects();
 			DrawCurrentTargetHPBar();
         }
     }

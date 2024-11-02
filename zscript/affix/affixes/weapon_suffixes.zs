@@ -162,7 +162,7 @@ class WSuffRadiation : RwWeaponSuffix {
     }
     override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (rnd.PercentChance(modifierLevel)) {
-            target.GiveInventory('RWRadiationToken', 1);
+            target.GiveInventory('RWRadiationToken', 3);
         }
     }
 }
