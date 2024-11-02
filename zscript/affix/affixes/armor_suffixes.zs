@@ -48,6 +48,12 @@ class ASuffDegrading : RwArmorSuffix {
         let secondsx10 = remapQualityToRange(quality, 100, 50);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (affixedItem.GetAge() % modifierLevel == 0) {
+            arm.DoDamageToArmor(1);
+        }
+    }
 }
 
 class ASuffHealthToDurab : RwArmorSuffix {
@@ -65,6 +71,14 @@ class ASuffHealthToDurab : RwArmorSuffix {
         let secondsx10 = remapQualityToRange(quality, 100, 5);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
+    const HpDrainThreshold = 25;
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (affixedItem.GetAge() % modifierLevel == 0 && RwPlayer(owner).health > HpDrainThreshold) {
+            arm.RepairFor(5);
+            owner.damageMobj(null, null, 5, 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR);
+        }
+    }
 }
 
 class ASuffSlowHeal : RwArmorSuffix {
@@ -77,6 +91,12 @@ class ASuffSlowHeal : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         let secondsx10 = remapQualityToRange(quality, 150, 10);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+    }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (affixedItem.GetAge() % modifierLevel == 0 && owner.Health < 100 && arm.IsNotBroken()) {
+            owner.GiveBody(1, 125);
+        }
     }
 }
 
@@ -99,7 +119,7 @@ class ASuffAbsImprove : RwArmorSuffix {
         return "AdapTek";
     }
     override string getDescription() {
-        return "Gain +1% ABS (max "..modifierLevel..") for each "..RandomizedArmor.RepairForAbsUpgrade.." repaired";
+        return "Gain +1% ABS (max "..modifierLevel..") for each "..RepairForAbsUpgrade.." repaired";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return !(a2 is 'RwArmorSuffix' || a2 is 'APrefHard');
@@ -110,6 +130,14 @@ class ASuffAbsImprove : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = remapQualityToRange(quality, 5*arm.stats.AbsorbsPercentage/4, min(5*arm.stats.AbsorbsPercentage/2, 100));
     }
+    const RepairForAbsUpgrade = 50;
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (arm.cumulativeRepair >= RepairForAbsUpgrade && modifierLevel > arm.stats.AbsorbsPercentage) {
+            arm.stats.AbsorbsPercentage += 1;
+            arm.cumulativeRepair = 0;
+        }
+    }
 }
 
 class ASuffDrbImprove : RwArmorSuffix {
@@ -117,7 +145,7 @@ class ASuffDrbImprove : RwArmorSuffix {
         return "Overbuild";
     }
     override string getDescription() {
-        return "Gain +1 DRB (max "..modifierLevel..") for each "..RandomizedArmor.RepairForDrbUpgrade.." repaired";
+        return "Gain +1 DRB (max "..modifierLevel..") for each "..RepairForDrbUpgrade.." repaired";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return !(a2 is 'RwArmorSuffix' || a2 is 'APrefSturdy');
@@ -128,6 +156,15 @@ class ASuffDrbImprove : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = remapQualityToRange(quality, 3*arm.stats.maxDurability/2, 2*arm.stats.maxDurability);
     }
+    const RepairForDrbUpgrade = 25;
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (arm.cumulativeRepair >= RepairForDrbUpgrade && modifierLevel > arm.stats.maxDurability) {
+            arm.stats.maxDurability += 1;
+            arm.stats.currDurability += 1;
+            arm.cumulativeRepair = 0;
+        }
+    }
 }
 
 class ASuffDurabToHealth : RwArmorSuffix {
@@ -136,7 +173,7 @@ class ASuffDurabToHealth : RwArmorSuffix {
     }
     override string getDescription() {
         return String.Format("Each %.1f sec spends %d durability to heal you", 
-            (Gametime.TicksToSeconds(modifierLevel), RandomizedArmor.DurabToHealthAmount));
+            (Gametime.TicksToSeconds(modifierLevel), DurabToHealthAmount));
     }
     override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
         return !(arm.stats.IsEnergyArmor());
@@ -144,6 +181,14 @@ class ASuffDurabToHealth : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         let secondsx10 = remapQualityToRange(quality, 80, 5);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+    }
+    const DurabToHealthAmount = 2;
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (arm.GetAge() % modifierLevel == 0 && arm.stats.currDurability >= DurabToHealthAmount && owner.health < 100) {
+            owner.GiveBody(DurabToHealthAmount, 100);
+            arm.stats.currDurability -= DurabToHealthAmount;
+        }
     }
 }
 
@@ -159,6 +204,12 @@ class ASuffMedikitsRepairArmor : RwArmorSuffix {
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 10);
+    }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (RwPlayer(owner) && RwPlayer(owner).lastHealedBy >= 10) {
+            arm.RepairFor(modifierLevel);
+        }
     }
 }
 
@@ -178,6 +229,12 @@ class ASuffSelfrepair : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         let secondsx10 = remapQualityToRange(quality, 100, 5);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+    }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (arm.GetAge() % modifierLevel == 0 && arm.IsDamaged()) {
+            arm.RepairFor(1);
+        }
     }
 }
 
@@ -215,6 +272,17 @@ class ASuffECellsSpend : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 40);
     }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (arm.stats.currDurability == 0 && (arm.ticksSinceDamage() == arm.stats.delayUntilRecharge)) {
+            let cl = owner.FindInventory('Cell');
+            if (cl && cl.Amount >= modifierLevel) {
+                cl.Amount -= modifierLevel;
+            } else {
+                arm.lastDamageTick += TICRATE; // call this again 1 sec later hehe
+            }
+        }
+    }
 }
 
 class ASuffEBonusRepair : RwArmorSuffix {
@@ -251,5 +319,18 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 15);
+    }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (arm.stats.currDurability == 0 && (arm.ticksSinceDamage() == 1)) {
+            let ti = ThinkerIterator.Create('Actor');
+            Actor mo;
+            while (mo = Actor(ti.next())) {
+                let reqDistance = owner.radius * 10;
+                if (mo && owner != mo && owner.Distance2D(mo) <= reqDistance) {
+                    mo.damageMobj(null, owner, modifierLevel, 'Normal', DMG_NO_PROTECT);
+                }
+            }
+        }
     }
 }

@@ -16,8 +16,8 @@ class RWCorrosionToken : RwStatusEffectToken {
 
     override void doEffectOnRwPlayer() {
         if (GetAge() % DamageEach == 0) {
-            if (RwPlayer(owner).CurrentEquippedArmor && RwPlayer(owner).CurrentEquippedArmor.stats.currDurability > 0) {
-                owner.damageMobj(null, null, 1, 'Normal', DMG_NO_PROTECT);
+            if (RwPlayer(owner).CurrentEquippedArmor) {
+                RwPlayer(owner).CurrentEquippedArmor.DoDamageToArmor(1);
             }
         }
     }

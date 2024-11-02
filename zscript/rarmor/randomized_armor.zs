@@ -5,6 +5,10 @@ class RandomizedArmor : Armor {
     RwArmorStats stats;
     string rwbaseName;
 
+    // needed by affixes:
+    int lastDamageTick;
+    int cumulativeRepair; 
+
 	Default
 	{
 		Radius 20;
@@ -34,6 +38,21 @@ class RandomizedArmor : Armor {
 
     override void Tick() {
         super.Tick();
+    }
+
+    bool IsDamaged() {
+        return stats.currDurability < stats.maxDurability;
+    }
+
+    bool IsNotBroken() {
+        return stats.currDurability > 0;
+    }
+
+    void DoDamageToArmor(int damageAmount) {
+        if (damageAmount > 0 && stats.currDurability > 0) {
+            lastDamageTick = GetAge();
+            stats.currDurability = max(0, stats.currDurability - damageAmount);
+        }
     }
 
     void RepairFor(int repairAmount) {
