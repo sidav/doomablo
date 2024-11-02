@@ -3,6 +3,7 @@ class RWPainToken : RwStatusEffectToken {
     Default {
         Inventory.Amount 5;
         Inventory.MaxAmount 5;
+        RwStatusEffectToken.ReductionPeriodTicks TICRATE;
     }
 
     const EffectEach = TICRATE / 7;
@@ -35,12 +36,6 @@ class RWPainToken : RwStatusEffectToken {
             if (painState) {
                 owner.SetState(painState);
             }
-        }
-    }
-
-    override void doAlways() {
-        if (GetAge() % TICRATE == 0) {
-            amount--;
         }
     }
 }

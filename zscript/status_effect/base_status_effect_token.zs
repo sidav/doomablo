@@ -1,7 +1,11 @@
 class RwStatusEffectToken : Inventory {
 
+    int ReductionPeriodTicks; // 0 means amount is never reduced
+    property ReductionPeriodTicks:ReductionPeriodTicks;
+
     Default {
         Inventory.MaxAmount 1000;
+        RwStatusEffectToken.ReductionPeriodTicks 0;
     }
 
     virtual ui string GetStatusName() {
@@ -37,6 +41,9 @@ class RwStatusEffectToken : Inventory {
             doEffectOnMonster();
         }
         doAlways();
+        if (ReductionPeriodTicks > 0 && amount > 0 && GetAge() > 0 && GetAge() % ReductionPeriodTicks == 0) {
+            amount--;
+        }
     }
 
     private virtual void doEffectOnRwPlayer() {

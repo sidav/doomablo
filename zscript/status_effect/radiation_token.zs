@@ -2,6 +2,7 @@ class RWRadiationToken : RwStatusEffectToken {
 
     Default {
         Inventory.Amount 3;
+        RwStatusEffectToken.ReductionPeriodTicks TICRATE;
     }
 
     const particleColor = 0xffff11;
@@ -23,10 +24,6 @@ class RWRadiationToken : RwStatusEffectToken {
     }
 
     override void doAlways() {
-        if (GetAge() % TICRATE == 0) {
-            amount--;
-        }
-
         if (GetAge() % DamageEach == 0) {
             // Damage all actors in an area surrounding the irradiated actor
             let ti = ThinkerIterator.Create('Actor');

@@ -17,7 +17,10 @@ extend class MyCustomHUD {
     }
 
     void DrawStatusEffectLine(RwStatusEffectToken se) {
+        if (se.amount == 0) return;
         let flags = DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT;
-        PrintTableLineAt(se.GetStatusName(), ""..se.Amount, 0, 0, statusTableWidth, itemStatsFont, flags, se.GetColorForUi());
+        PrintTableLineAt(se.GetStatusName(), ""..se.Amount, 
+            0, itemStatsFont.mFont.GetHeight() * 8, statusTableWidth, 
+            itemStatsFont, flags, se.GetColorForUi());
     }
 }

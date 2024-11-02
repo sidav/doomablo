@@ -1,4 +1,4 @@
-class RWSpecialDamageHandler : EventHandler
+class RWPlayerDealtStatusEffectsHandler : EventHandler
 {
 
     mixin DropSpreadable;
@@ -22,8 +22,6 @@ class RWSpecialDamageHandler : EventHandler
     static void handleDamageFromPlayer(RwPlayer plr, Actor target, int damage) {
         let wpn = RandomizedWeapon(plr.Player.ReadyWeapon);
         if (!wpn) return;
-
-        // target.GiveInventory('RWPoisonToken', 10);
 
         Affix current;
         foreach (current : wpn.appliedAffixes) {

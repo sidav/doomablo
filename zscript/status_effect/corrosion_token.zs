@@ -2,6 +2,7 @@ class RWCorrosionToken : RwStatusEffectToken {
 
     Default {
         Inventory.Amount 10;
+        RwStatusEffectToken.ReductionPeriodTicks TICRATE;
     }
 
     const DamageEach = TICRATE / 2;
@@ -26,10 +27,6 @@ class RWCorrosionToken : RwStatusEffectToken {
 
     const particleColor = 0x22CC00;
     override void doAlways() {
-        if (GetAge() % TICRATE == 0) {
-            amount--;
-        }
-
         if (GetAge() % 4 == 0) {
             owner.A_SpawnParticle(
                 particleColor,

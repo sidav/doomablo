@@ -16,7 +16,7 @@ gameinfo
 	AddEventHandlers = "PressToPickupHandler"
 	AddEventHandlers = "CurrentTargetHandler"
  	AddEventHandlers = "StartingItemsHandler"
-	AddEventHandlers = "RWSpecialDamageHandler"
+	AddEventHandlers = "RWPlayerDealtStatusEffectsHandler"
 
 	QuitMessages = 
 		// General mechanics tips
