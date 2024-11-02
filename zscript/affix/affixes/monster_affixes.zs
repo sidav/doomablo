@@ -65,12 +65,12 @@ class MAffKnockback : RwMonsterAffix {
     }
 }
 
-class MAffPoisonous : RwMonsterAffix {
+class MAffInflictsPoison : RwMonsterAffix {
     override string getName() {
-        return "Poison";
+        return "Poisonous";
     }
     override string getDescription() {
-        return "VENM "..modifierLevel;
+        return "POIS "..modifierLevel;
     }
     override int minRequiredRarity() {
         return 2;
@@ -81,6 +81,46 @@ class MAffPoisonous : RwMonsterAffix {
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive && source && source != owner) {
             source.GiveInventory('RWPoisonToken', modifierLevel);
+        }
+    }
+}
+
+class MAffInflictsPain : RwMonsterAffix {
+    override string getName() {
+        return "Painful";
+    }
+    override string getDescription() {
+        return "PAIN "..modifierLevel;
+    }
+    override int minRequiredRarity() {
+        return 0;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 85);
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (!passive && source && source != owner && rnd.percentChance(modifierLevel)) {
+            source.GiveInventory('RWPainToken', modifierLevel);
+        }
+    }
+}
+
+class MAffInflictsCorrosion : RwMonsterAffix {
+    override string getName() {
+        return "Corrosive";
+    }
+    override string getDescription() {
+        return String.Format("CORR %d", (modifierLevel));
+    }
+    override int minRequiredRarity() {
+        return 2;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 10);
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (!passive && source && source != owner) {
+            source.GiveInventory('RWCorrosionToken', modifierLevel);
         }
     }
 }
@@ -278,32 +318,6 @@ class MAffRegen : RwMonsterAffix {
     override void onDoEffect(Actor owner) {
         if (owner.GetAge() % (2*TICRATE/3) == 0) {
             owner.GiveBody(modifierLevel);
-        }
-    }
-}
-
-class MAffCorrosion : RwMonsterAffix {
-    override string getName() {
-        return "Corrosive";
-    }
-    override string getDescription() {
-        return String.Format("CORR %.1f", Gametime.ticksToPeriod(modifierLevel));
-    }
-    override int minRequiredRarity() {
-        return 2;
-    }
-    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 2, 0.1);
-    }
-    override void onDoEffect(Actor owner) {
-        if (owner.GetAge() % modifierLevel == 0) {
-            let pTarget = RwPlayer(owner.target);
-            if (pTarget && owner.CheckSight(pTarget, SF_IGNOREWATERBOUNDARY) && pTarget.CurrentEquippedArmor) {
-                if (pTarget.CurrentEquippedArmor.stats.currDurability > 0) {
-                    pTarget.CurrentEquippedArmor.stats.currDurability -= rnd.rand(1, 3);
-                    pTarget.CurrentEquippedArmor.stats.currDurability = max(pTarget.CurrentEquippedArmor.stats.currDurability, 0);
-                }
-            }
         }
     }
 }

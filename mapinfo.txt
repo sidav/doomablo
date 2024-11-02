@@ -34,6 +34,8 @@ gameinfo
 		"Do you know?\nCorrosive monsters gradually drain your armor while you're in their sight",
 		"Do you know?\nMonsters with DRAIN affix gradually reduce your health if you're close enough",
 		"Do you know?\nMonsters with HORDE affix summon a throng of lesser creatures when they die.\nGood luck if you find it on boss!",
+		"Do you know?\nAttacks of monsters with PAINFUL affix have a chance to inflict crippling pain for 5 seconds",
+		"Do you know?\nMonsters with POISON affix make you poisoned. Poison damage ignores armor!",
 		"Do you know?\nMonsters with THORNS affix deal damage each time they are hit",
 
 		// Other and joke tips
