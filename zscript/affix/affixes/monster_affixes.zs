@@ -125,6 +125,26 @@ class MAffInflictsCorrosion : RwMonsterAffix {
     }
 }
 
+class MAffInflictsVulnerability : RwMonsterAffix {
+    override string getName() {
+        return "Foul";
+    }
+    override string getDescription() {
+        return "VULN "..modifierLevel;
+    }
+    override int minRequiredRarity() {
+        return 2;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToRange(quality, 5, 50);
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (!passive && source && source != owner && rnd.percentChance(modifierLevel)) {
+            source.GiveInventory('RWVulnerabilityToken', 5);
+        }
+    }
+}
+
 class MAffHigherDamage : RwMonsterAffix {
     override string getName() {
         return "Strong";
