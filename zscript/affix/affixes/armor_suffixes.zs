@@ -81,6 +81,68 @@ class ASuffHealthToDurab : RwArmorSuffix {
     }
 }
 
+class ASuffLengthenStatusEffects : RwArmorSuffix {
+    override string getName() {
+        return "Rust";
+    }
+    override string getDescription() {
+        return String.Format("Status effects wear off %d%% slower", (modifierLevel));
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override int minRequiredRarity() {
+        return 2;
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        modifierLevel = remapQualityToRange(quality, 3, 50);
+    }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (arm.IsFullyBroken()) return;
+        let invlist = owner.inv;
+        while(invlist != null) {
+            if (invlist != null && invlist is 'RwStatusEffectToken') {
+                let se = RwStatusEffectToken(invlist);
+                if (se.ReductionPeriodTicks > 0 && se.ReductionPeriodTicks == se.Default.ReductionPeriodTicks) {
+                    // Speed application formula
+                    let newPeriod = math.divideIntWithRounding(se.ReductionPeriodTicks * 100, 100 - modifierLevel);
+                    se.ReductionPeriodTicks = newPeriod;
+                }
+            }
+            invlist=invlist.Inv;
+        };    
+    }
+}
+
+class ASuffShortenStatusEffects : RwArmorSuffix {
+    override string getName() {
+        return "ResisTech";
+    }
+    override string getDescription() {
+        return String.Format("Status effects wear off %d%% quicker", (modifierLevel));
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        modifierLevel = remapQualityToRange(quality, 10, 150);
+    }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (arm.IsFullyBroken()) return;
+        let invlist = owner.inv;
+        while(invlist != null) {
+            if (invlist != null && invlist is 'RwStatusEffectToken') {
+                let se = RwStatusEffectToken(invlist);
+                if (se.ReductionPeriodTicks > 0 && se.ReductionPeriodTicks == se.Default.ReductionPeriodTicks) {
+                    // Speed application formula
+                    let newPeriod = math.divideIntWithRounding(se.ReductionPeriodTicks * 100, 100 + modifierLevel);
+                    se.ReductionPeriodTicks = newPeriod;
+                }
+            }
+            invlist=invlist.Inv;
+        };    
+    }
+}
+
 class ASuffSlowHeal : RwArmorSuffix {
     override string getName() {
         return "UAC RegenTech";

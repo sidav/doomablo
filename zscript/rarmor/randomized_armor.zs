@@ -44,6 +44,10 @@ class RandomizedArmor : Armor {
         return stats.currDurability < stats.maxDurability;
     }
 
+    bool IsFullyBroken() {
+        return stats.currDurability <= 0;
+    }
+
     bool IsNotBroken() {
         return stats.currDurability > 0;
     }
