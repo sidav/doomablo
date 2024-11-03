@@ -28,7 +28,7 @@ class RWPoisonToken : RwStatusEffectToken {
     override void doEffectOnMonster() {
         if (GetAge() % DamageEach == 0) {
             // debug.print("Damaging: amount "..amount..", damage "..damage());
-            owner.damageMobj(null, null, (amount/3 + 1), 'Normal', DMG_NO_PROTECT);
+            owner.damageMobj(null, null, (amount/3 + 1), 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR);
         }
     }
 

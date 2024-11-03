@@ -217,7 +217,7 @@ class MAffArmored : RwMonsterAffix {
         modifierLevel = remapQualityToRange(quality, 1, 10);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
-        if (passive && source && source != owner) {
+        if (passive && source && source != owner && !(flags & DMG_NO_ARMOR)) {
             newdamage = max(damage-modifierLevel, 1);
         }
     }
