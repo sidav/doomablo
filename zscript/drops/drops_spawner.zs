@@ -90,7 +90,7 @@ class DropsSpawner {
             25, // Shotgun
             15, // SSG (it is supported in Doom 1 too)
             20, // Chaingun
-            15, // SMG
+            20, // SMG
             10, // Rocket Launcher
             10  // Plasma Rifle
         );

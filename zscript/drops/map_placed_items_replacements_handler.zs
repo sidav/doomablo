@@ -23,7 +23,11 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 			e.Replacement = 'rwSuperShotgun';
             break;
 		case 'Chaingun':
-			e.Replacement = 'rwChaingun';
+            if (rnd.OneChanceFrom(2)) {
+                e.Replacement = 'rwChaingun';
+            } else {
+                e.Replacement = 'rwSmg';
+            }
             break;
 		case 'Rocketlauncher':
 			e.Replacement = 'rwRocketLauncher';
