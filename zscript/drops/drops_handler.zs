@@ -5,7 +5,8 @@ class DropsHandler : EventHandler
     mixin DropSpreadable;
 
     override void WorldThingDied(WorldEvent e) {
-        if (e.Thing is 'ExplosiveBarrel') {
+        // Don't spawn items from barrels or from enemies which aren't counted as kills
+        if (e.Thing is 'ExplosiveBarrel' || !e.Thing.bCOUNTKILL) {
             return;
         }
         // debug.print("Actor "..e.Thing.GetClassName().." died; max health is "..e.Thing.GetMaxHealth());

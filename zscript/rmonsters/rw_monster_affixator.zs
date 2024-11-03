@@ -1,11 +1,21 @@
 // This is a special item which is put into monster inventory
 // The item itself is affixable, not the monster (for ensuring universal compatibility)
 class RwMonsterAffixator : Inventory {
-    mixin Affixable; // Maybe it's NOT Affixable? The logic is quite different (at least for now)
+    mixin Affixable;
+
     string lightId;
+    int ownerDiedTick; // needed for onOwnerDiedPreviousTick() affix call.
 
     override void DoEffect() {
         if (owner.Health <= 0) {
+            if (owner.GetAge() - ownerDiedTick == 1) {
+                Affix aff;
+                foreach (aff : appliedAffixes) {
+                    if (RwMonsterAffix(aff)) {
+                        RwMonsterAffix(aff).onOwnerDiedPreviousTick(owner);
+                    }
+                }
+            }
             return;
         }
         Affix aff;
@@ -15,6 +25,7 @@ class RwMonsterAffixator : Inventory {
     }
 
     override void OwnerDied () {
+        ownerDiedTick = owner.GetAge();
         removeLight();
         Affix aff;
         foreach (aff : appliedAffixes) {

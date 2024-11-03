@@ -18,6 +18,9 @@ class RwMonsterAffix : Affix {
     override bool IsCompatibleWithItem(Inventory item) {
         return (RwMonsterAffixator(item) != null);
     }
+
+    // Monster-affix-specific method, that's why it's here
+    virtual play void onOwnerDiedPreviousTick(Actor owner) {}
 }
 
 // On put into inventory
@@ -397,6 +400,7 @@ class MAffSummoner : RwMonsterAffix {
             owner.A_SpawnItemEx('TeleportFog');
             newMo.A_SpawnItemEx('TeleportFog');
             newMo.target = owner.target;
+            newMo.A_ChangeCountFlags(false, FLAG_NO_CHANGE, FLAG_NO_CHANGE); // Don't count as kill, don't drop loot
         }
     }
 }
@@ -514,6 +518,7 @@ class MAffSpawnHordeOnDeath : RwMonsterAffix {
                 }
                 newMo.bNOINFIGHTING = true;
                 newMo.bNOTARGET = true;
+                newMo.A_ChangeCountFlags(false, FLAG_NO_CHANGE, FLAG_NO_CHANGE); // Don't count as kill, don't drop loot
                 newMo.target = owner.target;
                 newMo.A_SpawnItemEx('TeleportFog');
                 AssignMinorSpreadVelocityTo(newMo);
@@ -554,36 +559,51 @@ class MAffFireballRevenge : RwMonsterAffix {
     }
 }
 
-// Disabled because of bugs
+class MAffRespawnsOnDeath : RwMonsterAffix { // Ohhhh this whole affix was horrible to figure out
+    override string getName() {
+        return "Undying";
+    }
+    override string getDescription() {
+        if (modifierLevel <= 0) {
+            return "MORTAL";
+        }
+        return "UNDYING "..modifierLevel;
+    }
+    override int minRequiredRarity() {
+        return 3;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 3);
+    }
+    override void onOwnerDied(Actor owner) {
+        if (modifierLevel <= 0) return;
+        // Spawn "corpse". It's an OTHER new actor of the same class that just immediatly dies.
+        let corpse = owner.Spawn(owner.GetClass());
+        corpse.angle = owner.angle;
+        corpse.SetOrigin(owner.Pos, false);
+        // Do not count the actor towards kills (don't know which line from those is better):
+        // corpse.ClearCounters();
+        corpse.A_ChangeCountFlags(false, FLAG_NO_CHANGE, FLAG_NO_CHANGE);
+        // SetHealth does not always change actor's state immediately, so we damage it manually
+        corpse.damageMobj(null, null, corpse.Health - owner.Health, 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR);
+    }
+    override void onOwnerDiedPreviousTick(Actor owner) {
+        if (modifierLevel <= 0) return;
+        modifierLevel--;
 
-// class MAffHealsOnDeath : RwMonsterAffix {
-//     override string getName() {
-//         return "Undying";
-//     }
-//     override string getDescription() {
-//         return "Undying "..modifierLevel;
-//     }
-//     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-//         modifierLevel = remapQualityToRange(quality, 1, 5);
-//     }
-//     mixin DropSpreadable;
-//     override void onOwnerDied(Actor owner) {
-//         // debug.print("Spawning!");
-//         if (owner && modifierLevel > 0) {
-//             owner.health = owner.GetMaxHealth();
-//             owner.A_SpawnItemEx('TeleportFog');
-//             // Required when resurrecting
-//             owner.bCORPSE = false;
-//             owner.bSHOOTABLE = true;
-//             owner.bSOLID = true;
-//             owner.bCANPUSHWALLS = true;
-//             owner.bCANUSEWALLS = true;
-//             owner.bACTIVATEMCROSS = true;
-//             owner.bCANPASS = true;
-//             owner.bISMONSTER = true;
+        // Revive the owner
+        owner.Revive();
+        owner.Height = owner.Default.Height; // Gzdoom bug (?): this property is not auto-reset in Revive().
+        owner.SetState(owner.ResolveState('See')); // The state is not auto-reset in Revive() either.
 
-//             modifierLevel--;
-//             AssignMajorSpreadVelocityTo(owner);
-//         }
-//     }
-// }
+        // Reattach the light
+        let affixator = RwMonsterAffixator.GetMonsterAffixator(owner);
+        affixator.attachLight();
+
+        // Teleport owner to other location
+        let originalPos = owner.Pos;
+        if (LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(owner, 2*owner.radius, 10*owner.radius, owner.Pos)) {
+            owner.A_SpawnItemEx('TeleportFog');
+        }
+    }
+}

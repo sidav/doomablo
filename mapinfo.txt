@@ -38,6 +38,7 @@ gameinfo
 		"Do you know?\nMonsters with POISON affix make you poisoned. Poison damage ignores armor!",
 		"Do you know?\nMonsters with THORNS affix deal damage each time they are hit",
 		"Do you know?\nVILE monsters can make you vulnerable.\nWhile vulnerable, any damage you receive is doubled",
+		"Do you know?\nMonsters with UNDYING affix respawn on death.\nTheir on-death effects occur each time they are respawned.\nThe good news are, they drop loot each time too!",
 
 		// Other and joke tips
 		"Do you know?\nIf you land shots to the head, they deal much more damage.\nWait, wrong game!",
