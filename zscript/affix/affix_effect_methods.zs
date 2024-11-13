@@ -15,6 +15,9 @@ extend class Affix {
     virtual play void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {}
     virtual play void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {}
 
+    // Player-beneficial
+    virtual play void onHandlePickup(Inventory pickedUp) {}
+
     // For monster affixes
     virtual play void onPutIntoMonsterInventory(Actor owner) {}
     virtual play void onDamageDealt(int damage, Actor target, Actor owner) {}

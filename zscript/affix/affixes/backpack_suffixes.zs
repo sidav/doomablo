@@ -35,6 +35,22 @@ class BSuffNoisy : RwBackpackSuffix {
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 100); // Chance 1-100
     }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        if (affixedItem.GetAge() % (TICRATE * 5) == 0 && rnd.PercentChance(modifierLevel)) {
+            // Iterate through all monsters
+            let ti = ThinkerIterator.Create('Actor');
+            Actor mo;
+            while (mo = Actor(ti.next())) {
+                if (mo && mo.bIsMonster && mo.target == null && mo.CheckSight(owner, SF_IGNOREWATERBOUNDARY)) {
+                    mo.target = owner;
+                    // Rotation 3 times 45 degrees each
+                    for (let i = 0; i < 3; i++) {
+                        mo.A_Chase();
+                    }
+                }
+            }
+        }
+    }
 }
 
 class BSuffLessAmmoChance : RwBackpackSuffix {
@@ -49,6 +65,13 @@ class BSuffLessAmmoChance : RwBackpackSuffix {
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 50);
+    }
+    override void onHandlePickup(Inventory pickedUp) {
+        if (pickedUp is 'Ammo' && rnd.PercentChance(modifierLevel)) {
+            if (pickedUp.Amount > 2) {
+                pickedUp.amount = Random(pickedUp.amount/2, pickedUp.amount);
+            }
+        }
     }
 }
 
@@ -66,6 +89,11 @@ class BSuffRestoreCells : RwBackpackSuffix {
         let secondsx10 = remapQualityToRange(quality, 100, 5);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
     }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        if (affixedItem.GetAge() % modifierLevel == 0) {
+            owner.GiveInventory('Cell', 1);
+        }
+    }
 }
 
 class BSuffRestoreBullets : RwBackpackSuffix {
@@ -81,6 +109,11 @@ class BSuffRestoreBullets : RwBackpackSuffix {
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
         let secondsx10 = remapQualityToRange(quality, 75, 5);
         modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+    }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        if (affixedItem.GetAge() % modifierLevel == 0) {
+            owner.GiveInventory('Clip', 1);
+        }
     }
 }
 
@@ -98,6 +131,25 @@ class BSuffAutoreload : RwBackpackSuffix {
         let seconds = remapQualityToRange(quality, 20, 5);
         modifierLevel = gametime.secondsToTicks(seconds);
     }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        if (affixedItem.GetAge() % modifierLevel == 0) {
+            bool atLeastOneReloaded = false;
+            // Iterate through all weapons
+            let invlist = owner.Inv;
+            while(invlist != null) {
+                let toReload = RandomizedWeapon(invlist);
+                if (toReload && owner.Player.ReadyWeapon != invlist && toReload.ammotype1 != null) {
+                    let clipBefore = toReload.currentClipAmmo;
+                    toReload.A_MagazineReload();
+                    atLeastOneReloaded = atLeastOneReloaded || (toReload.currentClipAmmo > clipBefore);
+                }
+                invlist=invlist.Inv;
+            }
+            if (atLeastOneReloaded) {
+                owner.A_StartSound("misc/w_pkup"); // plays Doom's "weapon pickup" sound
+            }
+        }
+    }
 }
 
 class BSuffBetterMedikits : RwBackpackSuffix {
@@ -109,6 +161,13 @@ class BSuffBetterMedikits : RwBackpackSuffix {
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 5);
+    }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        // Caution here: this affix-caused healing may chain-trigger itself on next tick.
+        // To prevent that the min allowed lastHealedBy should be bigger than the max affix heal amount.
+        if (RwPlayer(owner).lastHealedBy >= 10 && RwPlayer(owner).lastHealedBy > modifierLevel) {
+            owner.GiveBody(modifierLevel, 200);
+        }
     }
 }
 
@@ -122,6 +181,19 @@ class BSuffBetterArmorRepair : RwBackpackSuffix {
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 50);
     }
+
+    int previousTickDRB;
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        let plr = RwPlayer(owner);
+        let arm = plr.CurrentEquippedArmor;
+        if (arm && !arm.stats.IsEnergyArmor()) {
+            let DurabDiff = arm.stats.currDurability - previousTickDRB;
+            if (DurabDiff > 0 && rnd.PercentChance(modifierLevel)) {
+                arm.RepairFor(Random(1, max(DurabDiff, 1)));
+            }
+            previousTickDRB = arm.stats.currDurability;
+        }
+    }
 }
 
 class BSuffMoreAmmoChance : RwBackpackSuffix {
@@ -134,6 +206,15 @@ class BSuffMoreAmmoChance : RwBackpackSuffix {
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 50);
     }
+    override void onHandlePickup(Inventory pickedUp) {
+        if (pickedUp is 'Ammo' && rnd.PercentChance(modifierLevel)) {
+            if (pickedUp.Amount < 3) {
+                pickedUp.amount = Random(pickedUp.amount, 2*pickedUp.amount);
+            } else {
+                pickedUp.amount = Random(pickedUp.amount, 3*pickedUp.amount/2);
+            }
+        }
+    }
 }
 
 class BSuffBetterEarmorDelay : RwBackpackSuffix {
@@ -141,9 +222,20 @@ class BSuffBetterEarmorDelay : RwBackpackSuffix {
         return "Circuitry";
     }
     override string getDescription() {
-        return String.Format("Reduces energy armor recharge delay to %d%%", (modifierLevel));
+        return String.Format("Energy armor recharge delay -%d%%", (modifierLevel));
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 95, 50);
+        modifierLevel = remapQualityToRange(quality, 5, 50);
+    }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        let plr = RwPlayer(owner);
+        let arm = plr.CurrentEquippedArmor;
+        if (arm && arm.stats.IsEnergyArmor()) {
+            // Call only some ticks after the damage to prevent bugs with "next-tick-expecting" affixes (such as ASuffECellsSpend)
+            if (arm.ticksSinceDamage() == 3) {
+                let diffTicks = math.getIntPercentage(arm.stats.delayUntilRecharge, modifierLevel);
+                arm.lastDamageTick -= diffTicks;
+            }
+        }
     }
 }

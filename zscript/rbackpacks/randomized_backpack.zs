@@ -4,6 +4,16 @@ class RwBackpack : Inventory {
     string rwbaseName;
     RwBackpackStats stats;
 
+    Default {
+		Height 26;
+		// Inventory.PickupMessage "$GOTBACKPACK";
+	}
+	States {
+        Spawn:
+            BPAK A -1;
+            Stop;
+	}
+
     virtual void setBaseStats() {
 		rwbaseName = "Backpack";
 		stats = New('RwBackpackStats');
@@ -65,15 +75,23 @@ class RwBackpack : Inventory {
         return Brand[rnd.randn(Brand.Size())].." "..Packtype[rnd.randn(Packtype.Size())];
     }
 
-    Default
-	{
-		Height 26;
-		// Inventory.PickupMessage "$GOTBACKPACK";
-	}
-	States
-	{
-	Spawn:
-		BPAK A -1;
-		Stop;
-	}
+    ////////////////
+    // Affix effects
+
+    override void DoEffect() {
+        super.DoEffect();
+
+        Affix aff;
+        foreach (aff : appliedAffixes) {
+            aff.onDoEffect(owner, self);
+        }
+    }
+
+    override bool HandlePickup(Inventory pickedUp) {
+        Affix aff;
+        foreach (aff : appliedAffixes) {
+            aff.onHandlePickup(pickedUp);
+        }
+		return false;
+    }
 }

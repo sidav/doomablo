@@ -71,7 +71,6 @@ version "4.10.0"
 #include "zscript/rbackpacks/backpack_variant_3.zs"
 #include "zscript/rbackpacks/randomized_backpack_pickup.zs"
 #include "zscript/rbackpacks/randomized_backpack_stats.zs"
-#include "zscript/rbackpacks/randomized_backpack_suffix_effect.zs"
 
 #include "zscript/rmonsters/monster_affixing_handler.zs"
 #include "zscript/rmonsters/rw_monster_affixator.zs"

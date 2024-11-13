@@ -18,13 +18,8 @@ class RwEnergyArmor : RandomizedArmor
 		super.DoEffect();
 		if (stats.currDurability < stats.maxDurability) {
 			let delay = stats.delayUntilRecharge;
-			if (RwPlayer(owner) && RwPlayer(owner).CurrentEquippedBackpack) {
-				let aff = RwPlayer(owner).CurrentEquippedBackpack.FindAppliedAffix('BSuffBetterEarmorDelay');
-				if (aff) {
-					delay = math.getIntPercentage(delay, aff.modifierLevel);
-				}
-			}
 			if (ticksSinceDamage() >= delay) {
+				// if (ticksSinceDamage() == delay) debug.print("--> Recharge Started at "..GetAge());
 				if (ticksSinceDamage() % stats.energyRestorePeriod == 0) {
 					if (stats.currDurability == 0) {
 						owner.Player.bonusCount += 5;
