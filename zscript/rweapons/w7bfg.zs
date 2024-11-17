@@ -59,16 +59,10 @@ class RwBFG : RandomizedWeapon
 		BFGG B 20 A_ReFire;
 		Goto Ready;
 	}
-	
-	// Variables too BFG-specific to be put to RWStats class (because they're not reusable at all)
-	int NumberOfRays;
-	double RaysConeAngle;
-	int RayDmgMin, RayDmgMax;
-	bool raysWillOriginateFromMissile; // false means rays from shooter, like in vanilla Doom.
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			75, 120,
+			75, 250,
 			1,
 			50,
 			5.0,
@@ -82,11 +76,11 @@ class RwBFG : RandomizedWeapon
 		rwBaseName = "BFG";
 
 		// BFG-only
-		NumberOfRays = 40;
-		RaysConeAngle = 90.;
-		RayDmgMin = 10;
-		RayDmgMax = 50;
-		raysWillOriginateFromMissile = false;
+		stats.NumberOfRays = 40;
+		stats.RaysConeAngle = 90.;
+		stats.RayDmgMin = 10;
+		stats.RayDmgMax = 50;
+		stats.raysWillOriginateFromMissile = false;
     }
 
 	override string GetRandomFluffName() {

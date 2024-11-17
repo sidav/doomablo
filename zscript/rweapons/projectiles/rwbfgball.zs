@@ -19,7 +19,11 @@ class RwBFGBall : RwProjectile
 		BFS1 AB 4 Bright;
 		Loop;
 	Death:
-		BFE1 AB 8 Bright;
+		BFE1 AB 8 Bright {
+			if (rwExplosionRadius > 0) {
+				rwExplode();
+			}
+		}
 		BFE1 C 8 Bright A_BFGSpray;
 		BFE1 DEF 8 Bright;
 		Stop;
@@ -30,15 +34,14 @@ class RwBFGBall : RwProjectile
 	int RayDmgMin, RayDmgMax;
 	bool raysWillOriginateFromMissile; // false means rays from shooter, like in vanilla Doom.
 
-	override void applyWeaponStats(RandomizedWeapon weapon) {
-		super.applyWeaponStats(weapon);
-		let bfgw = RwBFG(weapon);
+	override void applyWeaponStats(RandomizedWeapon wpn) {
+		super.applyWeaponStats(wpn);
 
-		NumberOfRays = bfgw.NumberOfRays;
-		RaysConeAngle = bfgw.RaysConeAngle;
-		RayDmgMin = bfgw.RayDmgMin;
-		RayDmgMax = bfgw.RayDmgMax;
-		raysWillOriginateFromMissile = bfgw.raysWillOriginateFromMissile;
+		NumberOfRays = wpn.stats.NumberOfRays;
+		RaysConeAngle = wpn.stats.RaysConeAngle;
+		RayDmgMin = wpn.stats.RayDmgMin;
+		RayDmgMax = wpn.stats.RayDmgMax;
+		raysWillOriginateFromMissile = wpn.stats.raysWillOriginateFromMissile;
 	}
 
 	void A_BFGSpray(double distance = 16*64, double vrange = 32, int flags = 0) {
@@ -55,7 +58,7 @@ class RwBFGBall : RwProjectile
 		// [XA] Set the originator of the rays to the projectile (self) if
 		//      the new flag is set, else set it to the player (target)
 		Actor originator;
-		if (flags & BFGF_MISSILEORIGIN) {
+		if (raysWillOriginateFromMissile) {
 			originator = self;
 		} else {
 			originator = target;
@@ -69,6 +72,11 @@ class RwBFGBall : RwProjectile
 			if (t.linetarget != null) {
 				Actor spray = Spawn("RwBFGExtra", t.linetarget.pos + (0, 0, t.linetarget.Height / 4), ALLOW_REPLACE);
 
+				if (t.linetarget == target) { // Don't hit the one who fired
+					spray.Destroy();
+					continue;
+				}
+
 				int dmgFlags = 0;
 				Name dmgType = 'BFGSplash';
 
@@ -77,7 +85,7 @@ class RwBFGBall : RwProjectile
 					dmgType = spray.DamageType;
 				}
 
-				damage = Random(RayDmgMin, RayDmgMax);
+				damage = Random[BfgRayDmg](RayDmgMin, RayDmgMax);
 
 				int newdam = t.linetarget.DamageMobj(originator, target, damage, dmgType, dmgFlags|DMG_USEANGLE, t.angleFromSource);
 				t.TraceBleed(newdam > 0 ? newdam : damage, self);

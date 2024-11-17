@@ -27,6 +27,12 @@ class RWStatsClass {
     int ammoUsage;
     int freeShotChance; // Percentage chance that a shot will be free. Better for auto-shot weapons, may be useful for RL.
 
+    // BFG-specific. I didn't want to put it here (not reusable), but it doesn't work otherwise :(
+    int NumberOfRays;
+	double RaysConeAngle;
+	int RayDmgMin, RayDmgMax;
+	bool raysWillOriginateFromMissile; // false means rays from shooter, like in vanilla Doom.
+
     static RWStatsClass NewWeaponStats(int minDmg, int maxDmg, int pell, int ammousg, float hSpr, float vSpr) {
         let rws = New('RwStatsClass');
         rws.minDamage = minDmg;
