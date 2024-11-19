@@ -48,7 +48,7 @@ class BPrefMoreBull : RwBackpackPrefix {
         return a2.GetClass() != 'BPrefLessBull';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, bpk.stats.maxBull*2);
+        modifierLevel = remapQualityToRange(quality, 1, 5*bpk.stats.maxBull/2);
 
         bpk.stats.maxBull += modifierLevel;
     }
@@ -168,7 +168,7 @@ class BPrefMoreCell : RwBackpackPrefix {
         return a2.GetClass() != 'BPrefLessCell';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, bpk.stats.maxCell*2);
+        modifierLevel = remapQualityToRange(quality, 1, 5*bpk.stats.maxCell/2);
 
         bpk.stats.maxCell += modifierLevel;
     }

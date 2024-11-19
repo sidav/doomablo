@@ -120,7 +120,7 @@ class ASuffShortenStatusEffects : RwArmorSuffix {
         return "ResisTech";
     }
     override string getDescription() {
-        return String.Format("Status effects wear off %d%% quicker", (modifierLevel));
+        return String.Format("Status effects wear off %d%% faster", (modifierLevel));
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = remapQualityToRange(quality, 10, 150);
