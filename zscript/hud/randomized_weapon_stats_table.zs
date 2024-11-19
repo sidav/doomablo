@@ -147,6 +147,51 @@ extend class MyCustomHUD {
                         itemStatsFont, textFlags, Font.CR_White, compareClr);
         }
 
+        // BFG stats
+        if (wpn.GetClass() == 'RwBFG') {
+            // Rays num
+            if (wpnComp && wpn.stats.NumberOfRays != wpnComp.stats.NumberOfRays && wpnComp.stats.NumberOfRays > 0) {
+                compareStr = " ("..intToSignedStr(wpn.stats.NumberOfRays - wpnComp.stats.NumberOfRays)..")";
+                compareClr = GetDifferenceColor((wpn.stats.NumberOfRays - wpnComp.stats.NumberOfRays));
+            } else {
+                compareStr = "";
+                compareClr = Font.CR_White;
+            }
+            PrintTableLineAt("Number of rays:", String.Format("%d", (wpn.stats.NumberOfRays))..compareStr, 
+                        linesX, y, pickupableStatsTableWidth,
+                        itemStatsFont, textFlags, Font.CR_White, compareClr);
+
+            // Rays angle
+            if (wpnComp && wpn.stats.RaysConeAngle != wpnComp.stats.RaysConeAngle && wpnComp.stats.NumberOfRays > 0) {
+                compareStr = " ("..floatToSignedStr(wpn.stats.RaysConeAngle - wpnComp.stats.RaysConeAngle)..")";
+                compareClr = GetDifferenceColor((wpn.stats.RaysConeAngle - wpnComp.stats.RaysConeAngle));
+            } else {
+                compareStr = "";
+                compareClr = Font.CR_White;
+            }
+            PrintTableLineAt("Rays angle:", String.Format("%.1f", (wpn.stats.RaysConeAngle))..compareStr, 
+                        linesX, y, pickupableStatsTableWidth,
+                        itemStatsFont, textFlags, Font.CR_White, compareClr);
+
+            // Rays dmg
+            if (wpnComp && wpnComp.stats.NumberOfRays > 0) {
+                compareStr = makeDamageDifferenceString(
+                    wpn.stats.RayDmgMin, wpn.stats.RayDmgMax,
+                    wpnComp.stats.RayDmgMin, wpnComp.stats.RayDmgMax
+                );
+                compareClr = GetTwoDifferencesColor(
+                    wpn.stats.RayDmgMin - wpnComp.stats.RayDmgMin,
+                    wpn.stats.RayDmgMax - wpnComp.stats.RayDmgMax
+                );
+            } else {
+                compareStr = "";
+                compareClr = Font.CR_White;
+            }
+            PrintTableLineAt("Ray Damage:", wpn.stats.RayDmgMin.."-"..wpn.stats.RayDmgMax..compareStr,
+                    linesX, y, pickupableStatsTableWidth,
+                    itemStatsFont, textFlags, Font.CR_White, compareClr);
+        }
+
         foreach (aff : wpn.appliedAffixes) {
             printAffixDescriptionLineAt(aff, x+16, y, textFlags);
         }

@@ -35,29 +35,11 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 		case 'Plasmarifle':
 			e.Replacement = 'rwPlasmarifle';
             break;
-		case 'BFG9000': // TODO: rework when randomized BFG is implemented
-			dropType = rnd.weightedRand(0, 0, 0, 0, 5, 5);
-			switch (dropType) {
-                case 0: 
-                    e.Replacement ='RwPistol';
-                    break;
-                case 1: 
-                    e.Replacement ='RwShotgun';
-                    break;
-                case 2: 
-                    e.Replacement ='RwSuperShotgun';
-                    break;
-                case 3: 
-                    e.Replacement ='RwChaingun';
-                    break;
-                case 4: 
-                    e.Replacement ='RwRocketLauncher';
-                    break;
-                case 5: 
-                    e.Replacement ='RwPlasmarifle';
-                    break;
-                default:
-                    debug.panic("BFG replacer crashed");
+		case 'BFG9000':
+            if (rnd.OneChanceFrom(2)) {
+                e.Replacement = 'rwBFG';
+            } else {
+                e.Replacement = 'rwBFG2701';
             }
 			break;
 
