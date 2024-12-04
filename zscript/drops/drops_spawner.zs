@@ -1,7 +1,7 @@
 class DropsSpawner {
 
     static play Actor createDropByClass(Actor dropper, class <Actor> whatToDrop) {
-        bool unused;
+        bool unused; // Required by zscript syntax for multiple returned values; is indeed unused
         Actor spawnedItem;
         [unused, spawnedItem] = dropper.A_SpawnItemEx(whatToDrop);
         return spawnedItem;

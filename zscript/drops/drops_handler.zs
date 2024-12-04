@@ -12,7 +12,7 @@ class DropsHandler : EventHandler
         // debug.print("Actor "..e.Thing.GetClassName().." died; max health is "..e.Thing.GetMaxHealth());
         let dropperRarity = 0;
         if (e.Thing.FindInventory('RwMonsterAffixator') != null) {
-            dropperRarity = RwMonsterAffixator(e.Thing.FindInventory('RwMonsterAffixator')).AppliedAffixes.Size();
+            dropperRarity = RwMonsterAffixator(e.Thing.FindInventory('RwMonsterAffixator')).GetRarity();
         }
         let dropsCount = DropsDecider.decideDropsCount(e.Thing.GetMaxHealth(), dropperRarity);
         for (let i = 0; i < dropsCount; i++) {
@@ -23,9 +23,7 @@ class DropsHandler : EventHandler
     private void createDrop(Actor dropper, int dropperRarity) {
         let whatToDrop = DropsDecider.whatToDrop(dropper.GetMaxHealth(), dropperRarity);
 
-        bool unused; // Required by zscript syntax for multiple returned values; is indeed unused
         Actor spawnedItem;
-
         switch (whatToDrop) {
             case 0: 
                 spawnedItem = DropsSpawner.SpawnRandomOneTimeItemDrop(dropper);

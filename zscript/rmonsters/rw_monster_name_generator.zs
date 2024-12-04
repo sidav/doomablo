@@ -2,7 +2,9 @@ extend class RwMonsterAffixator {
     private void GenerateOwnersName() {
 
         switch (appliedAffixes.Size()) {
-            case 0: return;
+            case 0: 
+                owner.SetTag(levelString().." "..owner.GetTag());
+                return;
             case 1: 
                 owner.SetTag(levelString()..appliedAffixes[0].GetName().." "..owner.GetTag());
                 return;

@@ -37,6 +37,7 @@ version "4.10.0"
 #include "zscript/affixable/affixable_generation_helperable.zs"
 #include "zscript/affixable/affixable_name_generator.zs"
 #include "zscript/affixable/rarity_indicator.zs"
+#include "zscript/affixable/stats_scaling.zs"
 
 #include "zscript/drops/ammo_drops_handler.zs"
 #include "zscript/drops/drops_decider.zs"

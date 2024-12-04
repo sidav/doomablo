@@ -20,8 +20,6 @@ extend class MyCustomHUD {
 
     void DrawHpBarRect(Actor currentTargetMonster, RwMonsterAffixator currAffixator) {
         let str = currentTargetMonster.GetTag()..String.Format(" (%d/%d)", (currentTargetMonster.health, currentTargetMonster.GetMaxHealth()));
-        // str = String.Format("Terrifying Ba'ra-kul, the doomsday harbinger"
-        //     ..String.Format(" (%d/%d)", (11*currentTargetMonster.health, 11*currentTargetMonster.GetMaxHealth())));
         let HPBarWidth = max(HPBarMinWidth, monsterNameFont.mFont.StringWidth(str) + 2*InsideHpRectOffset2);
 
         // The background rectangle
