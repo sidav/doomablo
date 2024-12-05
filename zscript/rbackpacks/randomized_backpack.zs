@@ -34,10 +34,11 @@ class RwBackpack : Inventory {
         return 'RwBackpack';
     }
 
+    // Needs to be called before generation
+    private void prepareForGeneration() {}
+
     // Needs to be called after generation
-    private void finalizeAfterGeneration() {
-        return;
-    }
+    private void finalizeAfterGeneration() {}
 
     // Needed if the item should be re-generated
     private void RW_Reset() {

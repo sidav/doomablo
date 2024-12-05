@@ -1,5 +1,9 @@
 extend class RwMonsterAffixator {
     string rwbaseName;
+
+    // Needs to be called before generation
+    private void prepareForGeneration() {}
+
     // Needs to be called after generation
     private void finalizeAfterGeneration() {
         if (owner) {
@@ -12,7 +16,7 @@ extend class RwMonsterAffixator {
 
             // Scale owner's health. It occurs for ALL affixed monsters, analogous to "More Health" affix and stacks with it.
             let newHealth = owner.health;
-            newHealth = StatsScaler.ScaleIntValueByLevel(newHealth, generatedQuality); // Level scaling
+            newHealth = StatsScaler.ScaleIntValueByLevelRandomized(newHealth, generatedQuality); // Level scaling
             // Scale owner's health by its rarity.
             let minPerc = 100 - 10;
             let maxPerc = 100 + 10;

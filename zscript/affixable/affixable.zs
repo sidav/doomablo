@@ -11,6 +11,8 @@ mixin class Affixable {
         RW_Reset(); // Just in case; events order is unclear so let's clear once more
         generatedQuality = affixQuality;
 
+        prepareForGeneration(); // this method is unique to each item type; may be empty
+
         int qgoodmin, qgoodmax;
         [qgoodmin, qgoodmax] = goodAffixSpreadForQuality(affixQuality);
         int qbadmin, qbadmax;

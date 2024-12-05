@@ -6,6 +6,8 @@ class RwTestsHandler : StaticEventHandler
 
 	override void OnRegister()
 	{
+        showScalingsFor("Zombie", 20);
+        showScalingsFor("Cyberdemon", 3000);
         // testRemapping();
 
         // let triesForSum = 10000;
@@ -46,6 +48,18 @@ class RwTestsHandler : StaticEventHandler
         // }
         // debug.panic("Tests passed. Balances results is "..debug.intArrToString(balances));
 	}
+
+    void showScalingsFor(string name, int baseValue) {
+        debug.print("Scaling for "..name.." (base val is "..baseValue.."):");
+        let valsStr = "";
+        for (let i = 1; i <= 100; i++) {
+            if (i % 10 != 0 && i != 1) continue;
+            valsStr = valsStr.."[LVL "..i..": "..StatsScaler.ScaleIntValueByLevelRandomized(baseValue, i).."]  ";
+        }
+        debug.print("  VALS: "..valsStr);
+        debug.print("  On max level the multiplier is: "..StatsScaler.ScaleIntValueByLevel(1, 100)
+            .."; mean max is "..StatsScaler.ScaleIntValueByLevel(baseValue, 100));
+    }
 
     void testRemapping() {
         let fmin = 0;

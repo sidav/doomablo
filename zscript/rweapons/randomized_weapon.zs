@@ -26,6 +26,12 @@ class RandomizedWeapon : DoomWeapon {
         // }
     }
 
+    // Needs to be called before generation
+    private void prepareForGeneration() {
+        stats.minDamage = StatsScaler.ScaleIntValueByLevelRandomized(stats.minDamage, generatedQuality);
+        stats.maxDamage = StatsScaler.ScaleIntValueByLevelRandomized(stats.maxDamage, generatedQuality);
+    }
+
     // Needs to be called after generation
     private void finalizeAfterGeneration() {
         currentClipAmmo = stats.clipSize;

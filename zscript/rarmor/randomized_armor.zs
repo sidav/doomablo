@@ -19,6 +19,9 @@ class RandomizedArmor : Armor {
         debug.panicUnimplemented(self);
     }
 
+    // Needs to be called before generation
+    private void prepareForGeneration() {}
+
     // Needs to be called after generation
     private void finalizeAfterGeneration() {
         stats.currDurability = stats.maxDurability;
