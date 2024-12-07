@@ -49,23 +49,27 @@ extend class MyCustomHUD {
             itemNameFont, textFlags, PickColorForAffixableItem(wpn)
         );
 
+        // Damage
+        float wpn1dmgmin = float(wpn.stats.minDamage * (1000 + wpn.stats.additionalDamagePromille)) / 1000.;
+        float wpn1dmgmax = float(wpn.stats.maxDamage * (1000 + wpn.stats.additionalDamagePromille)) / 1000.;
+        float wpn2dmgmin, wpn2dmgmax;
+        if (wpnComp) {
+            wpn2dmgmin = double(wpnComp.stats.minDamage * (1000 + wpnComp.stats.additionalDamagePromille)) / 1000.;
+            wpn2dmgmax = double(wpnComp.stats.maxDamage * (1000 + wpnComp.stats.additionalDamagePromille)) / 1000.;
+        }
+        // SHOTGUN
         if (wpn.stats.pellets > 1) {
+            // Damage
             if (wpnComp) {
-                compareStr = makeDamageDifferenceString(
-                    wpn.stats.minDamage, wpn.stats.maxDamage,
-                    wpnComp.stats.minDamage, wpnComp.stats.MaxDamage
-                );
-                compareClr = GetTwoDifferencesColor(
-                    wpn.stats.minDamage - wpnComp.stats.minDamage,
-                    wpn.stats.maxDamage - wpnComp.stats.MaxDamage
-                );
+                compareStr = makeDamageDifferenceString(wpn1dmgmin, wpn1dmgmax, wpn2dmgmin, wpn2dmgmax);
+                compareClr = GetTwoFloatDifferencesColor(wpn1dmgmin - wpn2dmgmin, wpn1dmgmax - wpn2dmgmax);
             } else {
                 compareStr = "";
             }
-            PrintTableLineAt("Damage per pellet:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage..compareStr, 
+            PrintTableLineAt("Damage per pellet:", String.Format("%.2f-%.2f", (wpn1dmgmin, wpn1dmgmax))..compareStr, 
                     linesX, y, pickupableStatsTableWidth,
                     itemStatsFont, textFlags, Font.CR_White, compareClr);
-
+            // Pellets
             if (wpnComp && wpn.stats.pellets != wpnComp.stats.pellets) {
                 compareStr = " ("..intToSignedStr(wpn.stats.pellets - wpnComp.stats.pellets)..")";
                 compareClr = GetDifferenceColor(wpn.stats.pellets - wpnComp.stats.pellets);
@@ -76,40 +80,34 @@ extend class MyCustomHUD {
             PrintTableLineAt("Pellets per shot:", ""..wpn.stats.pellets..compareStr, 
                     linesX, y, pickupableStatsTableWidth,
                     itemStatsFont, textFlags, Font.CR_White, compareClr);
-
+            // Total shot damage
             if (wpnComp) {
                 compareStr = makeDamageDifferenceString(
-                    wpn.stats.minDamage, wpn.stats.MaxDamage*wpn.stats.pellets,
-                    wpnComp.stats.minDamage, wpnComp.stats.MaxDamage*wpnComp.stats.pellets
+                    wpn1dmgmin, wpn1dmgmax*wpn.stats.pellets,
+                    wpn2dmgmin, wpn2dmgmax*wpnComp.stats.pellets
                 );
-                compareClr = GetTwoDifferencesColor(
-                    wpn.stats.minDamage - wpnComp.stats.minDamage,
-                    wpn.stats.MaxDamage*wpn.stats.pellets - wpnComp.stats.MaxDamage*wpnComp.stats.pellets
-                );
+                compareClr = GetTwoFloatDifferencesColor(wpn1dmgmin - wpn2dmgmin, wpn1dmgmax*wpn.stats.pellets - wpn2dmgmax*wpnComp.stats.pellets);
             } else {
                 compareStr = "";
             }
-            PrintTableLineAt("Total shot damage:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage*wpn.stats.pellets..compareStr,
+            PrintTableLineAt("Total shot damage:", String.Format("%.2f-%.2f", (wpn1dmgmin, wpn1dmgmax*wpn.stats.pellets))..compareStr,
                     linesX, y, pickupableStatsTableWidth,
                     itemStatsFont, textFlags, Font.CR_White, compareClr);    
+        // NON-SHOTGUN
         } else {
             if (wpnComp) {
-                compareStr = makeDamageDifferenceString(
-                    wpn.stats.minDamage, wpn.stats.maxDamage,
-                    wpnComp.stats.minDamage, wpnComp.stats.MaxDamage
-                );
-                compareClr = GetTwoDifferencesColor(
-                    wpn.stats.minDamage - wpnComp.stats.minDamage,
-                    wpn.stats.maxDamage - wpnComp.stats.MaxDamage
-                );
+                compareStr = makeDamageDifferenceString(wpn1dmgmin, wpn1dmgmax, wpn2dmgmin, wpn2dmgmax);
+                compareClr = GetTwoFloatDifferencesColor(wpn1dmgmin - wpn2dmgmin, wpn1dmgmax - wpn2dmgmax);
             } else {
                 compareStr = "";
                 compareClr = Font.CR_White;
             }
-            PrintTableLineAt("Damage:", wpn.stats.minDamage.."-"..wpn.stats.MaxDamage..compareStr,
+            PrintTableLineAt("Damage:", String.Format("%.2f-%.2f", (wpn1dmgmin, wpn1dmgmax))..compareStr,
                     linesX, y, pickupableStatsTableWidth,
                     itemStatsFont, textFlags, Font.CR_White, compareClr);
         }
+
+        // CLIP SIZE
         if (wpn.stats.clipSize > 1) {
             if (wpnComp && wpn.stats.clipSize != wpnComp.stats.clipSize && wpnComp.stats.clipSize > 0) {
                 compareStr = " ("..intToSignedStr(wpn.stats.clipSize - wpnComp.stats.clipSize)..")";
@@ -122,6 +120,8 @@ extend class MyCustomHUD {
                     linesX, y, pickupableStatsTableWidth,
                     itemStatsFont, textFlags, Font.CR_White, compareClr);    
         }
+
+        // SPREAD
         if (wpnComp && wpn.stats.horizSpread != wpnComp.stats.horizSpread) {
             compareStr = " ("..floatToSignedStr(wpn.stats.horizSpread - wpnComp.stats.horizSpread)..")";
             compareClr = GetDifferenceColor((wpn.stats.horizSpread - wpnComp.stats.horizSpread) * 100, true);
@@ -157,7 +157,7 @@ extend class MyCustomHUD {
                 compareStr = "";
                 compareClr = Font.CR_White;
             }
-            PrintTableLineAt("Number of rays:", String.Format("%d", (wpn.stats.NumberOfRays))..compareStr, 
+            PrintTableLineAt("Number of rays (PERC NOT YET IMPLEMENTED):", String.Format("%d", (wpn.stats.NumberOfRays))..compareStr, 
                         linesX, y, pickupableStatsTableWidth,
                         itemStatsFont, textFlags, Font.CR_White, compareClr);
 
@@ -197,17 +197,10 @@ extend class MyCustomHUD {
         }
     }
 
-    private string makeDamageDifferenceString(int mind1, int maxd1, int mind2, int maxd2) {
+    private string makeDamageDifferenceString(float mind1, float maxd1, float mind2, float maxd2) {
         if (mind1 == mind2 && maxd1 == maxd2) {
             return "";
         }
-        if (mind1 != mind2 && maxd1 != maxd2) {
-            return " ("..intToSignedStr(mind1 - mind2)..", "..intToSignedStr(maxd1-maxd2)..")";
-        }
-        return " ("..intToSignedStr(mind1 - mind2)..", "..intToSignedStr(maxd1-maxd2)..")";
-        // if (mind1 != mind2) {
-        //     return " (min "..intToSignedStr(mind1 - mind2)..")";
-        // }
-        // return " (max "..intToSignedStr(maxd1 - maxd2)..")";
+        return " ("..floatToSignedStr(mind1 - mind2)..", "..floatToSignedStr(maxd1-maxd2)..")";
     }
 }
