@@ -46,4 +46,13 @@ class RandomizedWeapon : DoomWeapon {
         return "AS/MD "..rnd.Rand(10, 100).."-"..rnd.Rand(10, 100);
     }
 
+    override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags) {
+        // super.ModifyDamage(damage, damageType, newdamage, passive, inflictor, source, flags);
+
+        // Un-scaling self damage from higher level splash:
+        if (owner == source && !passive && inflictor.GetClass() == stats.projClass) {
+            newdamage = StatsScaler.UnscaleIntValueByLevel(damage, generatedQuality);
+        }
+    }
+
 }

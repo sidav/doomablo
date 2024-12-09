@@ -7,6 +7,10 @@ class StatsScaler {
         return int(double(value) * exponentBase ** (double(level) / multipliesEachLevels));
     }
 
+    static int UnscaleIntValueByLevel(int value, int level) {
+        return int(double(value) / (exponentBase ** (double(level) / multipliesEachLevels)));
+    }
+
     // Adds a minor randomization (+- 0.5 of the current level); the formula is the same
     static int ScaleIntValueByLevelRandomized(int value, int level) {
         let levelFloat = double(level);
