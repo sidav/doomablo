@@ -91,7 +91,7 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 				int rar, qty;
             	[rar, qty] = DropsDecider.rollRarityAndQuality(
                     rnd.weightedRand(0, 100, 25, 1),
-                    rnd.rand(1, 10)
+                    0
                 );
 
 				GenerateAffixableItem(itm, rar, qty);

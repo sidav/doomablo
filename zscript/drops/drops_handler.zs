@@ -9,19 +9,19 @@ class DropsHandler : EventHandler
         if (e.Thing is 'ExplosiveBarrel' || !e.Thing.bCOUNTKILL) {
             return;
         }
-        // debug.print("Actor "..e.Thing.GetClassName().." died; max health is "..e.Thing.GetMaxHealth());
+        // debug.print("Actor "..e.Thing.GetClassName().." died; max health is "..e.Thing.GetMaxHealth().."; unscaled is "..GetDropperUnscaledHealth(e.Thing));
         let dropperRarity = 0;
         if (e.Thing.FindInventory('RwMonsterAffixator') != null) {
             dropperRarity = RwMonsterAffixator(e.Thing.FindInventory('RwMonsterAffixator')).GetRarity();
         }
-        let dropsCount = DropsDecider.decideDropsCount(e.Thing.GetMaxHealth(), dropperRarity);
+        let dropsCount = DropsDecider.decideDropsCount(GetDropperUnscaledHealth(e.Thing), dropperRarity);
         for (let i = 0; i < dropsCount; i++) {
             createDrop(e.Thing, dropperRarity);
         }
     }
 
     private void createDrop(Actor dropper, int dropperRarity) {
-        let whatToDrop = DropsDecider.whatToDrop(dropper.GetMaxHealth(), dropperRarity);
+        let whatToDrop = DropsDecider.whatToDrop(GetDropperUnscaledHealth(dropper), dropperRarity);
 
         Actor spawnedItem;
         switch (whatToDrop) {
@@ -50,7 +50,7 @@ class DropsHandler : EventHandler
             if (AffixableDetector.IsAffixableItem(spawnedItem)) {
 
                 int rarmod, qtymod;
-                [rarmod, qtymod] = DropsDecider.rollRarQtyModifiers(dropper.GetMaxHealth(), dropperRarity);
+                [rarmod, qtymod] = DropsDecider.rollRarQtyModifiers(GetDropperUnscaledHealth(dropper), dropperRarity);
                 int rar, qty;
                 [rar, qty] = DropsDecider.rollRarityAndQuality(rarmod, qtymod);
 
@@ -59,5 +59,12 @@ class DropsHandler : EventHandler
         }
         AssignSpreadVelocityTo(spawnedItem); // Add random speed for the spawned item.
         return;
+    }
+
+    private int GetDropperUnscaledHealth(Actor dropper) {
+        if (dropper.FindInventory('RwMonsterAffixator') != null) {
+            return RwMonsterAffixator(dropper.FindInventory('RwMonsterAffixator')).baseUnscaledOwnerMaxHealth;
+        }
+        return dropper.GetMaxHealth();
     }
 }

@@ -40,7 +40,7 @@ class StartingItemsHandler : EventHandler
 		if (rwCount == 0) {
 			pmo.GiveInventory('Fist', 1);
 			let given = RandomizedWeapon(pmo.GiveInventoryType('RwPistol'));
-			given.Generate(3, rnd.Rand(5, 25));
+			given.Generate(3, 1);
 		}
 	}
 }

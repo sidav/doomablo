@@ -1,5 +1,6 @@
 extend class RwMonsterAffixator {
     string rwbaseName;
+    int baseUnscaledOwnerMaxHealth;
 
     // Needs to be called before generation
     private void prepareForGeneration() {}
@@ -7,6 +8,8 @@ extend class RwMonsterAffixator {
     // Needs to be called after generation
     private void finalizeAfterGeneration() {
         if (owner) {
+            baseUnscaledOwnerMaxHealth = owner.GetMaxHealth(); // Store unmodified owner health; used for drops deciding
+
             Affix aff;
             foreach (aff : appliedAffixes) {
                 aff.onPutIntoMonsterInventory(owner);                
