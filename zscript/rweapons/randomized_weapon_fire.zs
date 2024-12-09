@@ -1,21 +1,12 @@
 extend class RandomizedWeapon {
 
     int damageFractionAccumulator; // needed so that damage values like 4.1 are properly accounted
-    // int totalRolls; // Debug; delete this
     action int RWA_RollDamage() {
-        // invoker.totalRolls++;
-        let dmg = random(invoker.stats.minDamage, invoker.stats.maxDamage);
+
+        let dmg = Random[weaponDamageRoll](invoker.stats.minDamage, invoker.stats.maxDamage);
+        // Fixed-point damage calculation with promille modifier:
         dmg *= (1000 + invoker.stats.additionalDamagePromille); // We're working with promille here, so multiply
         invoker.damageFractionAccumulator += dmg;
-
-        // if (invoker.damageFractionAccumulator / 1000 != dmg / 1000) {
-        //     debug.print("Rolled damage is "..(dmg / 1000).."; new damage is "
-        //         ..(invoker.damageFractionAccumulator / 1000).."; occured after "..invoker.totalRolls.." rolls."
-        //         .." Additional damage is "..invoker.stats.additionalDamagePromille
-        //     );
-        //     invoker.totalRolls = 0;
-        // }
-
         dmg = invoker.damageFractionAccumulator / 1000;
         invoker.damageFractionAccumulator = invoker.damageFractionAccumulator % 1000; // Store only the fraction in the accumulator
 

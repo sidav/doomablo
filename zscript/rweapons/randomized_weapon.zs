@@ -27,7 +27,7 @@ class RandomizedWeapon : DoomWeapon {
     }
 
     // Needs to be called before generation
-    private void prepareForGeneration() {
+    virtual void prepareForGeneration() {
         stats.minDamage = StatsScaler.ScaleIntValueByLevelRandomized(stats.minDamage, generatedQuality);
         stats.maxDamage = StatsScaler.ScaleIntValueByLevelRandomized(stats.maxDamage, generatedQuality);
     }

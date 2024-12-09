@@ -157,7 +157,7 @@ extend class MyCustomHUD {
                 compareStr = "";
                 compareClr = Font.CR_White;
             }
-            PrintTableLineAt("Number of rays (PERC NOT YET IMPLEMENTED):", String.Format("%d", (wpn.stats.NumberOfRays))..compareStr, 
+            PrintTableLineAt("Number of rays:", String.Format("%d", (wpn.stats.NumberOfRays))..compareStr, 
                         linesX, y, pickupableStatsTableWidth,
                         itemStatsFont, textFlags, Font.CR_White, compareClr);
 
@@ -174,20 +174,24 @@ extend class MyCustomHUD {
                         itemStatsFont, textFlags, Font.CR_White, compareClr);
 
             // Rays dmg
+            wpn1dmgmin = float(wpn.stats.RayDmgMin * (1000 + wpn.stats.additionalBfgRayDamagePromille)) / 1000.;
+            wpn1dmgmax = float(wpn.stats.RayDmgMax * (1000 + wpn.stats.additionalBfgRayDamagePromille)) / 1000.;
+            if (wpnComp) {
+                wpn2dmgmin = double(wpnComp.stats.RayDmgMin * (1000 + wpnComp.stats.additionalBfgRayDamagePromille)) / 1000.;
+                wpn2dmgmax = double(wpnComp.stats.RayDmgMax * (1000 + wpnComp.stats.additionalBfgRayDamagePromille)) / 1000.;
+            }
             if (wpnComp && wpnComp.stats.NumberOfRays > 0) {
-                compareStr = makeDamageDifferenceString(
-                    wpn.stats.RayDmgMin, wpn.stats.RayDmgMax,
-                    wpnComp.stats.RayDmgMin, wpnComp.stats.RayDmgMax
-                );
-                compareClr = GetTwoDifferencesColor(
-                    wpn.stats.RayDmgMin - wpnComp.stats.RayDmgMin,
-                    wpn.stats.RayDmgMax - wpnComp.stats.RayDmgMax
-                );
+                if (wpnComp) {
+                    compareStr = makeDamageDifferenceString(wpn1dmgmin, wpn1dmgmax, wpn2dmgmin, wpn2dmgmax);
+                    compareClr = GetTwoFloatDifferencesColor(wpn1dmgmin - wpn2dmgmin, wpn1dmgmax - wpn2dmgmax);
+                } else {
+                    compareStr = "";
+                }
             } else {
                 compareStr = "";
                 compareClr = Font.CR_White;
             }
-            PrintTableLineAt("Ray Damage:", wpn.stats.RayDmgMin.."-"..wpn.stats.RayDmgMax..compareStr,
+            PrintTableLineAt("Ray Damage:", String.Format("%.2f-%.2f", (wpn1dmgmin, wpn1dmgmax))..compareStr,
                     linesX, y, pickupableStatsTableWidth,
                     itemStatsFont, textFlags, Font.CR_White, compareClr);
         }

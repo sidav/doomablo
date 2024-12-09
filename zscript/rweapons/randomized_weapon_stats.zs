@@ -32,6 +32,7 @@ class RWStatsClass {
     int NumberOfRays;
 	double RaysConeAngle;
 	int RayDmgMin, RayDmgMax;
+    int additionalBfgRayDamagePromille;
 	bool raysWillOriginateFromMissile; // false means rays from shooter, like in vanilla Doom.
 
     static RWStatsClass NewWeaponStats(int minDmg, int maxDmg, int pell, int ammousg, float hSpr, float vSpr) {

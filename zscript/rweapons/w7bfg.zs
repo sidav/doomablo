@@ -60,6 +60,13 @@ class RwBFG : RandomizedWeapon
 		Goto Ready;
 	}
 
+	// Scale rays damage too
+	override void prepareForGeneration() {
+		super.prepareForGeneration();
+        stats.RayDmgMin = StatsScaler.ScaleIntValueByLevelRandomized(stats.RayDmgMin, generatedQuality);
+        stats.RayDmgMax = StatsScaler.ScaleIntValueByLevelRandomized(stats.RayDmgMax, generatedQuality);
+    }
+
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
 			75, 250,

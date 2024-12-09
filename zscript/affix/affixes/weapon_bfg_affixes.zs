@@ -99,7 +99,7 @@ class WAffWorseBFGRayDamage : RwWeaponPrefix {
         return -1;
     }
     override string getDescription() {
-        return "ray damage -"..modifierLevel;
+        return String.format("Ray DMG -%d.%d%%", (modifierLevel / 10, modifierLevel % 10) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffBetterBFGRayDamage' && a2.GetClass() != 'WSuffBFGNoRays';
@@ -108,9 +108,8 @@ class WAffWorseBFGRayDamage : RwWeaponPrefix {
         return wpn.GetClass() == 'RwBfg';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.RayDmgMin-1);
-        wpn.stats.RayDmgMin -= modifierLevel;
-        wpn.stats.RayDmgMax -= modifierLevel;
+        modifierLevel = Random(quality/2 + 1, 200); // 50 - 200 for 100 quality
+        wpn.stats.additionalBfgRayDamagePromille = -modifierLevel;
     }
 }
 
@@ -125,7 +124,7 @@ class WAffBetterBFGRayDamage : RwWeaponPrefix {
         return 1;
     }
     override string getDescription() {
-        return "ray damage +"..modifierLevel;
+        return String.format("Ray DMG +%d.%d%%", (modifierLevel / 10, modifierLevel % 10) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffWorseBFGRayDamage' && a2.GetClass() != 'WSuffBFGNoRays';
@@ -134,9 +133,8 @@ class WAffBetterBFGRayDamage : RwWeaponPrefix {
         return wpn.GetClass() == 'RwBfg';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 2, wpn.stats.RayDmgMax/2);
-        wpn.stats.RayDmgMin += modifierLevel/2;
-        wpn.stats.RayDmgMax += modifierLevel;
+        modifierLevel = Random(quality/2 + 1, 200); // 50 - 200 for 100 quality
+        wpn.stats.additionalBfgRayDamagePromille = modifierLevel;
     }
 }
 
