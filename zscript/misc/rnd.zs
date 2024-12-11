@@ -8,9 +8,16 @@ class rnd {
         return Random(0, max-1);
     }
 
-    const floatRandomStep = 1024.0;
+    const floatRandomStep = 2.0 ** 24.0; // 24-bit mantissa, so biggest 32-bit possible is 16777216
     static float randf(float min, float max) {
-        return float(Random(min*floatRandomStep, max*floatRandomStep))/floatRandomStep;
+        let r = float(Random(0, floatRandomStep)) / float(floatRandomStep); // [0-1] range
+        return min + (max-min) * r;
+    }
+
+    const doubleRandomStep = 2.0 ** 31.0 - 1; // 52-bit mantissa, but random() takes signed int32 argument. So the max value possible is 2^31 - 1
+    private static double randDouble(double min, double max) {
+        let r = double(Random(0, doubleRandomStep)) / double(doubleRandomStep); // [0-1] range
+        return min + (max-min) * r;
     }
 
     // static int randTicksFromSeconds(double minSeconds, double maxSeconds) {
@@ -131,5 +138,49 @@ class rnd {
         }
         debug.panic("Something is wrong.");
         return 0;
+    }
+
+    // Nonlinear weighted random (known as discrete geometrical distribution).
+    // weightIncreaseFactor is how much times the next value is more probable than the previous one.
+    // For example, if we repeatedly roll random in range 1-3 with weightIncreaseFactor 2 (each next is 2x more probable than the previous), total results will be like:
+    // We will get (in ideal case): 1 - 100 times; 2 - 200 times; 3 - 400 times
+    // Example 2: roll random 1-4 with weightIncreaseFactor 0.2 (0.2 == 1.0/5.0, so each next is 5x less probable than the previous):
+    // 1 - 1000 times, 2 - 200 times, 3 - 40 times, 4 - 8 times.
+    // Be careful with those though, as rounding error may make some values unobtainable.
+    static int multipliedWeightedRand(int from, int to, double weightIncreaseFactor) {
+        if (from == to) {
+            return from;
+        }
+        double weightsSum = 0;
+        // Calculating weights sum
+        for (let i = 0; i <= to-from; i++) {
+            weightsSum += weightIncreaseFactor ** (i - 1);
+        }
+
+        let selected = randDouble(0, weightsSum);
+        float cumulativeWeight = 0.0;
+        for (let x = 0; x <= to-from; x++) {
+            cumulativeWeight += weightIncreaseFactor ** (x - 1);
+            if (selected <= cumulativeWeight) {
+                return from+x;
+            }
+        }
+        debug.panic("Something is wrong in nonlinear weighted random. Args: "..
+            from..", "..to..", "..weightIncreaseFactor);
+        return 0;
+    }
+
+    // Returns a gauss-distributed float. Dunno why it may be needed, but still.
+    static float gaussianRandomf() {
+        // Polar coords method
+        let u = randf(-1, 1);
+        let v = randf(-1, 1);
+        let s = (u * u) + (v * v);
+        while (s == 0 || s >= 1) {
+            u = randf(-1, 1);
+            v = randf(-1, 1);
+            s = (u * u) + (v * v);
+        }
+        return u * sqrt(-2.0 * log(s) / s);
     }
 }

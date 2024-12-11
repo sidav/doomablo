@@ -130,4 +130,22 @@ class RwTestsHandler : StaticEventHandler
         }
         debug.panic("Random tested");
     }
+
+    const maxVal = 4;
+    const weightFactor = 0.1;
+    void testNonLinearRandom() {
+        array<int> a;
+        for (let i = 0; i <= maxVal; i++) {
+            a.push(0);
+        }
+
+        let desiredFirstResultsAmount = 1000000.; // to ease comparison
+        let totalRuns = (desiredFirstResultsAmount * (1 - weightFactor ** (maxVal + 1))) / (1 - weightFactor); // sum of geometrical progression
+
+        for (let i = 0; i < totalRuns; i++) {
+            let val = rnd.multipliedWeightedRand(0, maxVal, weightFactor);
+            a[val]++;
+        }
+        debug.print(debug.intArrToString(a));
+    }
 }
