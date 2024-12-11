@@ -49,12 +49,23 @@ class DropsHandler : EventHandler
                 [rarmod, qtymod] = DropsDecider.rollRarQtyModifiers(GetDropperUnscaledHealth(dropper), dropperRarity);
                 int rar, qty;
                 [rar, qty] = DropsDecider.rollRarityAndQuality(rarmod, qtymod);
+                // Make the drop level equal to the droppers' level
+                if (dropper.FindInventory('RwMonsterAffixator') != null) {
+                    qty = GetDropperGeneratedLevel(dropper);
+                }
 
                 GenerateAffixableItem(spawnedItem, rar, qty);
             }
         }
         AssignSpreadVelocityTo(spawnedItem); // Add random speed for the spawned item.
         return;
+    }
+
+    private int GetDropperGeneratedLevel(Actor dropper) {
+        if (dropper.FindInventory('RwMonsterAffixator') != null) {
+            return RwMonsterAffixator(dropper.FindInventory('RwMonsterAffixator')).generatedQuality;
+        }
+        return 1;
     }
 
     private int GetDropperUnscaledHealth(Actor dropper) {

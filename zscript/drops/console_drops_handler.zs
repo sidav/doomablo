@@ -73,7 +73,7 @@ class ConsoleDropsHandler : EventHandler
 
         if (spawnedItem) {
 
-            if (rarity == 0) {
+            if (rarity == -1) {
                 [rarity, quality] = DropsDecider.rollRarityAndQuality(0, 0);
             } else if (quality == 0) {
                 quality = rnd.Rand(1, 100);
