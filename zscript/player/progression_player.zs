@@ -9,12 +9,4 @@ class RwProgressionPlayer : RwPlayer {
         minItemQuality = 1;
         maxItemQuality = 5;
     }
-
-    override bool ProgressionEnabled() {
-        return true;
-    }
-
-    override bool ProgressionEnabledUI() {
-        return true;
-    }
 }

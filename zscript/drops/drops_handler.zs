@@ -32,11 +32,7 @@ class DropsHandler : EventHandler
                 spawnedItem = DropsSpawner.SpawnRandomAmmoDrop(dropper);
                 break;
             case 2:
-                if (RwPlayer(Players[0].mo).ProgressionEnabled()) {
-                    spawnedItem = DropsSpawner.SpawnRandomProgressionItemDrop(dropper);
-                } else {
-                    spawnedItem = DropsSpawner.SpawnRandomOneTimeItemDrop(dropper);
-                }
+                spawnedItem = DropsSpawner.SpawnRandomProgressionItemDrop(dropper);
                 break;
             case 3:
                 spawnedItem = DropsSpawner.SpawnRandomRWArtifactItemDrop(dropper);

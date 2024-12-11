@@ -54,15 +54,15 @@ extend class MyCustomHUD {
         Screen.Dim(0x000000, 0.5, 0, 0, Screen.GetWidth(), Screen.GetHeight(), STYLE_Translucent);
 
         let levelsStr = "Drops and monsters levels: "..plr.minItemQuality.."-"..plr.maxItemQuality;
-        if (plr.ProgressionEnabledUI()) {
+        // if (plr.ProgressionEnabledUI()) {
             DrawString(itemNameFont,
                 levelsStr,
                 (0, 5), DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_WHITE);
-        } else {
-            DrawString(itemNameFont, 
-                levelsStr.." (progression disabled)",
-                (0, 5), DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_DARKGRAY);
-        }
+        // } else {
+        //     DrawString(itemNameFont, 
+        //         levelsStr.." (progression disabled)",
+        //         (0, 5), DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_DARKGRAY);
+        // }
         PrintEmptyLine(itemNameFont);
         PrintEmptyLine(itemNameFont);
 

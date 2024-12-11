@@ -1,4 +1,4 @@
-class RwPlayer : DoomPlayer
+class RwPlayer : DoomPlayer // Base class; should not be created directly
 {
     const WEAPON_SLOTS = 4; // this DOES count the fists
 
@@ -14,16 +14,8 @@ class RwPlayer : DoomPlayer
     int previousHealth, lastHealedBy; // May be needed for altering picked up health amount by other items
 
     default {
-        Player.DisplayName "Random Drops";
+        Player.DisplayName "Report a bug if you see this";
         Health 100;
-    }
-
-    virtual bool ProgressionEnabled() {
-        return false;
-    }
-
-    virtual ui bool ProgressionEnabledUI() {
-        return false;
     }
 
     override void BeginPlay() {
