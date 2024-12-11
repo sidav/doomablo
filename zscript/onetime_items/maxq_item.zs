@@ -18,7 +18,7 @@ class RwMaxQItem : Inventory
 	override bool TryPickup(in out Actor toucher) {
         let plr = RwPlayer(toucher);
         if (plr) {
-			plr.maxItemQuality = min(plr.maxItemQuality + 3, 100);
+			plr.infernoLevel = min(plr.infernoLevel + 1, 100);
 			Destroy();
 			return true;
         }

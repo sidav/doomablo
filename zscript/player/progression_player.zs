@@ -6,7 +6,5 @@ class RwProgressionPlayer : RwPlayer {
 
     override void BeginPlay() {
         super.BeginPlay();
-        minItemQuality = 1;
-        maxItemQuality = 5;
     }
 }

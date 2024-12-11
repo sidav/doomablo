@@ -52,7 +52,6 @@ version "4.10.0"
 
 #include "zscript/onetime_items/abonus.zs"
 #include "zscript/onetime_items/maxq_item.zs"
-#include "zscript/onetime_items/minq_item.zs"
 
 #include "zscript/player/base_player.zs"
 #include "zscript/player/levels_and_experience.zs"

@@ -53,9 +53,7 @@ class MonstersAffixingHandler : EventHandler
         int qty = 1;
         let plr = RwPlayer(Players[0].mo);
         if (plr) {
-            int minQty = plr.minItemQuality;
-            int maxQty = plr.maxItemQuality;
-            qty = rnd.linearWeightedRand(minQty, maxQty, 5, 1);
+            qty = plr.rollForDropLevel();
         } else {
             debug.print("Non-player quality roll!");
             qty = rnd.linearWeightedRand(1, 100, 100, 1);

@@ -60,10 +60,6 @@ class DropsSpawner {
     }
 
     static play Actor SpawnRandomProgressionItemDrop(Actor dropper) {
-        int dropType = rnd.weightedRand(3, 1);
-        if (dropType == 1) {
-            return createDropByClass(dropper, 'RwMinqItem');
-        }
         return createDropByClass(dropper, 'RwMaxqItem');
     }
 

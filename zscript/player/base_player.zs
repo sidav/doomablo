@@ -8,7 +8,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
     int showStatsButtonPressedTicks;
     int scrapItemButtonPressedTicks;
 
-    int minItemQuality, maxItemQuality; // Instead of player level. Used for progression.
+    int infernoLevel; // Determines the levels of the generated monsters. Also determines the goodness of the drops you get.
 
     // Health pickups do not trigger HandlePickup(), so that's a workaround for that if needed:
     int previousHealth, lastHealedBy; // May be needed for altering picked up health amount by other items
@@ -21,8 +21,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
     override void BeginPlay() {
         super.BeginPlay();
         ResetMaxAmmoToDefault();
-        minItemQuality = 1;
-        maxItemQuality = 100;
+        infernoLevel = 1;
     }
 
     override void Tick() {
@@ -63,5 +62,15 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         SetAmmoCapacity('Shell', 40);
         SetAmmoCapacity('Rocketammo', 30);
         SetAmmoCapacity('Cell', 100);
+    }
+
+    // Progression-related
+    const infernoLevelRangeSize = 5;
+    clearscope int, int getDropsRangeForInfernoLevel() {
+        return infernoLevel, clamp(infernoLevel+infernoLevelRangeSize, 1, 100);
+    }
+
+    clearscope int rollForDropLevel() {
+        return rnd.linearWeightedRand(infernoLevel, min(100, infernoLevel + infernoLevelRangeSize), 100, 1);
     }
 }
