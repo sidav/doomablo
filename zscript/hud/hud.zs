@@ -41,6 +41,8 @@ class MyCustomHUD : DoomStatusBar
 			}
 			DrawPlayerStatusEffects();
 			DrawCurrentTargetHPBar();
+			// Unused for now:
+			// DrawPlayerExperienceInfo();
         }
     }
 

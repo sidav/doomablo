@@ -8,6 +8,20 @@ class RwTestsHandler : StaticEventHandler
 	{
         showScalingsFor("Zombie", 20);
         showScalingsFor("Cyberdemon", 3000);
+
+        int lastLvl;
+        for (int exp = 0; exp <= 1000; exp++) {
+            let currlevel = LevelsExpValues.getCurrentExpLevel(exp);
+
+            if (lastLvl != currlevel) {
+                lastLvl = currlevel;
+                let neededForNext = LevelsExpValues.getRequiredXPForLevel(currlevel+1);
+                debug.print("Experience "..exp..": reached level "..currlevel
+                    .."; next level at "..neededForNext.." (diff "..(neededForNext - LevelsExpValues.getRequiredXPForLevel(currlevel))..")");
+            }
+        }
+        // debug.panic("Success");
+
         // testRemapping();
 
         // let triesForSum = 10000;
