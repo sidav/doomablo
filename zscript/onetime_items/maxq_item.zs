@@ -3,7 +3,7 @@ class RwMaxQItem : Inventory
 {
 	Default
 	{
-		Inventory.Pickupmessage "Tome of knowledge! Maximum item quality increased!";
+		Inventory.Pickupmessage "Tome of knowledge! Inferno level increased!";
 		// +INVENTORY.ALWAYSPICKUP - should be false
 		+Inventory.AUTOACTIVATE
 		+BRIGHT
@@ -19,6 +19,7 @@ class RwMaxQItem : Inventory
         let plr = RwPlayer(toucher);
         if (plr) {
 			plr.infernoLevel = min(plr.infernoLevel + 1, 100);
+			plr.A_PrintBold("Tome of knowledge! Inferno level increased!");
 			Destroy();
 			return true;
         }

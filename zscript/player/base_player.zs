@@ -67,10 +67,10 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
     // Progression-related
     const infernoLevelRangeSize = 5;
     clearscope int, int getDropsRangeForInfernoLevel() {
-        return infernoLevel, clamp(infernoLevel+infernoLevelRangeSize, 1, 100);
+        return infernoLevel, clamp(infernoLevel+infernoLevelRangeSize-1, 1, 100);
     }
 
     clearscope int rollForDropLevel() {
-        return rnd.linearWeightedRand(infernoLevel, min(100, infernoLevel + infernoLevelRangeSize), 100, 1);
+        return rnd.multipliedWeightedRand(infernoLevel, min(100, infernoLevel + infernoLevelRangeSize-1), 1.0/2.0);
     }
 }
