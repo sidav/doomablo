@@ -59,10 +59,6 @@ class DropsSpawner {
         return invItem;
     }
 
-    static play Actor SpawnRandomProgressionItemDrop(Actor dropper) {
-        return createDropByClass(dropper, 'RwMaxqItem');
-    }
-
     static play Actor SpawnRandomRWArtifactItemDrop(Actor dropper) {
         int dropType = rnd.weightedRand(3, 2, 1);
         switch (dropType) {

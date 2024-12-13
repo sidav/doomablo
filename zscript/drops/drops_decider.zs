@@ -26,16 +26,15 @@ class DropsDecider {
     static int whatToDrop(int dropperHealth, int dropperRarity) {
         // 0 - onetime item (armor bonus or health)
         // 1 - ammo
-        // 2 - progression item
-        // 3 - Randomizable artifact (weapon/armor/backpack)
+        // 2 - Randomizable artifact (weapon/armor/backpack)
         if (dropperHealth > 1000) {
-            return rnd.weightedRand(1, 1, 1+dropperRarity, 1+2*dropperRarity); // drop artifacts mostly.
+            return rnd.weightedRand(1, 1, 1+2*dropperRarity); // drop artifacts mostly.
         } else if (dropperHealth >= 500) {
-            return rnd.weightedRand(10, 5, 1+dropperRarity, 1+2*dropperRarity);
+            return rnd.weightedRand(10, 5, 1+2*dropperRarity);
         } else if (dropperHealth >= 250) {
-            return rnd.weightedRand(10, 5, 1+dropperRarity, 1+2*dropperRarity);
+            return rnd.weightedRand(10, 5, 1+2*dropperRarity);
         } else {
-            return rnd.weightedRand(10, 15, 1+dropperRarity, 1+2*dropperRarity);
+            return rnd.weightedRand(10, 15, 1+2*dropperRarity);
         }
         return 0;
     }

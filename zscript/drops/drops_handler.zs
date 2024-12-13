@@ -33,9 +33,6 @@ class DropsHandler : EventHandler
                 spawnedItem = DropsSpawner.SpawnRandomAmmoDrop(dropper);
                 break;
             case 2:
-                spawnedItem = DropsSpawner.SpawnRandomProgressionItemDrop(dropper);
-                break;
-            case 3:
                 spawnedItem = DropsSpawner.SpawnRandomRWArtifactItemDrop(dropper);
                 break;
             default:
