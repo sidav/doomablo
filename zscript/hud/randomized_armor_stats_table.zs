@@ -105,7 +105,7 @@ extend class MyCustomHUD {
     }
 
     static int PickColorForRwArmorAmount(RandomizedArmor a) {
-        let perc = math.getPercentageFromInt(a.stats.currDurability, a.stats.maxDurability);
+        let perc = math.getIntFractionInPercent(a.stats.currDurability, a.stats.maxDurability);
         if (perc < 33) {
             return Font.CR_RED;
         } else if (perc < 66) {

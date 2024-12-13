@@ -85,7 +85,7 @@ extend class RwPlayer {
     }
 
     ui int getScrapProgressPercentage() {
-        return math.getPercentageFromInt(scrapItemButtonPressedTicks, ticksToScrapItem);
+        return math.getIntFractionInPercent(scrapItemButtonPressedTicks, ticksToScrapItem);
     }
 
 }

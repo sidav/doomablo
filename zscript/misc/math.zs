@@ -72,8 +72,9 @@ class Math {
         return (value * percent + 50) / 100;
     }
 
-    static int getPercentageFromInt(int value, int max) {
+    // Returns integer: how many percents is "part" of the "whole"
+    static int getIntFractionInPercent(int part, int whole) {
         // +50 needed for proper rounding
-        return (100 * value + max/2) / max;
+        return (100 * part + whole/2) / whole;
     }
 }
