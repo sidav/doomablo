@@ -20,6 +20,7 @@ class RwMaxQItem : Inventory
         if (plr) {
 			plr.infernoLevel = min(plr.infernoLevel + 1, 100);
 			plr.A_PrintBold("Tome of knowledge! Inferno level increased!");
+			plr.GiveBody(25, 200); // Heal the player
 			Destroy();
 			return true;
         }
