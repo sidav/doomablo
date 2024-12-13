@@ -14,6 +14,7 @@ class DropsHandler : EventHandler
         if (e.Thing.FindInventory('RwMonsterAffixator') != null) {
             dropperRarity = RwMonsterAffixator(e.Thing.FindInventory('RwMonsterAffixator')).GetRarity();
         }
+        MaybeDropProgressionItem(e.Thing, dropperRarity);
         let dropsCount = DropsDecider.decideDropsCount(GetDropperUnscaledHealth(e.Thing), dropperRarity);
         for (let i = 0; i < dropsCount; i++) {
             createDrop(e.Thing, dropperRarity);

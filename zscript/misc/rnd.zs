@@ -29,6 +29,7 @@ class rnd {
     }
 
     static bool OneChanceFrom(int chances) {
+        if (chances <= 0) return false;
         return Random(0, chances-1) == 0;
     }
 
