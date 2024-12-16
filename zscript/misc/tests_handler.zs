@@ -131,21 +131,34 @@ class RwTestsHandler : StaticEventHandler
         debug.panic("Random tested");
     }
 
-    const maxVal = 4;
-    const weightFactor = 0.1;
-    void testNonLinearRandom() {
+    const desiredFirstResultsAmount = 10000.;
+    void testNonLinearRandom(int maxVal, double weightFactor, double endWeight) {
         array<int> a;
+
+        // Function 1:
         for (let i = 0; i <= maxVal; i++) {
             a.push(0);
         }
 
-        let desiredFirstResultsAmount = 1000000.; // to ease comparison
-        let totalRuns = (desiredFirstResultsAmount * (1 - weightFactor ** (maxVal + 1))) / (1 - weightFactor); // sum of geometrical progression
+        int totalRuns = (desiredFirstResultsAmount * (1 - weightFactor ** (maxVal + 1))) / (1 - weightFactor); // sum of geometrical progression
 
         for (let i = 0; i < totalRuns; i++) {
             let val = rnd.multipliedWeightedRand(0, maxVal, weightFactor);
             a[val]++;
         }
-        debug.print(debug.intArrToString(a));
+        debug.print("METHOD 1: From "..totalRuns.." runs: "..debug.intArrToString(a));
+
+        // Function 2:
+        a.clear();
+        for (let i = 0; i <= maxVal; i++) {
+            a.push(0);
+        }
+        weightFactor = endWeight ** (1 / double(maxVal));
+        totalRuns = (desiredFirstResultsAmount * (1 - weightFactor ** double(maxVal + 1))) / (1 - weightFactor);
+        for (let i = 0; i < totalRuns; i++) {
+            let val = rnd.multipliedWeightedRandByEndWeight(0, maxVal, endWeight);
+            a[val]++;
+        }
+        debug.print("METHOD 2: From "..totalRuns.." runs: "..debug.intArrToString(a));
     }
 }

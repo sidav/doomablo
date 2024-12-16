@@ -152,16 +152,19 @@ class rnd {
         if (from == to) {
             return from;
         }
-        double weightsSum = 0;
-        // Calculating weights sum
-        for (let i = 0; i <= to-from; i++) {
-            weightsSum += weightIncreaseFactor ** (i - 1);
-        }
+        // Calculating via a formula (I don't know if it's better than a loop)
+        double weightsSum = (weightIncreaseFactor**(to-from+1) - 1)/(weightIncreaseFactor - 1);
+
+        // Calculating weights sum via loop. Outcommented for now, I'm not sure which way is better
+        // double weightsSum = 0;
+        // for (let i = 0; i <= to-from; i++) {
+        //     weightsSum += weightIncreaseFactor ** i;
+        // }
 
         let selected = randDouble(0, weightsSum);
         float cumulativeWeight = 0.0;
         for (let x = 0; x <= to-from; x++) {
-            cumulativeWeight += weightIncreaseFactor ** (x - 1);
+            cumulativeWeight += weightIncreaseFactor ** x;
             if (selected <= cumulativeWeight) {
                 return from+x;
             }
@@ -169,6 +172,13 @@ class rnd {
         debug.panic("Something is wrong in nonlinear weighted random. Args: "..
             from..", "..to..", "..weightIncreaseFactor);
         return 0;
+    }
+
+    // The same as previous one, but the endWeight simply shows how much weight the end value has (the first has 1.0)
+    // SO: multipliedWeightedRand(from=1, to=10, weightIncreaseFactor=2) is the same as
+    // multipliedWeightedRand(from=1, to=10, endWeight=1024)
+    static int multipliedWeightedRandByEndWeight(int from, int to, double endWeight) {
+        return multipliedWeightedRand(from, to, endWeight ** (1 / double(to - from)));
     }
 
     // Returns a gauss-distributed float. Dunno why it may be needed, but still.
