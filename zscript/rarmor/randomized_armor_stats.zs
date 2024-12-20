@@ -7,11 +7,11 @@ class RwArmorStats {
     // Damage can't be nullified to 0, and can't be nullified if damage is higher than current armor amount
 
     int delayUntilRecharge; // Ticks. Only for energy armor
-    int energyRestorePeriod; // Each this many ticks 1 armor is restored.
+    int energyRestoreSpeedX1000; // Restored per tick. x1000 because of frame-logic related fixed point math
 
 
     bool IsEnergyArmor() {
-        return (delayUntilRecharge > 0) && (energyRestorePeriod > 0);
+        return (delayUntilRecharge > 0) && (energyRestoreSpeedX1000 > 0);
     }
 
     bool IsFull() {
@@ -19,7 +19,6 @@ class RwArmorStats {
     }
 
     double RestorePerSecond() {
-        // debug.print(String.Format("TICRATE %d, Period %d", TICRATE, energyRestorePeriod));
-        return double(TICRATE)/double(energyRestorePeriod);
+        return double(TICRATE * energyRestoreSpeedX1000)/1000.;
     }
 }

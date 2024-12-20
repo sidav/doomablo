@@ -77,4 +77,18 @@ class Math {
         // +50 needed for proper rounding
         return (100 * part + whole/2) / whole;
     }
+
+    // Useful for things which just can't be floats, like frames' durations. 
+    // Useful only for repeated (across multiple frames) calcs with same vars.
+    // First var is whole undividable integer, second is fixed-point one, multiplied by the precision.
+    // fractionAccum is a variable to store fractional part.
+    // If the added value is e.g. 1.2345, the addition param should be 12345 and precision should be 10000
+    // Example usage: to add 1.34 to 25, use AccumulatedFixedPointAdd(25, 134, 100, fractionAccum)
+    // ALWAYS use the same precision with same fractionAccum var! Or, better, always stick same calculation to the same precision.
+    static int AccumulatedFixedPointAdd(int whole, int addition, int precision, out int fractionAccum) {
+        fractionAccum += whole * precision + addition;
+        whole = fractionAccum / precision;
+        fractionAccum = fractionAccum % precision;
+        return whole;
+    }
 }

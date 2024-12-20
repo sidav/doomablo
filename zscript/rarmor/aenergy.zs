@@ -13,19 +13,18 @@ class RwEnergyArmor : RandomizedArmor
 		loop;
 	}
 
-
+	int energyRestoreFraction; // Fractional part
 	override void DoEffect() {
 		super.DoEffect();
 		if (stats.currDurability < stats.maxDurability) {
 			let delay = stats.delayUntilRecharge;
 			if (ticksSinceDamage() >= delay) {
 				// if (ticksSinceDamage() == delay) debug.print("--> Recharge Started at "..GetAge());
-				if (ticksSinceDamage() % stats.energyRestorePeriod == 0) {
-					if (stats.currDurability == 0) {
-						owner.Player.bonusCount += 5;
-					}
-					stats.currDurability = min(stats.currDurability+1, stats.maxDurability);
+				let setTo = math.AccumulatedFixedPointAdd(stats.currDurability, stats.energyRestoreSpeedX1000, 1000, energyRestoreFraction);
+				if (stats.currDurability == 0 && setTo != 0) {
+					owner.Player.bonusCount += 5;
 				}
+				stats.currDurability = setTo;
 			}
 		}
     }
@@ -37,9 +36,14 @@ class RwEnergyArmor : RandomizedArmor
 		stats.maxDurability = 15;
 		stats.AbsorbsPercentage = 75;
 		
-		stats.energyRestorePeriod = 2*TICRATE/3;
-		stats.delayUntilRecharge = TICRATE*10;
+		stats.energyRestoreSpeedX1000 = (1000 + TICRATE/2)/TICRATE; // 1 per second
+		stats.delayUntilRecharge = 75*TICRATE/10; // 7.5 seconds base
     }
+
+	// Needs to be called before generation, after generatedQuality is set.
+	override void prepareForGeneration() {
+		stats.delayUntilRecharge = math.getIntPercentage(stats.delayUntilRecharge, 100 - (60 * generatedQuality/100));
+	}
 
 	override string GetRandomFluffName() {
         static const string specialNames[] =

@@ -207,7 +207,7 @@ class APrefELongerDelay : RwArmorPrefix {
         return -1;
     }
     override string getDescription() {
-        return String.Format("+%.1f sec delay until recharge", Gametime.TicksToSeconds(modifierLevel));
+        return String.format("Recharge delay +%d%%", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefEShorterDelay';
@@ -216,8 +216,8 @@ class APrefELongerDelay : RwArmorPrefix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = remapQualityToRange(quality, TICRATE/4, arm.stats.delayUntilRecharge);
-        arm.stats.delayUntilRecharge += modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(max(5, quality/10), 50, 0.1);
+        arm.stats.delayUntilRecharge = math.getIntPercentage(arm.stats.delayUntilRecharge, 100 + modifierLevel);
     }
 }
 
@@ -229,7 +229,7 @@ class APrefEShorterDelay : RwArmorPrefix {
         return 1;
     }
     override string getDescription() {
-        return String.Format("-%.1f sec delay until recharge", Gametime.TicksToSeconds(modifierLevel));
+        return String.format("Recharge delay -%d%%", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefELongerDelay';
@@ -238,8 +238,8 @@ class APrefEShorterDelay : RwArmorPrefix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = remapQualityToRange(quality, TICRATE/4, arm.stats.delayUntilRecharge - (2*TICRATE));
-        arm.stats.delayUntilRecharge -= modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 50, 0.1) + quality/10;
+        arm.stats.delayUntilRecharge = math.getIntPercentage(arm.stats.delayUntilRecharge, 100 - modifierLevel);
     }
 }
 
@@ -251,7 +251,7 @@ class APrefELongerRecharge : RwArmorPrefix {
         return -1;
     }
     override string getDescription() {
-        return String.Format("-%d% recharge speed", modifierLevel);
+        return String.Format("%d%% slower recharge", modifierLevel);
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefEFasterRecharge';
@@ -260,8 +260,8 @@ class APrefELongerRecharge : RwArmorPrefix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = remapQualityToRange(quality, 5, 200);
-        arm.stats.energyRestorePeriod = math.getIntPercentage(arm.stats.energyRestorePeriod, 100+modifierLevel);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(max(5, quality/10), 50, 0.1);
+        arm.stats.energyRestoreSpeedX1000 = math.getIntPercentage(arm.stats.energyRestoreSpeedX1000, 100-modifierLevel);
     }
 }
 
@@ -273,7 +273,7 @@ class APrefEFasterRecharge : RwArmorPrefix {
         return 1;
     }
     override string getDescription() {
-        return String.Format("+%d% recharge speed", modifierLevel);
+        return String.Format("%d%% faster recharge", modifierLevel);
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefELongerRecharge';
@@ -282,7 +282,7 @@ class APrefEFasterRecharge : RwArmorPrefix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = remapQualityToRange(quality, 5, 75);
-        arm.stats.energyRestorePeriod = math.getIntPercentage(arm.stats.energyRestorePeriod, 100 - modifierLevel);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 150, 0.1) + quality/2;
+        arm.stats.energyRestoreSpeedX1000 = math.getIntPercentage(arm.stats.energyRestoreSpeedX1000, 100+modifierLevel);
     }
 }
