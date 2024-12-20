@@ -6,12 +6,12 @@ class StartingItemsHandler : EventHandler
 		// Before the first tick after level change the pmo points to some other PlayerPawn with null inventory
 		// which causes bugs. Thus we skip this routine if pmo.Inv is null.
 		// TODO: solve this via some unremovable item in inventory and changing default weapons in HandlePickup() for that item.
-		// This may event make this handler redundant
+		// This may even make this handler redundant
 
 		// Update: this damn bug returns once again and I once again don't know why
 		// WeapCheck is a new shiny workaround for that
 		let rWeap = players[e.PlayerNumber].ReadyWeapon;
-		bool weapCheck = (rWeap == null) || ((rWeap.GetClass() != 'Fist') && (RandomizedWeapon(rWeap) == null));
+		bool weapCheck = (rWeap == null) || ((rWeap.GetClass() != 'RwFist') && (RandomizedWeapon(rWeap) == null));
 
 		if (pmo && pmo.Inv && weapCheck) {
 			clearBasicItems(pmo);
@@ -38,7 +38,7 @@ class StartingItemsHandler : EventHandler
         }
 		// If player has no RWs instances, this means it's a game start. Let's give them basic weapons:
 		if (rwCount == 0) {
-			pmo.GiveInventory('Fist', 1);
+			pmo.GiveInventory('RwFist', 1);
 			let given = RandomizedWeapon(pmo.GiveInventoryType('RwPistol'));
 			given.Generate(3, 1);
 		}
