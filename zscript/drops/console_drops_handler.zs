@@ -66,7 +66,14 @@ class ConsoleDropsHandler : EventHandler
             case 20: 
                 [unused, spawnedItem] = player.A_SpawnItemEx(RwBackpack.GetRandomVariantClass(), xofs: xofs, zvel: zvel);
                 break;
-            
+
+            // Progression items. "Rarity" holds the amount of them to spawn
+            case 100:
+                for (let i = 0; i < rarity; i++) {
+                    [unused, spawnedItem] = player.A_SpawnItemEx('RwMaxqItem', xofs: xofs, zvel: zvel);
+                }
+                return; // We don't need to generate it
+
             default:
                 debug.print("Unknown drop code "..itemID);
         }
