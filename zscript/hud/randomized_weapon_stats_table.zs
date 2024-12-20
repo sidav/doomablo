@@ -102,7 +102,7 @@ extend class MyCustomHUD {
                 compareStr = "";
                 compareClr = Font.CR_White;
             }
-            PrintTableLineAt("Damage:", String.Format("%.2f-%.2f", (wpn1dmgmin, wpn1dmgmax))..compareStr,
+            PrintTableLineAt("Damage:", String.Format("%.1f-%.1f", (wpn1dmgmin, wpn1dmgmax))..compareStr,
                     linesX, y, pickupableStatsTableWidth,
                     itemStatsFont, textFlags, Font.CR_White, compareClr);
         }

@@ -75,7 +75,7 @@ extend class MyCustomHUD {
 
             if (armrCmp && armr.stats.RestorePerSecond() != armrCmp.stats.RestorePerSecond()) {
                 compareStr = " ("..floatToSignedStr(armr.stats.RestorePerSecond() - armrCmp.stats.RestorePerSecond())..")";
-                compareClr = GetDifferenceColor(10*(armr.stats.RestorePerSecond() - armrCmp.stats.RestorePerSecond()));
+                compareClr = GetDifferenceColor(100*(armr.stats.RestorePerSecond() - armrCmp.stats.RestorePerSecond()));
             } else {
                 compareStr = "";
                 compareClr = Font.CR_White;
