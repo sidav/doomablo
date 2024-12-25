@@ -80,10 +80,11 @@ class MAffInflictsPoison : RwMonsterAffix {
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 20);
+        stat2 = quality;
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive && source && source != owner) {
-            source.GiveInventory('RWPoisonToken', modifierLevel);
+            RWPoisonToken.ApplyToActor(source, StatsScaler.ScaleIntValueByLevelRandomized(1, stat2), 10);
         }
     }
 }

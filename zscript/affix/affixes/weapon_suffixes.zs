@@ -126,7 +126,7 @@ class WSuffPoison : RwWeaponSuffix {
         return "Venom";
     }
     override string getDescription() {
-        return modifierLevel.."% chance to poison the target on hit";
+        return String.Format("%d%% chance to poison the target for %d DMG/S", (modifierLevel, stat2));
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         let maxPercentage = 50;
@@ -135,11 +135,12 @@ class WSuffPoison : RwWeaponSuffix {
         } else if (wpn.stats.clipSize > 5) {
             maxPercentage = 33;
         }
-        modifierLevel = remapQualityToRange(quality, 1, maxPercentage);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxPercentage, 0.05) + quality/25;
+        stat2 = StatsScaler.ScaleIntValueByLevelRandomized(1, quality);
     }
     override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (rnd.PercentChance(modifierLevel)) {
-            target.GiveInventory('RWPoisonToken', 10);
+            RWPoisonToken.ApplyToActor(target, stat2, 10);
         }
     }
 }
@@ -149,7 +150,7 @@ class WSuffRadiation : RwWeaponSuffix {
         return "Irradiation";
     }
     override string getDescription() {
-        return modifierLevel.."% chance to irradiate the target on hit";
+        return String.Format("%d%% chance to irradiate the target for %d seconds", (modifierLevel, stat2));
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         let maxPercentage = 50;
@@ -158,11 +159,12 @@ class WSuffRadiation : RwWeaponSuffix {
         } else if (wpn.stats.clipSize > 5) {
             maxPercentage = 33;
         }
-        modifierLevel = remapQualityToRange(quality, 1, maxPercentage);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxPercentage, 0.05) + quality/25;
+        stat2 = rnd.multipliedWeightedRandByEndWeight(2, 10, 0.1) + quality/33;
     }
     override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (rnd.PercentChance(modifierLevel)) {
-            target.GiveInventory('RWRadiationToken', 3);
+            RWRadiationToken.ApplyToActor(target, stat2);
         }
     }
 }

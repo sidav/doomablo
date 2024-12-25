@@ -17,6 +17,10 @@ class RWRadiationToken : RwStatusEffectToken {
         return Font.CR_ORANGE;
     }
 
+    static void ApplyToActor(Actor target, int durationSeconds) {
+        target.GiveInventory('RWRadiationToken', durationSeconds);
+    }
+
     override void doEffectOnRwPlayer() {
         if (GetAge() % TICRATE == 0) {
             owner.damageMobj(null, owner, 1, 'Normal', DMG_NO_PROTECT);
@@ -32,7 +36,10 @@ class RWRadiationToken : RwStatusEffectToken {
                 let reqDistance = owner.radius * RadiationDamageRadiusFactor;
                 if (mo && owner != mo && owner.Distance2D(mo) <= reqDistance) {
                     // "Source" of the damage is this actor. This causes infighting (on purpose, hehe). Maybe this makes this affix too OP.
-                    mo.damageMobj(null, owner, Random(1, 5), 'Normal', DMG_NO_PROTECT);
+                    let moLvl = RwMonsterAffixator.GetMonsterLevel(mo);
+                    let minDmg = StatsScaler.ScaleIntValueByLevel(1, moLvl);
+                    let maxDmg = StatsScaler.ScaleIntValueByLevel(5, moLvl);
+                    mo.damageMobj(null, owner, Random(minDmg, maxDmg), 'Normal', DMG_NO_PROTECT);
                 }
             }
         }

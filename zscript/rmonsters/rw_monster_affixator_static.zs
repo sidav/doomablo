@@ -8,6 +8,14 @@ extend class RwMonsterAffixator {
         return 0;
     }
 
+    static int GetMonsterLevel(Actor monster) {
+        let a = monster.FindInventory('RwMonsterAffixator');
+        if (a) {
+            return RwMonsterAffixator(a).generatedQuality;
+        }
+        return 1;
+    }
+
     static RwMonsterAffixator GetMonsterAffixator(Actor monster) {
         return RwMonsterAffixator(monster.FindInventory('RwMonsterAffixator'));
     }
