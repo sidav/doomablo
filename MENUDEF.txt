@@ -1,0 +1,18 @@
+AddOptionMenu "OptionsMenu"
+{
+    StaticText ""
+	Submenu "Configure DOOMablo", "RW_Options"
+}
+
+OptionMenu "RW_Options"
+{
+	Title "DOOMablo options"
+    StaticText ""
+    Option "Show affixes' names in stats", "RwSettingsShowAffixNamesInTables", "RwOptionsYesNo"
+}
+
+OptionValue "RwOptionsYesNo"
+{
+	0, "No"
+	1, "Yes"
+}
