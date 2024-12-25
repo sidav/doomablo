@@ -415,7 +415,7 @@ class WPrefSmallerMag : RwWeaponPrefix {
         return -1;
     }
     override string getDescription() {
-        return "-"..modifierLevel.." mag size";
+        return String.format("-%d%% magazine size", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.stats.clipSize > 2;
@@ -424,9 +424,10 @@ class WPrefSmallerMag : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefBiggerMag';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, math.divideIntWithRounding(wpn.stats.clipSize, 2));
-
-        wpn.stats.clipSize -= modifierLevel;
+        let minPerc = math.minimumMeaningIntPercent(wpn.stats.clipSize);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 50, 0.1);
+        modifierLevel = math.discretizeIntPercentFraction(wpn.stats.clipSize, modifierLevel);
+        wpn.stats.clipSize = math.getIntPercentage(wpn.stats.clipSize, 100 - modifierLevel);
     }
 }
 
@@ -441,7 +442,7 @@ class WPrefBiggerMag : RwWeaponPrefix {
         return 1;
     }
     override string getDescription() {
-        return "+"..modifierLevel.." mag size";
+        return String.format("+%d%% magazine size", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.stats.clipSize > 0;
@@ -450,9 +451,10 @@ class WPrefBiggerMag : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefSmallerMag';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 3*wpn.stats.clipSize/2);
-
-        wpn.stats.clipSize += modifierLevel;
+        let minPerc = math.minimumMeaningIntPercent(wpn.stats.clipSize);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 150, 0.01) + quality/50;
+        modifierLevel = math.discretizeIntPercentFraction(wpn.stats.clipSize, modifierLevel);
+        wpn.stats.clipSize = math.getIntPercentage(wpn.stats.clipSize, 100 + modifierLevel);
     }
 }
 
@@ -515,7 +517,7 @@ class WPrefPuny : RwWeaponPrefix {
         return -1;
     }
     override string getDescription() {
-        return "-"..modifierLevel.." pellets per shot";
+        return String.format("-%d%% pellets per shot", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.stats.Pellets > 3;
@@ -524,9 +526,10 @@ class WPrefPuny : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefBulk';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.pellets/2);
-
-        wpn.stats.Pellets -= modifierLevel;
+        let minPerc = math.minimumMeaningIntPercent(wpn.stats.pellets);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 50, 0.1);
+        modifierLevel = math.discretizeIntPercentFraction(wpn.stats.Pellets, modifierLevel);
+        wpn.stats.Pellets = math.getIntPercentage(wpn.stats.pellets, 100 - modifierLevel);
     }
 }
 
@@ -541,7 +544,7 @@ class WPrefBulk : RwWeaponPrefix {
         return 1;
     }
     override string getDescription() {
-        return "+"..modifierLevel.." pellets per shot";
+        return String.format("+%d%% pellets per shot", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.stats.Pellets > 3;
@@ -550,9 +553,10 @@ class WPrefBulk : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefPuny';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 16*wpn.stats.Pellets/10);
-
-        wpn.stats.Pellets += modifierLevel;
+        let minPerc = math.minimumMeaningIntPercent(wpn.stats.pellets);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 50, 0.01) + quality/4;
+        modifierLevel = math.discretizeIntPercentFraction(wpn.stats.Pellets, modifierLevel);
+        wpn.stats.Pellets = math.getIntPercentage(wpn.stats.pellets, 100 + modifierLevel);
     }
 }
 
