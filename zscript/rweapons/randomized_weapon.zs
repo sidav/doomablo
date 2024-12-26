@@ -28,14 +28,21 @@ class RandomizedWeapon : DoomWeapon {
 
     // Needs to be called before generation
     virtual void prepareForGeneration() {
+        let initialMaxDamage = stats.maxDamage;
         stats.minDamage = StatsScaler.ScaleIntValueByLevelRandomized(stats.minDamage, generatedQuality);
         stats.maxDamage = StatsScaler.ScaleIntValueByLevelRandomized(stats.maxDamage, generatedQuality);
+
+        // First, compensate for the damage scaling (the target knockback is damage-dependent in DOOM).
+        stats.TargetKnockback = max((initialMaxDamage * stats.TargetKnockback + stats.maxDamage/2) / stats.maxDamage, 1);
+        // It is a TARGET kickback. It uses weapon's default mechanism for kickback... Maybe its needed to rewrite that
+        Kickback = stats.TargetKnockback;
+        // Set it for projectiles too.
+        ProjectileKickback = stats.TargetKnockback;
     }
 
     // Needs to be called after generation
     private void finalizeAfterGeneration() {
         currentClipAmmo = stats.clipSize;
-        Kickback = stats.TargetKnockback; // TARGET kickback. It uses weapon's default mechanism for kickback... Maybe its needed to rewrite that
     }
 
     override void BeginPlay() {
