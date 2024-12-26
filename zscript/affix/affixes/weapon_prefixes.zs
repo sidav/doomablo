@@ -280,7 +280,7 @@ class WPrefTargetKnockback : RwWeaponPrefix { // There is no bad counterpart, I 
         return "repulsion";
     }
     override int getAlignment() {
-        return 1;
+        return 0;
     }
     override string getDescription() {
         return modifierLevel.."% target knockback";
@@ -292,7 +292,7 @@ class WPrefTargetKnockback : RwWeaponPrefix { // There is no bad counterpart, I 
         return true;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 150, 1000);
+        modifierLevel = 25 * (rnd.multipliedWeightedRandByEndWeight(5, 38, 0.1) + quality/50);
 
         wpn.stats.TargetKnockback = math.getIntPercentage(wpn.stats.TargetKnockback, modifierLevel);
     }
@@ -579,7 +579,7 @@ class WPrefLazy : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefQuick';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 75);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 50, 0.05) + quality/10;
 
         wpn.stats.projSpeedPercModifier = -modifierLevel;
     }
@@ -605,8 +605,7 @@ class WPrefQuick : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefLazy';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 200);
-
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 150, 0.05) + quality/2;
         wpn.stats.projSpeedPercModifier = modifierLevel;
     }
 }
