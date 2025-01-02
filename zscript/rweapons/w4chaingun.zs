@@ -45,13 +45,14 @@ class RwChaingun : RandomizedWeapon
 			invoker.currentFireFrame++;
         }
 		CHGG B 0 RWA_ReFire;
+		// "Spin down" begins here
 		CHGG A 3 RWA_ApplyRateOfFire;
 		CHGG B 3 RWA_ApplyRateOfFire;
 		CHGG A 4 RWA_ApplyRateOfFire;
 		CHGG B 4 RWA_ApplyRateOfFire;
-		CHGG A 5 RWA_ApplyRateOfFire;
+		CHGG A 4 RWA_ApplyRateOfFire;
 		CHGG B 5 RWA_ApplyRateOfFire;
-		CHGG A 6 RWA_ApplyRateOfFire;
+		CHGG A 5 RWA_ApplyRateOfFire;
 		CHGG B 6 RWA_ApplyRateOfFire;
 		Goto Ready;
 	Reload:
@@ -100,7 +101,7 @@ class RwChaingun : RandomizedWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			4, 7,
+			4, 8,
 			1,
 			1,
 			12.5,
