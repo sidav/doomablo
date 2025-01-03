@@ -7,15 +7,16 @@ AddOptionMenu "OptionsMenu"
 OptionMenu "RW_Options"
 {
 	Title "$RWMENU_DOOMABLOSETTINGS"
-    StaticText "$RWMENU_INTERFACEOPTIONS_HEADER"
+
+    StaticText "$RWMENU_INTERFACEOPTIONS_HEADER", 1
     Option "$RWSETTINGS_AFFIXNAMES", "RwSettingsShowAffixNamesInTables", "RwOptionsYesNo"
 
 	StaticText ""
-	StaticText "$RWMENU_GAMEPLAYOPTIONS_HEADER"
+	StaticText "$RWMENU_GAMEPLAYOPTIONS_HEADER", 1
 	Option "$RWSETTINGS_UNCLUMP", "RwSettingsClumpedDropsJump", "RwOptionsYesNo"
 
 	StaticText ""
-	StaticText "$RWMENU_CONTROLS_HEADER"
+	StaticText "$RWMENU_CONTROLS_HEADER", 1
 	Control "$RWSETTINGS_SCRAPITEMBTN", "+user1"
 }
 
