@@ -11,7 +11,7 @@ gameinfo
 	AddEventHandlers = "AmmoDropsHandler"
 	AddEventHandlers = "DropsHandler"
 	AddEventHandlers = "ExperienceHandler"
-	AddEventHandlers = "DroppedItemsSpreadHandler"
+	AddEventHandlers = "DroppedItemsUnclumpHandler"
 	AddEventHandlers = "MonstersAffixingHandler"
 	AddEventHandlers = "ConsoleDropsHandler"
 	AddEventHandlers = "PressToPickupHandler"

@@ -1,5 +1,5 @@
 // Allows items to "jump" from other drops if too close.
-class DroppedItemsSpreadHandler : EventHandler
+class DroppedItemsUnclumpHandler : EventHandler
 {
     mixin DropSpreadable;
 
@@ -10,6 +10,11 @@ class DroppedItemsSpreadHandler : EventHandler
         if (currTick % TICRATE != 0) {
             return;
         }
+
+        if (!RwSettingsClumpedDropsJump) {
+            return;
+        }
+
         let ti = ThinkerIterator.Create('Inventory');
         Inventory itm;
         while (itm = Inventory(ti.next())) {

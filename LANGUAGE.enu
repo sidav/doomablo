@@ -1,0 +1,16 @@
+[enu] //language code header
+
+// Gameplay
+RAREMONSTERSPAWNED = "You feel a powerful presence in this place.";
+
+// Menu
+RWMENU_DOOMABLOSETTINGS = "DOOMablo settings";
+RWMENU_CUSTOMIZEDOOMABLO = "Customize DOOMablo";
+
+RWMENU_INTERFACEOPTIONS_HEADER = "Interface options";
+RWMENU_GAMEPLAYOPTIONS_HEADER = "Gameplay options";
+RWMENU_CONTROLS_HEADER = "DOOMablo Controls";
+
+RWSETTINGS_AFFIXNAMES = "Show affixes' names in stats";
+RWSETTINGS_UNCLUMP = "Too closely dropped items jump from each other";
+RWSETTINGS_SCRAPITEMBTN = "Scrap item";

@@ -1,14 +1,22 @@
 AddOptionMenu "OptionsMenu"
 {
-    StaticText ""
-	Submenu "Configure DOOMablo", "RW_Options"
+    StaticText "$RWMENU_DOOMABLOSETTINGS"
+	Submenu "$RWMENU_CUSTOMIZEDOOMABLO", "RW_Options"
 }
 
 OptionMenu "RW_Options"
 {
-	Title "DOOMablo options"
-    StaticText ""
-    Option "Show affixes' names in stats", "RwSettingsShowAffixNamesInTables", "RwOptionsYesNo"
+	Title "$RWMENU_DOOMABLOSETTINGS"
+    StaticText "$RWMENU_INTERFACEOPTIONS_HEADER"
+    Option "$RWSETTINGS_AFFIXNAMES", "RwSettingsShowAffixNamesInTables", "RwOptionsYesNo"
+
+	StaticText ""
+	StaticText "$RWMENU_GAMEPLAYOPTIONS_HEADER"
+	Option "$RWSETTINGS_UNCLUMP", "RwSettingsClumpedDropsJump", "RwOptionsYesNo"
+
+	StaticText ""
+	StaticText "$RWMENU_CONTROLS_HEADER"
+	Control "$RWSETTINGS_SCRAPITEMBTN", "+user1"
 }
 
 OptionValue "RwOptionsYesNo"
