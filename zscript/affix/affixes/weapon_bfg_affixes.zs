@@ -17,7 +17,8 @@ class WAffLessBFGRays : RwWeaponPrefix {
         return a2.GetClass() != 'WAffMoreBFGRays' && a2.GetClass() != 'WSuffBFGNoRays';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.NumberOfRays/2);
+        let maxChange = wpn.stats.NumberOfRays/2;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.NumberOfRays -= modifierLevel;
     }
 }
@@ -39,7 +40,8 @@ class WAffMoreBFGRays : RwWeaponPrefix {
         return a2.GetClass() != 'WAffLessBFGRays' && a2.GetClass() != 'WSuffBFGNoRays';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 30);
+        let maxChange = 30;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.NumberOfRays += modifierLevel;
     }
 }
@@ -61,7 +63,8 @@ class WAffNarrowerBFGAngle : RwWeaponPrefix {
         return a2.GetClass() != 'WAffWiderBFGAngle' && a2.GetClass() != 'WSuffBFGNoRays' && a2.GetClass() != 'WSuffBFG10K';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 5, (wpn.stats.RaysConeAngle / 2)*10);
+        let maxChange = (wpn.stats.RaysConeAngle / 2)*10;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.RaysConeAngle -= double(modifierLevel)/10;
     }
 }
@@ -83,7 +86,8 @@ class WAffWiderBFGAngle : RwWeaponPrefix {
         return a2.GetClass() != 'WAffNarrowerBFGAngle' && a2.GetClass() != 'WSuffBFGNoRays' && a2.GetClass() != 'WSuffBFG10K';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 5, wpn.stats.RaysConeAngle*10);
+        let maxChange = wpn.stats.RaysConeAngle*10;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.RaysConeAngle += double(modifierLevel)/10;
     }
 }
@@ -108,7 +112,8 @@ class WAffWorseBFGRayDamage : RwWeaponPrefix {
         return wpn.GetClass() == 'RwBfg';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = Random(quality/2 + 1, 200); // 50 - 200 for 100 quality
+        let maxChange = 200;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.additionalBfgRayDamagePromille = -modifierLevel;
     }
 }
@@ -133,7 +138,8 @@ class WAffBetterBFGRayDamage : RwWeaponPrefix {
         return wpn.GetClass() == 'RwBfg';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = Random(quality/2 + 1, 200); // 50 - 200 for 100 quality
+        let maxChange = 200;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.additionalBfgRayDamagePromille = modifierLevel;
     }
 }
@@ -160,7 +166,8 @@ class WPrefMoreAmmoConsumed : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefLessAmmoConsumed';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.ammoUsage * 2);
+        let maxChange = wpn.stats.ammoUsage;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.ammoUsage += modifierLevel;
     }
 }
@@ -185,7 +192,8 @@ class WPrefLessAmmoConsumed : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefMoreAmmoConsumed';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, wpn.stats.ammoUsage/2);
+        let maxChange = wpn.stats.ammoUsage / 2;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.ammoUsage -= modifierLevel;
     }
 }
@@ -203,7 +211,8 @@ class WSuffBFG10K : RwWeaponSuffix {
         return wpn.GetClass() == 'RwBfg';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 15, 40);
+        let maxChange = 40;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(15, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.RaysConeAngle = 360.;
         wpn.stats.NumberOfRays = (wpn.stats.NumberOfRays * modifierLevel) / 10;
         wpn.stats.raysWillOriginateFromMissile = true;
@@ -221,7 +230,8 @@ class WSuffBFGNoRays : RwWeaponSuffix {
         return wpn.GetClass() == 'RwBfg';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 15, 100);
+        let maxChange = 100;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(15, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.minDamage = wpn.stats.minDamage * modifierLevel / 10;
         wpn.stats.maxDamage = wpn.stats.maxDamage * modifierLevel / 10;
         wpn.stats.NumberOfRays = 0;
