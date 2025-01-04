@@ -8,13 +8,15 @@ RWMENU_DOOMABLOSETTINGS = "DOOMablo anpassen";
 RWMENU_CUSTOMIZEDOOMABLO = "DOOMablo Einstellungen";
 
 RWMENU_INTERFACEOPTIONS_HEADER = "Interfaceeinstellungen";
-RWMENU_GAMEPLAYOPTIONS_HEADER = "Gameplayeinstellungen";
-RWMENU_CONTROLS_HEADER = "DOOMablo Steuerung";
-
 RWSETTINGS_AFFIXNAMES = "Affix Namen anzeigen";
 
+RWMENU_GAMEPLAYOPTIONS_HEADER = "Gameplayeinstellungen";
 RWSETTINGS_UNCLUMP = "Nebenen Artefakten vom einander springen";
+
+RWMENU_DIFFICULTYOPTIONS_HEADER = "Schwierigkeiteinstellungen";
 RWSETTINGS_ENABLE_MBLINK = "Blink-Affix für Monster aktivieren";
 RWSETTINGS_ENABLE_MREVENGE = "Rache-Affix für Monster aktivieren";
+RWSETTINGS_HP_SCALING_SPEED = "Monster GP-Skalierungsgeschwindigkeit";
 
+RWMENU_CONTROLS_HEADER = "DOOMablo Steuerung";
 RWSETTINGS_SCRAPITEMBTN = "Einen Artefakt verschrotten";

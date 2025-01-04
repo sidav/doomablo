@@ -14,9 +14,12 @@ OptionMenu "RW_Options"
 	StaticText ""
 	StaticText "$RWMENU_GAMEPLAYOPTIONS_HEADER", 1
 	Option "$RWSETTINGS_UNCLUMP", "RwSettingsClumpedDropsJump", "RwOptionsYesNo"
+
+	StaticText ""
+	StaticText "$RWMENU_DIFFICULTYOPTIONS_HEADER", 1
 	Option "$RWSETTINGS_ENABLE_MBLINK", "rw_enable_monster_blink_affix", "RwOptionsYesNo"
 	Option "$RWSETTINGS_ENABLE_MREVENGE", "rw_enable_monster_revenge_affix", "RwOptionsYesNo"
-	Slider "Monster HP scaling speed", "rw_monster_hp_scaling_exponent_mod", -0.4, 0.0, 0.01, 2
+	Slider "$RWSETTINGS_HP_SCALING_SPEED", "rw_monster_hp_scaling_exponent_mod", -0.4, 0.0, 0.01, 2
 
 	StaticText ""
 	StaticText "$RWMENU_CONTROLS_HEADER", 1
