@@ -28,34 +28,6 @@ class RwArmorSuffix : Affix {
 
 // Universal ones
 
-class ASuffDegrading : RwArmorSuffix {
-    override string getName() {
-        return "No license";
-    }
-    override int getAlignment() {
-        return -1;
-    }
-    override int minRequiredRarity() {
-        return 2;
-    }
-    override string getDescription() {
-        return "Loses durability each "
-            ..
-            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
-            .." seconds";
-    }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        let secondsx10 = remapQualityToRange(quality, 100, 50);
-        modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
-    }
-    override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
-        if (affixedItem.GetAge() % modifierLevel == 0) {
-            arm.DoDamageToArmor(1);
-        }
-    }
-}
-
 class ASuffHealthToDurab : RwArmorSuffix {
     override string getName() {
         return "Blood pact";
@@ -175,6 +147,37 @@ class ASuffHoly : RwArmorSuffix {
 }
 
 // Non-energy only
+
+class ASuffDegrading : RwArmorSuffix {
+    override string getName() {
+        return "No license";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override int minRequiredRarity() {
+        return 2;
+    }
+    override string getDescription() {
+        return "Loses durability each "
+            ..
+            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
+            .." seconds";
+    }
+    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+        return !(arm.stats.IsEnergyArmor());
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        let secondsx10 = remapQualityToRange(quality, 100, 50);
+        modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+    }
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        if (affixedItem.GetAge() % modifierLevel == 0) {
+            arm.DoDamageToArmor(1);
+        }
+    }
+}
 
 class ASuffAbsImprove : RwArmorSuffix {
     override string getName() {

@@ -238,7 +238,7 @@ class APrefEShorterDelay : RwArmorPrefix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 50, 0.1) + quality/10;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 60, 0.1) + quality/10;
         arm.stats.delayUntilRecharge = math.getIntPercentage(arm.stats.delayUntilRecharge, 100 - modifierLevel);
     }
 }
