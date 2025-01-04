@@ -19,7 +19,7 @@ extend class RwMonsterAffixator {
 
             // Scale owner's health. It occurs for ALL affixed monsters, analogous to "More Health" affix and stacks with it.
             let newHealth = owner.health;
-            newHealth = StatsScaler.ScaleIntValueByLevelRandomized(newHealth, generatedQuality); // Level scaling
+            newHealth = StatsScaler.ScaleIntValueByLevelRandomized(newHealth, generatedQuality, rw_monster_hp_scaling_exponent_mod); // Level scaling
             // Scale owner's health by its rarity.
             let minPerc = 100 - 10;
             let maxPerc = 100 + 10;

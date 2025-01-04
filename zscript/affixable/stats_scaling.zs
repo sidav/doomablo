@@ -12,10 +12,11 @@ class StatsScaler {
     }
 
     // Adds a minor randomization (+- 0.5 of the current level); the formula is the same
-    static int ScaleIntValueByLevelRandomized(int value, int level) {
+    static int ScaleIntValueByLevelRandomized(int value, int level, float expMod = 0.0) {
         let levelFloat = double(level);
-        let minVal = int(double(value) * exponentBase ** ((levelFloat - 0.5) / multipliesEachLevels));
-        let maxVal = int(double(value) * exponentBase ** ((levelFloat + 0.5) / multipliesEachLevels));
+        double expModifiedBase = exponentBase + expMod;
+        let minVal = int(double(value) * expModifiedBase ** ((levelFloat - 0.5) / multipliesEachLevels));
+        let maxVal = int(double(value) * expModifiedBase ** ((levelFloat + 0.5) / multipliesEachLevels));
 
         return Random(minVal, maxVal);
     }
