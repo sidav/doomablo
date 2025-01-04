@@ -69,7 +69,7 @@ class RwBFG : RandomizedWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			75, 250,
+			100, 500,
 			1,
 			50,
 			5.0,
@@ -85,8 +85,8 @@ class RwBFG : RandomizedWeapon
 		// BFG-only
 		stats.NumberOfRays = 40;
 		stats.RaysConeAngle = 90.;
-		stats.RayDmgMin = 10;
-		stats.RayDmgMax = 50;
+		stats.RayDmgMin = 15;
+		stats.RayDmgMax = 75;
 		stats.raysWillOriginateFromMissile = false;
     }
 
