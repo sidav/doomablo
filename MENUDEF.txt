@@ -14,6 +14,8 @@ OptionMenu "RW_Options"
 	StaticText ""
 	StaticText "$RWMENU_GAMEPLAYOPTIONS_HEADER", 1
 	Option "$RWSETTINGS_UNCLUMP", "RwSettingsClumpedDropsJump", "RwOptionsYesNo"
+	Option "$RWSETTINGS_ENABLE_MBLINK", "rw_enable_monster_blink_affix", "RwOptionsYesNo"
+	Option "$RWSETTINGS_ENABLE_MREVENGE", "rw_enable_monster_revenge_affix", "RwOptionsYesNo"
 
 	StaticText ""
 	StaticText "$RWMENU_CONTROLS_HEADER", 1

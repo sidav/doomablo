@@ -16,6 +16,11 @@ class Affix {
         return a2.GetClass() != GetClass() && isCompatibleWithAffClass(a2);
     }
 
+    // For disable-able affixes
+    virtual bool IsEnabled() {
+        return true;
+    }
+
     // This SHOULD be overridden in descendants.
     protected virtual bool isCompatibleWithAffClass(Affix a2) {
         debug.panicUnimplemented(self);

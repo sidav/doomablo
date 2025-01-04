@@ -353,12 +353,15 @@ class MAffBlinking : RwMonsterAffix {
     override string getDescription() {
         return String.Format("BLNK %.1f", Gametime.ticksToSeconds(modifierLevel));
     }
+    override bool IsEnabled() {
+        return rw_enable_monster_blink_affix;
+    }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         modifierLevel = remapQualityToTicksFromSecondsRange(quality, 15, 5);
     }
     override void onDoEffect(Actor owner) {
-        if (owner && owner.target && (owner.GetAge() % modifierLevel == 0) && 
-            (rnd.OneChanceFrom(30) || owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)) )
+        if (owner && owner.target && (owner.GetAge() % modifierLevel == 0) && rnd.OneChanceFrom(2) &&
+            (rnd.OneChanceFrom(20) || owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)) )
         {
 
             let target = owner.target;
@@ -538,10 +541,13 @@ class MAffFireballRevenge : RwMonsterAffix {
     override int minRequiredRarity() {
         return 2;
     }
-    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 3, 10);
+    override bool IsEnabled() {
+        return rw_enable_monster_revenge_affix;
     }
-    const missileHSpread = 4.0; // Degrees
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToRange(quality, 1, 5);
+    }
+    const missileHSpread = 5.0; // Degrees
     const missileVSpread = 0.25; // Abs value for code simplification
     override void onOwnerDied(Actor owner) {
         if (owner) {
@@ -549,7 +555,7 @@ class MAffFireballRevenge : RwMonsterAffix {
                 // TODO: direct missile to the one who is the killer
                 let msl = owner.SpawnMissile(Players[0].mo, 'DoomImpBall');
                 if (msl) {
-                    msl.vel *= rnd.randf(0.7, 1.5);
+                    msl.vel *= rnd.randf(0.6, 1.2);
                     let newXY = msl.rotateVector((msl.vel.X, msl.vel.Y), rnd.randf(-missileHSpread, missileHSpread));
                     msl.vel.x = newXY.X;
                     msl.vel.y = newXY.Y;

@@ -12,5 +12,9 @@ RWMENU_GAMEPLAYOPTIONS_HEADER = "Gameplay options";
 RWMENU_CONTROLS_HEADER = "DOOMablo Controls";
 
 RWSETTINGS_AFFIXNAMES = "Show affixes' names in stats";
+
 RWSETTINGS_UNCLUMP = "Too closely dropped items jump from each other";
+RWSETTINGS_ENABLE_MBLINK = "Enable Blink affix for monsters";
+RWSETTINGS_ENABLE_MREVENGE = "Enable Revenge affix for monsters";
+
 RWSETTINGS_SCRAPITEMBTN = "Scrap item";
