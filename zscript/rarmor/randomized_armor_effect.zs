@@ -14,6 +14,7 @@ extend class RandomizedArmor {
         }
     }
 
+    int absorptionFractionAccum;
     override void AbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
         if (source && damage > 1) {
             let aff = findAppliedAffix('ASuffThorns');
@@ -36,7 +37,9 @@ extend class RandomizedArmor {
                 damage = 1;
             }
         }
-        let damageToArmor = math.getIntPercentage(damage, stats.AbsorbsPercentage);
+        let damageToArmor = math.AccumulatedFixedPointAdd(0, 
+            damage * stats.AbsorbsPercentage,
+            100, absorptionFractionAccum);
         if (damageToArmor > stats.currDurability) {
             damageToArmor = stats.currDurability;
         }
