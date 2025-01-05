@@ -21,13 +21,14 @@ class RwSmg : RandomizedWeapon
 		SMGG A 1 A_Lower;
 		Loop;
 	Select:
+		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
 		SMGG A 1 A_Raise;
 		Loop;
 	Fire:
 		SMGG A 4 {
 			RWA_ApplyRateOfFire();
 			if (invoker.currentClipAmmo >= invoker.stats.ammoUsage) {
-				A_WeaponOffset(0, 3, WOF_ADD);
+				A_WeaponOffset(0, 3, WOF_ADD | WOF_INTERPOLATE);
 				RWA_ApplyRateOfFire();
 				RWA_DoFire();
 				A_StartSound("weapons/pistol", CHAN_WEAPON);
@@ -35,27 +36,27 @@ class RwSmg : RandomizedWeapon
 			}
         }
 		SMGG A 1 {
-			A_WeaponOffset(0, -3, WOF_ADD);
+			A_WeaponOffset(0, -3, WOF_ADD | WOF_INTERPOLATE);
         }
 		SMGG A 1 RWA_ReFire;
 		Goto Ready;
 	Reload:
-		SMGG AAAAAAAAAA 1 A_WeaponOffset(-3, 2, WOF_ADD);
+		SMGG AAAAAAAAAA 1 A_WeaponOffset(-3, 2, WOF_ADD | WOF_INTERPOLATE);
 		SMGG A 15 {
 			RWA_ApplyReloadSpeed();
-			A_WeaponOffset(-6, 0, WOF_ADD);
+			A_WeaponOffset(-6, 0, WOF_ADD | WOF_INTERPOLATE);
 		}
 		SMGG A 15 {
 			RWA_ApplyReloadSpeed();
-			A_WeaponOffset(0, 5, WOF_ADD);
+			A_WeaponOffset(0, 5, WOF_ADD | WOF_INTERPOLATE);
 		}
 		SMGG A 10 {
 			RWA_ApplyReloadSpeed();
 			A_StartSound("misc/w_pkup");
             A_MagazineReload(); //do the reload
-			A_WeaponOffset(6, -5, WOF_ADD);
+			A_WeaponOffset(6, -5, WOF_ADD | WOF_INTERPOLATE);
 		}
-		SMGG AAAAAAAAAA 1 A_WeaponOffset(3, -2, WOF_ADD);
+		SMGG AAAAAAAAAA 1 A_WeaponOffset(3, -2, WOF_ADD | WOF_INTERPOLATE);
 		SMGG A 5;
 		Goto Ready;
 	Flash:

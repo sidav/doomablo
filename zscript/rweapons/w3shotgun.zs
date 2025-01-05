@@ -21,6 +21,7 @@ class rwShotgun : RandomizedWeapon
 		SHTG A 1 A_Lower;
 		Loop;
 	Select:
+		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
 		SHTG A 1 A_Raise;
 		Loop;
 	Fire:
@@ -41,14 +42,14 @@ class rwShotgun : RandomizedWeapon
 		}
 		Goto Ready;
 	Reload:
-		SHTG AAABBBCCCC 1 A_WeaponOffset(-2, 4, WOF_ADD);
+		SHTG AAABBBCCCC 1 A_WeaponOffset(-2, 4, WOF_ADD | WOF_INTERPOLATE);
 		SHTG CD 15 RWA_ApplyReloadSpeed();
 		SHTG D 25 {
 			RWA_ApplyReloadSpeed();
             A_StartSound("misc/w_pkup"); // plays Doom's "weapon pickup" sound
             A_MagazineReload(); //do the reload
 		}
-		SHTG CCCCCBBBBB 1 A_WeaponOffset(2, -4, WOF_ADD);
+		SHTG CCCCCBBBBB 1 A_WeaponOffset(2, -4, WOF_ADD | WOF_INTERPOLATE);
 		Goto Ready;
 	Flash:
 		SHTF A 4 Bright {

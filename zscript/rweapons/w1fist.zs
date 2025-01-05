@@ -21,6 +21,7 @@ class RwFist : Weapon replaces Fist
 		PUNG A 1 A_Lower;
 		Loop;
 	Select:
+		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
 		PUNG A 1 A_Raise;
 		Loop;
 	Fire:

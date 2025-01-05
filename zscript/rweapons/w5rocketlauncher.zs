@@ -21,6 +21,7 @@ class RwRocketLauncher : RandomizedWeapon
 		MISG A 1 A_Lower;
 		Loop;
 	Select:
+		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
 		MISG A 1 A_Raise;
 		Loop;
 	Fire:
@@ -35,30 +36,30 @@ class RwRocketLauncher : RandomizedWeapon
 		MISG B 0 RWA_ReFire;
 		Goto Ready;
 	Reload:
-		MISG BBBBBBBBBB 1 A_WeaponOffset(-3, 1, WOF_ADD);
+		MISG BBBBBBBBBB 1 A_WeaponOffset(-3, 1, WOF_ADD | WOF_INTERPOLATE);
 		MISG B 15 {
 			RWA_ApplyReloadSpeed();
-			A_WeaponOffset(-6, 0, WOF_ADD);
+			A_WeaponOffset(-6, 0, WOF_ADD | WOF_INTERPOLATE);
 		}
 		MISG B 15 {
 			RWA_ApplyReloadSpeed();
-			A_WeaponOffset(0, 5, WOF_ADD);
+			A_WeaponOffset(0, 5, WOF_ADD | WOF_INTERPOLATE);
 		}
 		MISG B 15 {
 			RWA_ApplyReloadSpeed();
-			A_WeaponOffset(12, 3, WOF_ADD);
+			A_WeaponOffset(12, 3, WOF_ADD | WOF_INTERPOLATE);
 		}
 		MISG A 10 {
 			RWA_ApplyReloadSpeed();
 			A_StartSound("misc/w_pkup");
             A_MagazineReload(); //do the reload
-			A_WeaponOffset(-12, -3, WOF_ADD);
+			A_WeaponOffset(-12, -3, WOF_ADD | WOF_INTERPOLATE);
 		}
 		MISG A 10 {
 			RWA_ApplyReloadSpeed();
-			A_WeaponOffset(6, -5, WOF_ADD);
+			A_WeaponOffset(6, -5, WOF_ADD | WOF_INTERPOLATE);
 		}
-		MISG AAAAAAAAAA 1 A_WeaponOffset(3, -1, WOF_ADD);
+		MISG AAAAAAAAAA 1 A_WeaponOffset(3, -1, WOF_ADD | WOF_INTERPOLATE);
 		MISG A 5;
 		Goto Ready;
 	Flash:
