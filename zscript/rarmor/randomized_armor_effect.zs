@@ -3,8 +3,6 @@
 
 extend class RandomizedArmor {
 
-    const ThornsReturnedPercentage = 25;
-
     override void DoEffect() {
         let age = GetAge();
 
@@ -17,9 +15,10 @@ extend class RandomizedArmor {
     int absorptionFractionAccum;
     override void AbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
         if (source && damage > 1) {
+            // TODO: Define this logic in "Thorns" affix code, not here
             let aff = findAppliedAffix('ASuffThorns');
             if (aff != null && rnd.PercentChance(aff.modifierLevel)) {
-                let thornDamage = max(1, math.getIntPercentage(damage, ThornsReturnedPercentage));
+                let thornDamage = max(1, math.getIntPercentage(damage, aff.stat2));
                 source.damageMobj(null, owner, thornDamage, 'Normal', DMG_NO_PROTECT);
             }
 

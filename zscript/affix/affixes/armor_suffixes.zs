@@ -311,13 +311,16 @@ class ASuffThorns : RwArmorSuffix {
     }
     override string getDescription() {
         return String.Format("%d%% chance to return %d%% of damage to the attacker",
-            (modifierLevel, RandomizedArmor.ThornsReturnedPercentage));
+            (modifierLevel, stat2));
     }
     override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 50);
+        // Chance
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 50, 0.05) + remapQualityToRange(quality, 0, 15);
+        // Percentage. It may be really high (up to 500%) because the monster damage is not scaled, but their HP is.
+        stat2 = rnd.multipliedWeightedRandByEndWeight(0, 300, 0.05) + remapQualityToRange(quality, 25, 200);
     }
 }
 
@@ -376,7 +379,7 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
         return "UAC A-Def";
     }
     override string getDescription() {
-        return String.Format("On emptying deals %d dmg to everyone nearby", modifierLevel);
+        return String.Format("On emptying: %d dmg to near enemies (radius %.1f)", (modifierLevel, float(stat2)/10));
     }
     override int getAlignment() {
         return 1;
@@ -385,8 +388,11 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        // Damage
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.05) + remapQualityToRange(quality, 0, 10);
         modifierLevel = StatsScaler.ScaleIntValueByLevelRandomized(modifierLevel, quality);
+        // Radius (x10)
+        stat2 = rnd.multipliedWeightedRandByEndWeight(75, 200, 0.1);
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RandomizedArmor arm = RandomizedArmor(affixedItem);
@@ -394,7 +400,7 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
             let ti = ThinkerIterator.Create('Actor');
             Actor mo;
             while (mo = Actor(ti.next())) {
-                let reqDistance = owner.radius * 10;
+                let reqDistance = owner.radius * float(stat2) / 10.;
                 if (mo && owner != mo && owner.Distance2D(mo) <= reqDistance) {
                     mo.damageMobj(null, owner, modifierLevel, 'Normal', DMG_NO_PROTECT);
                 }
