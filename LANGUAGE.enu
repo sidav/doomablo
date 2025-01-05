@@ -16,7 +16,7 @@ RWSETTINGS_UNCLUMP = "Too closely dropped items jump from each other";
 RWMENU_DIFFICULTYOPTIONS_HEADER = "Difficulty options";
 RWSETTINGS_ENABLE_MBLINK = "Enable Blink affix for monsters";
 RWSETTINGS_ENABLE_MREVENGE = "Enable Revenge affix for monsters";
-RWSETTINGS_HP_SCALING_SPEED = "Monster HP scaling speed modifier"
+RWSETTINGS_HP_SCALING_SPEED = "Monster HP scaling speed modifier";
 
 RWMENU_CONTROLS_HEADER = "DOOMablo Controls";
 RWSETTINGS_SCRAPITEMBTN = "Scrap item";
