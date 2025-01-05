@@ -23,11 +23,15 @@ extend class RandomizedArmor {
                 source.damageMobj(null, owner, thornDamage, 'Normal', DMG_NO_PROTECT);
             }
 
-            // TODO: maybe it's too OP? Increase absorption only?
+            // TODO: Define this logic in "Holy" affix code, not here
             if (stats.currDurability > 0) {
                 aff = findAppliedAffix('ASuffHoly');
                 if (aff != null) {
-                    damage = max(1, math.getIntPercentage(damage, 100 - aff.modifierLevel));
+                    RwMonsterAffixator monAffixator = RwMonsterAffixator.GetMonsterAffixator(source);
+                    // Epic monsters and higher
+                    if (monAffixator != null && monAffixator.GetRarity() >= 3) {
+                        damage = max(1, math.getIntPercentage(damage, 100 - aff.modifierLevel));
+                    }
                 }
             }
         }

@@ -139,7 +139,7 @@ class ASuffHoly : RwArmorSuffix {
         return "Holy";
     }
     override string getDescription() {
-        return String.Format("-%d%% damage from legendary and mythic monsters", (modifierLevel));
+        return String.Format("-%d%% damage from epic monsters and higher", (modifierLevel));
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 35, 0.05) + remapQualityToRange(quality, 0, 25);
