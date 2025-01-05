@@ -55,6 +55,10 @@ class RandomizedArmor : Armor {
         return stats.currDurability > 0;
     }
 
+    int GetDrbPercentage() {
+        return math.getIntFractionInPercent(stats.currDurability, stats.maxDurability);
+    }
+
     void DoDamageToArmor(int damageAmount) {
         if (damageAmount > 0 && stats.currDurability > 0) {
             lastDamageTick = GetAge();
