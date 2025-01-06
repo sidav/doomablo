@@ -13,7 +13,7 @@ extend class DropsHandler {
         let dropNonGuaranteed = rollNonguaranteedProgDrop(dropper, dropperRarity);
 
         if (dropGuaranteed || dropNonGuaranteed) {
-            let spawnedItem = DropsSpawner.createDropByClass(dropper, 'RwMaxqItem');
+            let spawnedItem = DropsSpawner.createDropByClass(dropper, 'InfernoBook');
             AssignSpreadVelocityTo(spawnedItem);
             if (dropGuaranteed) {
                 // debug.print("Guaranteed drop");

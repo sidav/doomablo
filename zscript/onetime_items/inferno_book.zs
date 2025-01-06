@@ -1,4 +1,4 @@
-class RwMaxQItem : Inventory
+class InfernoBook : Inventory
 
 {
 	Default

@@ -70,7 +70,7 @@ class ConsoleDropsHandler : EventHandler
             // Progression items. "Rarity" holds the amount of them to spawn
             case 100:
                 for (let i = 0; i < rarity; i++) {
-                    [unused, spawnedItem] = player.A_SpawnItemEx('RwMaxqItem', xofs: xofs, zvel: zvel);
+                    [unused, spawnedItem] = player.A_SpawnItemEx('InfernoBook', xofs: xofs, zvel: zvel);
                 }
                 return; // We don't need to generate it
 
