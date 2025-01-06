@@ -9,6 +9,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
     int scrapItemButtonPressedTicks;
 
     int infernoLevel; // Determines the levels of the generated monsters. Also determines the goodness of the drops you get.
+    const maxInfernoLevel = 100;
 
     // Health pickups do not trigger HandlePickup(), so that's a workaround for that if needed:
     int previousHealth, lastHealedBy; // May be needed for altering picked up health amount by other items

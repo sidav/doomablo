@@ -18,10 +18,11 @@ class MyCustomHUD : DoomStatusBar
         // see in the HUD. This function is called
         // every frame, so the frequency of its calls
         // depends on the player's framerate.
-		Super.Draw(state, ticFrac);
+		// Super.Draw(state, ticFrac);
 		
 		if (state == HUD_StatusBar)
         {
+			Super.Draw(state, ticFrac);
             // BeginStatusBar();
             // DrawMainBar(TicFrac);
 			// DrawString(itemStatsFont, "Don't use this HUD size please", (0, 0), DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER);
@@ -30,9 +31,8 @@ class MyCustomHUD : DoomStatusBar
         }
         else if (state == HUD_Fullscreen)
         {
-            // BeginHUD();
-			// DrawString(itemStatsFont, "Don't use this HUD size please", (0, 0), DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER);
-            // DrawFullScreenStuff();
+            BeginHUD();
+            DrawFullScreenStuff();
 			DrawPickupableItemInfo();
 			if (RwPlayer(CPlayer.mo).showStatsButtonPressedTicks > TICRATE/3) {
 				DrawFullCurrentItemsInfo();
@@ -162,54 +162,37 @@ class MyCustomHUD : DoomStatusBar
 	// 	DrawImage(CPlayer.HasWeaponsInSlot(7)? "STYSNUM7" : "STGNUM7", (135, 182), DI_ITEM_OFFSETS);
 	// }
 
-	// protected void DrawFullScreenStuff()
-	// {
-	// 	Vector2 iconbox = (40, 20);
-	// 	// Draw health
-	// 	let berserk = CPlayer.mo.FindInventory("PowerStrength");
-	// 	DrawImage(berserk? "PSTRA0" : "MEDIA0", (20, -2));
-	// 	DrawString(mHUDFont, FormatNumber(CPlayer.health, 3), (44, -20));
-		
-	// 	let armor = CPlayer.mo.FindInventory("BasicArmor", true);
-	// 	if (armor != null && armor.Amount > 0)
-	// 	{
-	// 		DrawInventoryIcon(armor, (20, -22));
-	// 		DrawString(mHUDFont, FormatNumber(armor.Amount, 3), (44, -40));
-	// 	}
-	// 	Inventory ammotype1, ammotype2;
-	// 	[ammotype1, ammotype2] = GetCurrentAmmo();
-	// 	int invY = -20;
-	// 	if (ammotype1 != null)
-	// 	{
-	// 		DrawInventoryIcon(ammotype1, (-14, -4));
-	// 		DrawString(mHUDFont, FormatNumber(ammotype1.Amount, 3), (-30, -20), DI_TEXT_ALIGN_RIGHT);
-	// 		invY -= 20;
-	// 	}
-	// 	if (ammotype2 != null && ammotype2 != ammotype1)
-	// 	{
-	// 		DrawInventoryIcon(ammotype2, (-14, invY + 17));
-	// 		DrawString(mHUDFont, FormatNumber(ammotype2.Amount, 3), (-30, invY), DI_TEXT_ALIGN_RIGHT);
-	// 		invY -= 20;
-	// 	}
-	// 	if (!isInventoryBarVisible() && !Level.NoInventoryBar && CPlayer.mo.InvSel != null)
-	// 	{
-	// 		DrawInventoryIcon(CPlayer.mo.InvSel, (-14, invY + 17), DI_DIMDEPLETED);
-	// 		DrawString(mHUDFont, FormatNumber(CPlayer.mo.InvSel.Amount, 3), (-30, invY), DI_TEXT_ALIGN_RIGHT);
-	// 	}
-	// 	if (deathmatch)
-	// 	{
-	// 		DrawString(mHUDFont, FormatNumber(CPlayer.FragCount, 3), (-3, 1), DI_TEXT_ALIGN_RIGHT, Font.CR_GOLD);
-	// 	}
-	// 	else
-	// 	{
-	// 		DrawFullscreenKeys();
-	// 	}
-		
-	// 	if (isInventoryBarVisible())
-	// 	{
-	// 		DrawInventoryBar(diparms, (0, 0), 7, DI_SCREEN_CENTER_BOTTOM, HX_SHADOW);
-	// 	}
-	// }
+	protected void DrawFullScreenStuff()
+	{
+		Vector2 iconbox = (40, 20);
+		// Draw health
+		let berserk = CPlayer.mo.FindInventory("PowerStrength");
+		DrawImage(berserk? "PSTRA0" : "MEDIA0", (20, -2));
+		DrawString(mHUDFont, FormatNumber(CPlayer.health, 3), (44, -20));
+
+		Inventory ammotype1, ammotype2;
+		[ammotype1, ammotype2] = GetCurrentAmmo();
+		int invY = -20;
+		if (ammotype1 != null) {
+			DrawInventoryIcon(ammotype1, (-14, -4));
+			DrawString(mHUDFont, FormatNumber(ammotype1.Amount, 3), (-30, -20), DI_TEXT_ALIGN_RIGHT);
+			invY -= 20;
+		}
+		if (ammotype2 != null && ammotype2 != ammotype1) {
+			DrawInventoryIcon(ammotype2, (-14, invY + 17));
+			DrawString(mHUDFont, FormatNumber(ammotype2.Amount, 3), (-30, invY), DI_TEXT_ALIGN_RIGHT);
+			invY -= 20;
+		}
+		if (!isInventoryBarVisible() && !Level.NoInventoryBar && CPlayer.mo.InvSel != null) {
+			DrawInventoryIcon(CPlayer.mo.InvSel, (-14, invY), DI_DIMDEPLETED);
+			DrawString(mHUDFont, FormatNumber(CPlayer.mo.InvSel.Amount, 3), (-30, invY - 21), DI_TEXT_ALIGN_RIGHT);
+		}
+		DrawFullscreenKeys();
+
+		if (isInventoryBarVisible()) {
+			DrawInventoryBar(diparms, (0, 0), 7, DI_SCREEN_CENTER_BOTTOM, HX_SHADOW);
+		}
+	}
 	
 	// protected virtual void DrawFullscreenKeys()
 	// {

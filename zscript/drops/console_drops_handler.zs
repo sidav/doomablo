@@ -73,6 +73,12 @@ class ConsoleDropsHandler : EventHandler
                     [unused, spawnedItem] = player.A_SpawnItemEx('InfernoBook', xofs: xofs, zvel: zvel);
                 }
                 return; // We don't need to generate it
+            case 101:
+                for (let i = 0; i < rarity; i++) {
+                    [unused, spawnedItem] = player.A_SpawnItemEx('InfernoSigil', xofs: xofs, zvel: zvel);
+                }
+                return; // We don't need to generate it
+            
 
             default:
                 debug.print("Unknown drop code "..itemID);
