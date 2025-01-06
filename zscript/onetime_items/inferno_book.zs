@@ -24,7 +24,7 @@ class InfernoBook : Inventory {
 	override bool Use(bool pickup) {
 		let plr = RwPlayer(owner);
 		if (plr) {
-			plr.A_PrintBold(GetUseMessage(plr.infernoLevel + 1));
+			plr.A_Print(GetUseMessage(plr.infernoLevel + 1));
 			plr.infernoLevel = min(plr.infernoLevel + 1, plr.maxInfernoLevel);
 			plr.GiveBody(25, 200); // Heal the player
 			return true;
@@ -35,23 +35,10 @@ class InfernoBook : Inventory {
 	virtual string GetUseMessage(int newInfernoLevel) {
 		let plr = RwPlayer(owner);
 		if (plr) {
-			switch (newInfernoLevel) {
-			case plr.maxInfernoLevel+1:
+			if (newInfernoLevel > plr.maxInfernoLevel) {
 				return "The Final Seal is broken. This is the edge of oblivion.";
-			case 100:
-				return "Inferno level 100: Apotheosis of Abaddon";
-			case 75:
-				return "Inferno level 75: The Eternal Malevolence";
-			case 66:
-				return "Inferno level 66: The Ascension of Anathema";
-			case 50:
-				return "Inferno level 50: The Crescendo of Gehennah";
-			case 25:
-				return "Inferno level 25: Hellbound Ascension";
-			case 10:
-				return "Inferno level 10: Tide of Malevolence";
-			default:
-				return "Inferno level increased to "..newInfernoLevel;
+			} else {
+				return "Inferno level "..newInfernoLevel..": "..plr.GetFluffNameForInfernoLevel(newInfernoLevel);
 			}
         }
 		return "If you see this message, it's a bug.";

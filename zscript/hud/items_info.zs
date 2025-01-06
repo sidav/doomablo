@@ -54,7 +54,7 @@ extend class MyCustomHUD {
         Screen.Dim(0x000000, 0.5, 0, 0, Screen.GetWidth(), Screen.GetHeight(), STYLE_Translucent);
 
         DrawString(itemNameFont,
-            "Inferno level "..plr.infernoLevel,
+            "Inferno level "..plr.infernoLevel..": "..plr.GetFluffNameForInfernoLevel(plr.infernoLevel),
                 (0, 5), DI_SCREEN_CENTER_TOP|DI_TEXT_ALIGN_CENTER, Font.CR_WHITE);
 
         PrintEmptyLine(itemNameFont);
