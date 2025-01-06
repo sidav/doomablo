@@ -1,0 +1,74 @@
+/// Used to determine what to be drawn to the screen for boxes.
+class ZFBoxTextures ui {
+	string boxTexture;
+	bool scaleSides;
+	bool scaleMiddle;
+
+	Vector2 midSliceTopLeft;
+	Vector2 midSliceBottomRight;
+
+	static ZFBoxTextures createSingleTexture(string tex, bool scaleTex) {
+		let ret = new('ZFBoxTextures');
+
+		ret.setSingleTexture(tex);
+		ret.scaleMiddle = scaleTex;
+
+		return ret;
+	}
+
+	static ZFBoxTextures createTexturePixels(string boxTex, Vector2 topLeft, Vector2 bottomRight, bool scaleSides,
+		                                       bool scaleMiddle) {
+		let ret = new('ZFBoxTextures');
+
+		ret.setTexturePixels(boxTex, topLeft, bottomRight);
+		ret.scaleSides = scaleSides;
+		ret.scaleMiddle = scaleMiddle;
+
+		return ret;
+	}
+
+	static ZFBoxTextures createTextureNormalized(string boxTex, Vector2 topLeft, Vector2 bottomRight, bool scaleSides,
+		                                           bool scaleMiddle) {
+		let ret = new('ZFBoxTextures');
+
+		ret.setTextureNormalized(boxTex, topLeft, bottomRight);
+		ret.scaleSides = scaleSides;
+		ret.scaleMiddle = scaleMiddle;
+
+		return ret;
+	}
+
+	void setSingleTexture(string tex) {
+		boxTexture = tex;
+
+		midSliceTopLeft = (0, 0);
+		midSliceBottomRight = (1, 1);
+	}
+
+	void setTexturePixels(string boxTex, Vector2 topLeft, Vector2 bottomRight) {
+		boxTexture = boxTex;
+
+		Vector2 texSize = TexMan.getScaledSize(TexMan.checkForTexture(boxTexture, TexMan.Type_Any));
+		midSliceTopLeft = (topLeft.x / texSize.x, topLeft.y / texSize.y);
+		midSliceBottomRight = (bottomRight.x / texSize.x, bottomRight.y / texSize.y);
+	}
+
+	void setTextureNormalized(string boxTex, Vector2 topLeft, Vector2 bottomRight) {
+		boxTexture = boxTex;
+
+		midSliceTopLeft = topLeft;
+		midSliceBottomRight = bottomRight;
+	}
+
+	ZFBoxTextures duplicate() {
+		let ret = new('ZFBoxTextures');
+
+		ret.boxTexture = boxTexture;
+		ret.scaleSides = scaleSides;
+
+		ret.midSliceTopLeft = midSliceTopLeft;
+		ret.midSliceBottomRight = midSliceBottomRight;
+
+		return ret;
+	}
+}

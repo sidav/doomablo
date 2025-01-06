@@ -1,0 +1,10 @@
+class ZFHandler ui {
+	virtual void buttonClickCommand(ZFButton caller, string command) {
+	}
+	
+	virtual void buttonHeldCommand(ZFButton caller, string command) {
+	}
+
+	virtual void elementHoverChanged(ZFElement caller, string command, bool unhovered) {
+	}
+}
