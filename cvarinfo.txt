@@ -3,3 +3,4 @@ server bool RwSettingsClumpedDropsJump = true;
 server bool rw_enable_monster_blink_affix = true;
 server bool rw_enable_monster_revenge_affix = true;
 server float rw_monster_hp_scaling_exponent_mod = 0.0;
+server float rw_settings_scrapping_time = 1.5;

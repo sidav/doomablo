@@ -1,8 +1,6 @@
 extend class RwPlayer {
 
     mixin DropSpreadable;
-
-    const ticksToScrapItem = 3*TICRATE/2;
     Inventory currentItemBeingScrapped;
 
     void onScrapItemButtonPressed() {
@@ -21,7 +19,7 @@ extend class RwPlayer {
         }
         scrapItemButtonPressedTicks++;
 
-        if (scrapItemButtonPressedTicks % ticksToScrapItem == 0) {
+        if (scrapItemButtonPressedTicks % ticksToScrapItem() == 0) {
             tryScrapCurrentTargetedItem();
             scrapItemButtonPressedTicks = 0;
         }
@@ -84,8 +82,12 @@ extend class RwPlayer {
 
     }
 
+    clearscope static int ticksToScrapItem() {
+        return int(double(TICRATE) * rw_settings_scrapping_time + 0.5);
+    }
+
     ui int getScrapProgressPercentage() {
-        return math.getIntFractionInPercent(scrapItemButtonPressedTicks, ticksToScrapItem);
+        return math.getIntFractionInPercent(scrapItemButtonPressedTicks, ticksToScrapItem());
     }
 
 }

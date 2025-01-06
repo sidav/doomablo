@@ -20,6 +20,7 @@ RWSETTINGS_HP_SCALING_SPEED = "Monster GP-Skalierungsgeschwindigkeit";
 
 RWMENU_CONTROLS_HEADER = "DOOMablo Steuerung";
 RWSETTINGS_SCRAPITEMBTN = "Einen Artefakt verschrotten";
+RWSETTINGS_SCRAPITEMTIME = "Zeit für Verschrottung (sekunden)";
 
 // Generic
 YES = "Ja";
