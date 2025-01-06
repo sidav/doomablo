@@ -23,6 +23,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         super.BeginPlay();
         ResetMaxAmmoToDefault();
         infernoLevel = 1;
+        currentExpLevel = 1;
     }
 
     override void Tick() {

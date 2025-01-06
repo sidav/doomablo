@@ -9,17 +9,10 @@ class RwTestsHandler : StaticEventHandler
         showScalingsFor("Zombie", 20);
         showScalingsFor("Cyberdemon", 3000);
 
-        int lastLvl;
-        for (int exp = 0; exp <= 1000; exp++) {
-            let currlevel = LevelsExpValues.getCurrentExpLevel(exp);
-
-            if (lastLvl != currlevel) {
-                lastLvl = currlevel;
-                let neededForNext = LevelsExpValues.getRequiredXPForLevel(currlevel+1);
-                debug.print("Experience "..exp..": reached level "..currlevel
-                    .."; next level at "..neededForNext.." (diff "..(neededForNext - LevelsExpValues.getRequiredXPForLevel(currlevel))..")");
-            }
-        }
+        // for (int lvl = 2; lvl <= 100; lvl++) {
+        //     let xp = RwPlayer.getRequiredXPForLevel(lvl);
+        //     debug.print("Level "..lvl.." requires "..xp.." EXP");
+        // }
         // debug.panic("Success");
 
         // testRemapping();
