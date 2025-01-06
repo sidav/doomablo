@@ -46,7 +46,6 @@ class RwFist : Weapon replaces Fist
 
 		int damage = StatsScaler.ScaleIntValueByLevelRandomized(Random[punch](2, 20), RwPlayer(invoker.owner).infernoLevel);
 		if (FindInventory("PowerStrength")) damage *= 10;
-        debug.print("Fist works, "..damage.." dmg.");
 
 		double ang = angle + Random2[Punch]() * (5.625 / 256);
 		double range = MeleeRange + MELEEDELTA;
