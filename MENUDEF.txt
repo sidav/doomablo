@@ -28,6 +28,6 @@ OptionMenu "RW_Options"
 
 OptionValue "RwOptionsYesNo"
 {
-	0, "No"
-	1, "Yes"
+	0, "$NO"
+	1, "$YES"
 }

@@ -1,4 +1,4 @@
-[enu] //language code header
+[default] //language code header
 
 // Gameplay
 RAREMONSTERSPAWNED = "You feel a powerful presence in this place.";
@@ -20,3 +20,7 @@ RWSETTINGS_HP_SCALING_SPEED = "Monster HP scaling speed modifier";
 
 RWMENU_CONTROLS_HEADER = "DOOMablo Controls";
 RWSETTINGS_SCRAPITEMBTN = "Scrap item";
+
+// Generic
+YES = "Yes";
+NO = "No";
