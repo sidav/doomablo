@@ -82,6 +82,9 @@ class ConsoleDropsHandler : EventHandler
             case 200:
                 RwPlayer(player).receiveExperience(rarity);
                 return;
+            case 201:
+                RwPlayer(player).infernoLevel += rarity;
+                return;
             
 
             default:

@@ -1,11 +1,11 @@
 extend class RwPlayer {
 
-    int currentExperience;
     int currentExpLevel;
+    double currentExperience;
     RwPlayerStats stats;
 
     void ReceiveExperience(int amount) {
-        currentExperience += amount;
+        currentExperience += double(amount);
         let required = getRequiredXPForNextLevel();
         while(currentExperience > 0 && currentExperience >= required) {
             currentExperience -= required;
@@ -19,22 +19,24 @@ extend class RwPlayer {
         return currentExpLevel;
     }
 
-    clearscope int getRequiredXPForNextLevel() {
+    clearscope double getRequiredXPForNextLevel() {
         return getRequiredXPForLevel(currentExpLevel);
     }
 
-    clearscope int getXPPercentageForNextLevel() {
-        return math.getIntFractionInPercent(currentExperience, max(getRequiredXPForNextLevel(), 1));
+    clearscope double getXPPercentageForNextLevel() {
+        return (100. * currentExperience) / getRequiredXPForNextLevel();
     }
 
     const expExponentBase = 1.5; // That means "each 'multipliesEachLevels' of levels the value will be multiplied by exponentRateBase
     const ExpMultipliesEachLevels = 4.; // Each this many levels the value will be multiplied by exponentBase
-    const baseAmount = 250.;
-    clearscope static int getRequiredXPForLevel(int level) {
-        if (level < 3) {
-            return baseAmount;
+    const baseAmount = 500.;
+    clearscope static double getRequiredXPForLevel(int level) {
+        level -= 2;
+        if (level < 0) {
+            return 1;
         }
-        return int(baseAmount * (expExponentBase ** (double(level) / ExpMultipliesEachLevels)));
+        double addition = double(level)*50.;
+        return int((baseAmount + addition) * (expExponentBase ** (double(level) / ExpMultipliesEachLevels)));
     }
 
     // Old formula:

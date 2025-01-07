@@ -57,8 +57,8 @@ class RWLevelupMenu : ZFGenericMenu {
                 ExpPointsLabel.text = "Stat points available: "..plr.stats.statPointsAvailable;
                 ExpPointsLabel.textColor = Font.CR_GOLD;
             } else {
-                ExpPointsLabel.text = "Experience: "..plr.currentExperience.."/"..plr.getRequiredXPForNextLevel()
-                    .." ("..plr.getXPPercentageForNextLevel().."%)";
+                ExpPointsLabel.text = String.Format("EXP: %.0f/%.0f (%.1f%%)", 
+                    (plr.currentExperience, plr.getRequiredXPForNextLevel(), plr.getXPPercentageForNextLevel()));
                 ExpPointsLabel.textColor = Font.CR_GRAY;
             }
         }
