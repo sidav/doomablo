@@ -38,27 +38,27 @@ class LevelUpButton : ZFButton {
         let plr = RwPlayer(players[consoleplayer].mo);
         if (plr == null) return;
         if (command == "baseVitality") 
-            text = String.Format("Vitality:    %d", plr.stats.baseVitality);
+            text = plr.stats.getVitButtonName();
         if (command == "critchance")
-            text = String.Format("Crit chance: %.1f%%", double(plr.stats.baseCritChancePromille)/10);
+            text = plr.stats.getCritChancePromilleButtonName();
         if (command == "critdmg")
-            text = String.Format("Crit damage: %.1f%%", double(plr.stats.baseCritDmgFactorPromille)/10);
+            text = plr.stats.getCritDmgFactorPromilleButtonName();
         if (command == "rarefind")
-            text = String.Format("Rare find:   +%.1f%%", double(plr.stats.baseCritDmgFactorPromille)/10);
+            text = plr.stats.getRareFindButtonName();
     }
 
     string getDescription() {
+        let plr = RwPlayer(players[consoleplayer].mo);
+        if (plr == null) return "No description";
+
         if (command == "baseVitality") 
-            return "Each point of Vitality increases your maximum HP amount by 1.";
+            return plr.stats.getVitButtonDescription();
         if (command == "critchance")
-            return "Critical hit chance determines the probability to deal increased damage with each hit."
-                .." It is a base stat, which can be further modified by items.";
+            return plr.stats.getCritChancePromilleButtonDescription();
         if (command == "critdmg")
-            return "Critical hit damage determines how much percent of damage your critical hits will deal."
-                .." It is a base stat, which can be further modified by items.";
+            return plr.stats.getCritDmgFactorPromilleButtonDescription();
         if (command == "rarefind")
-            return "Rare Find stat determines your chance to receive an artifact drop of increased rarity.\n"
-                .." The effect is twice as small for each next rarity level.";
+            return plr.stats.getRareFindButtonDescription();
         return "No description";
     }
 
@@ -67,16 +67,14 @@ class LevelUpButton : ZFButton {
         if (plr == null || plr.stats.statPointsAvailable == 0) return;
         
         // TODO: this logic should NOT be in menu!
-        plr.stats.statPointsAvailable--;
         if (command == "baseVitality") 
-            plr.stats.baseVitality++;
+            plr.stats.doIncreaseBaseVitality();
         if (command == "critchance")
-            plr.stats.baseCritChancePromille += 4;
+            plr.stats.doIncreaseBaseCritChancePromille();
         if (command == "critdmg")
-            plr.stats.baseCritDmgFactorPromille += 5;
+            plr.stats.doIncreaseBaseCritDmgFactorPromille();
         if (command == "rarefind")
-            plr.stats.baseRareFindModifier += 15;
-        plr.stats.statsChanged = true;
+            plr.stats.doIncreaseBaseRareFind();
 
         setText();
     }

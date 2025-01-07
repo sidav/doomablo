@@ -7,6 +7,7 @@ class LevelupMenuHandler : ZFHandler
 
         if (LevelUpButton(caller)) {
             LevelUpButton(caller).OnClick();
+            link.DescriptionLabel.text = LevelUpButton(caller).getDescription();
         }
     }
     override void elementHoverChanged (ZFElement caller, string command, bool unhovered) {

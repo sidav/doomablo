@@ -1,12 +1,6 @@
 class RwPlayerStats {
     int statPointsAvailable;
 
-    // Base stats, i.e. before being modified by items
-    int baseVitality;
-    int baseCritChancePromille;
-    int baseCritDmgFactorPromille;
-    int baseRareFindModifier;
-
     // True if stats need to be re-applied to Player
     bool statsChanged;
 
@@ -16,13 +10,9 @@ class RwPlayerStats {
         newStats.baseVitality = 100;
         newStats.baseCritChancePromille = 0;
         newStats.baseCritDmgFactorPromille = 1250;
-        newStats.baseRareFindModifier = 0;
+        newStats.baseRareFindChance = 0;
         newStats.statsChanged = true;
         return newStats;
-    }
-
-    int GetMaxHealth() {
-        return baseVitality;
     }
 
     int rollAndModifyDamageForCrit(int initialDamage) {
@@ -31,14 +21,6 @@ class RwPlayerStats {
             return (initialDamage * baseCritDmgFactorPromille + 500) / 1000;
         }
         return initialDamage;
-    }
-
-    int rollForIncreasedRarity(int initialRarity) {
-        let chances = baseRareFindModifier / (2 ** initialRarity);
-        if (Random(0, 1000) < chances) {
-            initialRarity += 1;
-        }
-        return min(initialRarity, 5);
     }
 }
 
