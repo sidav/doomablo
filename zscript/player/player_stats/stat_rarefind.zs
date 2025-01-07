@@ -1,17 +1,17 @@
 extend class RwPlayerStats {
 
     const rareFindCost = 1;
-    const maxBaseRareFind = 1000; // Promille
+    const maxBaseRareFindChance = 2000; // Promille
 
     int baseRareFindChance;
 
     bool canIncreaseBaseRareFind() {
-        return statPointsAvailable >= rareFindCost;
+        return statPointsAvailable >= rareFindCost && baseRareFindChance < maxBaseRareFindChance;
     }
 
     void doIncreaseBaseRareFind() {
         statPointsAvailable -= rareFindCost;
-        baseRareFindChance += 15;
+        baseRareFindChance += 7;
     }
 
     // The stat effect itself

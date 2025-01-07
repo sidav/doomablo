@@ -6,7 +6,7 @@ extend class RwPlayerStats {
     int baseCritChancePromille;
 
     bool canIncreaseBaseCritChancePromille() {
-        return statPointsAvailable >= baseCritChancePromilleCost;
+        return statPointsAvailable >= baseCritChancePromilleCost && baseCritChancePromille < maxBaseCritChancePromille;
     }
 
     void doIncreaseBaseCritChancePromille() {

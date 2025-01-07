@@ -17,8 +17,7 @@ class LevelUpButton : ZFButton {
     }
 
     override void drawer() {
-        let plr = RwPlayer(players[consoleplayer].mo);
-        if (plr != null && plr.stats.statPointsAvailable > 0) {
+        if (enabled()) {
             ZFBoxTextures textures = textures[curButtonState];
             // Notice: overriding drawn button width here
             drawBox((0, 0), (drawnButtonWidth, box.size.y), textures, true);
@@ -32,12 +31,27 @@ class LevelUpButton : ZFButton {
 		drawText(textPos, fnt, text, textColor, textScale);
 	}
 
+    bool enabled() {
+        let plr = RwPlayer(players[consoleplayer].mo);
+        if (plr == null) return false;
+        if (command == "basevitality") 
+            return plr.stats.canIncreaseBaseVitality();
+        if (command == "critchance")
+            return plr.stats.canIncreaseBaseCritChancePromille();
+        if (command == "critdmg")
+            return plr.stats.canIncreaseBaseCritDmgFactorPromille();
+        if (command == "meleedmg")
+            return plr.stats.canIncreaseBaseMeleeDamageLevel();
+        if (command == "rarefind")
+            return plr.stats.canIncreaseBaseRareFind();
+        return false;
+    }
+
     void setText() {
-        // EventHandler.SendNetworkEvent("playerstatupgrade:"..command, 1, 23, -1);
         text = "Text error; command "..command;
         let plr = RwPlayer(players[consoleplayer].mo);
         if (plr == null) return;
-        if (command == "baseVitality") 
+        if (command == "basevitality") 
             text = plr.stats.getVitButtonName();
         if (command == "critchance")
             text = plr.stats.getCritChancePromilleButtonName();
@@ -53,7 +67,7 @@ class LevelUpButton : ZFButton {
         let plr = RwPlayer(players[consoleplayer].mo);
         if (plr == null) return "No description";
 
-        if (command == "baseVitality") 
+        if (command == "basevitality") 
             return plr.stats.getVitButtonDescription();
         if (command == "critchance")
             return plr.stats.getCritChancePromilleButtonDescription();
@@ -67,11 +81,14 @@ class LevelUpButton : ZFButton {
     }
 
     void OnClick() {
+        if (!enabled()) {
+            return;
+        }
         let plr = RwPlayer(players[consoleplayer].mo);
         if (plr == null || plr.stats.statPointsAvailable == 0) return;
         
         // TODO: this logic should NOT be in menu!
-        if (command == "baseVitality") 
+        if (command == "basevitality") 
             plr.stats.doIncreaseBaseVitality();
         if (command == "critchance")
             plr.stats.doIncreaseBaseCritChancePromille();

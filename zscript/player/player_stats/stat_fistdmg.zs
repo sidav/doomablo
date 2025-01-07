@@ -6,7 +6,7 @@ extend class RwPlayerStats {
     int baseMeleeDamageLevel;
 
     bool canIncreaseBaseMeleeDamageLevel() {
-        return statPointsAvailable >= MeleeDamageLevelCost;
+        return statPointsAvailable >= MeleeDamageLevelCost && baseMeleeDamageLevel < maxBaseMeleeDamageLevel;
     }
 
     void doIncreaseBaseMeleeDamageLevel() {

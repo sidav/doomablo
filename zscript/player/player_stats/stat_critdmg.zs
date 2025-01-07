@@ -1,12 +1,12 @@
 extend class RwPlayerStats {
 
     const CritDmgFactorPromilleCost = 1;
-    const maxBaseCritDmgFactorPromille = 1000; // Promille
+    const maxBaseCritDmgFactorPromille = 5000; // Promille
 
     int baseCritDmgFactorPromille;
 
     bool canIncreaseBaseCritDmgFactorPromille() {
-        return statPointsAvailable >= CritDmgFactorPromilleCost;
+        return statPointsAvailable >= CritDmgFactorPromilleCost && baseCritDmgFactorPromille < maxBaseCritDmgFactorPromille;
     }
 
     void doIncreaseBaseCritDmgFactorPromille() {

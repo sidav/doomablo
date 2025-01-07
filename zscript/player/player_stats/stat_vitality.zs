@@ -6,7 +6,7 @@ extend class RwPlayerStats {
     int baseVitality;
 
     bool canIncreaseBaseVitality() {
-        return statPointsAvailable >= vitCost;
+        return statPointsAvailable >= vitCost && baseVitality < maxBaseVitality;
     }
 
     void doIncreaseBaseVitality() {
