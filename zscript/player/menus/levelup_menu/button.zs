@@ -37,18 +37,18 @@ class LevelUpButton : ZFButton {
         text = "Text error; command "..command;
         let plr = RwPlayer(players[consoleplayer].mo);
         if (plr == null) return;
-        if (command == "vitality") 
-            text = String.Format("Vitality:    %d", plr.stats.vitality);
+        if (command == "baseVitality") 
+            text = String.Format("Vitality:    %d", plr.stats.baseVitality);
         if (command == "critchance")
-            text = String.Format("Crit chance: %.1f%%", double(plr.stats.critChancePromille)/10);
+            text = String.Format("Crit chance: %.1f%%", double(plr.stats.baseCritChancePromille)/10);
         if (command == "critdmg")
-            text = String.Format("Crit damage: %.1f%%", double(plr.stats.critDamageFactorPromille)/10);
+            text = String.Format("Crit damage: %.1f%%", double(plr.stats.baseCritDmgFactorPromille)/10);
         if (command == "rarefind")
-            text = String.Format("Rare find:   +%d", plr.stats.rareFindModifier);
+            text = String.Format("Rare find:   +%d", plr.stats.baseRareFindModifier);
     }
 
     string getDescription() {
-        if (command == "vitality") 
+        if (command == "baseVitality") 
             return "Each point of Vitality increases your maximum HP amount by 1.";
         if (command == "critchance")
             return "Critical hit chance determines the probability to deal increased damage with each hit."
@@ -67,14 +67,14 @@ class LevelUpButton : ZFButton {
         
         // TODO: this logic should NOT be in menu!
         plr.stats.statPointsAvailable--;
-        if (command == "vitality") 
-            plr.stats.vitality++;
+        if (command == "baseVitality") 
+            plr.stats.baseVitality++;
         if (command == "critchance")
-            plr.stats.critChancePromille += 4;
+            plr.stats.baseCritChancePromille += 4;
         if (command == "critdmg")
-            plr.stats.critDamageFactorPromille += 5;
+            plr.stats.baseCritDmgFactorPromille += 5;
         if (command == "rarefind")
-            plr.stats.rareFindModifier += 1;
+            plr.stats.baseRareFindModifier += 1;
         plr.stats.statsChanged = true;
 
         setText();

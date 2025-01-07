@@ -1,22 +1,28 @@
 class RwPlayerStats {
     int statPointsAvailable;
 
-    int vitality;
-    int critChancePromille;
-    int critDamageFactorPromille;
-    int rareFindModifier;
+    // Base stats, i.e. before being modified by items
+    int baseVitality;
+    int baseCritChancePromille;
+    int baseCritDmgFactorPromille;
+    int baseRareFindModifier;
 
+    // True if stats need to be re-applied to Player
     bool statsChanged;
 
     static RwPlayerStats Create() {
         let newStats = new('RwPlayerStats');
         newStats.statPointsAvailable = 0;
-        newStats.vitality = 100;
-        newStats.critChancePromille = 0;
-        newStats.critDamageFactorPromille = 1250;
-        newStats.rareFindModifier = 0;
+        newStats.baseVitality = 100;
+        newStats.baseCritChancePromille = 0;
+        newStats.baseCritDmgFactorPromille = 1250;
+        newStats.baseRareFindModifier = 0;
         newStats.statsChanged = true;
         return newStats;
+    }
+
+    int GetMaxHealth() {
+        return baseVitality;
     }
 }
 
@@ -31,7 +37,7 @@ extend class RwPlayer {
 
         // Apply max health
         let initialMaxHp = MaxHealth;
-        MaxHealth = stats.vitality;
+        MaxHealth = stats.GetMaxHealth();
         GiveBody(MaxHealth - initialMaxHp, MaxHealth);
     }
 }

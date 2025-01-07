@@ -43,7 +43,7 @@ class RWLevelupMenu : ZFGenericMenu {
         DescriptionLabel.Pack(mainFrame);
 
         currentHeight = 80;
-        addLevelUpButton("vitality");
+        addLevelUpButton("baseVitality");
         addLevelUpButton("critchance");
         addLevelUpButton("critdmg");
         addLevelUpButton("rarefind");
