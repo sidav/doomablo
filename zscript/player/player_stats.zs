@@ -32,6 +32,14 @@ class RwPlayerStats {
         }
         return initialDamage;
     }
+
+    int rollForIncreasedRarity(int initialRarity) {
+        let chances = baseRareFindModifier / (2 ** initialRarity);
+        if (Random(0, 1000) < chances) {
+            initialRarity += 1;
+        }
+        return min(initialRarity, 5);
+    }
 }
 
 // (re)application of the stats

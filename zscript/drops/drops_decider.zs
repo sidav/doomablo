@@ -65,13 +65,14 @@ class DropsDecider {
 
     static int, int rollRarityAndQuality(int rarMod, int qtyMod) {
         // Roll rarity
-        let rar = rnd.weightedRand(50, 100, 50, 30, 15, 5);
+        let rar = rnd.weightedRand(60, 100, 40, 25, 10, 1);
         rar = min(rar+rarMod, 5);
 
         // Roll quality
         int qty = 1;
         let plr = RwPlayer(Players[0].mo);
         if (plr) {
+            rar = plr.stats.rollForIncreasedRarity(rar);
             qty = plr.rollForDropLevel();
         } else {
             debug.print("Non-player quality roll, report this please!");

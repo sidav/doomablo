@@ -44,7 +44,7 @@ class LevelUpButton : ZFButton {
         if (command == "critdmg")
             text = String.Format("Crit damage: %.1f%%", double(plr.stats.baseCritDmgFactorPromille)/10);
         if (command == "rarefind")
-            text = String.Format("Rare find:   +%d", plr.stats.baseRareFindModifier);
+            text = String.Format("Rare find:   +%.1f%%", double(plr.stats.baseCritDmgFactorPromille)/10);
     }
 
     string getDescription() {
@@ -57,7 +57,8 @@ class LevelUpButton : ZFButton {
             return "Critical hit damage determines how much percent of damage your critical hits will deal."
                 .." It is a base stat, which can be further modified by items.";
         if (command == "rarefind")
-            return "Each point of Rare Find stat will progressively raise your chance to find rare items.";
+            return "Rare Find stat determines your chance to receive an artifact drop of increased rarity.\n"
+                .." The effect is twice as small for each next rarity level.";
         return "No description";
     }
 
@@ -74,7 +75,7 @@ class LevelUpButton : ZFButton {
         if (command == "critdmg")
             plr.stats.baseCritDmgFactorPromille += 5;
         if (command == "rarefind")
-            plr.stats.baseRareFindModifier += 1;
+            plr.stats.baseRareFindModifier += 15;
         plr.stats.statsChanged = true;
 
         setText();
