@@ -1,6 +1,7 @@
 class RWStatsClass {
     int minDamage;
     int maxDamage;
+    int additionalDamagePromille; // 153 means "+15.3% damage". Made as a separate stat so that damage values like 4.1 are properly accounted
     int Pellets;
     float HorizSpread;
     float VertSpread;
@@ -31,6 +32,7 @@ class RWStatsClass {
     int NumberOfRays;
 	double RaysConeAngle;
 	int RayDmgMin, RayDmgMax;
+    int additionalBfgRayDamagePromille;
 	bool raysWillOriginateFromMissile; // false means rays from shooter, like in vanilla Doom.
 
     static RWStatsClass NewWeaponStats(int minDmg, int maxDmg, int pell, int ammousg, float hSpr, float vSpr) {

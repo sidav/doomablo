@@ -31,8 +31,9 @@ class RwBFGBall : RwProjectile
 
 	int NumberOfRays;
 	double RaysConeAngle;
-	int RayDmgMin, RayDmgMax;
+	int RayDmgMin, RayDmgMax, additionalBfgRayDamagePromille;
 	bool raysWillOriginateFromMissile; // false means rays from shooter, like in vanilla Doom.
+	int rayDamageFractionAccumulator; // needed so that damage values like 4.1 are properly accounted
 
 	override void applyWeaponStats(RandomizedWeapon wpn) {
 		super.applyWeaponStats(wpn);
@@ -41,6 +42,7 @@ class RwBFGBall : RwProjectile
 		RaysConeAngle = wpn.stats.RaysConeAngle;
 		RayDmgMin = wpn.stats.RayDmgMin;
 		RayDmgMax = wpn.stats.RayDmgMax;
+		additionalBfgRayDamagePromille = wpn.stats.additionalBfgRayDamagePromille;
 		raysWillOriginateFromMissile = wpn.stats.raysWillOriginateFromMissile;
 	}
 
@@ -69,6 +71,13 @@ class RwBFGBall : RwProjectile
 			double an = angle - RaysConeAngle / 2 + RaysConeAngle / NumberOfRays*i;
 			originator.AimLineAttack(an, distance, t, vrange);
 
+			damage = Random[weaponDamageRoll](RayDmgMin, RayDmgMax);
+			// Fixed-point damage calculation with promille modifier:
+			damage *= (1000 + additionalBfgRayDamagePromille); // We're working with promille here, so multiply
+			rayDamageFractionAccumulator += damage;
+			damage = rayDamageFractionAccumulator / 1000;
+			rayDamageFractionAccumulator = rayDamageFractionAccumulator % 1000; // Store only the fraction in the accumulator
+
 			if (t.linetarget != null) {
 				Actor spray = Spawn("RwBFGExtra", t.linetarget.pos + (0, 0, t.linetarget.Height / 4), ALLOW_REPLACE);
 
@@ -84,8 +93,6 @@ class RwBFGBall : RwProjectile
 					if (spray.bPuffGetsOwner) spray.target = target;
 					dmgType = spray.DamageType;
 				}
-
-				damage = Random[BfgRayDmg](RayDmgMin, RayDmgMax);
 
 				int newdam = t.linetarget.DamageMobj(originator, target, damage, dmgType, dmgFlags|DMG_USEANGLE, t.angleFromSource);
 				t.TraceBleed(newdam > 0 ? newdam : damage, self);

@@ -17,8 +17,13 @@ extend class MyCustomHUD {
             }
         }
 
-        PrintLineAt("* "..aff.getName()..": "..aff.getDescription(),
-                    x, y, itemStatsFont, textFlags, clr);
+        if (RwSettingsShowAffixNamesInTables) {
+            PrintLineAt("* "..aff.getName()..": "..aff.getDescription(),
+                        x, y, itemStatsFont, textFlags, clr);
+        } else {
+            PrintLineAt("* "..aff.getDescription(),
+                        x, y, itemStatsFont, textFlags, clr);
+        }
     }
 
     string getRarityName(int rarity) {

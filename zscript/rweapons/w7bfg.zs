@@ -19,6 +19,7 @@ class RwBFG : RandomizedWeapon
 		BFGG A 1 A_Lower;
 		Loop;
 	Select:
+		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
 		BFGG A 1 A_Raise;
 		Loop;
 	Fire:
@@ -60,9 +61,16 @@ class RwBFG : RandomizedWeapon
 		Goto Ready;
 	}
 
+	// Scale rays damage too
+	override void prepareForGeneration() {
+		super.prepareForGeneration();
+        stats.RayDmgMin = StatsScaler.ScaleIntValueByLevelRandomized(stats.RayDmgMin, generatedQuality);
+        stats.RayDmgMax = StatsScaler.ScaleIntValueByLevelRandomized(stats.RayDmgMax, generatedQuality);
+    }
+
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			75, 250,
+			100, 500,
 			1,
 			50,
 			5.0,
@@ -78,8 +86,8 @@ class RwBFG : RandomizedWeapon
 		// BFG-only
 		stats.NumberOfRays = 40;
 		stats.RaysConeAngle = 90.;
-		stats.RayDmgMin = 10;
-		stats.RayDmgMax = 50;
+		stats.RayDmgMin = 15;
+		stats.RayDmgMax = 75;
 		stats.raysWillOriginateFromMissile = false;
     }
 

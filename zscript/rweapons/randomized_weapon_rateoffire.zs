@@ -24,6 +24,7 @@ extend class RandomizedWeapon {
     }
 
     action void RWA_ApplyReloadSpeed() {
+        A_WeaponReady(WRF_NOFIRE | WRF_NOBOB); // This allows switching during reloading. NOBOB is here to prevent weapon sprite resetting its position
         let newDuration = invoker.getFrameDurationWithSpeedBonus(
             self.player.FindPSprite(PSP_WEAPON).tics,
             invoker.stats.reloadSpeedModifier,

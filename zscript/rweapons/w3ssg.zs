@@ -20,6 +20,7 @@ class RwSuperShotgun : RandomizedWeapon
 		SHT2 A 1 A_Lower;
 		Loop;
 	Select:
+		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
 		SHT2 A 1 A_Raise;
 		Loop;
 	Fire:
@@ -102,7 +103,7 @@ class RwSuperShotgun : RandomizedWeapon
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
 			5, 10,
-			16,
+			18,
 			2,
 			15.0,
 			4.0

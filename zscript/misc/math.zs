@@ -72,8 +72,41 @@ class Math {
         return (value * percent + 50) / 100;
     }
 
-    static int getPercentageFromInt(int value, int max) {
+    // Returns integer: how many percents is "part" of the "whole"
+    static int getIntFractionInPercent(int part, int whole) {
         // +50 needed for proper rounding
-        return (100 * value + max/2) / max;
+        return (100 * part + whole/2) / whole;
+    }
+
+    // 65% of 7 is 5 (with rounding). 78% of 7 is 5 as well. That means 65..78% are the same.
+    // This func will "clump" percentage to a set of discrete values, increasing result only if the percentage is increased.
+    // 65% of 7 will become 71%, and 78% will become 71% too.
+    static int discretizeIntPercentFraction(int value, int currPercent) {
+        if (value == 0) {
+            return currPercent;
+        }
+        // Getting the percentage and then calculating how much percent is it.
+        // I.e. the same as getIntFractionInPercent(getIntPercentage(value, currPercent), value);
+        return (100 * ((value * currPercent + 50) / 100) + value/2) / value;
+    }
+
+    // Returns minimum perc fraction of the value for make any difference for the value if changed by this much percent.
+    // E.g. returns 33 for 3, because anything less than 33% will make no difference (speaking of whole numbers of course)
+    static int minimumMeaningIntPercent(int value) {
+        return (100 + value/2) / value;
+    }
+
+    // Useful for things which just can't be floats, like frames' durations. 
+    // Useful only for repeated (across multiple frames) calcs with same vars.
+    // First var is whole undividable integer, second is fixed-point one, multiplied by the precision.
+    // fractionAccum is a variable to store fractional part.
+    // If the added value is e.g. 1.2345, the addition param should be 12345 and precision should be 10000
+    // Example usage: to add 1.34 to 25, use AccumulatedFixedPointAdd(25, 134, 100, fractionAccum)
+    // ALWAYS use the same precision with same fractionAccum var! Or, better, always stick same calculation to the same precision.
+    static int AccumulatedFixedPointAdd(int whole, int addition, int precision, out int fractionAccum) {
+        fractionAccum += whole * precision + addition;
+        whole = fractionAccum / precision;
+        fractionAccum = fractionAccum % precision;
+        return whole;
     }
 }

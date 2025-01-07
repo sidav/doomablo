@@ -27,6 +27,7 @@ class RwChainsaw : RandomizedWeapon
 		SAWG C 1 A_Lower;
 		Loop;
 	Select:
+		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
 		SAWG C 1 A_Raise;
 		Loop;
 	Fire:
@@ -35,12 +36,12 @@ class RwChainsaw : RandomizedWeapon
             A_Saw();
             invoker.lastXOffset = rnd.randf(-invoker.maxXOffset, invoker.maxXOffset);
             invoker.lastYOffset = rnd.randf(0, invoker.maxYOffset);
-            A_WeaponOffset(invoker.lastXOffset, invoker.lastYOffset, WOF_ADD);
+            A_WeaponOffset(invoker.lastXOffset, invoker.lastYOffset, WOF_ADD | WOF_INTERPOLATE);
         }
         SAWG B 4 {
             RWA_ApplyRateOfFire();
             A_Saw();
-            A_WeaponOffset(-invoker.lastXOffset, -invoker.lastYOffset, WOF_ADD);
+            A_WeaponOffset(-invoker.lastXOffset, -invoker.lastYOffset, WOF_ADD | WOF_INTERPOLATE);
         }
 		SAWG B 0 A_ReFire;
 		Goto Ready;

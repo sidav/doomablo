@@ -1,8 +1,5 @@
-class RWPlayerDealtStatusEffectsHandler : EventHandler
+class RWOnWeaponDamageDealtHandler : EventHandler
 {
-
-    mixin DropSpreadable;
-
     override void WorldThingDamaged(WorldEvent e) {
         let target = e.thing;
         let whoDidDamage = e.damageSource; // or try e.thing.target. e.Inflictor is NOT who did the damage. Yup, it's that strange

@@ -1,0 +1,4 @@
+default,Identifier,Remarks,Filter,de,,Miscellaneous,,
+You feel a powerful presence in this place.,RAREMONSTERSPAWNED,,,Du spürst eine starke Präsenz an diesem Ort.
+Show affixes' names in stats,RWSETTINGS_AFFIXNAMES,,,Affix Namen anzeigen
+Too closely dropped items jump from each other,RWSETTINGS_UNCLUMP,,,Nebenen Artefakten vom einander springen

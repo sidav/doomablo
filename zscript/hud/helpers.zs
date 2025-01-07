@@ -56,6 +56,19 @@ extend class MyCustomHUD {
         return Font.CR_WHITE;
     }
 
+    color GetTwoFloatDifferencesColor(float diff1, float diff2) {
+        if ((diff1 > 0 && diff2 > 0) || (diff1 * diff2 == 0 && diff1 + diff2 > 0)) {
+            return Font.CR_GREEN;
+        }
+        if ((diff1 < 0 && diff2 < 0) || (diff1 * diff2 == 0 && diff1 + diff2 < 0)) {
+            return Font.CR_RED;
+        }
+        if (diff1 * diff2 < 0) {
+            return Font.CR_YELLOW;
+        }
+        return Font.CR_WHITE;
+    }
+
     const changePickupHintEachTics = 3*TICRATE/2;
     string BuildDefaultPickUpHintStr(string actionStr) {
         if ((level.maptime/changePickupHintEachTics) % 2 == 0) {

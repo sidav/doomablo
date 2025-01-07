@@ -1,4 +1,4 @@
-class RwPlayer : DoomPlayer
+class RwPlayer : DoomPlayer // Base class; should not be created directly
 {
     const WEAPON_SLOTS = 4; // this DOES count the fists
 
@@ -8,33 +8,28 @@ class RwPlayer : DoomPlayer
     int showStatsButtonPressedTicks;
     int scrapItemButtonPressedTicks;
 
-    int minItemQuality, maxItemQuality; // Instead of player level. Used for progression.
+    int infernoLevel; // Determines the levels of the generated monsters. Also determines the goodness of the drops you get.
+    const maxInfernoLevel = 100;
 
     // Health pickups do not trigger HandlePickup(), so that's a workaround for that if needed:
     int previousHealth, lastHealedBy; // May be needed for altering picked up health amount by other items
 
     default {
-        Player.DisplayName "Random Drops";
+        Player.DisplayName "Report a bug if you see this";
         Health 100;
-    }
-
-    virtual bool ProgressionEnabled() {
-        return false;
-    }
-
-    virtual ui bool ProgressionEnabledUI() {
-        return false;
     }
 
     override void BeginPlay() {
         super.BeginPlay();
         ResetMaxAmmoToDefault();
-        minItemQuality = 1;
-        maxItemQuality = 100;
+        infernoLevel = 1;
+        currentExpLevel = 1;
+        reapplyPlayerStats();
     }
 
     override void Tick() {
         super.Tick();
+        reapplyPlayerStats();
 
         let ba = FindInventory('BasicArmor');
         if (ba != null) {
@@ -56,8 +51,11 @@ class RwPlayer : DoomPlayer
         } else {
             scrapItemButtonPressedTicks = 0;
         }
+        if (Player.cmd.buttons & BT_USER4) {
+            Menu.SetMenu('RWLevelupMenu');
+        }
 
-         // Health pickups do not trigger HandlePickup(), so that's a workaround:
+        // Health pickups do not trigger HandlePickup(), so that's a workaround:
         if (previousHealth < Health) {
             lastHealedBy = Health - previousHealth;
         } else {
@@ -71,5 +69,15 @@ class RwPlayer : DoomPlayer
         SetAmmoCapacity('Shell', 40);
         SetAmmoCapacity('Rocketammo', 30);
         SetAmmoCapacity('Cell', 100);
+    }
+
+    // Progression-related
+    const infernoLevelRangeSize = 5;
+    clearscope int, int getDropsRangeForInfernoLevel() {
+        return infernoLevel, clamp(infernoLevel+infernoLevelRangeSize-1, 1, 100);
+    }
+
+    clearscope int rollForDropLevel() {
+        return rnd.multipliedWeightedRand(infernoLevel, min(100, infernoLevel + infernoLevelRangeSize-1), 1.0/2.0);
     }
 }

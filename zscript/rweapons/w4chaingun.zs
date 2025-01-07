@@ -24,6 +24,7 @@ class RwChaingun : RandomizedWeapon
 		CHGG A 1 A_Lower;
 		Loop;
 	Select:
+		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
 		CHGG A 1 A_Raise;
 		Loop;
 	Fire:
@@ -45,24 +46,25 @@ class RwChaingun : RandomizedWeapon
 			invoker.currentFireFrame++;
         }
 		CHGG B 0 RWA_ReFire;
+		// "Spin down" begins here
 		CHGG A 3 RWA_ApplyRateOfFire;
 		CHGG B 3 RWA_ApplyRateOfFire;
 		CHGG A 4 RWA_ApplyRateOfFire;
 		CHGG B 4 RWA_ApplyRateOfFire;
-		CHGG A 5 RWA_ApplyRateOfFire;
+		CHGG A 4 RWA_ApplyRateOfFire;
 		CHGG B 5 RWA_ApplyRateOfFire;
-		CHGG A 6 RWA_ApplyRateOfFire;
+		CHGG A 5 RWA_ApplyRateOfFire;
 		CHGG B 6 RWA_ApplyRateOfFire;
 		Goto Ready;
 	Reload:
-		CHGG AAAABBBBAAAABBBBAAAA 1 A_WeaponOffset(-1, 1, WOF_ADD);
+		CHGG AAAABBBBAAAABBBBAAAA 1 A_WeaponOffset(-1, 1, WOF_ADD | WOF_INTERPOLATE);
 		CHGG BABAB 7 RWA_ApplyReloadSpeed();
 		CHGG A 15 {
 			RWA_ApplyReloadSpeed();
             A_StartSound("misc/w_pkup"); // plays Doom's "weapon pickup" sound
             A_MagazineReload(); //do the reload
 		}
-		CHGG BBBBAAAABBBBAAAABBBB 1 A_WeaponOffset(1, -1, WOF_ADD);
+		CHGG BBBBAAAABBBBAAAABBBB 1 A_WeaponOffset(1, -1, WOF_ADD | WOF_INTERPOLATE);
 		Goto Ready;
 	Flash:
 		CHGF A 4 Bright {
@@ -100,7 +102,7 @@ class RwChaingun : RandomizedWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			4, 7,
+			4, 8,
 			1,
 			1,
 			12.5,

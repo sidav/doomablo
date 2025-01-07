@@ -64,7 +64,7 @@ class BSuffLessAmmoChance : RwBackpackSuffix {
         return -1;
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 50);
+        modifierLevel = remapQualityToRange(quality, 1, 25) + 5;
     }
     override void onHandlePickup(Inventory pickedUp) {
         if (pickedUp is 'Ammo' && rnd.PercentChance(modifierLevel)) {
@@ -80,17 +80,16 @@ class BSuffRestoreCells : RwBackpackSuffix {
         return "RITEG";
     }
     override string getDescription() {
-        return "Each "
-            ..
-            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
-            .." seconds gives an energy cell";
+        return String.Format("Gives %.2f energy cells per second", (double(modifierLevel) * TICRATE / 1000 ));
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        let secondsx10 = remapQualityToRange(quality, 100, 5);
-        modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+        // ModifierLevel is "ammo per tick * 1000"
+        modifierLevel = (rnd.multipliedWeightedRandByEndWeight(75, 1000, 0.05) + modifierLevel*2 + TICRATE/2) / TICRATE;
     }
+    int fractionAccumulator;
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        if (affixedItem.GetAge() % modifierLevel == 0) {
+        let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, fractionAccumulator);
+        if (addAmount > 0) {
             owner.GiveInventory('Cell', 1);
         }
     }
@@ -101,17 +100,16 @@ class BSuffRestoreBullets : RwBackpackSuffix {
         return "Nanoassembler";
     }
     override string getDescription() {
-        return "Each "
-            ..
-            String.Format("%.1f", (Gametime.TicksToSeconds(modifierLevel)))
-            .." seconds gives a bullet";
+        return String.Format("Gives %.2f bullets per second", (double(modifierLevel) * TICRATE / 1000 ));
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        let secondsx10 = remapQualityToRange(quality, 75, 5);
-        modifierLevel = gametime.secondsToTicks(float(secondsx10)/10);
+        // ModifierLevel is "ammo per tick * 1000"
+        modifierLevel = (rnd.multipliedWeightedRandByEndWeight(75, 1000, 0.05) + modifierLevel*2 + TICRATE/2) / TICRATE;
     }
+    int fractionAccumulator;
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        if (affixedItem.GetAge() % modifierLevel == 0) {
+        let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, fractionAccumulator);
+        if (addAmount > 0) {
             owner.GiveInventory('Clip', 1);
         }
     }
@@ -128,7 +126,7 @@ class BSuffAutoreload : RwBackpackSuffix {
             .." seconds reloads your weapons";
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        let seconds = remapQualityToRange(quality, 20, 5);
+        let seconds = Random(5, 10);
         modifierLevel = gametime.secondsToTicks(seconds);
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
@@ -160,7 +158,7 @@ class BSuffBetterMedikits : RwBackpackSuffix {
         return "+"..modifierLevel.." to each non-bonus health pickup";
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 5);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.05) + remapQualityToRange(quality, 0, 2);
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         // Caution here: this affix-caused healing may chain-trigger itself on next tick.
@@ -179,7 +177,7 @@ class BSuffBetterArmorRepair : RwBackpackSuffix {
         return String.Format("%d%% chance to repair more armor DRB", (modifierLevel));
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 50);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 50, 0.05) + remapQualityToRange(quality, 0, 10);
     }
 
     int previousTickDRB;
@@ -204,7 +202,7 @@ class BSuffMoreAmmoChance : RwBackpackSuffix {
         return "Ammo pickups have "..modifierLevel.."% chance to have more ammo";
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 50);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 40, 0.05) + remapQualityToRange(quality, 0, 10);
     }
     override void onHandlePickup(Inventory pickedUp) {
         if (pickedUp is 'Ammo' && rnd.PercentChance(modifierLevel)) {
@@ -225,7 +223,7 @@ class BSuffBetterEarmorDelay : RwBackpackSuffix {
         return String.Format("Energy armor recharge delay -%d%%", (modifierLevel));
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 5, 50);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 40, 0.05) + remapQualityToRange(quality, 0, 10);
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         let plr = RwPlayer(owner);

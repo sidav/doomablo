@@ -6,6 +6,15 @@ class RwTestsHandler : StaticEventHandler
 
 	override void OnRegister()
 	{
+        showScalingsFor("Zombie", 20);
+        showScalingsFor("Cyberdemon", 3000);
+
+        // for (int lvl = 2; lvl <= 100; lvl++) {
+        //     let xp = RwPlayer.getRequiredXPForLevel(lvl);
+        //     debug.print("Level "..lvl.." requires "..xp.." EXP");
+        // }
+        // debug.panic("Success");
+
         // testRemapping();
 
         // let triesForSum = 10000;
@@ -46,6 +55,18 @@ class RwTestsHandler : StaticEventHandler
         // }
         // debug.panic("Tests passed. Balances results is "..debug.intArrToString(balances));
 	}
+
+    void showScalingsFor(string name, int baseValue) {
+        debug.print("Scaling for "..name.." (base val is "..baseValue.."):");
+        let valsStr = "";
+        for (let i = 1; i <= 100; i++) {
+            if (i % 10 != 0 && i != 1) continue;
+            valsStr = valsStr.."[LVL "..i..": "..StatsScaler.ScaleIntValueByLevelRandomized(baseValue, i).."]  ";
+        }
+        debug.print("  VALS: "..valsStr);
+        debug.print("  On max level the multiplier is: "..StatsScaler.ScaleIntValueByLevel(1, 100)
+            .."; mean max is "..StatsScaler.ScaleIntValueByLevel(baseValue, 100));
+    }
 
     void testRemapping() {
         let fmin = 0;
@@ -101,5 +122,36 @@ class RwTestsHandler : StaticEventHandler
             }
         }
         debug.panic("Random tested");
+    }
+
+    const desiredFirstResultsAmount = 10000.;
+    void testNonLinearRandom(int maxVal, double weightFactor, double endWeight) {
+        array<int> a;
+
+        // Function 1:
+        for (let i = 0; i <= maxVal; i++) {
+            a.push(0);
+        }
+
+        int totalRuns = (desiredFirstResultsAmount * (1 - weightFactor ** (maxVal + 1))) / (1 - weightFactor); // sum of geometrical progression
+
+        for (let i = 0; i < totalRuns; i++) {
+            let val = rnd.multipliedWeightedRand(0, maxVal, weightFactor);
+            a[val]++;
+        }
+        debug.print("METHOD 1: From "..totalRuns.." runs: "..debug.intArrToString(a));
+
+        // Function 2:
+        a.clear();
+        for (let i = 0; i <= maxVal; i++) {
+            a.push(0);
+        }
+        weightFactor = endWeight ** (1 / double(maxVal));
+        totalRuns = (desiredFirstResultsAmount * (1 - weightFactor ** double(maxVal + 1))) / (1 - weightFactor);
+        for (let i = 0; i < totalRuns; i++) {
+            let val = rnd.multipliedWeightedRandByEndWeight(0, maxVal, endWeight);
+            a[val]++;
+        }
+        debug.print("METHOD 2: From "..totalRuns.." runs: "..debug.intArrToString(a));
     }
 }

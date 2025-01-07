@@ -22,15 +22,14 @@ class BPrefLessBull : RwBackpackPrefix {
         return -1;
     }
     override string getDescription() {
-        return "Max bullets -"..modifierLevel;
+        return String.format("-%d%% max bullets", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'BPrefMoreBull';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, bpk.stats.maxBull/2);
-
-        bpk.stats.maxBull -= modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + modifierLevel/10;
+        bpk.stats.maxBull = math.getIntPercentage(bpk.stats.maxBull, 100 - modifierLevel);
     }
 }
 
@@ -42,15 +41,14 @@ class BPrefMoreBull : RwBackpackPrefix {
         return 1;
     }
     override string getDescription() {
-        return "Max bullets +"..modifierLevel;
+        return String.format("+%d%% max bullets", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'BPrefLessBull';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 5*bpk.stats.maxBull/2);
-
-        bpk.stats.maxBull += modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + modifierLevel/10;
+        bpk.stats.maxBull = math.getIntPercentage(bpk.stats.maxBull, 100 + modifierLevel);
     }
 }
 
@@ -62,15 +60,14 @@ class BPrefLessShel : RwBackpackPrefix {
         return -1;
     }
     override string getDescription() {
-        return "Max Shells -"..modifierLevel;
+        return String.format("-%d%% max shells", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'BPrefMoreShel';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, bpk.stats.maxShel/2);
-
-        bpk.stats.maxShel -= modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + modifierLevel/10;
+        bpk.stats.maxShel = math.getIntPercentage(bpk.stats.maxShel, 100 - modifierLevel);
     }
 }
 
@@ -82,15 +79,14 @@ class BPrefMoreShel : RwBackpackPrefix {
         return 1;
     }
     override string getDescription() {
-        return "Max Shells +"..modifierLevel;
+        return String.format("+%d%% max shells", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'BPrefLessShel';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, bpk.stats.maxShel*2);
-
-        bpk.stats.maxShel += modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + modifierLevel/10;
+        bpk.stats.maxShel = math.getIntPercentage(bpk.stats.maxShel, 100 + modifierLevel);
     }
 }
 
@@ -102,15 +98,14 @@ class BPrefLessRckt : RwBackpackPrefix {
         return -1;
     }
     override string getDescription() {
-        return "Max Rockets -"..modifierLevel;
+        return String.format("-%d%% max rockets", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'BPrefMoreRckt';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, bpk.stats.maxRckt/2);
-
-        bpk.stats.maxRckt -= modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + modifierLevel/10;
+        bpk.stats.maxRckt = math.getIntPercentage(bpk.stats.maxRckt, 100 - modifierLevel);
     }
 }
 
@@ -122,15 +117,14 @@ class BPrefMoreRckt : RwBackpackPrefix {
         return 1;
     }
     override string getDescription() {
-        return "Max Rockets +"..modifierLevel;
+        return String.format("+%d%% max rockets", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'BPrefLessRckt';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 3*bpk.stats.maxRckt/2);
-
-        bpk.stats.maxRckt += modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + modifierLevel/10;
+        bpk.stats.maxRckt = math.getIntPercentage(bpk.stats.maxRckt, 100 + modifierLevel);
     }
 }
 
@@ -142,15 +136,14 @@ class BPrefLessCell : RwBackpackPrefix {
         return -1;
     }
     override string getDescription() {
-        return "Max Cells -"..modifierLevel;
+        return String.format("-%d%% max cells", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'BPrefMoreCell';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, bpk.stats.maxCell/2);
-
-        bpk.stats.maxCell -= modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + modifierLevel/10;
+        bpk.stats.maxCell = math.getIntPercentage(bpk.stats.maxCell, 100 - modifierLevel);
     }
 }
 
@@ -162,14 +155,13 @@ class BPrefMoreCell : RwBackpackPrefix {
         return 1;
     }
     override string getDescription() {
-        return "Max Cells +"..modifierLevel;
+        return String.format("+%d%% max cells", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'BPrefLessCell';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 5*bpk.stats.maxCell/2);
-
-        bpk.stats.maxCell += modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + modifierLevel/10;
+        bpk.stats.maxCell = math.getIntPercentage(bpk.stats.maxCell, 100 + modifierLevel);
     }
 }

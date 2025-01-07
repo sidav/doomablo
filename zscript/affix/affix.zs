@@ -1,6 +1,7 @@
 class Affix {
 
     int modifierLevel;
+    int stat2; // Not neccessarily used. Needed for two-stat affixes. Btw, TODO: rename modifierLevel to stat1. 
 
     bool IsCompatibleWithListOfAffixes(out array <Affix> list) {
         foreach (aff : list) {
@@ -13,6 +14,11 @@ class Affix {
 
     virtual bool IsCompatibleWithAff(Affix a2) {
         return a2.GetClass() != GetClass() && isCompatibleWithAffClass(a2);
+    }
+
+    // For disable-able affixes
+    virtual bool IsEnabled() {
+        return true;
     }
 
     // This SHOULD be overridden in descendants.

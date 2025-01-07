@@ -1,11 +1,13 @@
 class RWPoisonToken : RwStatusEffectToken {
 
+    int damage;
+
     Default {
         Inventory.Amount 10;
         RwStatusEffectToken.ReductionPeriodTicks TICRATE;
     }
 
-    const DamageEach = TICRATE * 2;
+    const DamageEach = TICRATE;
 
     override string GetStatusName() {
         return "POISON";
@@ -13,6 +15,14 @@ class RWPoisonToken : RwStatusEffectToken {
 
     override Color GetColorForUi() {
         return Font.CR_GREEN;
+    }
+
+    static void ApplyToActor(Actor target, int dmg, int durationSeconds) {
+        target.GiveInventory('RWPoisonToken', durationSeconds);
+        let token = target.FindInventory('RWPoisonToken');
+        if (token) {
+            RWPoisonToken(token).damage = dmg;
+        }
     }
 
     override void doEffectOnRwPlayer() {
@@ -28,7 +38,7 @@ class RWPoisonToken : RwStatusEffectToken {
     override void doEffectOnMonster() {
         if (GetAge() % DamageEach == 0) {
             // debug.print("Damaging: amount "..amount..", damage "..damage());
-            owner.damageMobj(null, null, (amount/3 + 1), 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR);
+            owner.damageMobj(null, null, damage, 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR|DMG_NO_PAIN);
         }
     }
 

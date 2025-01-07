@@ -19,6 +19,9 @@ class RandomizedArmor : Armor {
         debug.panicUnimplemented(self);
     }
 
+    // Needs to be called before generation
+    private virtual void prepareForGeneration() {}
+
     // Needs to be called after generation
     private void finalizeAfterGeneration() {
         stats.currDurability = stats.maxDurability;
@@ -50,6 +53,10 @@ class RandomizedArmor : Armor {
 
     bool IsNotBroken() {
         return stats.currDurability > 0;
+    }
+
+    int GetDrbPercentage() {
+        return math.getIntFractionInPercent(stats.currDurability, stats.maxDurability);
     }
 
     void DoDamageToArmor(int damageAmount) {

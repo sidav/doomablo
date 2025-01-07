@@ -26,16 +26,15 @@ class DropsDecider {
     static int whatToDrop(int dropperHealth, int dropperRarity) {
         // 0 - onetime item (armor bonus or health)
         // 1 - ammo
-        // 2 - progression item
-        // 3 - Randomizable artifact (weapon/armor/backpack)
+        // 2 - Randomizable artifact (weapon/armor/backpack)
         if (dropperHealth > 1000) {
-            return rnd.weightedRand(1, 1, 1+dropperRarity, 1+2*dropperRarity); // drop artifacts mostly.
+            return rnd.weightedRand(1, 1, 1+2*dropperRarity); // drop artifacts mostly.
         } else if (dropperHealth >= 500) {
-            return rnd.weightedRand(10, 5, 1+dropperRarity, 1+2*dropperRarity);
+            return rnd.weightedRand(10, 5, 1+2*dropperRarity);
         } else if (dropperHealth >= 250) {
-            return rnd.weightedRand(10, 5, 1+dropperRarity, 1+2*dropperRarity);
+            return rnd.weightedRand(10, 5, 1+2*dropperRarity);
         } else {
-            return rnd.weightedRand(10, 15, 1+dropperRarity, 1+2*dropperRarity);
+            return rnd.weightedRand(10, 15, 1+2*dropperRarity);
         }
         return 0;
     }
@@ -66,21 +65,18 @@ class DropsDecider {
 
     static int, int rollRarityAndQuality(int rarMod, int qtyMod) {
         // Roll rarity
-        let rar = rnd.weightedRand(50, 100, 50, 30, 15, 5);
+        let rar = rnd.weightedRand(60, 100, 40, 25, 10, 1);
         rar = min(rar+rarMod, 5);
 
         // Roll quality
         int qty = 1;
-        if (rar > 0) {
-            let plr = RwPlayer(Players[0].mo);
-            if (plr) {
-                int minQty = plr.minItemQuality;
-                int maxQty = plr.maxItemQuality;
-                qty = rnd.linearWeightedRand(minQty, maxQty, 5, 1);
-            } else {
-                debug.print("Non-player quality roll!");
-                qty = rnd.linearWeightedRand(1, 100, 100, 1);
-            }
+        let plr = RwPlayer(Players[0].mo);
+        if (plr) {
+            rar = plr.stats.rollForIncreasedRarity(rar);
+            qty = plr.rollForDropLevel();
+        } else {
+            debug.print("Non-player quality roll, report this please!");
+            qty = 1;
         }
         qty = min(qty+qtyMod, 100);
 

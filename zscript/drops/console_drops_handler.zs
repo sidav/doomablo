@@ -66,14 +66,34 @@ class ConsoleDropsHandler : EventHandler
             case 20: 
                 [unused, spawnedItem] = player.A_SpawnItemEx(RwBackpack.GetRandomVariantClass(), xofs: xofs, zvel: zvel);
                 break;
+
+            // Progression items. "Rarity" holds the amount of them to spawn
+            case 100:
+                for (let i = 0; i < rarity; i++) {
+                    [unused, spawnedItem] = player.A_SpawnItemEx('InfernoBook', xofs: xofs, zvel: zvel);
+                }
+                return; // We don't need to generate it
+            case 101:
+                for (let i = 0; i < rarity; i++) {
+                    [unused, spawnedItem] = player.A_SpawnItemEx('InfernoSigil', xofs: xofs, zvel: zvel);
+                }
+                return; // We don't need to generate it
+            // Give exp
+            case 200:
+                RwPlayer(player).receiveExperience(rarity);
+                return;
+            case 201:
+                RwPlayer(player).infernoLevel += rarity;
+                return;
             
+
             default:
                 debug.print("Unknown drop code "..itemID);
         }
 
         if (spawnedItem) {
 
-            if (rarity == 0) {
+            if (rarity == -1) {
                 [rarity, quality] = DropsDecider.rollRarityAndQuality(0, 0);
             } else if (quality == 0) {
                 quality = rnd.Rand(1, 100);

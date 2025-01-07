@@ -14,15 +14,6 @@ class RwBackpack : Inventory {
             Stop;
 	}
 
-    virtual void setBaseStats() {
-		rwbaseName = "Backpack";
-		stats = New('RwBackpackStats');
-		stats.maxBull = 200;
-		stats.maxShel = 50;
-		stats.maxRckt = 50;
-		stats.maxCell = 300;
-    }
-
     // The only difference in variants is only the sprite currently. That's why the names are obscure.
     static class <RwBackpack> GetRandomVariantClass() {
         let v = rnd.randn(3);
@@ -34,10 +25,25 @@ class RwBackpack : Inventory {
         return 'RwBackpack';
     }
 
-    // Needs to be called after generation
-    private void finalizeAfterGeneration() {
-        return;
+    virtual void setBaseStats() {
+		rwbaseName = "Backpack";
+		stats = New('RwBackpackStats');
+		stats.maxBull = 200;
+		stats.maxShel = 50;
+		stats.maxRckt = 50;
+		stats.maxCell = 300;
     }
+
+    // Needs to be called before generation
+    private void prepareForGeneration() {
+        stats.maxBull += generatedQuality * 4;
+        stats.maxShel += generatedQuality;
+        stats.maxRckt += generatedQuality / 2;
+        stats.maxCell += generatedQuality * 2;
+    }
+
+    // Needs to be called after generation
+    private void finalizeAfterGeneration() {}
 
     // Needed if the item should be re-generated
     private void RW_Reset() {

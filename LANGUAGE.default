@@ -1,0 +1,28 @@
+[default] //language code header
+
+// Gameplay
+RAREMONSTERSPAWNED = "You feel a powerful presence in this place.";
+
+// Menu
+RWMENU_DOOMABLOSETTINGS = "DOOMablo settings";
+RWMENU_CUSTOMIZEDOOMABLO = "Customize DOOMablo";
+
+RWMENU_INTERFACEOPTIONS_HEADER = "Interface options";
+RWSETTINGS_AFFIXNAMES = "Show affixes' names in stats";
+
+RWMENU_GAMEPLAYOPTIONS_HEADER = "Gameplay options";
+RWSETTINGS_UNCLUMP = "Too closely dropped items jump from each other";
+
+RWMENU_DIFFICULTYOPTIONS_HEADER = "Difficulty options";
+RWSETTINGS_ENABLE_MBLINK = "Enable Blink affix for monsters";
+RWSETTINGS_ENABLE_MREVENGE = "Enable Revenge affix for monsters";
+RWSETTINGS_HP_SCALING_SPEED = "Monster HP scaling speed modifier";
+
+RWMENU_CONTROLS_HEADER = "DOOMablo Controls";
+RWSETTINGS_SCRAPITEMBTN = "Scrap item";
+RWSETTINGS_SCRAPITEMTIME = "Item scrapping time (seconds)";
+RWSETTINGS_CHARACTERSCREENBTN = "Open Character Screen";
+
+// Generic
+YES = "Yes";
+NO = "No";

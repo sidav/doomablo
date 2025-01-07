@@ -1,7 +1,7 @@
 class DropsSpawner {
 
     static play Actor createDropByClass(Actor dropper, class <Actor> whatToDrop) {
-        bool unused;
+        bool unused; // Required by zscript syntax for multiple returned values; is indeed unused
         Actor spawnedItem;
         [unused, spawnedItem] = dropper.A_SpawnItemEx(whatToDrop);
         return spawnedItem;
@@ -57,14 +57,6 @@ class DropsSpawner {
             invItem.amount = Random(invItem.amount, math.getIntPercentage(invItem.amount, maxAmmoPercentage));
         }
         return invItem;
-    }
-
-    static play Actor SpawnRandomProgressionItemDrop(Actor dropper) {
-        int dropType = rnd.weightedRand(3, 1);
-        if (dropType == 1) {
-            return createDropByClass(dropper, 'RwMinqItem');
-        }
-        return createDropByClass(dropper, 'RwMaxqItem');
     }
 
     static play Actor SpawnRandomRWArtifactItemDrop(Actor dropper) {

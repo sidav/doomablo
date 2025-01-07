@@ -75,7 +75,7 @@ extend class MyCustomHUD {
 
             if (armrCmp && armr.stats.RestorePerSecond() != armrCmp.stats.RestorePerSecond()) {
                 compareStr = " ("..floatToSignedStr(armr.stats.RestorePerSecond() - armrCmp.stats.RestorePerSecond())..")";
-                compareClr = GetDifferenceColor(10*(armr.stats.RestorePerSecond() - armrCmp.stats.RestorePerSecond()));
+                compareClr = GetDifferenceColor(100*(armr.stats.RestorePerSecond() - armrCmp.stats.RestorePerSecond()));
             } else {
                 compareStr = "";
                 compareClr = Font.CR_White;
@@ -105,7 +105,7 @@ extend class MyCustomHUD {
     }
 
     static int PickColorForRwArmorAmount(RandomizedArmor a) {
-        let perc = math.getPercentageFromInt(a.stats.currDurability, a.stats.maxDurability);
+        let perc = math.getIntFractionInPercent(a.stats.currDurability, a.stats.maxDurability);
         if (perc < 33) {
             return Font.CR_RED;
         } else if (perc < 66) {

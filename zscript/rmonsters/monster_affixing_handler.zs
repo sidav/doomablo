@@ -19,10 +19,6 @@ class MonstersAffixingHandler : EventHandler
         int rar, qty;
         [rar, qty] = rollRarityAndQuality(0, 0);
 
-        if (rar == 0) {
-            return; // We don't need to give the affixator to monster with zero rarity
-        }
-
         // debug.print("Giving the affixator to "..mo.GetClassName());
         // debug.print(String.format("       Rar %d qty %d;", rar, qty));
         RwMonsterAffixator.AffixateMonster(mo, rar, qty);
@@ -55,16 +51,12 @@ class MonstersAffixingHandler : EventHandler
 
         // Roll quality
         int qty = 1;
-        if (rar > 0) {
-            let plr = RwPlayer(Players[0].mo);
-            if (plr) {
-                int minQty = plr.minItemQuality;
-                int maxQty = plr.maxItemQuality;
-                qty = rnd.linearWeightedRand(minQty, maxQty, 5, 1);
-            } else {
-                debug.print("Non-player quality roll!");
-                qty = rnd.linearWeightedRand(1, 100, 100, 1);
-            }
+        let plr = RwPlayer(Players[0].mo);
+        if (plr) {
+            qty = plr.rollForDropLevel();
+        } else {
+            debug.print("Non-player quality roll!");
+            qty = rnd.linearWeightedRand(1, 100, 100, 1);
         }
         qty = min(qty+qtyMod, 100);
 

@@ -1,6 +1,6 @@
 gameinfo
 {
-	PlayerClasses = "RwPlayer", "RWProgressionPlayer" // Defines 2 classes for the player to choose from
+	PlayerClasses = "RwPlayer"
 	NoRandomPlayerClass = true
 
 	statusbarclass = "MyCustomHUD"
@@ -10,13 +10,14 @@ gameinfo
 	AddEventHandlers = "AffixClassesCacheHandler"
 	AddEventHandlers = "AmmoDropsHandler"
 	AddEventHandlers = "DropsHandler"
-	AddEventHandlers = "DroppedItemsSpreadHandler"
+	AddEventHandlers = "ExperienceHandler"
+	AddEventHandlers = "DroppedItemsUnclumpHandler"
 	AddEventHandlers = "MonstersAffixingHandler"
 	AddEventHandlers = "ConsoleDropsHandler"
 	AddEventHandlers = "PressToPickupHandler"
 	AddEventHandlers = "CurrentTargetHandler"
  	AddEventHandlers = "StartingItemsHandler"
-	AddEventHandlers = "RWPlayerDealtStatusEffectsHandler"
+	AddEventHandlers = "RWOnWeaponDamageDealtHandler"
 
 	QuitMessages = 
 		// General mechanics tips

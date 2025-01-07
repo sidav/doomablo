@@ -3,8 +3,6 @@
 
 extend class RandomizedArmor {
 
-    const ThornsReturnedPercentage = 25;
-
     override void DoEffect() {
         let age = GetAge();
 
@@ -14,19 +12,25 @@ extend class RandomizedArmor {
         }
     }
 
+    int absorptionFractionAccum;
     override void AbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
         if (source && damage > 1) {
+            // TODO: Define this logic in "Thorns" affix code, not here
             let aff = findAppliedAffix('ASuffThorns');
             if (aff != null && rnd.PercentChance(aff.modifierLevel)) {
-                let thornDamage = max(1, math.getIntPercentage(damage, ThornsReturnedPercentage));
+                let thornDamage = max(1, math.getIntPercentage(damage, aff.stat2));
                 source.damageMobj(null, owner, thornDamage, 'Normal', DMG_NO_PROTECT);
             }
 
-            // TODO: maybe it's too OP? Increase absorption only?
+            // TODO: Define this logic in "Holy" affix code, not here
             if (stats.currDurability > 0) {
                 aff = findAppliedAffix('ASuffHoly');
                 if (aff != null) {
-                    damage = max(1, math.getIntPercentage(damage, 100 - aff.modifierLevel));
+                    RwMonsterAffixator monAffixator = RwMonsterAffixator.GetMonsterAffixator(source);
+                    // Epic monsters and higher
+                    if (monAffixator != null && monAffixator.GetRarity() >= 3) {
+                        damage = max(1, math.getIntPercentage(damage, 100 - aff.modifierLevel));
+                    }
                 }
             }
         }
@@ -36,7 +40,9 @@ extend class RandomizedArmor {
                 damage = 1;
             }
         }
-        let damageToArmor = math.getIntPercentage(damage, stats.AbsorbsPercentage);
+        let damageToArmor = math.AccumulatedFixedPointAdd(0, 
+            damage * stats.AbsorbsPercentage,
+            100, absorptionFractionAccum);
         if (damageToArmor > stats.currDurability) {
             damageToArmor = stats.currDurability;
         }

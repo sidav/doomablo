@@ -11,6 +11,8 @@ mixin class Affixable {
         RW_Reset(); // Just in case; events order is unclear so let's clear once more
         generatedQuality = affixQuality;
 
+        prepareForGeneration(); // this method is unique to each item type; may be empty
+
         int qgoodmin, qgoodmax;
         [qgoodmin, qgoodmax] = goodAffixSpreadForQuality(affixQuality);
         int qbadmin, qbadmax;
@@ -33,18 +35,17 @@ mixin class Affixable {
         finalizeAfterGeneration();
     }
 
+    // Determines the actual levels of applied "good" affixes. For lvl50 item, its affixes are not neccessarily lvl50
+    // But are in some range. This time it's (quality-10, quality); before it was quality/2, quality (too high spread was actual before scaling implementation).
+    const goodAffixLevelSpread = 10;
     int, int goodAffixSpreadForQuality(int quality) {
-        if (quality < 5) {
-            return 1, 5;
-        }
-        return quality/2, quality;
+        return max(quality - goodAffixLevelSpread, 1), max(quality, 2);
     }
 
+    // The same, but for "bad" affixes.
+    const badAffixLevelSpread = 10;
     int, int badAffixSpreadForQuality(int quality) {
-        if (quality < 5) {
-            return -1, -5;
-        }
-        return -quality, -quality/2;
+        return min(-quality, -2), min(-(quality - badAffixLevelSpread), -1);
     }
 
     private static int minGoodAffixesForRarity(int rarity) {
@@ -83,6 +84,7 @@ mixin class Affixable {
             } until (
                 // (newAffix.GetClass() == 'ASuffHealthToDurab' || (rnd.randn(4000) == 0)) &&  // Uncomment for specific affix testing
                 ((newAffix.getAlignment() == 0) || (newAffix.getAlignment() == math.sign(affQualities[i]))) &&
+                newAffix.isEnabled() &&
                 newAffix.IsCompatibleWithItem(self) &&
                 newAffix.IsCompatibleWithListOfAffixes(appliedAffixes) &&
                 newAffix.minRequiredRarity() <= itemRarity
@@ -101,6 +103,7 @@ mixin class Affixable {
         }
         // Apply them in reverse order on purpose (so that the name generation will have correct affix order)
         for (int i = appliedAffixes.Size() - 1; i >= 0; i--) {
+            // debug.print("Applying affix "..appliedAffixes[i].getName().." of level "..affQualities[i]);
             appliedAffixes[i].InitAndApplyEffectToItem(self, math.abs(affQualities[i]));
         }
     }

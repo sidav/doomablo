@@ -20,6 +20,7 @@ class RwPlasmaRifle : RandomizedWeapon
 		PLSG A 1 A_Lower;
 		Loop;
 	Select:
+		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
 		PLSG A 1 A_Raise;
 		Loop;
 	Fire:
@@ -30,22 +31,22 @@ class RwPlasmaRifle : RandomizedWeapon
 		PLSG B 20 RWA_ReFire;
 		Goto Ready;
 	Reload:
-		PLSG BBBBBBBBBB 1 A_WeaponOffset(-3, 2, WOF_ADD);
+		PLSG BBBBBBBBBB 1 A_WeaponOffset(-3, 2, WOF_ADD | WOF_INTERPOLATE);
 		PLSG B 15 {
 			RWA_ApplyReloadSpeed();
-			A_WeaponOffset(-6, 0, WOF_ADD);
+			A_WeaponOffset(-6, 0, WOF_ADD | WOF_INTERPOLATE);
 		}
 		PLSG B 15 {
 			RWA_ApplyReloadSpeed();
-			A_WeaponOffset(0, 5, WOF_ADD);
+			A_WeaponOffset(0, 5, WOF_ADD | WOF_INTERPOLATE);
 		}
 		PLSG B 10 {
 			RWA_ApplyReloadSpeed();
 			A_StartSound("misc/w_pkup");
             A_MagazineReload(); //do the reload
-			A_WeaponOffset(6, -5, WOF_ADD);
+			A_WeaponOffset(6, -5, WOF_ADD | WOF_INTERPOLATE);
 		}
-		PLSG BBBBBBBBBB 1 A_WeaponOffset(3, -2, WOF_ADD);
+		PLSG BBBBBBBBBB 1 A_WeaponOffset(3, -2, WOF_ADD | WOF_INTERPOLATE);
 		PLSG B 5;
 		Goto Ready;
 	Flash:
