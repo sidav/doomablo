@@ -28,7 +28,7 @@ class RWLevelupMenu : ZFGenericMenu {
         let plr = RwPlayer(players[consoleplayer].mo);
 
         let ExpLevelLabel = ZFLabel.Create( (35, 40), (menuW - menuW/10, smallFont.GetHeight() * 2),
-            text: "LEVEL "..plr.currentExpLevel,
+            text: "You are of level "..plr.currentExpLevel..", the "..plr.GetFluffNameForPlayerLevel(),
             fnt: smallFont, Alignment: 2, wrap: true, autoSize: true, textColor: Font.CR_WHITE);
         ExpLevelLabel.Pack(mainFrame);
 

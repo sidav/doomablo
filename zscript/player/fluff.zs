@@ -18,4 +18,27 @@ extend class RwPlayer {
         };
         return infFluff[level / (infFluff.Size() - 1)];
     }
+
+    clearscope string GetFluffNameForPlayerLevel() {
+        static const string fluff[] = {
+            "Burdened Soul",
+            "Vessel of Regret",
+            "Seeker of Atonement",
+            "Repentant Wanderer",
+            "Forsaken Piligrim",
+            "Aspiring Hellfighter",
+            "Bearer of flickering light",
+            "Torchbearer in the darkness",
+            "Last hope of man",
+            "Avatar of Penitence",
+            "Herald of Righteous Fury",
+            "Champion of of Purging Flames",
+            "Incarnate of Divine Retribution",
+            "Inevitable Doom"
+        };
+        if (currentExpLevel > 100) {
+            return "The Doom Slayer";
+        }
+        return fluff[math.remapIntRange(currentExpLevel, 1, 100, 1, fluff.Size()-1)];
+    }
 }
