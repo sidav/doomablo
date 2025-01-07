@@ -2,7 +2,7 @@ extend class RwPlayer {
 
     int currentExperience;
     int currentExpLevel;
-    int statPointsAvailable;
+    RwPlayerStats stats;
 
     void ReceiveExperience(int amount) {
         currentExperience += amount;
@@ -11,7 +11,7 @@ extend class RwPlayer {
             currentExperience -= required;
             required = getRequiredXPForNextLevel();
             currentExpLevel++;
-            statPointsAvailable++;
+            stats.statPointsAvailable++;
         }
     }
 
@@ -45,8 +45,7 @@ extend class RwPlayer {
     // }
 }
 
-class ExperienceHandler : EventHandler
-{
+class ExperienceHandler : EventHandler {
     override void WorldThingDied(WorldEvent e) {
         // Don't give XP from barrels or from enemies which aren't counted as kills
         if (e.Thing is 'ExplosiveBarrel' || !e.Thing.bCOUNTKILL) {
@@ -54,4 +53,13 @@ class ExperienceHandler : EventHandler
         }
         RwPlayer(Players[0].mo).ReceiveExperience(e.Thing.GetMaxHealth());
     }
+
+    // Maybe will be needed to be able to modify the stat values from menus
+    // override void NetworkProcess(ConsoleEvent e) {
+    //     Array<string> command;
+	// 	e.Name.Split (command, ":");
+    //     if (command[0] ~== "rwpsu") {
+    //         RwPlayer(Players[0].mo).statPointsAvailable--;
+    //     }
+    // }
 }

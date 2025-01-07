@@ -24,6 +24,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         ResetMaxAmmoToDefault();
         infernoLevel = 1;
         currentExpLevel = 1;
+        stats = RwPlayerStats.Create();
     }
 
     override void Tick() {

@@ -63,6 +63,7 @@ version "4.10.0"
 #include "zscript/player/levels_and_experience.zs"
 #include "zscript/player/progression_player.zs"
 #include "zscript/player/player_item_pickup.zs"
+#include "zscript/player/player_stats.zs"
 #include "zscript/player/press_to_pickup_handler.zs"
 #include "zscript/player/scrap_item.zs"
 
