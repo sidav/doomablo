@@ -48,7 +48,7 @@ extend class RwPlayerStats {
         int maxdmg;
         [mindmg, maxdmg] = GetMinAndMaxMeleeDamage();
         return "This stat increases your overall fist damage."
-                .."It has exponential grow, so the more points you put there, the bigger damage yield you receive.\n"
+                .."It has exponential growth, so the more points you put there, the bigger damage yield you get.\n"
                 .."Fist damage grows faster with levels than monsters' HP does with Inferno Levels.\n"
                 .."Your current melee damage: "..mindmg.."-"..maxdmg;
     }

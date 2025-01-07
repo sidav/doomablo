@@ -31,7 +31,7 @@ extend class RwPlayer {
     const ExpMultipliesEachLevels = 4.; // Each this many levels the value will be multiplied by exponentBase
     const baseAmount = 500.;
     clearscope static double getRequiredXPForLevel(int level) {
-        level -= 2;
+        level -= 1;
         if (level < 0) {
             return 1;
         }
