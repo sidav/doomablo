@@ -75,6 +75,7 @@ class LevelUpButton : ZFButton {
             plr.stats.critDamageFactorPromille += 5;
         if (command == "rarefind")
             plr.stats.rareFindModifier += 1;
+        plr.stats.statsChanged = true;
 
         setText();
     }

@@ -24,11 +24,12 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         ResetMaxAmmoToDefault();
         infernoLevel = 1;
         currentExpLevel = 1;
-        stats = RwPlayerStats.Create();
+        reapplyPlayerStats();
     }
 
     override void Tick() {
         super.Tick();
+        reapplyPlayerStats();
 
         let ba = FindInventory('BasicArmor');
         if (ba != null) {
@@ -54,7 +55,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
             Menu.SetMenu('RWLevelupMenu');
         }
 
-         // Health pickups do not trigger HandlePickup(), so that's a workaround:
+        // Health pickups do not trigger HandlePickup(), so that's a workaround:
         if (previousHealth < Health) {
             lastHealedBy = Health - previousHealth;
         } else {
