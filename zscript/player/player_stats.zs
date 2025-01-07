@@ -24,6 +24,14 @@ class RwPlayerStats {
     int GetMaxHealth() {
         return baseVitality;
     }
+
+    int rollAndModifyDamageForCrit(int initialDamage) {
+        // Roll for crit chance itself first
+        if (Random(0, 1000) < baseCritChancePromille) {
+            return (initialDamage * baseCritDmgFactorPromille + 500) / 1000;
+        }
+        return initialDamage;
+    }
 }
 
 // (re)application of the stats

@@ -11,10 +11,15 @@ extend class RandomizedWeapon {
         invoker.damageFractionAccumulator = invoker.damageFractionAccumulator % 1000; // Store only the fraction in the accumulator
 
         // debug.print("Rolled "..dmg.." damage");
+        let plr = RwPlayer(invoker.owner);
         for (int i = 0; i < invoker.appliedAffixes.Size(); i++) {
-            dmg = invoker.appliedAffixes[i].modifyRolledDamage(dmg, RwPlayer(invoker.owner));
+            dmg = invoker.appliedAffixes[i].modifyRolledDamage(dmg, plr);
         }
         // debug.print("Modified to "..dmg.." damage");
+
+        // Crit chance logic
+        dmg = plr.stats.rollAndModifyDamageForCrit(dmg);
+
         return dmg;
     }
 
