@@ -78,6 +78,10 @@ class ConsoleDropsHandler : EventHandler
                     [unused, spawnedItem] = player.A_SpawnItemEx('InfernoSigil', xofs: xofs, zvel: zvel);
                 }
                 return; // We don't need to generate it
+            // Give exp
+            case 200:
+                RwPlayer(player).receiveExperience(rarity);
+                return;
             
 
             default:

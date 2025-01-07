@@ -43,6 +43,8 @@ class LevelUpButton : ZFButton {
             text = plr.stats.getCritChancePromilleButtonName();
         if (command == "critdmg")
             text = plr.stats.getCritDmgFactorPromilleButtonName();
+        if (command == "meleedmg")
+            text = plr.stats.getMeleeDamageLevelButtonName();
         if (command == "rarefind")
             text = plr.stats.getRareFindButtonName();
     }
@@ -57,6 +59,8 @@ class LevelUpButton : ZFButton {
             return plr.stats.getCritChancePromilleButtonDescription();
         if (command == "critdmg")
             return plr.stats.getCritDmgFactorPromilleButtonDescription();
+        if (command == "meleedmg")
+            return plr.stats.getMeleeDamageLevelButtonDescription();
         if (command == "rarefind")
             return plr.stats.getRareFindButtonDescription();
         return "No description";
@@ -73,6 +77,8 @@ class LevelUpButton : ZFButton {
             plr.stats.doIncreaseBaseCritChancePromille();
         if (command == "critdmg")
             plr.stats.doIncreaseBaseCritDmgFactorPromille();
+        if (command == "meleedmg")
+            plr.stats.doIncreaseBaseMeleeDamageLevel();
         if (command == "rarefind")
             plr.stats.doIncreaseBaseRareFind();
 

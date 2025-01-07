@@ -45,9 +45,10 @@ class RwFist : Weapon replaces Fist
 		}
 
 		// Initial OG Doom damage is 2-20
-		int damage = StatsScaler.ScaleIntValueByLevelRandomized(Random[punch](2, 20), RwPlayer(invoker.owner).infernoLevel);
+		int damage = Random[punch](2, 20);
 		let plr = RwPlayer(invoker.owner);
 		if (plr) {
+			damage = plr.stats.RollBaseMeleeDamage();
 			damage = plr.stats.rollAndModifyDamageForCrit(damage);
 		}
 		if (FindInventory("PowerStrength")) damage *= 10;

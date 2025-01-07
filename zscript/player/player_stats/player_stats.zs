@@ -10,6 +10,7 @@ class RwPlayerStats {
         newStats.baseVitality = 100;
         newStats.baseCritChancePromille = 0;
         newStats.baseCritDmgFactorPromille = 1250;
+        newStats.baseMeleeDamageLevel = 1;
         newStats.baseRareFindChance = 0;
         newStats.statsChanged = true;
         return newStats;

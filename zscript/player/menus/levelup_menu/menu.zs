@@ -46,6 +46,7 @@ class RWLevelupMenu : ZFGenericMenu {
         addLevelUpButton("baseVitality");
         addLevelUpButton("critchance");
         addLevelUpButton("critdmg");
+        addLevelUpButton("meleedmg");
         addLevelUpButton("rarefind");
     }
 

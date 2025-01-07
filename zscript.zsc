@@ -70,6 +70,7 @@ version "4.10.0"
 #include "zscript/player/player_stats/player_stats.zs"
 #include "zscript/player/player_stats/stat_critchance.zs"
 #include "zscript/player/player_stats/stat_critdmg.zs"
+#include "zscript/player/player_stats/stat_fistdmg.zs"
 #include "zscript/player/player_stats/stat_rarefind.zs"
 #include "zscript/player/player_stats/stat_vitality.zs"
 
