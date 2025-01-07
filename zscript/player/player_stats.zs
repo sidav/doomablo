@@ -5,7 +5,7 @@ class RwPlayerStats {
     int critChancePromille;
     int critDamageFactorPromille;
     int rareFindModifier;
-    
+
     static RwPlayerStats Create() {
         let newStats = new('RwPlayerStats');
         newStats.statPointsAvailable = 0;
@@ -15,5 +15,4 @@ class RwPlayerStats {
         newStats.rareFindModifier = 0;
         return newStats;
     }
-
 }

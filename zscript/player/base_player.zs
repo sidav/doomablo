@@ -50,6 +50,9 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         } else {
             scrapItemButtonPressedTicks = 0;
         }
+        if (Player.cmd.buttons & BT_USER4) {
+            Menu.SetMenu('RWLevelupMenu');
+        }
 
          // Health pickups do not trigger HandlePickup(), so that's a workaround:
         if (previousHealth < Health) {
