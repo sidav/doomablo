@@ -43,11 +43,9 @@ class RWLevelupMenu : ZFGenericMenu {
         DescriptionLabel.Pack(mainFrame);
 
         currentHeight = 80;
-        addLevelUpButton("basevitality");
-        addLevelUpButton("critchance");
-        addLevelUpButton("critdmg");
-        addLevelUpButton("meleedmg");
-        addLevelUpButton("rarefind");
+        for (let sid = 0; sid < RwPlayerStats.totalStatsCount; sid++) {
+            addLevelUpButton(sid);
+        }
     }
 
     override void Ticker() {
@@ -64,8 +62,8 @@ class RWLevelupMenu : ZFGenericMenu {
     }
 
     int currentHeight;
-    private void addLevelUpButton(string command) {
-        let newButton = LevelUpButton.Make(handler, 20, currentHeight, command);
+    private void addLevelUpButton(int id) {
+        let newButton = LevelUpButton.Make(handler, 20, currentHeight, id);
         currentHeight += newButton.box.size.y + buttonMargin;
         // Add the button element into the main frame.
         lvlUpButtons.Push(newButton);
