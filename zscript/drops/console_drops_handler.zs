@@ -80,7 +80,7 @@ class ConsoleDropsHandler : EventHandler
                 return; // We don't need to generate it
             // Give exp
             case 200:
-                RwPlayer(player).receiveExperience(rarity);
+                RwPlayer(player).stats.receiveExperience(rarity);
                 return;
             case 201:
                 RwPlayer(player).infernoLevel += rarity;

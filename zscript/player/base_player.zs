@@ -2,6 +2,8 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
 {
     const WEAPON_SLOTS = 4; // this DOES count the fists
 
+    RwPlayerStats stats;
+
     RandomizedArmor CurrentEquippedArmor;
     RwBackpack CurrentEquippedBackpack;
 
@@ -23,7 +25,6 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         super.BeginPlay();
         ResetMaxAmmoToDefault();
         infernoLevel = 1;
-        currentExpLevel = 1;
         reapplyPlayerStats();
     }
 

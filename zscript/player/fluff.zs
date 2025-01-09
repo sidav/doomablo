@@ -36,9 +36,9 @@ extend class RwPlayer {
             "Incarnate of Divine Retribution",
             "Inevitable Doom"
         };
-        if (currentExpLevel > 100) {
+        if (stats.currentExpLevel > 100) {
             return "The Doom Slayer";
         }
-        return fluff[math.remapIntRange(currentExpLevel, 1, 100, 1, fluff.Size()-1)];
+        return fluff[math.remapIntRange(stats.currentExpLevel, 1, 100, 1, fluff.Size()-1)];
     }
 }

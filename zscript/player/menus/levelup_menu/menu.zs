@@ -28,7 +28,7 @@ class RWLevelupMenu : ZFGenericMenu {
         let plr = RwPlayer(players[consoleplayer].mo);
 
         let ExpLevelLabel = ZFLabel.Create( (35, 40), (menuW - menuW/10, smallFont.GetHeight() * 2),
-            text: "You are of level "..plr.currentExpLevel..", the "..plr.GetFluffNameForPlayerLevel(),
+            text: "You are of level "..plr.stats.currentExpLevel..", the "..plr.GetFluffNameForPlayerLevel(),
             fnt: smallFont, Alignment: 2, wrap: true, autoSize: true, textColor: Font.CR_WHITE);
         ExpLevelLabel.Pack(mainFrame);
 
@@ -57,8 +57,7 @@ class RWLevelupMenu : ZFGenericMenu {
                 ExpPointsLabel.text = "Stat points available: "..plr.stats.statPointsAvailable;
                 ExpPointsLabel.textColor = Font.CR_GOLD;
             } else {
-                ExpPointsLabel.text = String.Format("EXP: %.0f/%.0f (%.1f%%)", 
-                    (plr.currentExperience, plr.getRequiredXPForNextLevel(), plr.getXPPercentageForNextLevel()));
+                ExpPointsLabel.text = plr.stats.GetFullXpString();
                 ExpPointsLabel.textColor = Font.CR_GRAY;
             }
         }

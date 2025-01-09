@@ -6,6 +6,8 @@ class RwPlayerStats {
 
     static RwPlayerStats Create() {
         let newStats = new('RwPlayerStats');
+        newStats.currentExpLevel = 1;
+        newStats.currentExperience = 0;
         newStats.statPointsAvailable = 0;
         newStats.baseVitality = 100;
         newStats.baseCritChancePromille = 0;

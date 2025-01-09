@@ -10,7 +10,7 @@ gameinfo
 	AddEventHandlers = "AffixClassesCacheHandler"
 	AddEventHandlers = "AmmoDropsHandler"
 	AddEventHandlers = "DropsHandler"
-	AddEventHandlers = "ExperienceHandler"
+	AddEventHandlers = "ExperienceGivingHandler"
 	AddEventHandlers = "DroppedItemsUnclumpHandler"
 	AddEventHandlers = "MonstersAffixingHandler"
 	AddEventHandlers = "ConsoleDropsHandler"
