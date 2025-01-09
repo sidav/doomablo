@@ -41,6 +41,15 @@ class StartingItemsHandler : EventHandler
 			pmo.GiveInventory('RwFist', 1);
 			let given = RandomizedWeapon(pmo.GiveInventoryType('RwPistol'));
 			given.Generate(3, 1);
+			if (rw_start_with_shotgun) {
+				let shg = RandomizedWeapon(pmo.GiveInventoryType('RwShotgun'));
+				shg.Generate(0, 1);
+				pmo.GiveInventory('Shell', shg.stats.clipSize);
+			}
+			if (rw_start_with_smg) {
+				let shg = RandomizedWeapon(pmo.GiveInventoryType('RwSmg'));
+				shg.Generate(0, 1);
+			}
 		}
 	}
 }

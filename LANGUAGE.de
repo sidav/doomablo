@@ -14,6 +14,8 @@ RWMENU_GAMEPLAYOPTIONS_HEADER = "Gameplayeinstellungen";
 RWSETTINGS_UNCLUMP = "Nebenen Artefakten vom einander springen";
 
 RWMENU_DIFFICULTYOPTIONS_HEADER = "Schwierigkeiteinstellungen";
+RWSETTINGS_START_WITH_SHOTGUN = "Mit gewöhnlichen Schrotflinte anfangen";
+RWSETTINGS_START_WITH_SMG = "Mit gewöhnlicher MP anfangen";
 RWSETTINGS_ENABLE_MBLINK = "Blink-Affix für Monster aktivieren";
 RWSETTINGS_ENABLE_MREVENGE = "Rache-Affix für Monster aktivieren";
 RWSETTINGS_HP_SCALING_SPEED = "Monster GP-Skalierungsgeschwindigkeit";

@@ -17,6 +17,8 @@ OptionMenu "RW_Options"
 
 	StaticText ""
 	StaticText "$RWMENU_DIFFICULTYOPTIONS_HEADER", 1
+	Option "$RWSETTINGS_START_WITH_SHOTGUN", "rw_start_with_shotgun", "RwOptionsYesNo"
+	Option "$RWSETTINGS_START_WITH_SMG", "rw_start_with_smg", "RwOptionsYesNo"
 	Option "$RWSETTINGS_ENABLE_MBLINK", "rw_enable_monster_blink_affix", "RwOptionsYesNo"
 	Option "$RWSETTINGS_ENABLE_MREVENGE", "rw_enable_monster_revenge_affix", "RwOptionsYesNo"
 	Slider "$RWSETTINGS_HP_SCALING_SPEED", "rw_monster_hp_scaling_exponent_mod", -0.2, 0.0, 0.01, 2
