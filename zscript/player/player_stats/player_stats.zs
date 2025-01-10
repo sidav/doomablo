@@ -17,7 +17,7 @@ class RwPlayerStats {
         newStats.currentExpLevel = 1;
         newStats.currentExperience = 0;
         newStats.statPointsAvailable = 0;
-        newStats.baseStats[StatVitality] = 100;
+        newStats.baseStats[StatVitality] = 0;
         newStats.baseStats[StatCritChance] = 0;
         newStats.baseStats[StatCritDmg] = 0;
         newStats.baseStats[StatMeleeDmg] = 0;

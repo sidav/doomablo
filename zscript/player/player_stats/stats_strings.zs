@@ -21,7 +21,7 @@ extend class RwPlayerStats {
         let newLineString = "---------------------\n";
         switch (id) {
             case StatVitality: 
-                return String.Format("Each point of Vitality increases your maximum HP amount by 1.\n"
+                return String.Format("Each point of Vitality increases your maximum HP above 100 by 1.5.\n"
                 ..newLineString
                 .."Current max health value: "..GetMaxHealth());
 
@@ -42,9 +42,11 @@ extend class RwPlayerStats {
                 int maxdmg;
                 [mindmg, maxdmg] = GetMinAndMaxMeleeDamage();
                 return "This stat increases your min and max base fist damage."
-                        .."It also scales with your experience level, so the more points you put there, the bigger damage yield you get.\n"
+                        .."It also scales with your experience level, so the more points you put there,"
+                        .." the bigger damage yield you get.\n"
+                        .." Berserk packs synergize with it, dealing further 10x damage.\n"
                         ..newLineString
-                        .."Your current melee damage: "..mindmg.."-"..maxdmg;
+                        .."Your current fist damage: "..mindmg.."-"..maxdmg;
 
             case StatRareFind:
                 return "Rare Find stat determines your chance to receive an artifact drop of increased rarity.\n"

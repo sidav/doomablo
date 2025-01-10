@@ -3,14 +3,15 @@ extend class RwPlayerStats {
     ////////////////////////
     // Vitality
     int GetMaxHealth() {
-        return baseStats[StatVitality];
+        // 1.5 per level
+        return 100 + 15 * (baseStats[StatVitality]) / 10;
     }
 
     /////////////////
     // Crit chance
     int getCritChancePromille() {
-        // 4.8 promille per level
-        return (baseStats[StatCritChance] * 48 + 5) / 10;
+        // 7.5 promille per level
+        return (baseStats[StatCritChance] * 75 + 5) / 10;
     }
 
     bool rollCritChance() {
@@ -20,7 +21,8 @@ extend class RwPlayerStats {
     /////////////////
     // Crit damage
     int getCritDmgPromille() {
-        return 1250 + (baseStats[StatCritDmg] * 105 + 5) / 10;
+        // Base is 125%. +1.55% per level
+        return 1250 + (baseStats[StatCritDmg] * 155 + 5) / 10;
     }
 
     int getCritDamageFor(int nonCritDamage) {
@@ -52,7 +54,9 @@ extend class RwPlayerStats {
     ///////////////////////
     // Rare find
     int getIncreaseRarityChancePromilleFor(int rarity) {
-        return (baseStats[StatRareFind] * 7) / (2 ** rarity);
+        // 1.35% per stat point
+        let promilleForLowestRarity = (baseStats[StatRareFind] * 135) / 10;
+        return min(promilleForLowestRarity / (2 ** rarity), 1000);
     }
 
     int rollForIncreasedRarity(int initialRarity) {

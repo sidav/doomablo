@@ -3,11 +3,11 @@ extend class RwPlayerStats {
         if (statPointsAvailable < 1) return false;
         switch (id) {
             case StatVitality: 
-                return baseStats[id] < 250;
+                return GetMaxHealth() < 300;
             case StatCritChance: 
-                return baseStats[id] < 100;
+                return getCritChancePromille() < 1000;
             case StatCritDmg: 
-                return baseStats[id] < 100;
+                return getCritDmgPromille() < 5000;
             case StatMeleeDmg: 
                 return baseStats[id] < 100;
             case StatRareFind:
