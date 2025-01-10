@@ -18,7 +18,7 @@ extend class RwPlayerStats {
     }
 
     clearscope double getRequiredXPForNextLevel() {
-        return getRequiredXPForLevel(currentExpLevel);
+        return getRequiredXPForLevel(currentExpLevel+1);
     }
 
     clearscope double getXPPercentageForNextLevel() {
@@ -31,15 +31,15 @@ extend class RwPlayerStats {
         );
     }
 
-    const expExponentBase = 1.5; // That means "each 'multipliesEachLevels' of levels the value will be multiplied by exponentRateBase
-    const ExpMultipliesEachLevels = 4.; // Each this many levels the value will be multiplied by exponentBase
-    const baseAmount = 500.;
+    const expExponentBase = 1.275; // That means "each 'multipliesEachLevels' of levels the value will be multiplied by exponentRateBase
+    const ExpMultipliesEachLevels = 6.; // Each this many levels the value will be multiplied by exponentBase
+    const baseAmount = 650.;
     clearscope static double getRequiredXPForLevel(int level) {
-        level -= 1;
+        level -= 2;
         if (level < 0) {
             return 1;
         }
-        double addition = double(level)*50.;
+        double addition = double(level)*200.;
         return int((baseAmount + addition) * (expExponentBase ** (double(level) / ExpMultipliesEachLevels)));
     }
 

@@ -9,9 +9,14 @@ class RwTestsHandler : StaticEventHandler
         showScalingsFor("Zombie", 20);
         showScalingsFor("Cyberdemon", 3000);
 
+        // double prevXP = RwPlayerStats.getRequiredXPForLevel(1);
         // for (int lvl = 2; lvl <= 100; lvl++) {
-        //     let xp = RwPlayer.getRequiredXPForLevel(lvl);
-        //     debug.print("Level "..lvl.." requires "..xp.." EXP");
+        //     let xp = RwPlayerStats.getRequiredXPForLevel(lvl);
+        //     debug.print(
+        //         String.Format("Level %d requires %.1f XP (+%.1f)", 
+        //         (lvl, xp, xp - prevXP))
+        //     );
+        //     prevXP = xp;
         // }
         // debug.panic("Success");
 
