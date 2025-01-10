@@ -10,7 +10,7 @@ class LevelUpButton : ZFButton {
         let buttonClick = ZFBoxTextures.CreateSingleTexture("graphics/ZForms/SmallButtonClicked.png", true);
 
         let newButton = new('LevelUpButton');
-        newButton.config("Overwritten", handler, '', buttonIdle, buttonHover, buttonClick);
+        newButton.config("Overwritten", handler, '', buttonIdle, buttonHover, buttonClick, holdInterval: TICRATE/3);
         newButton.statId = idOfStat;
         newButton.setText();
         // Real width is the width of the drawn button plus the width of the text.
@@ -47,6 +47,7 @@ class LevelUpButton : ZFButton {
     }
 
     void OnClick() {
+        currentHoldTicsRemaining = 0;
         let plr = RwPlayer(players[consoleplayer].mo);
         if (plr == null || !plr.stats.canStatBeIncreased(statId)) return;
         plr.stats.doIncreaseStat(statId);
