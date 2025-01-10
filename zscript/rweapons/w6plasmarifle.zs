@@ -76,7 +76,7 @@ class RwPlasmaRifle : RandomizedWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			5, 30,
+			5, 35,
 			1,
 			1,
 			5.0,

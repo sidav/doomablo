@@ -125,13 +125,13 @@ class WPrefWorseDamage : RwWeaponPrefix {
         return -1;
     }
     override string getDescription() {
-        return String.format("Total DMG -%d.%d%%", (modifierLevel / 10, modifierLevel % 10) );
+        return String.format("Total DMG -%.1f%%", (double(modifierLevel) / 10) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBetterDamage';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = Random(quality/2 + 1, 150); // 50 - 150 for 100 quality
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 60, 0.1) + remapQualityToRange(quality, 0, 40);
         wpn.stats.additionalDamagePromille = -modifierLevel;
     }
 }
@@ -147,13 +147,13 @@ class WPrefBetterDamage : RwWeaponPrefix {
         return 1;
     }
     override string getDescription() {
-        return String.format("Total DMG +%d.%d%%", (modifierLevel / 10, modifierLevel % 10) );
+        return String.format("Total DMG +%.1f%%", (double(modifierLevel) / 10) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefWorseDamage';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = Random(quality/2 + 1, 150); // 50 - 150 for 100 quality
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(50, 200, 0.05) + remapQualityToRange(quality, 0, 50);
         wpn.stats.additionalDamagePromille = modifierLevel;
     }
 }

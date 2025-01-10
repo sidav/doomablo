@@ -66,7 +66,7 @@ class rwPistol : RandomizedWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			6, 12,
+			6, 15,
 			1,
 			1,
 			2.0,
