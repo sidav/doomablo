@@ -8,7 +8,7 @@ class DropsSpawner {
     }
 
     static play Actor SpawnRandomOneTimeItemDrop(Actor dropper) {
-        int dropType = rnd.weightedRand(650, 650, 100, 10, 7, 5, 1, 1);
+        int dropType = rnd.weightedRand(500, 500, 100, 10, 7, 5, 3, 1, 10);
         switch (dropType) {
             case 0: 
                 return createDropByClass(dropper, 'RwArmorBonus');
@@ -26,8 +26,10 @@ class DropsSpawner {
                 return createDropByClass(dropper, 'MegaSphere');
             case 7:
                 return createDropByClass(dropper, 'InvulnerabilitySphere');
+            case 8:
+                return createDropByClass(dropper, 'StatScroll');
             default:
-                debug.panic("Ammo random drop spawner crashed");
+                debug.panic("Random one-time item drop spawner crashed");
         }
         return null;
     }
