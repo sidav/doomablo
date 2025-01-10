@@ -20,7 +20,7 @@ class RwGreenArmor : RandomizedArmor
 		stats = New('RwArmorStats');
 		stats.currDurability = 150;
 		stats.maxDurability = 150;
-		stats.AbsorbsPercentage = 30;
+		stats.AbsorbsPercentage = 33;
 		stats.DamageReduction = 0;
 		stats.BonusRepair = 5;
     }

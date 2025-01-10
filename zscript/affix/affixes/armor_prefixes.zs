@@ -61,7 +61,7 @@ class APrefSturdy : RwArmorPrefix {
     }
 }
 
-class APrefSoft : RwArmorPrefix {
+class APrefWorseAbsorption : RwArmorPrefix {
     override string getName() {
         return "soft";
     }
@@ -72,7 +72,7 @@ class APrefSoft : RwArmorPrefix {
         return "Absorbs -"..modifierLevel.."% damage";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'APrefHard';
+        return a2.GetClass() != 'APrefBetterAbsorption';
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, arm.stats.AbsorbsPercentage/5, 0.05) + remapQualityToRange(quality, 0, arm.stats.AbsorbsPercentage/5);
@@ -81,7 +81,7 @@ class APrefSoft : RwArmorPrefix {
 }
 
 
-class APrefHard : RwArmorPrefix {
+class APrefBetterAbsorption : RwArmorPrefix {
     override string getName() {
         return "Hard";
     }
@@ -92,7 +92,7 @@ class APrefHard : RwArmorPrefix {
         return "Absorbs +"..modifierLevel.."% damage";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'APrefSoft';
+        return a2.GetClass() != 'APrefWorseAbsorption';
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         if (arm.stats.IsEnergyArmor()) {
@@ -148,7 +148,7 @@ class APrefBetterRepair : RwArmorPrefix {
         return !(arm.stats.IsEnergyArmor());
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, arm.stats.BonusRepair*2);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 4, 0.1) + remapQualityToRange(quality, 0, 2);
 
         arm.stats.BonusRepair += modifierLevel;
     }

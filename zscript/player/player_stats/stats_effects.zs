@@ -21,8 +21,8 @@ extend class RwPlayerStats {
     /////////////////
     // Crit damage
     int getCritDmgPromille() {
-        // Base is 125%. +1.55% per level
-        return 1250 + (baseStats[StatCritDmg] * 155 + 5) / 10;
+        // Base is 150%. +2.5% per level
+        return 1500 + (baseStats[StatCritDmg] * 250 + 5) / 10;
     }
 
     int getCritDamageFor(int nonCritDamage) {
@@ -54,8 +54,8 @@ extend class RwPlayerStats {
     ///////////////////////
     // Rare find
     int getIncreaseRarityChancePromilleFor(int rarity) {
-        // 1.35% per stat point
-        let promilleForLowestRarity = (baseStats[StatRareFind] * 135) / 10;
+        // 2.05% per stat point
+        let promilleForLowestRarity = (baseStats[StatRareFind] * 205 + 5) / 10;
         return min(promilleForLowestRarity / (2 ** rarity), 1000);
     }
 

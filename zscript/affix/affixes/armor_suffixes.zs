@@ -219,7 +219,7 @@ class ASuffAbsImprove : RwArmorSuffix {
         return "Gain +1% ABS (max "..modifierLevel..") for each "..stat2.." repaired";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return !(a2 is 'RwArmorSuffix' || a2 is 'APrefHard');
+        return !(a2 is 'RwArmorSuffix' || a2 is 'APrefBetterAbsorption');
     }
     override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
         return !(arm.stats.IsEnergyArmor());
