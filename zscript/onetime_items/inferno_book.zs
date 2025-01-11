@@ -26,7 +26,7 @@ class InfernoBook : Inventory {
 		if (plr) {
 			plr.A_Print(GetUseMessage(plr.infernoLevel + 1));
 			plr.infernoLevel = min(plr.infernoLevel + 1, plr.maxInfernoLevel);
-			plr.GiveBody(25, 200); // Heal the player
+			plr.GiveBody(plr.stats.GetMaxHealth()/4, 2*plr.stats.GetMaxHealth()); // Heal the player
 			return true;
         }
 		return false;

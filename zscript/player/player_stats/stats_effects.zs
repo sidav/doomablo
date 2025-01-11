@@ -3,8 +3,8 @@ extend class RwPlayerStats {
     ////////////////////////
     // Vitality
     int GetMaxHealth() {
-        // 1.5 per level
-        return 100 + 15 * (baseStats[StatVitality]) / 10;
+        // 1.75 per level
+        return 100 + (175 * (baseStats[StatVitality]) / 100);
     }
 
     /////////////////
