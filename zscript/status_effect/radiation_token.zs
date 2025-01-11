@@ -23,7 +23,7 @@ class RWRadiationToken : RwStatusEffectToken {
 
     override void doEffectOnRwPlayer() {
         if (GetAge() % TICRATE == 0) {
-            owner.damageMobj(null, owner, 1, 'Normal', DMG_NO_PROTECT);
+            owner.damageMobj(self, owner, 1, 'Normal', DMG_NO_PROTECT);
         }
     }
 
@@ -39,7 +39,7 @@ class RWRadiationToken : RwStatusEffectToken {
                     let moLvl = RwMonsterAffixator.GetMonsterLevel(mo);
                     let minDmg = StatsScaler.ScaleIntValueByLevel(1, moLvl);
                     let maxDmg = StatsScaler.ScaleIntValueByLevel(5, moLvl);
-                    mo.damageMobj(null, owner, Random(minDmg, maxDmg), 'Normal', DMG_NO_PROTECT);
+                    mo.damageMobj(self, owner, Random(minDmg, maxDmg), 'Normal', DMG_NO_PROTECT);
                 }
             }
         }

@@ -23,7 +23,7 @@ class RWPainToken : RwStatusEffectToken {
         }
         if ((GetAge() % EffectEach == 0) && rnd.PercentChance(25)) {
             if (rnd.PercentChance(50)) {
-                owner.damageMobj(null, null, 1, 'Normal', DMG_NO_ARMOR);
+                owner.damageMobj(self, null, 1, 'Normal', DMG_NO_ARMOR);
             }
             owner.A_ScaleVelocity(0.25);
             owner.player.DamageCount = 50;

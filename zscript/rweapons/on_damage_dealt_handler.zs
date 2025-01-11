@@ -9,7 +9,7 @@ class RWOnWeaponDamageDealtHandler : EventHandler
         //     .."; who did: "..whoDidDamage.GetClassName()
         //     .."; Inflictor: "..e.Inflictor.GetClassName());
 
-        if (whoDidDamage is 'RwPlayer' && !(target is 'ExplosiveBarrel') && !(e.Inflictor is 'ExplosiveBarrel')) {
+        if (whoDidDamage is 'RwPlayer' && !(target is 'ExplosiveBarrel' || e.Inflictor is 'ExplosiveBarrel' || e.Inflictor is 'RwStatusEffectToken')) {
             // debug.print("Dealt "..e.damage.." damage");
             handleDamageFromPlayer(RwPlayer(whoDidDamage), target, e.damage);
         }

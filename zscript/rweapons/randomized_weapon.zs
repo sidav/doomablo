@@ -57,7 +57,10 @@ class RandomizedWeapon : DoomWeapon {
         // super.ModifyDamage(damage, damageType, newdamage, passive, inflictor, source, flags);
 
         // Un-scaling self damage from higher level splash:
-        if (owner == source && !passive && inflictor.GetClass() == stats.projClass) {
+        if (inflictor == null || inflictor.GetClass() != stats.projClass) {
+            return;
+        }
+        if (owner == source && !passive) {
             newdamage = StatsScaler.UnscaleIntValueByLevel(damage, generatedQuality);
         }
     }

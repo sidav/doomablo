@@ -31,7 +31,7 @@ class RWPoisonToken : RwStatusEffectToken {
         }
         if (GetAge() % DamageEach == 0) {
             // debug.print("Damaging: amount "..amount..", damage "..damage());
-            owner.damageMobj(null, null, 1, 'Normal', DMG_NO_ARMOR);
+            owner.damageMobj(self, null, 1, 'Normal', DMG_NO_ARMOR);
         }
     }
 
