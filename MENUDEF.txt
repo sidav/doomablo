@@ -29,6 +29,7 @@ OptionMenu "RW_Options"
 
 	StaticText ""
 	StaticText "$RWMENU_DIFFICULTYOPTIONS_HEADER", 1
+	Option "$RWSETTINGS_HEAL_ON_LEVELUP", "rw_heal_on_levelup", "RwOptionsYesNo"
 	Option "$RWSETTINGS_START_WITH_SHOTGUN", "rw_start_with_shotgun", "RwOptionsYesNo"
 	Option "$RWSETTINGS_START_WITH_SMG", "rw_start_with_smg", "RwOptionsYesNo"
 	Option "$RWSETTINGS_ENABLE_MBLINK", "rw_enable_monster_blink_affix", "RwOptionsYesNo"

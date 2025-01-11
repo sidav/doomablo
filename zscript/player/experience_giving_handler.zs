@@ -4,7 +4,7 @@ class ExperienceGivingHandler : EventHandler {
         if (e.Thing is 'ExplosiveBarrel' || !e.Thing.bCOUNTKILL) {
             return;
         }
-        RwPlayer(Players[0].mo).stats.ReceiveExperience(e.Thing.GetMaxHealth());
+        RwPlayer(Players[0].mo).ReceiveExperience(e.Thing.GetMaxHealth());
     }
 
     // Maybe will be needed to be able to modify the stat values from menus

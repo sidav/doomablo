@@ -35,19 +35,3 @@ class RwPlayerStats {
         return initialDamage;
     }
 }
-
-// (re)application of the stats
-extend class RwPlayer {
-    void reapplyPlayerStats() {
-        if (stats == null) {
-            stats = RwPlayerStats.Create();
-        }
-        if (!stats.statsChanged) return;
-        stats.statsChanged = false;
-
-        // Apply max health
-        let initialMaxHp = MaxHealth;
-        MaxHealth = stats.GetMaxHealth();
-        GiveBody(MaxHealth - initialMaxHp, MaxHealth);
-    }
-}

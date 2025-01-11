@@ -72,6 +72,28 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         SetAmmoCapacity('Cell', 100);
     }
 
+    // Stats/EXP related
+    void reapplyPlayerStats() {
+        if (stats == null) {
+            stats = RwPlayerStats.Create();
+        }
+        if (!stats.statsChanged) return;
+        stats.statsChanged = false;
+
+        // Apply max health
+        let initialMaxHp = MaxHealth;
+        MaxHealth = stats.GetMaxHealth();
+        GiveBody(MaxHealth - initialMaxHp, MaxHealth);
+    }
+
+    void ReceiveExperience(double amount) {
+        let levelBefore = stats.currentExpLevel;
+        stats.AddExperience(amount);
+        if (rw_heal_on_levelup && levelBefore < stats.currentExpLevel) {
+            GiveBody(stats.GetMaxHealth(), stats.GetMaxHealth());
+        }
+    }
+
     // Progression-related
     const infernoLevelRangeSize = 5;
     clearscope int, int getDropsRangeForInfernoLevel() {

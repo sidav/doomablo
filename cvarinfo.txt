@@ -1,8 +1,9 @@
-server bool RwSettingsShowAffixNamesInTables = true;
+server bool RwSettingsShowAffixNamesInTables = false;
 server bool RwSettingsClumpedDropsJump = true;
 server bool rw_enable_monster_blink_affix = true;
 server bool rw_enable_monster_revenge_affix = true;
 server bool rw_start_with_shotgun = false;
 server bool rw_start_with_smg = false;
+server bool rw_heal_on_levelup = true;
 server float rw_monster_hp_scaling_exponent_mod = 0.0;
 server float rw_settings_scrapping_time = 1.5;

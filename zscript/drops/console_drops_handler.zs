@@ -84,7 +84,7 @@ class ConsoleDropsHandler : EventHandler
                     rarity = 1;
                 }
                 for (let i = 0; i < rarity; i++) {
-                    RwPlayer(player).stats.receiveExperience(RwPlayer(player).stats.getRequiredXPForNextLevel());
+                    RwPlayer(player).receiveExperience(RwPlayer(player).stats.getRequiredXPForNextLevel());
                 }
                 return;
             case 201:

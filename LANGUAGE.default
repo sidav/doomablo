@@ -14,6 +14,7 @@ RWMENU_GAMEPLAYOPTIONS_HEADER = "Gameplay options";
 RWSETTINGS_UNCLUMP = "Too closely dropped items jump from each other";
 
 RWMENU_DIFFICULTYOPTIONS_HEADER = "Difficulty options";
+RWSETTINGS_HEAL_ON_LEVELUP = "Fully heal on new level gain";
 RWSETTINGS_START_WITH_SHOTGUN = "Start with common Shotgun";
 RWSETTINGS_START_WITH_SMG = "Start with common SMG";
 RWSETTINGS_ENABLE_MBLINK = "Enable Blink affix for monsters";

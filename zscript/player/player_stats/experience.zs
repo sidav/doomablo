@@ -2,8 +2,8 @@ extend class RwPlayerStats {
     int currentExpLevel;
     double currentExperience;
 
-    void ReceiveExperience(int amount) {
-        currentExperience += double(amount);
+    void AddExperience(double amount) {
+        currentExperience += amount;
         let required = getRequiredXPForNextLevel();
         while(currentExperience > 0 && currentExperience >= required) {
             currentExperience -= required;
