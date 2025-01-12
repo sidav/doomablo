@@ -198,14 +198,16 @@ class WSuffHoly : RwWeaponSuffix {
         return "Holy";
     }
     override string getDescription() {
-        return modifierLevel.."% additional damage to Legedary and Mythic enemies";
+        return modifierLevel.."% additional damage to Epic enemies and higher";
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(15, 50, 0.1) + remapQualityToRange(quality, 0, 50);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 50, 0.1) + remapQualityToRange(quality, 0, 50);
     }
+    // UPD: ModifyDamage() can't support conditions like rarity :(
+    // Maybe it makes sense to add OnModifyDamageReceivedByMonster() callback?
     override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
-        if (RwMonsterAffixator.GetMonsterRarity(target) > 3) {
-            // TODO: do this in ModifyDamage() instead of this? The on-death triggers will be better this way. Or not.
+        if (RwMonsterAffixator.GetMonsterRarity(target) >= 3) {
+            // null inflictor causes callbacks to be skipped
             target.damageMobj(null, plr, math.getIntPercentage(damage, modifierLevel), 'Normal');
         }
     }
