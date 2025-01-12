@@ -17,9 +17,8 @@ extend class MyCustomHUD {
 		// Create the font used for the fullscreen HUD
 		fnt = "HUDFONT_DOOM";
 		mHUDFont = HUDFont.Create(fnt, fnt.GetCharWidth("0"), Mono_CellLeft, 1, 1);
-		// fnt = "INDEXFONT_DOOM";
-		// mIndexFont = HUDFont.Create(fnt, fnt.GetCharWidth("0"), Mono_CellLeft);
-		// mAmountFont = HUDFont.Create("INDEXFONT");
-		// diparms = InventoryBarState.Create();
+		fnt = "INDEXFONT_DOOM";
+		mIndexFont = HUDFont.Create(fnt, fnt.GetCharWidth("0"), Mono_CellLeft);
+		mAmountFont = HUDFont.Create("INDEXFONT");
     }
 }

@@ -3,6 +3,7 @@ version "4.10.0"
 #include "ZForms/Include.zsc"
 
 #include "zscript/hud/hud.zs"
+#include "zscript/hud/hud_gzdoom.zs"
 #include "zscript/hud/hud_fonts.zs"
 #include "zscript/hud/affix_related.zs"
 #include "zscript/hud/experience_info.zs"
