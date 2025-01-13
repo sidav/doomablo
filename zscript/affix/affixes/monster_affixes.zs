@@ -386,17 +386,17 @@ class MAffSummoner : RwMonsterAffix {
         return 3;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 75);
+        modifierLevel = remapQualityToRange(quality, 1, 40);
     }
     const TRY_SUMMON_EACH = TICRATE;
     override void onDoEffect(Actor owner) {
         if (level.maptime % TRY_SUMMON_EACH == 0 && owner.target != null) {
-            let maxChance = (100 - modifierLevel) + (owner.GetMaxHealth() / 5);
+            let maxChance = (50 - modifierLevel);
             if (!rnd.OneChanceFrom(maxChance)) {
                 return;
             }
             // debug.print("    Spawning "..i);
-            let newMo = owner.Spawn(owner.GetClass(), owner.Pos);
+            let newMo = owner.Spawn(RandomMonsterHelper.GetRandomMonsterClassByMaxHp(85), owner.Pos);
             if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, owner.radius * 2, 5 * owner.radius, owner.Pos)) {
                 newMo.destroy();
                 return;
@@ -506,7 +506,7 @@ class MAffSpawnHordeOnDeath : RwMonsterAffix {
         return 3;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 10);
+        modifierLevel = remapQualityToRange(quality, 3, 10);
     }
     mixin DropSpreadable;
     override void onOwnerDied(Actor owner) {
@@ -515,7 +515,7 @@ class MAffSpawnHordeOnDeath : RwMonsterAffix {
             owner.A_SpawnItemEx('TeleportFog');
             for (let i = 0; i < modifierLevel; i++) {
                 // debug.print("    Spawning "..i);
-                let newMo = owner.Spawn(owner.GetClass(), owner.Pos);
+                let newMo = owner.Spawn(RandomMonsterHelper.GetRandomMonsterClassByMaxHp(85), owner.Pos);
                 if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, 0, 6 * owner.radius, owner.Pos)) {
                     newMo.destroy();
                     continue;

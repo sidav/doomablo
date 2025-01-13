@@ -20,6 +20,7 @@ version "4.10.0"
 #include "zscript/misc/gametime.zs"
 #include "zscript/misc/level_helper.zs"
 #include "zscript/misc/math.zs"
+#include "zscript/misc/random_monster_helper.zs"
 #include "zscript/misc/rnd.zs"
 #include "zscript/misc/tests_handler.zs"
 
