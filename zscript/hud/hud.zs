@@ -14,6 +14,7 @@ class MyCustomHUD : BaseStatusBar
         // created here.
 		super.Init();
 		SetSize(32, 320, 200);
+		diparms = InventoryBarState.Create();
 		initFonts();
     }
 
