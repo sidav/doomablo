@@ -17,6 +17,7 @@ extend class RwMonsterAffixator {
     }
 
     static RwMonsterAffixator GetMonsterAffixator(Actor monster) {
+        if (monster == null) return null;
         return RwMonsterAffixator(monster.FindInventory('RwMonsterAffixator'));
     }
 
