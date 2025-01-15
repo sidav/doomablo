@@ -79,7 +79,7 @@ class RwBFG2701 : RandomizedWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			10, 20,
+			10, 35,
 			1,
 			1,
 			14.0,
