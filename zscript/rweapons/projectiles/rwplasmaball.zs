@@ -17,7 +17,7 @@ class RwPlasmaBall : RwProjectile
 	States
 	{
 	Spawn:
-		PLSS AB 6 Bright;
+		PLSS AB 6 Bright RWA_SeekerMissile();
 		Loop;
 	Death:
 		PLSE ABCDE 4 Bright;
@@ -44,7 +44,7 @@ class RwPlasmaBall1 : RwProjectile
 	States
 	{
 	Spawn:
-		PLS1 AB 6 Bright;
+		PLS1 AB 6 Bright RWA_SeekerMissile();
 		Loop;
 	Death:
 		PLS1 CDEFG 4 Bright;
@@ -57,7 +57,7 @@ class RwPlasmaBall2 : RwPlasmaBall1
 	States
 	{
 	Spawn:
-		PLS2 AB 6 Bright;
+		PLS2 AB 6 Bright RWA_SeekerMissile();
 		Loop;
 	Death:
 		PLS2 CDE 4 Bright;

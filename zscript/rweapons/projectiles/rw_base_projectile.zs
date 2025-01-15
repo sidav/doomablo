@@ -3,10 +3,13 @@ class RwProjectile : Actor {
 	bool noDamageToOwner; // makes sense only for exploding projectiles
 	int rwExplosionRadius;
 	int rwSetDmg; // It is needed to override the default behaviour of damage randomization.
+	int levelOfSeekerProjectile; // 0 means "not a seeker missile", other values mean the agressiveness of the seeking
 
 	default {
 		DamageFunction rwSetDmg; // Do not use Damage property for this! It causes damage to be randomized!
 		// Damage property itself should be unset in all the descendants.
+		MaxTargetRange 20;
+		+SCREENSEEKER
 	}
 
 	float explosionSpriteScale;
@@ -19,6 +22,7 @@ class RwProjectile : Actor {
 
 		rwExplosionRadius = weapon.stats.ExplosionRadius;
 		explosionSpriteScale = weapon.stats.GetExplosionSpriteScale();
+		levelOfSeekerProjectile = weapon.stats.levelOfSeekerProjectile;
 		noDamageToOwner = weapon.stats.noDamageToOwner;
 
 		// Apply speed
@@ -67,5 +71,43 @@ class RwProjectile : Actor {
 				'None'
 			);
 		}
+	}
+
+	// Deals with the conditions (if the projectile is seeker) and the level of it
+	const maxSeekerLvl = 3;
+	int noSeekerTicksPassed;
+	action void RWA_SeekerMissile() {
+		if (invoker.levelOfSeekerProjectile == 0) return;
+		if (invoker.levelOfSeekerProjectile > maxSeekerLvl) {
+			debug.print("Report this: max seeker proj level exceeded with "..invoker.levelOfSeekerProjectile);
+			invoker.levelOfSeekerProjectile = maxSeekerLvl;
+		}
+		
+		int seekEach;
+		int threshold, turnAngle;
+
+		switch (invoker.levelOfSeekerProjectile) {
+			case 1:
+				seekEach = 4;
+				threshold = 0;
+				turnAngle = 2;
+				break;
+			case 2:
+				seekEach = 3;
+				threshold = 0;
+				turnAngle = 2;
+				break;
+			case 3:
+				seekEach = 2;
+				threshold = 0;
+				turnAngle = 2;
+				break;
+		}
+		if (invoker.noSeekerTicksPassed == 0 || invoker.noSeekerTicksPassed % (seekEach) != 0) {
+			invoker.noSeekerTicksPassed++;
+			return;
+		}
+		invoker.noSeekerTicksPassed = 0;
+		A_SeekerMissile(threshold, turnAngle, SMF_LOOK | SMF_PRECISE | SMF_CURSPEED, 255, 6);
 	}
 }

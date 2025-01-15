@@ -16,7 +16,7 @@ class RwBFGBall : RwProjectile
 	States
 	{
 	Spawn:
-		BFS1 AB 4 Bright;
+		BFS1 AB 4 Bright RWA_SeekerMissile();
 		Loop;
 	Death:
 		BFE1 AB 8 Bright {

@@ -605,8 +605,43 @@ class WPrefQuick : RwWeaponPrefix {
     }
 }
 
+class WPrefHomingProjectile : RwWeaponPrefix {
+    override string getName() {
+        return "homing";
+    }
+    override string getDescription() {
+        string levelStr = "(level "..modifierLevel..")";
+        switch (modifierLevel) {
+            case 1:
+                levelStr = "(weak)"; break;
+            case 2:
+                levelStr = "(medium)"; break;
+            case 3:
+                levelStr = "(strong)"; break;
+        }
+        return "Projectiles seek closest target "..levelStr;
+    }
+    override int getAlignment() {
+        return 0; // On purpose
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WSuffFlechettes';
+    }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.firesProjectiles;
+    }
+    override int minRequiredRarity() {
+        return 3; // It's quite a rare affix
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 3, 0.5);
+        wpn.stats.levelOfSeekerProjectile = modifierLevel;
+    }
+}
+
 // Explosion-weapon specific
 
+// TODO: rework this into "% less self damage" affix, the current callbacks allow that
 class WPrefNoSelfExplosionDamage : RwWeaponPrefix {
     override string getName() {
         return "safe";

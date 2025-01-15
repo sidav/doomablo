@@ -18,7 +18,7 @@ class RwMiniRocket : RwProjectile
 	States
 	{
 	Spawn:
-		MISL A 1 Bright;
+		MISL A 1 Bright RWA_SeekerMissile();
 		Loop;
 	Death:
 		MISL B 8 Bright rwExplode();

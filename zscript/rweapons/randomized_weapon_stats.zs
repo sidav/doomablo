@@ -20,6 +20,7 @@ class RWStatsClass {
     int projSpeedPercModifier;
     int ExplosionRadius;
     int BaseExplosionRadius; // Should be set and not modified; it's used for explosion sprite scaling calculation.
+    int levelOfSeekerProjectile; // 0 means "not a seeker missile", other values mean the agressiveness of the seeking
     bool noDamageToOwner;
 
     // Ammo specific
