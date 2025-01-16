@@ -12,6 +12,7 @@ class RwFlechette : RwProjectile
 		+RANDOMIZE
 		// +DEHEXPLOSION
 		+ZDOOMTRANS
+		+SEEKERMISSILE
 		+SCREENSEEKER
 		// SeeSound "weapons/rocklf";
 		// DeathSound "weapons/rocklx";
@@ -26,6 +27,7 @@ class RwFlechette : RwProjectile
 		// 4: Chance - if the SMF_LOOK flag is used, this is the chance (out of 256) that the missile will try acquiring a target if it doesn't already have one.
 		// 5: Distance - the maximum distance (in blocks of 128 map units) at which targets are sought. Default is 10
 		TNT0 A 1 Bright {
+			// TODO: use RwProjectile RWA_SeekerMissile() for this logic
 			A_SeekerMissile(1, 2, SMF_LOOK | SMF_PRECISE | SMF_CURSPEED, 128, 4);
 			RWA_SpawnTrailParticles();
 		}

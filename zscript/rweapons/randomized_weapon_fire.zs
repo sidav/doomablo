@@ -63,13 +63,18 @@ extend class RandomizedWeapon {
             return;
         }
 
+        int flags = FPF_NOAUTOAIM;
+        if (invoker.stats.levelOfSeekerProjectile > 0) {
+            flags = FPF_AIMATANGLE; // Disable NOAUTOAIM so that projectiles will acquire a target on being fired.
+            // FPF_AIMATANGLE is an alternate targeting method, should be helpful as well
+        }
         for (let pellet = 0; pellet < invoker.stats.Pellets; pellet++) {
             Actor actuallyFired, msl;
             [actuallyFired, msl] = A_FireProjectile(
                 invoker.stats.projClass,
                 angle: rnd.randf(-invoker.stats.HorizSpread, invoker.stats.HorizSpread),
                 useammo: false,
-                flags: FPF_NOAUTOAIM,
+                flags: flags,
                 pitch: rnd.randf(-invoker.stats.VertSpread, invoker.stats.VertSpread)
             );
 

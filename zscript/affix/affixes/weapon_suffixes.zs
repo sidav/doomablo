@@ -287,6 +287,7 @@ class WSuffFlechettes : RwWeaponSuffix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(8, 13, 0.1) + remapQualityToRange(quality, 0, 2);
         wpn.stats.firesProjectiles = true;
         wpn.stats.projClass = 'RwFlechette';
+        wpn.stats.levelOfSeekerProjectile = 1; // Level itself is unused; just needs to be non-zero for RWA_FireProjectile() to use correct flags
         wpn.stats.minDamage = math.divideIntWithRounding(wpn.stats.minDamage * modifierLevel, 10);
         wpn.stats.maxDamage = math.divideIntWithRounding(wpn.stats.maxDamage * modifierLevel, 10);
     }

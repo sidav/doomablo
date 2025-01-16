@@ -9,6 +9,7 @@ class RwProjectile : Actor {
 		DamageFunction rwSetDmg; // Do not use Damage property for this! It causes damage to be randomized!
 		// Damage property itself should be unset in all the descendants.
 		MaxTargetRange 20;
+		+SEEKERMISSILE
 		+SCREENSEEKER
 	}
 
