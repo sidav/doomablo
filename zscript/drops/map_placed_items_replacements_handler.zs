@@ -39,7 +39,7 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             if (rnd.OneChanceFrom(2)) {
                 e.Replacement = 'rwBFG';
             } else {
-                e.Replacement = 'rwBFG2701';
+                e.Replacement = 'rwBFG2704';
             }
 			break;
 

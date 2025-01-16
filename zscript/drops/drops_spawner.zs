@@ -88,7 +88,7 @@ class DropsSpawner {
             10, // Rocket Launcher
             10, // Plasma Rifle
             1,  // BFG
-            1   // BFG-2701
+            1   // BFG-2704
         );
         switch (dropType) {
             case 0: 
@@ -119,7 +119,7 @@ class DropsSpawner {
                 spawnedItem = createDropByClass(dropper, 'RwBFG');
                 break;
             case 9:
-                spawnedItem = createDropByClass(dropper, 'RwBFG2701');
+                spawnedItem = createDropByClass(dropper, 'RwBFG2704');
                 break;
             default:
                 debug.panic("RWeapon drop spawner crashed");

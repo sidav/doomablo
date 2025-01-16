@@ -40,14 +40,15 @@ class RwPlasmaBall1 : RwProjectile
 		BounceType "Classic";
 		BounceFactor 1.0;
 		Obituary "$OB_MPBFG_MBF";
+		Seesound "BetaBall/Fire";
 	}
 	States
 	{
 	Spawn:
-		PLS1 AB 6 Bright RWA_SeekerMissile();
+		BBGB AB 6 Bright RWA_SeekerMissile();
 		Loop;
 	Death:
-		PLS1 CDEFG 4 Bright;
+		BBGB CDE 4 Bright;
 		Stop;
 	}
 }
@@ -57,10 +58,10 @@ class RwPlasmaBall2 : RwPlasmaBall1
 	States
 	{
 	Spawn:
-		PLS2 AB 6 Bright RWA_SeekerMissile();
+		BBG2 AB 6 Bright RWA_SeekerMissile();
 		Loop;
 	Death:
-		PLS2 CDE 4 Bright;
+		BBG2 CDEFGH 4 Bright;
 		Stop;
 	}
 }

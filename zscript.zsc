@@ -112,7 +112,7 @@ version "4.10.0"
 #include "zscript/rweapons/w5rocketlauncher.zs"
 #include "zscript/rweapons/w6plasmarifle.zs"
 #include "zscript/rweapons/w7bfg.zs"
-#include "zscript/rweapons/w7bfg2701.zs"
+#include "zscript/rweapons/w7bfg2704.zs"
 
 #include "zscript/rweapons/on_damage_dealt_handler.zs"
 #include "zscript/rweapons/projectiles/rw_base_projectile.zs"

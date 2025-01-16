@@ -48,7 +48,7 @@ class ConsoleDropsHandler : EventHandler
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwBfg', xofs: xofs, zvel: zvel);
                 break;
             case 77:
-                [unused, spawnedItem] = player.A_SpawnItemEx('RwBfg2701', xofs: xofs, zvel: zvel);
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwBfg2704', xofs: xofs, zvel: zvel);
                 break;
             
             // Armors

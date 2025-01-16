@@ -9,3 +9,6 @@ Resources:
     Uses ZForms by Gutawer
     Additional graphics and mods's base: Id Software, Raven Software
     Armor and backpack sprites: cybermonday https://forum.zdoom.org/viewtopic.php?t=78536
+
+Other sprites:
+    Realm667 - per-resource credits are in respective folders

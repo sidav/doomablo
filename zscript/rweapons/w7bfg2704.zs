@@ -1,4 +1,4 @@
-class RwBFG2701 : RandomizedWeapon
+class RwBFG2704 : RandomizedWeapon
 {
 	Default
 	{
@@ -13,51 +13,48 @@ class RwBFG2701 : RandomizedWeapon
 	States
 	{
 	Ready:
-		BFGG A 1 A_WeaponReady;
+		BF27 A 1 A_WeaponReady;
 		Loop;
 	Deselect:
-		BFGG A 1 A_Lower;
+		BF27 A 1 A_Lower;
 		Loop;
 	Select:
-		BFGG A 1 A_Raise;
+		BF27 A 1 A_Raise;
 		Loop;
 	Fire:
-		BFGG A 25 {
+		BF27 B 3 {
 			RWA_ApplyRateOfFire();
-			A_StartSound("weapons/bfgf", CHAN_WEAPON);
+			A_StartSound("BFG2704/Charge", CHAN_WEAPON);
 		}
-		BFGG B 15 {
+		BF27 ABABABABABABAB 3 {
+			RWA_ApplyRateOfFire();
+		}
+		BF27 C 4 {
 			RWA_ApplyRateOfFire();
 		}
 	Hold:
-		BFGG BBBBBBBBBBBBBBBBBBBBBBBBB 2 {
+		BF27 DAEACDEADAEACDEAEDEDCAEDC 2 {
 			RWA_ApplyRateOfFire();
 			Fire();
 		}
-		BFGG B 10 {
+		BF27 F 10 {
 			RWA_ReFire();
 			RWA_ApplyRateOfFire();
 		}
 		Goto Ready;
 	Flash:
-		BFGF A 3 Bright {
+		TNT1 A 3 Bright {
 			RWA_ApplyRateOfFireToFlash();
 			A_Light1();
 		}
-		BFGF B 3 Bright {
+		TNT1 A 3 Bright {
 			RWA_ApplyRateOfFireToFlash();
 			A_Light2();
 		}
 		Goto LightDone;
 	Spawn:
-		BFUG A -1;
+		WBF2 A -1;
 		Stop;
-	OldFire:
-		BFGG A 10 A_StartSound("weapons/bfgf", CHAN_WEAPON);
-		BFGG BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB 1 A_FireOldBFG;
-		BFGG B 0 A_Light0;
-		BFGG B 20 A_ReFire;
-		Goto Ready;
 	}
 
 	bool lastFiredFirstVariant;
@@ -90,7 +87,7 @@ class RwBFG2701 : RandomizedWeapon
 		stats.clipSize = 0;
 		stats.firesProjectiles = true;
 		stats.projClass = 'RwPlasmaBall1';
-		rwBaseName = "BFG2701";
+		rwBaseName = "BFG2704";
     }
 
 	override string GetRandomFluffName() {
