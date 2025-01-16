@@ -5,6 +5,7 @@ class InfernoBook : Inventory {
 		// +INVENTORY.ALWAYSPICKUP - should be false
 		Inventory.Amount 1;
 		Inventory.MaxAmount 5;
+		Inventory.InterHubAmount 5;
 		Inventory.Icon "TOMEG0";
 		-Inventory.AUTOACTIVATE
 		+INVENTORY.INVBAR
