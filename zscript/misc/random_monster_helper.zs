@@ -13,6 +13,18 @@ class RandomMonsterHelper {
         debug.print("Unable to find a good monster class with maxHp <= "..maxHp);
         return null;
     }
+
+    static class <Actor> GetRandomWeakMonsterClass(bool allowHarderMonsters) {
+        int i = allowHarderMonsters ? Random(0, 4) : Random(0, 2);
+        switch(i) {
+            case 0: return 'Zombieman';
+            case 1: return 'DoomImp';
+            case 2: return 'ShotgunGuy';
+            case 3: return 'ChaingunGuy';
+            case 4: return 'LostSoul';
+        }
+        return 'Zombieman';
+    }
 }
 
 class MonstersCacheHandler : EventHandler {

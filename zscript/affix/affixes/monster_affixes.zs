@@ -396,7 +396,7 @@ class MAffSummoner : RwMonsterAffix {
                 return;
             }
             // debug.print("    Spawning "..i);
-            let newMo = owner.Spawn(RandomMonsterHelper.GetRandomMonsterClassByMaxHp(60), owner.Pos, ALLOW_REPLACE);
+            let newMo = owner.Spawn(RandomMonsterHelper.GetRandomWeakMonsterClass(false), owner.Pos, ALLOW_REPLACE);
             if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, owner.radius * 2, 5 * owner.radius, owner.Pos)) {
                 newMo.destroy();
                 return;
@@ -515,7 +515,7 @@ class MAffSpawnHordeOnDeath : RwMonsterAffix {
             owner.A_SpawnItemEx('TeleportFog');
             for (let i = 0; i < modifierLevel; i++) {
                 // debug.print("    Spawning "..i);
-                let newMo = owner.Spawn(RandomMonsterHelper.GetRandomMonsterClassByMaxHp(100), owner.Pos, ALLOW_REPLACE);
+                let newMo = owner.Spawn(RandomMonsterHelper.GetRandomWeakMonsterClass(true), owner.Pos, ALLOW_REPLACE);
                 if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, 0, 6 * owner.radius, owner.Pos)) {
                     newMo.destroy();
                     continue;

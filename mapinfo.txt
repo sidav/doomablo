@@ -8,7 +8,7 @@ gameinfo
 	AddEventHandlers = "RwTestsHandler"
  	AddEventHandlers = "MapPlacedItemsToRWCounterpartsReplacementHandler"
 	AddEventHandlers = "AffixClassesCacheHandler"
-	AddEventHandlers = "MonstersCacheHandler"
+	// AddEventHandlers = "MonstersCacheHandler" - UNUSED for now
 	AddEventHandlers = "AmmoDropsHandler"
 	AddEventHandlers = "DropsHandler"
 	AddEventHandlers = "ExperienceGivingHandler"

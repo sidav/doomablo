@@ -24,10 +24,11 @@ extend class RwMonsterAffixator {
     static void AffixateMonster(Actor monster, int rar, int qty) {
         let a = monster.FindInventory('RwMonsterAffixator');
         if (a) {
-            debug.panic("Monster "..monster.GetClassName().." is already affixed! Class is "..a.GetClassName());
+            debug.print("Monster "..monster.GetClassName().." is already affixed! Class is "..a.GetClassName());
+            return;
         }
         if (RwPlayer(monster) || !monster.bIsMonster) {
-            debug.panic("Trying to affixate "..monster.GetClassName().." !");
+            debug.panic("Trying to affixate but "..monster.GetClassName().." is not a monster!");
         }
         let given = RwMonsterAffixator(monster.GiveInventoryType('RwMonsterAffixator'));
         given.Generate(rar, qty);
