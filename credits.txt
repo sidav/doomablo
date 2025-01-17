@@ -4,6 +4,7 @@ Thanks:
     Agent_Ash - for his invaluable help with everything
     ZDoom discord server - for answering my stupid questions
     Zerobyte666 - for the general design help
+    fakemai - testing help
 
 Resources:
     Uses ZForms by Gutawer
@@ -11,4 +12,4 @@ Resources:
     Armor and backpack sprites: cybermonday https://forum.zdoom.org/viewtopic.php?t=78536
 
 Other sprites:
-    Realm667 - per-resource credits are in respective folders
+    Realm667 - per-resource credits are inside credits folder
