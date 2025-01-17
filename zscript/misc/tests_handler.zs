@@ -6,10 +6,10 @@ class RwTestsHandler : StaticEventHandler
 
 	override void OnRegister()
 	{
-        showScalingsFor("Zombie", 20);
-        showScalingsFor("Cyberdemon", 3000);
+        // showScalingsFor("Zombie", 20);
+        // showScalingsFor("Cyberdemon", 3000);
 
-        // double prevXP = RwPlayerStats.getRequiredXPForLevel(1);
+        // double prevXP = 0; // RwPlayerStats.getRequiredXPForLevel(1);
         // for (int lvl = 2; lvl <= 100; lvl++) {
         //     let xp = RwPlayerStats.getRequiredXPForLevel(lvl);
         //     debug.print(

@@ -32,14 +32,15 @@ extend class RwPlayerStats {
     }
 
     const expExponentBase = 1.275; // That means "each 'multipliesEachLevels' of levels the value will be multiplied by exponentRateBase
-    const ExpMultipliesEachLevels = 6.; // Each this many levels the value will be multiplied by exponentBase
+    const ExpMultipliesEachLevels = 7.; // Each this many levels the value will be multiplied by exponentBase
     const baseAmount = 500.;
+    const additionPerLevel = 200.;
     clearscope static double getRequiredXPForLevel(int level) {
         level -= 2;
         if (level < 0) {
             return 1;
         }
-        double addition = double(level)*200.;
+        double addition = double(level)*additionPerLevel;
         return int((baseAmount + addition) * (expExponentBase ** (double(level) / ExpMultipliesEachLevels)));
     }
 
