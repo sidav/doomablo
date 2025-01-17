@@ -26,7 +26,7 @@ extend class MyCustomHUD {
         }
     }
 
-    string getRarityName(int rarity) {
+    static string getRarityName(int rarity) {
         switch (rarity) {
             case 0: return "Common";
             case 1: return "Uncommon";
