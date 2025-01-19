@@ -77,6 +77,8 @@ version "4.10.0"
 #include "zscript/player/player_stats/stats_increase.zs"
 #include "zscript/player/player_stats/stats_strings.zs"
 // Player menus
+#include "zscript/player/menus/rw_base_menu.zs"
+#include "zscript/player/menus/switch_menu_button.zs"
 #include "zscript/player/menus/artifacts_menu/artifact_button.zs"
 #include "zscript/player/menus/artifacts_menu/handler.zs"
 #include "zscript/player/menus/artifacts_menu/menu.zs"
