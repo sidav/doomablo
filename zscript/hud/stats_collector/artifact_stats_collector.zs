@@ -2,13 +2,14 @@
 class RwHudArtifactStatsCollector {
     array <RwHudStatLine> statLines;
     Inventory lastCollectedItem; // To prevent redundant calculations
+    Inventory lastCollectedComparisonItem; // To prevent redundant calculations
 
     static RwHudArtifactStatsCollector Create() {
         return new('RwHudArtifactStatsCollector');
     }
 
     void CollectStatsFromAffixableItem(Inventory itm, Inventory itemToCompareWith) {
-        if (itm == lastCollectedItem) return;
+        if (itm == lastCollectedItem && lastCollectedComparisonItem == itemToCompareWith) return;
 
         clearAllLines();
         if (RandomizedWeapon(itm)) {
@@ -19,6 +20,7 @@ class RwHudArtifactStatsCollector {
             collectRWBackpackStats(RwBackpack(itm), RwBackpack(itemToCompareWith));
         }
         lastCollectedItem = itm;
+        lastCollectedComparisonItem = itemToCompareWith;
     }
     
     // Line-adding methods
