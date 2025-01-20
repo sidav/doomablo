@@ -42,6 +42,8 @@ class RWArtifactsMenu : RwBaseMenu {
         if (plr.CurrentEquippedBackpack) {
             addArtifactButton(plr.CurrentEquippedBackpack);
         }
+
+        setBasicDescription();
     }
 
     override void Ticker() {
@@ -76,7 +78,7 @@ class RWArtifactsMenu : RwBaseMenu {
         pushDescription("-----------------------------------", Font.CR_DARKGRAY);
     }
 
-    const descrCenterX = 360;
+    const descrCenterX = 375;
     void pushDescription(string text, int color, double scale = 1., int alignment = AlignType_HCenter) {
         let lbl = ZFLabel.Create(
             (descrCenterX, 100 + (descriptionFont.GetHeight() + 3) * currLabelLine), (570, descriptionFont.GetHeight() + 4),
@@ -106,25 +108,16 @@ class RWArtifactsMenu : RwBaseMenu {
         currLabelLine++;
     }
 
-    enum AlignType {
-		AlignType_Left    = 1,
-		AlignType_HCenter = 2,
-		AlignType_Right   = 3,
-
-		AlignType_Top     = 1 << 4,
-		AlignType_VCenter = 2 << 4,
-		AlignType_Bottom  = 3 << 4,
-
-		AlignType_TopLeft   = AlignType_Top | AlignType_Left,
-		AlignType_TopCenter = AlignType_Top | AlignType_HCenter,
-		AlignType_TopRight  = AlignType_Top | AlignType_Right,
-
-		AlignType_CenterLeft  = AlignType_VCenter | AlignType_Left,
-		AlignType_Center      = AlignType_VCenter | AlignType_HCenter,
-		AlignType_CenterRight = AlignType_VCenter | AlignType_Right,
-
-		AlignType_BottomLeft   = AlignType_Bottom | AlignType_Left,
-		AlignType_BottomCenter = AlignType_Bottom | AlignType_HCenter,
-		AlignType_BottomRight  = AlignType_Bottom | AlignType_Right,
-	}
+    void setBasicDescription() {
+        static const string descr[] = {
+            "Select an item to take a look at its stats.",
+            "",
+            "Items' base stats are always shown as final,",
+            "so they already do include the effects",
+            "of item's applied affixes."
+        };
+        for (int i = 0; i < descr.Size(); i++) {
+            pushDescription(descr[i], Font.CR_GRAY);
+        }
+    }
 }

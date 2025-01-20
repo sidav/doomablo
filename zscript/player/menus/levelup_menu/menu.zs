@@ -54,6 +54,7 @@ class RWLevelupMenu : RwBaseMenu {
         for (let sid = 0; sid < RwPlayerStats.totalStatsCount; sid++) {
             addLevelUpButton(sid);
         }
+        setBasicDescription();
     }
 
     override void Ticker() {
@@ -78,25 +79,9 @@ class RWLevelupMenu : RwBaseMenu {
         newButton.Pack(mainFrame);
     }
 
-    enum AlignType {
-		AlignType_Left    = 1,
-		AlignType_HCenter = 2,
-		AlignType_Right   = 3,
-
-		AlignType_Top     = 1 << 4,
-		AlignType_VCenter = 2 << 4,
-		AlignType_Bottom  = 3 << 4,
-
-		AlignType_TopLeft   = AlignType_Top | AlignType_Left,
-		AlignType_TopCenter = AlignType_Top | AlignType_HCenter,
-		AlignType_TopRight  = AlignType_Top | AlignType_Right,
-
-		AlignType_CenterLeft  = AlignType_VCenter | AlignType_Left,
-		AlignType_Center      = AlignType_VCenter | AlignType_HCenter,
-		AlignType_CenterRight = AlignType_VCenter | AlignType_Right,
-
-		AlignType_BottomLeft   = AlignType_Bottom | AlignType_Left,
-		AlignType_BottomCenter = AlignType_Bottom | AlignType_HCenter,
-		AlignType_BottomRight  = AlignType_Bottom | AlignType_Right,
-	}
+    void setBasicDescription() {
+        DescriptionLabel.text = 
+        "Hover over a stat to see its description.\n"..
+        "If you have spare stat points, press the appropriate button to increase your stat.";
+    }
 }
