@@ -11,7 +11,7 @@ class RwBaseMenu : ZFGenericMenu {
 
     override void Init(Menu parent) {
         Super.Init(parent); // Call GenericMenu's 'Init' function to do some required initialization.
-        SetBaseResolution ((menuW, menuH)); // Set our base resolution to 320x200.
+        SetBaseResolution ((menuW, menuH));
         smallFont = Font.GetFont("SmallFont"); // Get the smallfont.
         descriptionFont = Font.GetFont("mdesfont");
     }

@@ -1,9 +1,4 @@
-class RWArtifactsMenu : ZFGenericMenu {
-    const menuW = 960;
-    const menuH = 540;
-    Font smallFont; // A font to use for text.
-    Font descrFont;
-    ZFImage background; // A background image.
+class RWArtifactsMenu : RwBaseMenu {
     ArtifactsMenuHandler handler;
 
     array<ArtifactButton> artifactButtons;
@@ -12,9 +7,6 @@ class RWArtifactsMenu : ZFGenericMenu {
 
     override void Init(Menu parent) {
         Super.Init(parent); // Call GenericMenu's 'Init' function to do some required initialization.
-        SetBaseResolution ((menuW, menuH));
-        smallFont = Font.GetFont("SmallFont"); // Get the smallfont.
-        descrFont = Font.GetFont("mdesfont");
         handler = new('ArtifactsMenuHandler');
         handler.collector = RwHudArtifactStatsCollector.Create();
         handler.link = self;
@@ -26,6 +18,10 @@ class RWArtifactsMenu : ZFGenericMenu {
             text: "ARTIFACTS",
             fnt: smallFont, Alignment: AlignType_HCenter, wrap: true, autoSize: true, textScale: 2., textColor: Font.CR_WHITE);
         TitleLabel.Pack(mainFrame);
+
+        // Disabled on purpose (for now)
+        // let switchBtn = SwitchMenuButton.Make(handler, 745, 505, "Stats", 'RWLevelupMenu', 1);
+        // switchBtn.Pack(mainFrame);
 
         let equippedLabel = ZFLabel.Create( (0, 125), (menuW/3, smallFont.GetHeight() * 2),
             text: "Equipped:",
@@ -46,10 +42,6 @@ class RWArtifactsMenu : ZFGenericMenu {
         if (plr.CurrentEquippedBackpack) {
             addArtifactButton(plr.CurrentEquippedBackpack);
         }
-
-        // for (let sid = 0; sid < RwPlayerStats.totalStatsCount; sid++) {
-        //     addLevelUpButton(sid);
-        // }
     }
 
     override void Ticker() {
@@ -64,6 +56,12 @@ class RWArtifactsMenu : ZFGenericMenu {
         // Add the button element into the main frame.
         artifactButtons.Push(newButton);
         newButton.Pack(mainFrame);
+    }
+
+    void deactivateArtfctBtns() {
+        for (let i = 0; i < artifactButtons.Size(); i++) {
+            artifactButtons[i].active = false;
+        }
     }
 
     void clearDescriptionLabels() {
@@ -81,9 +79,9 @@ class RWArtifactsMenu : ZFGenericMenu {
     const descrCenterX = 360;
     void pushDescription(string text, int color, double scale = 1., int alignment = AlignType_HCenter) {
         let lbl = ZFLabel.Create(
-            (descrCenterX, 100 + (descrFont.GetHeight() + 3) * currLabelLine), (570, descrFont.GetHeight() + 4),
+            (descrCenterX, 100 + (descriptionFont.GetHeight() + 3) * currLabelLine), (570, descriptionFont.GetHeight() + 4),
             text: text, // will be overwritten
-            fnt: descrFont, Alignment: alignment, wrap: false, autoSize: false, textScale: scale, textColor: color);
+            fnt: descriptionFont, Alignment: alignment, wrap: false, autoSize: false, textScale: scale, textColor: color);
         DescriptionLabels.Push(lbl);
         lbl.Pack(mainFrame);
         currLabelLine++;
@@ -91,18 +89,18 @@ class RWArtifactsMenu : ZFGenericMenu {
 
     const rightColumnOffset = 100;
     void pushTwoColumnsDescription(string textLeft, string textRight, int color) {
-        let yCoord = 100 + (descrFont.GetHeight() + 3) * currLabelLine;
+        let yCoord = 100 + (descriptionFont.GetHeight() + 3) * currLabelLine;
         let leftWidth = 280;
         let lbl = ZFLabel.Create(
-            (descrCenterX+rightColumnOffset, yCoord), (leftWidth, descrFont.GetHeight() + 4),
+            (descrCenterX+rightColumnOffset, yCoord), (leftWidth, descriptionFont.GetHeight() + 4),
             text: textLeft, // will be overwritten
-            fnt: descrFont, Alignment: AlignType_CenterLeft, wrap: false, autoSize: false, textScale: 1., textColor: color);
+            fnt: descriptionFont, Alignment: AlignType_CenterLeft, wrap: false, autoSize: false, textScale: 1., textColor: color);
         DescriptionLabels.Push(lbl);
         lbl.Pack(mainFrame);
         lbl = ZFLabel.Create(
-            (descrCenterX+rightColumnOffset+leftWidth, yCoord), (250, descrFont.GetHeight() + 4),
+            (descrCenterX+rightColumnOffset+leftWidth, yCoord), (250, descriptionFont.GetHeight() + 4),
             text: textRight, // will be overwritten
-            fnt: descrFont, Alignment: AlignType_CenterLeft, wrap: false, autoSize: false, textScale: 1., textColor: color);
+            fnt: descriptionFont, Alignment: AlignType_CenterLeft, wrap: false, autoSize: false, textScale: 1., textColor: color);
         DescriptionLabels.Push(lbl);
         lbl.Pack(mainFrame);
         currLabelLine++;

@@ -1,6 +1,8 @@
 class ArtifactButton : ZFButton {
 
     int drawnButtonW, drawnButtonH;
+    bool active;
+    ZFBoxTextures bgHover, bgActive;
     Inventory artifact;
 
     static ArtifactButton Make(ZFHandler handler, int x, int y, Inventory itm) {
@@ -13,6 +15,10 @@ class ArtifactButton : ZFButton {
         }
 
         let newButton = new('ArtifactButton');
+        if (itm) {
+            newButton.bgHover = ZFBoxTextures.CreateSingleTexture("graphics/ZForms/PlayerInvMenuBtnHover.png", true);
+            newButton.bgActive = ZFBoxTextures.CreateSingleTexture("graphics/ZForms/PlayerInvMenuBtnActive.png", true);
+        }
         [newButton.drawnButtonW, newButton.drawnButtonH] = GetItemSpriteSize(itm);
         newButton.drawnButtonW *= 2;
         newButton.drawnButtonH *= 2;
@@ -26,7 +32,11 @@ class ArtifactButton : ZFButton {
 
     override void drawer() {
         ZFBoxTextures textures = textures[curButtonState];
-        // Notice: overriding drawn button width here
+        if (active) {
+            drawBox((0, 0), (drawnButtonW, box.size.y), bgActive, true);
+        } else if (curButtonState != ButtonState_Inactive) {
+            drawBox((0, 0), (drawnButtonW, box.size.y), bgHover, true);
+        }
         if (artifact) {
             drawBox((0, 0), (drawnButtonW, box.size.y), textures, true);
         }

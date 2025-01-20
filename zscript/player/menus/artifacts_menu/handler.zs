@@ -8,6 +8,8 @@ class ArtifactsMenuHandler : ZFHandler
     override void buttonClickCommand(ZFButton caller, string command) {
         let aBtn = artifactButton(caller);
         if (aBtn && aBtn.artifact) {
+            link.deactivateArtfctBtns();
+            aBtn.active = true;
             collector.CollectStatsFromAffixableItem(aBtn.artifact, null);
             if (RandomizedWeapon(aBtn.artifact)) {
                 setDescriptionForWeapon(RandomizedWeapon(aBtn.artifact));
@@ -16,6 +18,10 @@ class ArtifactsMenuHandler : ZFHandler
             } else if (RwBackpack(aBtn.artifact)) {
                 setDescriptionForBackpack(RwBackpack(aBtn.artifact));
             }
+        }
+        if (SwitchMenuButton(caller)) {
+            SwitchMenuButton(caller).OnClick();
+            link.switchTo = SwitchMenuButton(caller).switchTo;
         }
     }
 
