@@ -91,9 +91,9 @@ class RwHudArtifactStatsCollector {
 
     private string floatToSignedStr(float v) {
         if (v > 0) {
-            return String.Format("+%.2f", v);
+            return String.Format("+%.1f", v);
         }
-        return String.Format("%.2f", v);
+        return String.Format("%.1f", v);
     }
 
     string intToSignedStr(int v) {

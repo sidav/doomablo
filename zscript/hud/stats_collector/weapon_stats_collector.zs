@@ -19,7 +19,7 @@ extend class RwHudArtifactStatsCollector {
             } else {
                 compareStr = "";
             }
-            addTwoLabelsLine("Damage per pellet:", String.Format("%.2f-%.2f", (wpn1dmgmin, wpn1dmgmax))..compareStr, 
+            addTwoLabelsLine("Damage per pellet:", String.Format("%.1f-%.1f", (wpn1dmgmin, wpn1dmgmax))..compareStr, 
                     Font.CR_White, compareClr);
             // Pellets
             if (wpnComp && wpn.stats.pellets != wpnComp.stats.pellets) {
@@ -41,7 +41,7 @@ extend class RwHudArtifactStatsCollector {
             } else {
                 compareStr = "";
             }
-            addTwoLabelsLine("Total shot damage:", String.Format("%.2f-%.2f", (wpn1dmgmin, wpn1dmgmax*wpn.stats.pellets))..compareStr,
+            addTwoLabelsLine("Total shot damage:", String.Format("%.1f-%.1f", (wpn1dmgmin, wpn1dmgmax*wpn.stats.pellets))..compareStr,
                     Font.CR_White, compareClr);    
         // NON-SHOTGUN
         } else {
@@ -77,7 +77,7 @@ extend class RwHudArtifactStatsCollector {
             compareStr = "";
             compareClr = Font.CR_White;
         }
-        addTwoLabelsLine("Spread:", String.Format("%.2f", (wpn.stats.horizSpread))..compareStr, 
+        addTwoLabelsLine("Spread:", String.Format("%.1f", (wpn.stats.horizSpread))..compareStr, 
                     Font.CR_White, compareClr);
 
         // Attack range
@@ -135,7 +135,7 @@ extend class RwHudArtifactStatsCollector {
                 compareStr = "";
                 compareClr = Font.CR_White;
             }
-            addTwoLabelsLine("Ray Damage:", String.Format("%.2f-%.2f", (wpn1dmgmin, wpn1dmgmax))..compareStr,
+            addTwoLabelsLine("Ray Damage:", String.Format("%.1f-%.1f", (wpn1dmgmin, wpn1dmgmax))..compareStr,
                     Font.CR_White, compareClr);
         }
 
