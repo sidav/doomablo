@@ -4,6 +4,7 @@ class ArtifactsMenuHandler : ZFHandler
     // We need this to be able to do anything with our menu.
     RWArtifactsMenu link;
     RwHudArtifactStatsCollector collector;
+    const itemTitleScale = 1.1;
 
     override void buttonClickCommand(ZFButton caller, string command) {
         let aBtn = artifactButton(caller);
@@ -48,8 +49,7 @@ class ArtifactsMenuHandler : ZFHandler
     void setDescriptionForWeapon(RandomizedWeapon wpn) {
         link.clearDescriptionLabels();
         // MyCustomHUD.PickColorForAffixableItem()
-        link.pushDescription(wpn.nameWithAppliedAffixes, 
-            MyCustomHUD.PickColorForAffixableItem(wpn), 1.25);
+        link.pushDescription(wpn.nameWithAppliedAffixes, MyCustomHUD.PickColorForAffixableItem(wpn), itemTitleScale);
         link.pushDescription("Level "..wpn.generatedQuality.." "..MyCustomHUD.getRarityName(wpn.appliedAffixes.Size()).." "..wpn.rwbaseName,
             MyCustomHUD.PickColorForAffixableItem(wpn), 0.75);
 
@@ -60,8 +60,7 @@ class ArtifactsMenuHandler : ZFHandler
     void setDescriptionForArmor(RandomizedArmor armr) {
         link.clearDescriptionLabels();
         // MyCustomHUD.PickColorForAffixableItem()
-        link.pushDescription(armr.nameWithAppliedAffixes, 
-            MyCustomHUD.PickColorForAffixableItem(armr), 1.25);
+        link.pushDescription(armr.nameWithAppliedAffixes, MyCustomHUD.PickColorForAffixableItem(armr), itemTitleScale);
         link.pushDescription("Level "..armr.generatedQuality.." "..MyCustomHUD.getRarityName(armr.appliedAffixes.Size()).." "..armr.rwbaseName,
             MyCustomHUD.PickColorForAffixableItem(armr), 0.75);
 
@@ -72,8 +71,7 @@ class ArtifactsMenuHandler : ZFHandler
     void setDescriptionForBackpack(RwBackpack bkpk) {
         link.clearDescriptionLabels();
         // MyCustomHUD.PickColorForAffixableItem()
-        link.pushDescription(bkpk.nameWithAppliedAffixes, 
-            MyCustomHUD.PickColorForAffixableItem(bkpk), 1.25);
+        link.pushDescription(bkpk.nameWithAppliedAffixes, MyCustomHUD.PickColorForAffixableItem(bkpk), itemTitleScale);
         link.pushDescription("Level "..bkpk.generatedQuality.." "..MyCustomHUD.getRarityName(bkpk.appliedAffixes.Size()).." "..bkpk.rwbaseName,
             MyCustomHUD.PickColorForAffixableItem(bkpk), 0.75);
 
