@@ -15,7 +15,7 @@ class LevelUpButton : ZFButton {
         newButton.setText();
         // Real width is the width of the drawn button plus the width of the text.
         newButton.textScale = 2.;
-        newButton.setBox((x, y), (drawnButtonSize + 5 + newButton.fnt.StringWidth(newButton.text), drawnButtonSize));
+        newButton.setBox((x, y), (drawnButtonSize + 5 + newButton.fnt.StringWidth(newButton.text) * newButton.textScale, drawnButtonSize));
         return newButton;
     }
 

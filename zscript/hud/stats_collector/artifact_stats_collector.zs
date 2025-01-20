@@ -52,7 +52,7 @@ class RwHudArtifactStatsCollector {
 
     void addAffixDescriptionLine(Affix aff) {
 
-        let clr = Font.CR_White;
+        let clr = Font.CR_OLIVE;
         if (aff.isSuffix()) {
             if (aff.getAlignment() > 0) {
                 clr = Font.CR_TEAL;
