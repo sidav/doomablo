@@ -50,14 +50,19 @@ extend class MyCustomHUD {
     }
 
     void printAllCollectorLines(int x, int y, int tableWidth, int textFlags) {
-        int xOffset = 0;
         RwHudStatLine line;
         foreach (line : statsCollector.statLines) {
+            let xOffset = 8; // Offset for stats
+            let fontToUse = itemStatsFont;
+            if (line.isTitleLine) {
+                xOffset = 0;
+                fontToUse = itemNameFont;
+            }
             if (line.isSeparator) continue;
-            if (line.isAffixLine) xOffset = 5;
+            if (line.isAffixLine) xOffset = 12; // Offset for affixes
             PrintTableLineAt(line.mainLabel, line.rightLabel,
                         x+xOffset, y, tableWidth,
-                        itemStatsFont, textFlags, line.mainColor, line.rightColor);
+                        fontToUse, textFlags, line.mainColor, line.rightColor);
         }
     }
 }

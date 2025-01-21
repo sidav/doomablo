@@ -8,10 +8,12 @@ class RwHudArtifactStatsCollector {
         return new('RwHudArtifactStatsCollector');
     }
 
-    void CollectStatsFromAffixableItem(Inventory itm, Inventory itemToCompareWith) {
+    void CollectStatsFromAffixableItem(Inventory itm, Inventory itemToCompareWith, int lines) {
         if (itm == lastCollectedItem && lastCollectedComparisonItem == itemToCompareWith) return;
 
         clearAllLines();
+        addHeaderLinesForAffixable(itm, lines);
+        addSeparatorLine();
         if (RandomizedWeapon(itm)) {
             collectRWWeaponStats(RandomizedWeapon(itm), RandomizedWeapon(itemToCompareWith));
         } else if (RandomizedArmor(itm)) {
@@ -35,6 +37,14 @@ class RwHudArtifactStatsCollector {
         statLines.push(newLine);
     }
 
+    void addTitleLine(string label, int color) {
+        let newLine = new('RwHudStatLine');
+        newLine.mainLabel = label;
+        newLine.mainColor = color;
+        newLine.isTitleLine = true;
+        statLines.push(newLine);
+    }
+
     void addTwoLabelsLine(string leftLabel, string rightLabel, int leftColor, int rightColor) {
         let newLine = new('RwHudStatLine');
         newLine.mainLabel = leftLabel;
@@ -47,36 +57,6 @@ class RwHudArtifactStatsCollector {
     void addSeparatorLine() {
         let newLine = new('RwHudStatLine');
         newLine.isSeparator = true;
-        statLines.push(newLine);
-    }
-
-    void addAffixDescriptionLine(Affix aff) {
-
-        let clr = Font.CR_OLIVE;
-        if (aff.isSuffix()) {
-            if (aff.getAlignment() > 0) {
-                clr = Font.CR_TEAL;
-            } else if (aff.getAlignment() < 0) {
-                clr = Font.CR_CREAM;
-            }
-        } else {
-            if (aff.getAlignment() > 0) {
-                clr = Font.CR_GREEN;
-            } else if (aff.getAlignment() < 0) {
-                clr = Font.CR_RED;
-            }
-        }
-
-        string label = "* ";
-        if (RwSettingsShowAffixNamesInTables) {
-            label = label..aff.getName()..": ";
-        }
-        label = label..aff.getDescription();
-
-        let newLine = new('RwHudStatLine');
-        newLine.mainLabel = label;
-        newLine.mainColor = clr;
-        newLine.isAffixLine = true;
         statLines.push(newLine);
     }
 
@@ -142,11 +122,4 @@ class RwHudArtifactStatsCollector {
         }
         return Font.CR_BLACK;
     }
-}
-
-// "rightLabel" and "rightColor" are optional and needed for table-like output
-class RwHudStatLine {
-    string mainLabel, rightLabel;
-    int mainColor, rightColor;
-    bool isSeparator, isAffixLine;
 }

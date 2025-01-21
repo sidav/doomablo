@@ -20,17 +20,7 @@ extend class MyCustomHUD {
     }
 
     void printBackpackStatsTableAt(RWBackpack bkpk, RWBackpack bkpkCmp, int x, int y, int textFlags) {
-        let linesX = x+8;
-        string compareStr = "";
-        let compareClr = Font.CR_White;
-
-        PrintTableLineAt(
-            "LVL "..bkpk.generatedQuality.." "..bkpk.nameWithAppliedAffixes, "("..getRarityName(bkpk.appliedAffixes.Size())..")",
-            x, y, pickupableStatsTableWidth,
-            itemNameFont, textFlags, PickColorForAffixableItem(bkpk)
-        );
-
-        statsCollector.CollectStatsFromAffixableItem(bkpk, bkpkCmp);
-        printAllCollectorLines(linesX, y, pickupableStatsTableWidth, textFlags);
+        statsCollector.CollectStatsFromAffixableItem(bkpk, bkpkCmp, 1);
+        printAllCollectorLines(x, y, pickupableStatsTableWidth, textFlags);
     }
 }

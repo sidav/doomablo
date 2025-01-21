@@ -26,19 +26,6 @@ extend class MyCustomHUD {
         }
     }
 
-    static string getRarityName(int rarity) {
-        switch (rarity) {
-            case 0: return "Common";
-            case 1: return "Uncommon";
-            case 2: return "Rare";
-            case 3: return "Epic";
-            case 4: return "Legendary";
-            case 5: return "Mythic";
-        }
-        debug.panic("Rarity "..rarity.." not found");
-        return "";
-    }
-
     static int PickColorForAffixableItem(Inventory i) {
         int rarity = -1;
         if (i is 'RandomizedWeapon') {

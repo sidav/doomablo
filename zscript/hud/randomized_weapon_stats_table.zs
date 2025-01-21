@@ -39,17 +39,7 @@ extend class MyCustomHUD {
     }
 
     void printWeaponStatsAt(RandomizedWeapon wpn, RandomizedWeapon wpnComp, int x, int y, int textFlags) {
-        let linesX = x+8;
-        string compareStr = "";
-        let compareClr = Font.CR_White;
-
-        PrintTableLineAt(
-            "LVL "..wpn.generatedQuality.." "..wpn.nameWithAppliedAffixes, "("..getRarityName(wpn.appliedAffixes.Size())..")",
-            x, y, pickupableStatsTableWidth,
-            itemNameFont, textFlags, PickColorForAffixableItem(wpn)
-        );
-
-        statsCollector.CollectStatsFromAffixableItem(wpn, wpnComp);
-        printAllCollectorLines(linesX, y, pickupableStatsTableWidth, textFlags);
+        statsCollector.CollectStatsFromAffixableItem(wpn, wpnComp, 1);
+        printAllCollectorLines(x, y, pickupableStatsTableWidth, textFlags);
     }
 }

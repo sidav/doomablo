@@ -136,7 +136,7 @@ mixin class Affixable {
         return true;
     }
 
-    int getRarity() {
+    clearscope int getRarity() {
         return appliedAffixes.Size();
     }
 

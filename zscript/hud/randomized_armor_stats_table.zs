@@ -20,18 +20,8 @@ extend class MyCustomHUD {
     }
 
     void printArmorStatsTableAt(RandomizedArmor armr, RandomizedArmor armrCmp, int x, int y, int textFlags) {
-        let linesX = x+8;
-        string compareStr = "";
-        let compareClr = Font.CR_White;
-
-        PrintTableLineAt(
-            "LVL "..armr.generatedQuality.." "..armr.nameWithAppliedAffixes, "("..getRarityName(armr.appliedAffixes.Size())..")",
-            x, y, pickupableStatsTableWidth,
-            itemNameFont, textFlags, PickColorForAffixableItem(armr)
-        );
-
-        statsCollector.CollectStatsFromAffixableItem(armr, armrCmp);
-        printAllCollectorLines(linesX, y, pickupableStatsTableWidth, textFlags);
+        statsCollector.CollectStatsFromAffixableItem(armr, armrCmp, 1);
+        printAllCollectorLines(x, y, pickupableStatsTableWidth, textFlags);
     }
 
     static int PickColorForRwArmorAmount(RandomizedArmor a) {
