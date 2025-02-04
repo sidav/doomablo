@@ -9,6 +9,16 @@ RWMENU_CUSTOMIZEDOOMABLO = "DOOMablo Einstellungen";
 
 RWMENU_INTERFACEOPTIONS_HEADER = "Interfaceeinstellungen";
 RWSETTINGS_AFFIXNAMES = "Affix Namen anzeigen";
+RWMENU_MONHPBAROPTIONS_HEADER = "GP-Bar Optionen";
+RWSETTINGS_MINWIDTH = "Mindestbreite";
+RWSETTINGS_HEIGHT = "Mindesthöhe";
+RWSETTINGS_VERTICAL_POSITION = "Vertikale Position";
+RWSETTINGS_BORDER_THICKNESS = "Randstärke";
+RWSETTINGS_MONSTER_NAME_YOFFSET = "Relative Namenposition";
+RWSETTINGS_MONSTER_AFFIXES_YOFFSET = "Relative Affixposition";
+RWSETTINGS_MONHPBARBORDER_COLOR = "Randfarbe";
+RWSETTINGS_MONHPBAR_COLOR = "Farbe für GP-Bar";
+RWSETTINGS_MONAFFIXESTEXT_COLOR = "Farbe für Affixtexte";
 
 RWMENU_GAMEPLAYOPTIONS_HEADER = "Gameplayeinstellungen";
 RWSETTINGS_UNCLUMP = "Nebenen Artefakten vom einander springen";
@@ -24,6 +34,7 @@ RWSETTINGS_HP_SCALING_SPEED = "Monster GP-Skalierungsgeschwindigkeit";
 RWMENU_CONTROLS_HEADER = "DOOMablo Steuerung";
 RWSETTINGS_SCRAPITEMBTN = "Einen Artefakt verschrotten";
 RWSETTINGS_SCRAPITEMTIME = "Zeit für Verschrottung (sekunden)";
+RWSETTINGS_EQUIPPEDARTIFACTSSCREENBTN = "Schirm für ausgerüstete Artefakten öffnen";
 RWSETTINGS_CHARACTERSCREENBTN = "Charakter-Bildschirm öffnen";
 
 // Generic

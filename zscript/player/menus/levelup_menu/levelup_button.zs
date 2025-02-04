@@ -1,6 +1,6 @@
 class LevelUpButton : ZFButton {
 
-    const drawnButtonWidth = 20; // It's not the same as "real" button width, as we need the labels to be "hoverable" as well
+    const drawnButtonSize = 30; // It's not the same as "real" button width, as we need the labels to be "hoverable" as well
     int statId;
 
     static LevelUpButton Make(ZFHandler handler, int x, int y, int idOfStat) {
@@ -14,7 +14,8 @@ class LevelUpButton : ZFButton {
         newButton.statId = idOfStat;
         newButton.setText();
         // Real width is the width of the drawn button plus the width of the text.
-        newButton.setBox((x, y), (drawnButtonWidth + 5 + newButton.fnt.StringWidth(newButton.text), 20));
+        newButton.textScale = 2.;
+        newButton.setBox((x, y), (drawnButtonSize + 5 + newButton.fnt.StringWidth(newButton.text) * newButton.textScale, drawnButtonSize));
         return newButton;
     }
 
@@ -23,14 +24,14 @@ class LevelUpButton : ZFButton {
         if (plr.stats.canStatBeIncreased(statId)) {
             ZFBoxTextures textures = textures[curButtonState];
             // Notice: overriding drawn button width here
-            drawBox((0, 0), (drawnButtonWidth, box.size.y), textures, true);
+            drawBox((0, 0), (drawnButtonSize, box.size.y), textures, true);
             textColor = Font.CR_GOLD;
         } else {
             textColor = Font.CR_GREEN;
         }
 		// draw the text to the right of the drawn button
 		Vector2 textSize = (fnt.stringWidth(text), fnt.getHeight()) * textScale;
-		Vector2 textPos = (drawnButtonWidth + drawnButtonWidth/3, (box.size.y - textSize.y) / 2); // (box.size - textSize) / 2;
+		Vector2 textPos = (drawnButtonSize + drawnButtonSize/3, (box.size.y - textSize.y) / 2); // (box.size - textSize) / 2;
 		drawText(textPos, fnt, text, textColor, textScale);
 	}
 

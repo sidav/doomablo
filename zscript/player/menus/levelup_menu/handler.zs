@@ -9,6 +9,10 @@ class LevelupMenuHandler : ZFHandler
             LevelUpButton(caller).OnClick();
             link.DescriptionLabel.text = LevelUpButton(caller).getDescription();
         }
+        if (SwitchMenuButton(caller)) {
+            SwitchMenuButton(caller).OnClick();
+            link.switchTo = SwitchMenuButton(caller).switchTo;
+        }
     }
 
     override void buttonHeldCommand(ZFButton caller, string command) {

@@ -28,47 +28,6 @@ extend class MyCustomHUD {
         currentLineHeight += fnt.mFont.GetHeight();
     }
 
-    // Color for stats comparison
-    color GetDifferenceColor(int diff, bool negativeIsBetter = false) {
-        if (negativeIsBetter) {
-            diff = -diff;
-        }
-        if (diff < 0) {
-            return Font.CR_RED;
-        }
-        if (diff > 0) {
-            return Font.CR_GREEN;
-        }
-        return Font.CR_BLACK;
-    }
-
-    // Color for stats comparison when ranges (e.g. "5-15") are involved
-    color GetTwoDifferencesColor(int diff1, int diff2) {
-        if ((diff1 > 0 && diff2 > 0) || (diff1 * diff2 == 0 && diff1 + diff2 > 0)) {
-            return Font.CR_GREEN;
-        }
-        if ((diff1 < 0 && diff2 < 0) || (diff1 * diff2 == 0 && diff1 + diff2 < 0)) {
-            return Font.CR_RED;
-        }
-        if (diff1 * diff2 < 0) {
-            return Font.CR_YELLOW;
-        }
-        return Font.CR_WHITE;
-    }
-
-    color GetTwoFloatDifferencesColor(float diff1, float diff2) {
-        if ((diff1 > 0 && diff2 > 0) || (diff1 * diff2 == 0 && diff1 + diff2 > 0)) {
-            return Font.CR_GREEN;
-        }
-        if ((diff1 < 0 && diff2 < 0) || (diff1 * diff2 == 0 && diff1 + diff2 < 0)) {
-            return Font.CR_RED;
-        }
-        if (diff1 * diff2 < 0) {
-            return Font.CR_YELLOW;
-        }
-        return Font.CR_WHITE;
-    }
-
     const changePickupHintEachTics = 3*TICRATE/2;
     string BuildDefaultPickUpHintStr(string actionStr) {
         if ((level.maptime/changePickupHintEachTics) % 2 == 0) {
@@ -90,17 +49,20 @@ extend class MyCustomHUD {
         return str;
     }
 
-    string intToSignedStr(int v) {
-        if (v > 0) {
-            return "+"..v;
+    void printAllCollectorLines(int x, int y, int tableWidth, int textFlags) {
+        RwHudStatLine line;
+        foreach (line : statsCollector.statLines) {
+            let xOffset = 8; // Offset for stats
+            let fontToUse = itemStatsFont;
+            if (line.isTitleLine) {
+                xOffset = 0;
+                fontToUse = itemNameFont;
+            }
+            if (line.isSeparator) continue;
+            if (line.isAffixLine) xOffset = 12; // Offset for affixes
+            PrintTableLineAt(line.mainLabel, line.rightLabel,
+                        x+xOffset, y, tableWidth,
+                        fontToUse, textFlags, line.mainColor, line.rightColor);
         }
-        return ""..v;
-    }
-
-    string floatToSignedStr(float v) {
-        if (v > 0) {
-            return String.Format("+%.2f", v);
-        }
-        return String.Format("%.2f", v);
     }
 }

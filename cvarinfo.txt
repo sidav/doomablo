@@ -7,3 +7,14 @@ server bool rw_start_with_smg = false;
 server bool rw_heal_on_levelup = true;
 server float rw_monster_hp_scaling_exponent_mod = 0.0;
 server float rw_settings_scrapping_time = 1.5;
+
+// HP-bar variables
+server int rwhud_hpbar_min_width = 170;
+server int rwhud_hpbar_height = 20;
+server int rwhud_hpbar_y_position = 25;
+server int rwhud_hpbar_border_thickness = 3;
+server int rwhud_monster_name_y_offset = 0;
+server int rwhud_monster_affixes_y_offset = 22;
+server color rwhud_monster_hpbar_color = 0xAA0000;
+server color rwhud_monster_hpbar_border_color = 0x000000;
+server color rwhud_monster_affixes_text_color = 0xAA0000;

@@ -52,6 +52,9 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         } else {
             scrapItemButtonPressedTicks = 0;
         }
+        if (Player.cmd.buttons & BT_USER3) {
+            Menu.SetMenu('RWEquippedArtifactsMenu');
+        }
         if (Player.cmd.buttons & BT_USER4) {
             Menu.SetMenu('RWLevelupMenu');
         }

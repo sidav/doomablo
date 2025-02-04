@@ -136,7 +136,7 @@ mixin class Affixable {
         return true;
     }
 
-    int getRarity() {
+    clearscope int getRarity() {
         return appliedAffixes.Size();
     }
 
@@ -149,26 +149,31 @@ mixin class Affixable {
             case 1: // fallthrough
             case 2:
                 nameWithAppliedAffixes = nameWithAffixNamesAppended();
-                return;
+                break;
             case 3:
                 nameWithAppliedAffixes = nameRar3Item();
-                return;
+                break;
             case 4:
                 if (isFlawless()) {
                     nameWithAppliedAffixes = NameGenerator.createPossessiveName(getRandomFluffName());
                 } else {
                     nameWithAppliedAffixes = NameGenerator.createFluffedName(getRandomFluffName());
                 }
-                return;
+                break;
             case 5:
                 if (isFlawless()) {
                     nameWithAppliedAffixes = NameGenerator.generateRandomBlessedName(getRandomFluffName());
                 } else {
                     nameWithAppliedAffixes = NameGenerator.generateRandomCursedName(getRandomFluffName());
                 }
-                return;
+                break;
         }
-        nameWithAppliedAffixes = "<NAME ERROR>";
+        if (nameWithAppliedAffixes.Length() == 0) {
+            nameWithAppliedAffixes = "<NAME ERROR>";
+        } else {
+            // Capitalize the name
+            nameWithAppliedAffixes = StringsHelper.Capitalize(nameWithAppliedAffixes);
+        }
     }
 
     string nameWithAffixNamesAppended() {

@@ -88,7 +88,10 @@ class RWStatsClass {
         return float(100+projSpeedPercModifier)/100.0;
     }
 
-    int getDamageSpread() {
-        return maxDamage - minDamage;
+    // Needed for UI
+    clearscope float, float getFloatFinalDamageRange() {
+        return 
+            float(minDamage * (1000 + additionalDamagePromille)) / 1000.,
+            float(maxDamage * (1000 + additionalDamagePromille)) / 1000.;
     }
 }

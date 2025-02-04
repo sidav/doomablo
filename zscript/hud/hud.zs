@@ -16,6 +16,7 @@ class MyCustomHUD : BaseStatusBar
 		SetSize(32, 320, 200);
 		diparms = InventoryBarState.Create();
 		initFonts();
+		statsCollector = RwHudArtifactStatsCollector.Create();
     }
 
     override void Draw(int state, double ticFrac)

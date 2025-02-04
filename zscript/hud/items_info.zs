@@ -1,6 +1,7 @@
 extend class MyCustomHUD {
 
     const pickupableStatsTableWidth = 185;
+    RwHudArtifactStatsCollector statsCollector;
     void DrawPickupableItemInfo() {
         let lineHRel = itemStatsFont.mFont.GetHeight();
         let lineHAbs = lineHRel * CleanYFac_1;
