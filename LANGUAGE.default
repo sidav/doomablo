@@ -10,6 +10,17 @@ RWMENU_CUSTOMIZEDOOMABLO = "Customize DOOMablo";
 RWMENU_INTERFACEOPTIONS_HEADER = "Interface options";
 RWSETTINGS_AFFIXNAMES = "Show affixes' names in stats";
 
+RWMENU_MONHPBAROPTIONS_HEADER = "Monster HP Bar options";
+RWSETTINGS_MINWIDTH = "Minimum width";
+RWSETTINGS_HEIGHT = "Height";
+RWSETTINGS_VERTICAL_POSITION = "Vertical position";
+RWSETTINGS_BORDER_THICKNESS = "Border thickness";
+RWSETTINGS_MONSTER_NAME_YOFFSET = "Name relative position";
+RWSETTINGS_MONSTER_AFFIXES_YOFFSET = "Affixes relative position";
+RWSETTINGS_MONHPBARBORDER_COLOR = "Border color";
+RWSETTINGS_MONHPBAR_COLOR = "HP bar color";
+RWSETTINGS_MONAFFIXESTEXT_COLOR = "Affixes text color";
+
 RWMENU_GAMEPLAYOPTIONS_HEADER = "Gameplay options";
 RWSETTINGS_UNCLUMP = "Too closely dropped items jump from each other";
 

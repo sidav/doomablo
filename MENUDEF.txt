@@ -23,6 +23,17 @@ OptionMenu "RW_Options"
     StaticText "$RWMENU_INTERFACEOPTIONS_HEADER", 1
     Option "$RWSETTINGS_AFFIXNAMES", "RwSettingsShowAffixNamesInTables", "RwOptionsYesNo"
 
+	StaticText "$RWMENU_MONHPBAROPTIONS_HEADER", 1
+    Slider "$RWSETTINGS_MINWIDTH", "rwhud_hpbar_min_width", 50, 720, 1
+	Slider "$RWSETTINGS_HEIGHT", "rwhud_hpbar_height", 3, 50, 1
+	Slider "$RWSETTINGS_VERTICAL_POSITION", "rwhud_hpbar_y_position", 0, 1000, 1
+	Slider "$RWSETTINGS_BORDER_THICKNESS", "rwhud_hpbar_border_thickness", 0, 10, 1
+	Slider "$RWSETTINGS_MONSTER_NAME_YOFFSET", "rwhud_monster_name_y_offset", -100, 100, 1
+	Slider "$RWSETTINGS_MONSTER_AFFIXES_YOFFSET", "rwhud_monster_affixes_y_offset", -100, 100, 1
+	ColorPicker "$RWSETTINGS_MONHPBARBORDER_COLOR", "rwhud_monster_hpbar_border_color"
+	ColorPicker "$RWSETTINGS_MONHPBAR_COLOR", "rwhud_monster_hpbar_color"
+	ColorPicker "$RWSETTINGS_MONAFFIXESTEXT_COLOR", "rwhud_monster_affixes_text_color"
+
 	StaticText ""
 	StaticText "$RWMENU_GAMEPLAYOPTIONS_HEADER", 1
 	Option "$RWSETTINGS_UNCLUMP", "RwSettingsClumpedDropsJump", "RwOptionsYesNo"
