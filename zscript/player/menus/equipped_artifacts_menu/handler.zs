@@ -2,7 +2,7 @@ class ArtifactsMenuHandler : ZFHandler
 {
     // The menu this command handler belongs to.
     // We need this to be able to do anything with our menu.
-    RWArtifactsMenu link;
+    RWEquippedArtifactsMenu link;
     RwHudArtifactStatsCollector collector;
     const itemTitleScale = 1.1;
 

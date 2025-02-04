@@ -1,4 +1,4 @@
-class RWArtifactsMenu : RwBaseMenu {
+class RWEquippedArtifactsMenu : RwBaseMenu {
     ArtifactsMenuHandler handler;
 
     array<ArtifactButton> artifactButtons;

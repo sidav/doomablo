@@ -20,8 +20,9 @@ class RWLevelupMenu : RwBaseMenu {
             fnt: smallFont, Alignment: 2, wrap: true, autoSize: true, textScale: 2., textColor: Font.CR_WHITE);
         TitleLabel.Pack(mainFrame);
 
-        let switchBtn = SwitchMenuButton.Make(handler, 745, 505, "Equipment", 'RWArtifactsMenu', 1);
-        switchBtn.Pack(mainFrame);
+        // Temporarily disabled.
+        // let switchBtn = SwitchMenuButton.Make(handler, 745, 505, "Equipment", 'RWEquippedArtifactsMenu', 1);
+        // switchBtn.Pack(mainFrame);
 
         let plr = RwPlayer(players[consoleplayer].mo);
 
