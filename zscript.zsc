@@ -147,6 +147,7 @@ version "4.10.0"
 
 #include "zscript/status_effect/base_status_effect_token.zs"
 #include "zscript/status_effect/corrosion_token.zs"
+#include "zscript/status_effect/healing_token.zs"
 #include "zscript/status_effect/pain_token.zs"
 #include "zscript/status_effect/poison_token.zs"
 #include "zscript/status_effect/radiation_token.zs"

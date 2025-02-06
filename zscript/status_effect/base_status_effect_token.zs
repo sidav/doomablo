@@ -12,6 +12,10 @@ class RwStatusEffectToken : Inventory {
         return "NOT SET - REPORT THIS";
     }
 
+    virtual ui string GetStatusNumber() {
+        return ""..amount;
+    }
+
     virtual ui Color GetColorForUi() {
         return Font.CR_BLACK;
     }

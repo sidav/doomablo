@@ -100,6 +100,11 @@ class RwFlask : Inventory {
     }
 
     action void RwUse() {
-      debug.print("I'm used!");
+      if (invoker.cooldownTicksRemaining > 0) return;
+      // TODO: return this line when charges accumulation is implemented
+      // if (invoker.currentCharges < invoker.stats.chargeConsumption) return;
+
+      invoker.cooldownTicksRemaining = invoker.stats.usageCooldownTicks;
+      RWHealingToken.ApplyToActor(invoker.owner, invoker.stats.healAmount, invoker.stats.healDurationTicks);
     }
 }
