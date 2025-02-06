@@ -10,6 +10,9 @@ extend class Affix {
         if (item is 'RwBackpack') {
             return GetRandomBackpackAffixInstance();
         }
+        if (item is 'RwFlask') {
+            return GetRandomFlaskAffixInstance();
+        }
         if (item is 'RwMonsterAffixator') {
             return GetRandomMonsterAffixInstance();
         }
@@ -71,6 +74,24 @@ extend class Affix {
         return affToReturn;
     }
 
+    private static Affix GetRandomFlaskAffixInstance() {
+        let handler = AffixClassesCacheHandler(StaticEventHandler.Find('AffixClassesCacheHandler'));
+        let index = rnd.randn(handler.totalFlaskAffixesClasses);
+
+        Affix affToReturn;
+        foreach (affClass : handler.applicableAffixClasses) {
+            if (affClass is 'RwFlaskPrefix' || affClass is 'RwFlaskSuffix') {
+                if (index > 0) {
+                    index--;
+                } else {
+                    affToReturn = Affix(New(affClass));
+                    break;
+                }
+            }
+        }
+        return affToReturn;
+    }
+
     private static Affix GetRandomMonsterAffixInstance() {
         let handler = AffixClassesCacheHandler(StaticEventHandler.Find('AffixClassesCacheHandler'));
         let index = rnd.randn(handler.totalMonsterAffixesClasses);
@@ -101,6 +122,7 @@ class AffixClassesCacheHandler : StaticEventHandler
     int totalWeaponAffixesClasses;
     int totalArmorAffixesClasses;
     int totalBackpackAffixesClasses;
+    int totalFlaskAffixesClasses;
     int totalMonsterAffixesClasses;
 
 	override void OnRegister() {
@@ -131,6 +153,12 @@ class AffixClassesCacheHandler : StaticEventHandler
                 } else if (isAffixForBackpack(affClass)) {
                     specifyStr = "(backpack affix)";
                     totalBackpackAffixesClasses++;
+                } else if (isAffixForBackpack(affClass)) {
+                    specifyStr = "(backpack affix)";
+                    totalBackpackAffixesClasses++;
+                } else if (isAffixForFlask(affClass)) {
+                    specifyStr = "(flask affix)";
+                    totalFlaskAffixesClasses++;
                 } else if (isAffixForMonster(affClass)) {
                     specifyStr = "(monster affix)";
                     totalMonsterAffixesClasses++;
@@ -151,6 +179,7 @@ class AffixClassesCacheHandler : StaticEventHandler
         debug.print("             "..totalWeaponAffixesClasses.." for weapons");
         debug.print("             "..totalArmorAffixesClasses.." for armor");
         debug.print("             "..totalBackpackAffixesClasses.." for backpacks");
+        debug.print("             "..totalFlaskAffixesClasses.." for flasks");
         debug.print("             "..totalMonsterAffixesClasses.." for monsters");
         debug.print("             "..totalUnknownAffixesClasses.." unknown");
 
@@ -165,6 +194,7 @@ class AffixClassesCacheHandler : StaticEventHandler
             || (cls == 'RwWeaponPrefix') || (cls == 'RwWeaponSuffix')
             || (cls == 'RwArmorPrefix') || (cls == 'RwArmorSuffix')
             || (cls == 'RwBackpackPrefix') || (cls == 'RwBackpackSuffix')
+            || (cls == 'RwFlaskPrefix') || (cls == 'RwFlaskSuffix')
             || (cls == 'RwMonsterAffix');
     }
 
@@ -178,6 +208,10 @@ class AffixClassesCacheHandler : StaticEventHandler
 
     static bool isAffixForBackpack(class<Affix> cls) {
         return (cls is 'RwBackpackPrefix') || (cls is 'RwBackpackSuffix');
+    }
+
+    static bool isAffixForFlask(class<Affix> cls) {
+        return (cls is 'RwFlaskPrefix') || (cls is 'RwFlaskSuffix');
     }
 
     static bool isAffixForMonster(class<Affix> cls) {
