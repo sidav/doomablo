@@ -6,6 +6,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
 
     RandomizedArmor CurrentEquippedArmor;
     RwBackpack CurrentEquippedBackpack;
+    RwFlask CurrentEquippedFlask;
 
     int showStatsButtonPressedTicks;
     int scrapItemButtonPressedTicks;

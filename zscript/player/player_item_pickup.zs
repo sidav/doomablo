@@ -44,6 +44,16 @@ extend class RwPlayer {
         CurrentEquippedBackpack = bkpk;        
     }
 
+    void PickUpFlask(RwFlask fsk) {
+        let hasEmptySlot = CurrentEquippedFlask == null;
+        if (!hasEmptySlot) {
+            CurrentEquippedFlask.DetachFromOwner();
+            DropInventory(CurrentEquippedFlask);
+        }
+        AddInventory(fsk);
+        CurrentEquippedFlask = fsk;
+    }
+
     // OLD CODE
 
     // bool HasEmptyWeaponSlotFor(Weapon weap) {        
