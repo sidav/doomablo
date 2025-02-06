@@ -29,6 +29,9 @@ extend class MyCustomHUD {
         } else if (RwBackpack(handler.currentItemToPickUp)) {
             DimScreenForStats();
             DrawPickupableBackpackInfo(RwBackpack(handler.currentItemToPickUp), plr);
+        } else if (RwFlask(handler.currentItemToPickUp)) {
+            DimScreenForStats();
+            DrawPickupableFlaskInfo(RwFlask(handler.currentItemToPickUp), plr);
         } else {
             debug.panic("Unknown item to draw pickupable stats for: "..handler.currentItemToPickUp.GetClassName());
         }
@@ -86,6 +89,15 @@ extend class MyCustomHUD {
             printBackpackStatsTableAt(bkpk, null, statsX, 0, fullScreenStatusFlags);
         } else {
             PrintLineAt("No backpack equipped", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
+        }
+        PrintEmptyLine(itemStatsFont);
+
+        let fsk = RwFlask(plr.CurrentEquippedFlask);
+        PrintLineAt("===  CURRENT EQUIPPED FLASK:  ===", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_WHITE);
+        if (fsk) {
+            printFlaskStatsTableAt(fsk, null, statsX, 0, fullScreenStatusFlags);
+        } else {
+            PrintLineAt("No flask equipped", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
 
     }

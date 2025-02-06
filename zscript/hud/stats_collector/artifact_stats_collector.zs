@@ -20,6 +20,8 @@ class RwHudArtifactStatsCollector {
             collectRWArmorStats(RandomizedArmor(itm), RandomizedArmor(itemToCompareWith));
         } else if (RwBackpack(itm)) {
             collectRWBackpackStats(RwBackpack(itm), RwBackpack(itemToCompareWith));
+        } else if (RwFlask(itm)) {
+            collectRWFlaskStats(RwFlask(itm), RwFlask(itemToCompareWith));
         }
         lastCollectedItem = itm;
         lastCollectedComparisonItem = itemToCompareWith;
