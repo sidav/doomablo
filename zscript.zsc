@@ -103,6 +103,12 @@ version "4.10.0"
 #include "zscript/rbackpacks/randomized_backpack_pickup.zs"
 #include "zscript/rbackpacks/randomized_backpack_stats.zs"
 
+#include "zscript/rflasks/rw_base_flask.zs"
+#include "zscript/rflasks/rw_big_flask.zs"
+#include "zscript/rflasks/rw_medium_flask.zs"
+#include "zscript/rflasks/rw_small_flask.zs"
+#include "zscript/rflasks/rw_flask_stats.zs"
+
 #include "zscript/rmonsters/monster_affixing_handler.zs"
 #include "zscript/rmonsters/rw_monster_affixator.zs"
 #include "zscript/rmonsters/rw_monster_affixator_affixable.zs"
