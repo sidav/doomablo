@@ -4,7 +4,7 @@ class RwFlask : Inventory {
     string rwbaseName;
 
     // Current vars
-    int currentCharges, cooldownRemaining;
+    int currentCharges, cooldownTicksRemaining;
 
     Default {
         Height 26;
@@ -56,6 +56,10 @@ class RwFlask : Inventory {
     override void DoEffect() {
       super.DoEffect();
 
+      if (cooldownTicksRemaining > 0) {
+        cooldownTicksRemaining--;
+      }
+
       Affix aff;
       foreach (aff : appliedAffixes) {
           aff.onDoEffect(owner, self);
@@ -90,6 +94,10 @@ class RwFlask : Inventory {
     }
 
     // USAGE
+
+    clearscope int getChargesPercentage() {
+      return math.getIntPercentage(currentCharges, stats.maxCharges);
+    }
 
     action void RwUse() {
       debug.print("I'm used!");

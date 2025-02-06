@@ -121,10 +121,6 @@ extend class MyCustomHUD {
         }
 
 		if (armr) {
-            DrawInventoryIcon(armr, (20, -22));
-            DrawString(mHUDFont, 
-                FormatNumber(armr.stats.currDurability, 3),
-                (44, -40), DI_SCREEN_LEFT_BOTTOM, PickColorForRwArmorAmount(armr));
             DrawString(itemNameFont, 
                 "Armor: "..armr.nameWithAppliedAffixes,
                 (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(armr));
