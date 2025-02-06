@@ -51,6 +51,7 @@ OptionMenu "RW_Options"
 	StaticText "$RWMENU_CONTROLS_HEADER", 1
 	Control "$RWSETTINGS_SCRAPITEMBTN", "+user1"
 	Slider "$RWSETTINGS_SCRAPITEMTIME", "rw_settings_scrapping_time", 0.5, 3.0, 0.1, 2
+	Control "$RWSETTINGS_USEFLASKBTN", "+user2"
 	Control "$RWSETTINGS_EQUIPPEDARTIFACTSSCREENBTN", "+user3"
 	Control "$RWSETTINGS_CHARACTERSCREENBTN", "+user4"
 }
