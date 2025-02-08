@@ -34,6 +34,13 @@ class RWOnWeaponDamageDealtHandler : EventHandler
                 current.onFatalDamageDealtByPlayer(damage, target, plr);
             }
         }
+
+        if (target.health <= 0) {
+            // Refill flask charge
+            if (plr.CurrentEquippedFlask) {
+                plr.CurrentEquippedFlask.Refill(1);
+            }
+        }
     }
     
 }
