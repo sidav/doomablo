@@ -9,6 +9,10 @@ class RWRadiationToken : RwStatusEffectToken {
     const DamageEach = TICRATE;
     const RadiationDamageRadiusFactor = 4;
 
+    override int GetAlignment() {
+        return -1;
+    }
+
     override string GetStatusName() {
         return "IRRADIATED";
     }

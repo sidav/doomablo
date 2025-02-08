@@ -2,11 +2,15 @@ class RWPainToken : RwStatusEffectToken {
 
     Default {
         Inventory.Amount 5;
-        Inventory.MaxAmount 5;
+        Inventory.MaxAmount 30;
         RwStatusEffectToken.ReductionPeriodTicks TICRATE;
     }
 
     const EffectEach = TICRATE / 7;
+
+    override int GetAlignment() {
+        return -1;
+    }
 
     override string GetStatusName() {
         return "TORMENT";

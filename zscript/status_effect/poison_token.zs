@@ -9,6 +9,10 @@ class RWPoisonToken : RwStatusEffectToken {
 
     const DamageEach = TICRATE;
 
+    override int GetAlignment() {
+        return -1;
+    }
+
     override string GetStatusName() {
         return "POISON";
     }

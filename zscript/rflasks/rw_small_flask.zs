@@ -15,5 +15,6 @@ class RwSmallFlask : RwFlask {
       stats.maxCharges = 30;
       stats.chargeConsumption = 25;
       stats.usageCooldownTicks = 10 * TICRATE;
+      stats.healsUntilPercentage = 100;
     }
 }

@@ -118,8 +118,12 @@ class RwFlask : Inventory {
       if (invoker.cooldownTicksRemaining > 0) return;
       if (invoker.currentCharges < invoker.stats.chargeConsumption) return;
 
+      foreach (aff : invoker.appliedAffixes) {
+        aff.onBeingUsed(invoker.owner, invoker);
+      }
+
       invoker.currentCharges -= invoker.stats.chargeConsumption;
       invoker.cooldownTicksRemaining = invoker.stats.usageCooldownTicks;
-      RWHealingToken.ApplyToActor(invoker.owner, invoker.stats.healAmount, invoker.stats.healDurationTicks);
+      RWHealingToken.ApplyToActor(invoker.owner, invoker.stats.healAmount, invoker.stats.healsUntilPercentage, invoker.stats.healDurationTicks);
     }
 }

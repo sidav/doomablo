@@ -14,6 +14,44 @@ class RwFlaskPrefix : Affix {
     }
 }
 
+class FPrefLessMaxHeal : RwFlaskPrefix {
+    override string getName() {
+        return "Cursed";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return String.format("Heals only until %d%% of max HP", (modifierLevel) );
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'FPrefMoreMaxHeal';
+    }
+    override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
+        modifierLevel = 100 - rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) - modifierLevel/10;
+        fsk.stats.healsUntilPercentage = modifierLevel;
+    }
+}
+
+class FPrefMoreMaxHeal : RwFlaskPrefix {
+    override string getName() {
+        return "Blessed";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return String.format("Heals until %d%% of max HP", (modifierLevel) );
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'FPrefLessMaxHeal';
+    }
+    override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
+        modifierLevel = 100 + rnd.multipliedWeightedRandByEndWeight(1, 15, 0.1) + modifierLevel/10;
+        fsk.stats.healsUntilPercentage = modifierLevel;
+    }
+}
+
 class FPrefLessHeal : RwFlaskPrefix {
     override string getName() {
         return "Diluted";
@@ -101,7 +139,7 @@ class FPrefLessCharges : RwFlaskPrefix {
         return String.format("-%d charges", (modifierLevel) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'FPrefMoreCharges';
+        return a2.GetClass() != 'FPrefMoreCharges' && a2.GetClass() != 'FPrefBiggerConsumption';
     }
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, fsk.stats.maxCharges - fsk.stats.chargeConsumption, 0.1);
@@ -125,6 +163,45 @@ class FPrefMoreCharges : RwFlaskPrefix {
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, fsk.stats.maxCharges/2, 0.1);
         fsk.stats.maxCharges += modifierLevel;
+    }
+}
+
+class FPrefBiggerConsumption : RwFlaskPrefix {
+    override string getName() {
+        return "Dripping";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return String.format("+%d consumed charges", (modifierLevel) );
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'FPrefSmallerConsumption' && a2.GetClass() != 'FPrefLessCharges';
+    }
+    override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
+        let diff = fsk.stats.maxCharges - fsk.stats.chargeConsumption;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, min(diff, 10), 0.1);
+        fsk.stats.chargeConsumption += modifierLevel;
+    }
+}
+
+class FPrefSmallerConsumption : RwFlaskPrefix {
+    override string getName() {
+        return "Sealed";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return String.format("-%d consumed charges", (modifierLevel) );
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'FPrefBiggerConsumption';
+    }
+    override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.1);
+        fsk.stats.chargeConsumption -= modifierLevel;
     }
 }
 

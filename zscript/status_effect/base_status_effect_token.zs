@@ -8,6 +8,12 @@ class RwStatusEffectToken : Inventory {
         RwStatusEffectToken.ReductionPeriodTicks 0;
     }
 
+    // -1 bad, 0 neutral, 1 good
+    virtual int GetAlignment() {
+        debug.panic("Alignment not set for "..self.GetClassName());
+        return 0;
+    }
+
     virtual ui string GetStatusName() {
         return "NOT SET - REPORT THIS";
     }
