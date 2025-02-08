@@ -82,7 +82,7 @@ class MyCustomHUD : BaseStatusBar
 				DrawString(mHUDFont, FormatNumber((fsk.cooldownTicksRemaining + TICRATE - 1)/TICRATE, 3), (44, invY), translation: Font.CR_DARKGRAY);
 			} else {
 				let clr = Font.CR_GREEN;
-				if (fsk.currentCharges < fsk.stats.maxCharges) {
+				if (fsk.currentCharges < fsk.stats.chargeConsumption) {
 					clr = Font.CR_RED;
 				} else if (fsk.currentCharges == fsk.stats.maxCharges) {
 					clr = Font.CR_BLUE;

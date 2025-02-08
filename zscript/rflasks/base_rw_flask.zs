@@ -95,8 +95,23 @@ class RwFlask : Inventory {
 
     // USAGE
 
+    // Refill on kill is inside RWOnWeaponDamageDealtHandler
+    override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags) {
+      newdamage = damage;
+      Affix aff;
+      foreach (aff : appliedAffixes) {
+          aff.onModifyDamage(damage, newdamage, passive, inflictor, source, owner, flags);
+          damage = newdamage;
+      }
+    }
+
+    void Refill(int amount) {
+      currentCharges += amount;
+      currentCharges = min(currentCharges, stats.maxCharges);
+    }
+
     clearscope int getChargesPercentage() {
-      return math.getIntPercentage(currentCharges, stats.maxCharges);
+      return math.getIntFractionInPercent(currentCharges, stats.maxCharges);
     }
 
     action void RwUse() {
