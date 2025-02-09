@@ -87,7 +87,8 @@ class MyCustomHUD : BaseStatusBar
 				} else if (fsk.currentCharges == fsk.stats.maxCharges) {
 					clr = Font.CR_BLUE;
 				}
-				DrawString(mHUDFont, FormatNumber(fsk.getChargesPercentage(), 3).."%", (44, -40), translation: clr);
+				let shownPercentage = math.getIntFractionInPercent(fsk.currentCharges, fsk.stats.chargeConsumption);
+				DrawString(mHUDFont, FormatNumber(shownPercentage, 3).."%", (44, -40), translation: clr);
 			}
 			invY -= 20;
 		}

@@ -117,10 +117,6 @@ class RwFlask : Inventory {
       currentCharges = min(currentCharges, stats.maxCharges);
     }
 
-    clearscope int getChargesPercentage() {
-      return math.getIntFractionInPercent(currentCharges, stats.maxCharges);
-    }
-
     action void RwUse() {
       if (invoker.cooldownTicksRemaining > 0) return;
       if (invoker.currentCharges < invoker.stats.chargeConsumption) return;
