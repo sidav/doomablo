@@ -105,7 +105,7 @@ class FPrefLongerDuration : RwFlaskPrefix {
     }
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + modifierLevel/10;
-        fsk.stats.healDurationTicks = math.getIntPercentage(fsk.stats.healDurationTicks, 100 - modifierLevel);
+        fsk.stats.healDurationTicks = math.getIntPercentage(fsk.stats.healDurationTicks, 100 + modifierLevel);
     }
 }
 
@@ -124,7 +124,7 @@ class FPrefShorterDuration : RwFlaskPrefix {
     }
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + modifierLevel/10;
-        fsk.stats.healDurationTicks = math.getIntPercentage(fsk.stats.healDurationTicks, 100 + modifierLevel);
+        fsk.stats.healDurationTicks = math.getIntPercentage(fsk.stats.healDurationTicks, 100 - modifierLevel);
     }
 }
 
