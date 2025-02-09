@@ -132,5 +132,8 @@ class RwFlask : Inventory {
       invoker.currentCharges -= invoker.stats.chargeConsumption;
       invoker.cooldownTicksRemaining = invoker.stats.usageCooldownTicks;
       RWHealingToken.ApplyToActor(invoker.owner, invoker.stats.healAmount, invoker.stats.healsUntilPercentage, invoker.stats.healDurationTicks);
+
+      A_StartSound("Flasks/Quaff", CHAN_ITEM, volume: 1.25);
+      invoker.owner.Player.bonusCount += 1;
     }
 }
