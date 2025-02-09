@@ -81,6 +81,15 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         SetAmmoCapacity('Cell', 100);
     }
 
+    void GetAmmoByCapPercentage(class<Ammo> type, int percentage) {
+        let item = FindInventory(type);
+        if (item != NULL) {
+            let toGive = math.GetIntPercentage(item.MaxAmount, percentage);
+            if (toGive == 0) toGive = 1;
+            item.amount = min(item.MaxAmount, item.amount + toGive);
+        }
+    }
+
     // Stats/EXP related
     void reapplyPlayerStats() {
         if (stats == null) {

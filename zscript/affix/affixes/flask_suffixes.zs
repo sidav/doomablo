@@ -164,3 +164,38 @@ class FSuffRepairsArmor : RwFlaskSuffix {
         }
     }
 }
+
+class FSuffGivesAmmo : RwFlaskSuffix {
+    override string getName() {
+        return "Abundance";
+    }
+    override string getDescription() {
+        return "Refills "..modifierLevel.."% of random ammo on use";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 10, 0.1) + quality/20;
+    }
+    override void onBeingUsed(Actor owner, Inventory affixedItem) {
+        let plr = RwPlayer(owner);
+        if (plr) {
+            let ammoType = Random(0, 3);
+            switch (ammoType) {
+                case 0:
+                    plr.GetAmmoByCapPercentage('Clip', modifierLevel);
+                    break;
+                case 1:
+                    plr.GetAmmoByCapPercentage('Shell', modifierLevel);
+                    break;
+                case 2:
+                    plr.GetAmmoByCapPercentage('Rocketammo', modifierLevel);
+                    break;
+                case 3:
+                    plr.GetAmmoByCapPercentage('Cell', modifierLevel);
+                    break;
+            }
+        }
+    }
+}
