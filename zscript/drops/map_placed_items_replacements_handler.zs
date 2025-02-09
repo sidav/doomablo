@@ -60,6 +60,20 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             e.Replacement = RwBackpack.GetRandomVariantClass();
             break;
 
+        // FLASKS:
+        case 'Stimpack': // No break on purpose
+        case 'Medikit':
+            if (rnd.OneChanceFrom(20)) {
+                let fskType = Random(0, 2);
+                e.Replacement = 'RwSmallFlask';
+                if (fskType == 1) {
+                    e.Replacement = 'RwMediumFlask';
+                } else if (fskType == 2) {
+                    e.Replacement = 'RwBigFlask';
+                }
+            }
+            break;
+
 		// ONE-TIME PICKUPS:
 		case 'ArmorBonus':
 			e.Replacement = 'RwArmorBonus';
