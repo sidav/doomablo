@@ -1,7 +1,7 @@
 class RwBigFlask : RwFlask {
     States {
         Spawn:
-          PRP3 A -1;
+          FSKB A -1;
           Stop;
     }
 

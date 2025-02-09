@@ -1,7 +1,7 @@
 class RwSmallFlask : RwFlask {
     States {
         Spawn:
-          HPP1 A -1;
+          FSKS A -1;
           Stop;
     }
 

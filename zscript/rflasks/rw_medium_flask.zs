@@ -1,7 +1,7 @@
 class RwMediumFlask : RwFlask {
     States {
         Spawn:
-          MRP2 A -1;
+          FSKM A -1;
           Stop;
     }
 

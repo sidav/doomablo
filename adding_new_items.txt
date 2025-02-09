@@ -23,6 +23,7 @@ Keep in mind that any randomizable stats should NOT belong to your new class its
 8. Add base class for affixes for this exact item type.
 9. Add those to zscript/affix/affix_instantiator.zs.
 10. Describe new affixes in zscript/affix/affixes folder. Keep in mind that you'll need at least two bad ones and five good ones, or the item generation will happily crash. (Neutral affixes count as both good and bad)
+11. Describe scrapping logic for items of your class in zscript/player/scrap_item.zs.
 
 -----------------------------------------------------
 To add new affixable artifact (as a subtype), inherit its class from the base one (created as described above) and optionally make the following:

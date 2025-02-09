@@ -73,6 +73,20 @@ extend class RwPlayer {
                 AssignVeryMinorSpreadVelocityTo(drop);
             }
 
+        } else if (itm is 'RwFlask') {
+
+            let dropAmount = RwFlask(itm).GetRarity() + 2;
+            for (let i = 0; i < dropAmount; i++) {
+                Actor drop;
+                let whatToDrop = rnd.weightedRand(3, 2);
+                if (whatToDrop == 0) {
+                    drop = DropsSpawner.createDropByClass(itm, 'RwFlaskRefill');
+                } else {
+                    drop = DropsSpawner.createDropByClass(itm, 'HealthBonus');
+                }
+                AssignVeryMinorSpreadVelocityTo(drop);
+            }
+
         } else {
             debug.print("Unhandled scrapped item class (report this): "..itm.GetClassName());
         }

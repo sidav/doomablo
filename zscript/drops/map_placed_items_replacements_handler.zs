@@ -64,7 +64,7 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
         // FLASKS:
         case 'Stimpack': // No break on purpose
         case 'Medikit':
-            if (rnd.OneChanceFrom(20)) {
+            if (startOfLevel && rnd.OneChanceFrom(15)) {
                 let fskType = Random(0, 2);
                 e.Replacement = 'RwSmallFlask';
                 if (fskType == 1) {
