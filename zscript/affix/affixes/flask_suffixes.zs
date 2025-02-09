@@ -143,3 +143,24 @@ class FSuffCleanse : RwFlaskSuffix {
         };
     }
 }
+
+class FSuffRepairsArmor : RwFlaskSuffix {
+    override string getName() {
+        return "the Knight";
+    }
+    override string getDescription() {
+        return "Repairs "..modifierLevel.."% of armor DRB on use";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + quality/10;
+    }
+    override void onBeingUsed(Actor owner, Inventory affixedItem) {
+        let plr = RwPlayer(owner);
+        if (plr && plr.currentEquippedArmor) {
+            plr.currentEquippedArmor.repairFor(math.GetIntPercentage(plr.currentEquippedArmor.stats.maxDurability, modifierLevel));
+        }
+    }
+}

@@ -8,8 +8,6 @@ class RwFlask : Inventory {
 
     Default {
         Height 26;
-        FloatBobStrength 0.75;
-        +FLOATBOB
     }
     States {
         Spawn:
@@ -43,9 +41,18 @@ class RwFlask : Inventory {
     virtual string GetRandomFluffName() {
       static const string Brand[] =
       {
+        "Ashen",
+        "Crystal",
         "Estus",
+        "Fulminating",
+        "Glowing",
+        "Quartz",
+        "Refreshing",
         "Rejuvenating",
-        "Soul-bound"
+        "Shining",
+        "Sparkling",
+        "Soul-bound",
+        "Warm"
       };
       return Brand[rnd.randn(Brand.Size())].." "..rwbaseName;
     }

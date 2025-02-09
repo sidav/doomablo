@@ -10,11 +10,14 @@ class RwSmallFlask : RwFlask {
     override void setBaseStats() {
       rwbaseName = "Vial";
       stats = New('RwFlaskStats');
-      stats.healAmount = 15;
-      stats.healDurationTicks = 3 * TICRATE;
-      stats.maxCharges = 30;
-      stats.chargeConsumption = 25;
-      stats.usageCooldownTicks = 10 * TICRATE;
       stats.healsUntilPercentage = 100;
+
+      stats.healAmount = 20;
+      stats.healDurationTicks = 3 * TICRATE;
+
+      stats.chargeConsumption = 20;
+      stats.maxCharges = 30;
+
+      stats.usageCooldownTicks = 10 * TICRATE;
     }
 }

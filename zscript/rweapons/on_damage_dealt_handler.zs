@@ -38,7 +38,9 @@ class RWOnWeaponDamageDealtHandler : EventHandler
         if (target.health <= 0) {
             // Refill flask charge
             if (plr.CurrentEquippedFlask) {
-                plr.CurrentEquippedFlask.Refill(1);
+                static const int refillAmount[] = {1, 3, 5, 10, 20, 50};
+                let rar = RwMonsterAffixator.GetMonsterRarity(target);
+                plr.CurrentEquippedFlask.Refill(refillAmount[rar]);
             }
         }
     }

@@ -10,11 +10,14 @@ class RwMediumFlask : RwFlask {
     override void setBaseStats() {
       rwbaseName = "Potion";
       stats = New('RwFlaskStats');
-      stats.healAmount = 40;
-      stats.healDurationTicks = 5 * TICRATE;
-      stats.maxCharges = 50;
-      stats.chargeConsumption = 25;
-      stats.usageCooldownTicks = 15 * TICRATE;
       stats.healsUntilPercentage = 100;
+
+      stats.healAmount = 35;
+      stats.healDurationTicks = 7 * TICRATE;
+
+      stats.chargeConsumption = 25;
+      stats.maxCharges = 50;
+
+      stats.usageCooldownTicks = 30 * TICRATE;
     }
 }

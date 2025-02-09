@@ -10,11 +10,14 @@ class RwBigFlask : RwFlask {
     override void setBaseStats() {
       rwbaseName = "Flask";
       stats = New('RwFlaskStats');
-      stats.healAmount = 100;
-      stats.healDurationTicks = 20 * TICRATE;
-      stats.maxCharges = 100;
-      stats.chargeConsumption = 25;
-      stats.usageCooldownTicks = 30 * TICRATE;
       stats.healsUntilPercentage = 100;
+
+      stats.healAmount = 100;
+      stats.healDurationTicks = 30 * TICRATE;
+
+      stats.chargeConsumption = 30;
+      stats.maxCharges = 100;
+
+      stats.usageCooldownTicks = 60 * TICRATE;
     }
 }
