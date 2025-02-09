@@ -6,6 +6,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
 
     RandomizedArmor CurrentEquippedArmor;
     RwBackpack CurrentEquippedBackpack;
+    RwFlask CurrentEquippedFlask;
 
     int showStatsButtonPressedTicks;
     int scrapItemButtonPressedTicks;
@@ -52,6 +53,11 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         } else {
             scrapItemButtonPressedTicks = 0;
         }
+        if (Player.cmd.buttons & BT_USER2) {
+            if (CurrentEquippedFlask != null) {
+                CurrentEquippedFlask.RwUse();
+            }
+        }
         if (Player.cmd.buttons & BT_USER3) {
             Menu.SetMenu('RWEquippedArtifactsMenu');
         }
@@ -73,6 +79,15 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         SetAmmoCapacity('Shell', 40);
         SetAmmoCapacity('Rocketammo', 30);
         SetAmmoCapacity('Cell', 100);
+    }
+
+    void GetAmmoByCapPercentage(class<Ammo> type, int percentage) {
+        let item = FindInventory(type);
+        if (item != NULL) {
+            let toGive = math.GetIntPercentage(item.MaxAmount, percentage);
+            if (toGive == 0) toGive = 1;
+            item.amount = min(item.MaxAmount, item.amount + toGive);
+        }
     }
 
     // Stats/EXP related

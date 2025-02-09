@@ -10,6 +10,7 @@ extend class Affix {
     virtual play void onDoEffect(Actor owner, Inventory affixedItem = null) {}
     virtual play void onOwnerDied(Actor owner) {}
     virtual play void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {}
+    virtual play void onBeingUsed(Actor owner, Inventory affixedItem) {}
 
     // Weapons
     virtual play void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {}

@@ -8,7 +8,7 @@ class DropsSpawner {
     }
 
     static play Actor SpawnRandomOneTimeItemDrop(Actor dropper) {
-        int dropType = rnd.weightedRand(500, 500, 100, 10, 7, 5, 3, 1, 10);
+        int dropType = rnd.weightedRand(400, 400, 100, 10, 7, 5, 3, 1, 10, 200);
         switch (dropType) {
             case 0: 
                 return createDropByClass(dropper, 'RwArmorBonus');
@@ -28,6 +28,8 @@ class DropsSpawner {
                 return createDropByClass(dropper, 'InvulnerabilitySphere');
             case 8:
                 return createDropByClass(dropper, 'StatScroll');
+            case 9:
+                return createDropByClass(dropper, 'RwFlaskRefill');
             default:
                 debug.panic("Random one-time item drop spawner crashed");
         }
@@ -62,14 +64,16 @@ class DropsSpawner {
     }
 
     static play Actor SpawnRandomRWArtifactItemDrop(Actor dropper) {
-        int dropType = rnd.weightedRand(3, 2, 1);
+        int dropType = rnd.weightedRand(6, 4, 1, 1);
         switch (dropType) {
             case 0: 
                 return SpawnRWeaponDrop(dropper);
             case 1: 
                 return SpawnRArmorDrop(dropper);
-            case 2: 
+            case 2:
                 return SpawnRBackpackDrop(dropper);
+            case 3:
+                return SpawnRFlaskDrop(dropper);
             default:
                 debug.panic("SpawnRandomRWArtifactItemDrop crashed");
         }
@@ -149,5 +153,25 @@ class DropsSpawner {
 
     private static play Actor SpawnRBackpackDrop(Actor dropper) {
         return createDropByClass(dropper, RwBackpack.GetRandomVariantClass());
+    }
+
+    private static play Actor SpawnRFlaskDrop(Actor dropper) {
+        let dropType = rnd.weightedRand(10, 10, 10);
+        bool unused;
+        Actor spawnedItem;
+        switch (dropType) {
+            case 0: 
+                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwSmallFlask');
+                break;
+            case 1: 
+                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwMediumFlask');
+                break;
+            case 2:
+                [unused, spawnedItem] = dropper.A_SpawnItemEx('RwBigFlask');
+                break;
+            default:
+                debug.panic("Drop spawner crashed");
+        }
+        return spawnedItem;
     }
 }

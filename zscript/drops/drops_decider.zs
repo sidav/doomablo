@@ -26,7 +26,7 @@ class DropsDecider {
     static int whatToDrop(int dropperHealth, int dropperRarity) {
         // 0 - onetime item (armor bonus or health)
         // 1 - ammo
-        // 2 - Randomizable artifact (weapon/armor/backpack)
+        // 2 - Randomizable artifact (weapon/armor/backpack/flask)
         if (dropperHealth > 1000) {
             return rnd.weightedRand(1, 1, 1+2*dropperRarity); // drop artifacts mostly.
         } else if (dropperHealth >= 500) {

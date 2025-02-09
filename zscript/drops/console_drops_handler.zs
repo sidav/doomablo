@@ -66,6 +66,17 @@ class ConsoleDropsHandler : EventHandler
             case 20: 
                 [unused, spawnedItem] = player.A_SpawnItemEx(RwBackpack.GetRandomVariantClass(), xofs: xofs, zvel: zvel);
                 break;
+            
+            // Flask
+            case 30:
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwSmallFlask', xofs: xofs, zvel: zvel);
+                break;
+            case 31:
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwMediumFlask', xofs: xofs, zvel: zvel);
+                break;
+            case 32:
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwBigFlask', xofs: xofs, zvel: zvel);
+                break;
 
             // Progression items. "Rarity" holds the amount of them to spawn
             case 100:

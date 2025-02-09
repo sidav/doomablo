@@ -34,6 +34,7 @@ RWSETTINGS_HP_SCALING_SPEED = "Monster GP-Skalierungsgeschwindigkeit";
 RWMENU_CONTROLS_HEADER = "DOOMablo Steuerung";
 RWSETTINGS_SCRAPITEMBTN = "Einen Artefakt verschrotten";
 RWSETTINGS_SCRAPITEMTIME = "Zeit für Verschrottung (sekunden)";
+RWSETTINGS_USEFLASKBTN = "Einen Flakon benützen";
 RWSETTINGS_EQUIPPEDARTIFACTSSCREENBTN = "Schirm für ausgerüstete Artefakten öffnen";
 RWSETTINGS_CHARACTERSCREENBTN = "Charakter-Bildschirm öffnen";
 

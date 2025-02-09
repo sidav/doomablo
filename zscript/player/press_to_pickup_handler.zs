@@ -23,6 +23,9 @@ class PressToPickupHandler : EventHandler {
 
                 } else if (RwBackpack(currentItemToPickUp)) {
                     RwBackpack(currentItemToPickUp).rwTouch(players[0].mo);
+
+                } else if (RwFlask(currentItemToPickUp)) {
+                    RwFlask(currentItemToPickUp).rwTouch(players[0].mo);
                 }
                 manualPickupCooldown = PICKUP_DELAY;
             }

@@ -5,6 +5,7 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 
 	override void CheckReplacement(ReplaceEvent e)
 	{
+        bool startOfLevel = level.maptime < TICRATE/2; // For items that should be replaced on level start only.
 		let cls = e.Replacee.GetClassName();
 		int dropType;
         switch (cls) {
@@ -60,9 +61,26 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             e.Replacement = RwBackpack.GetRandomVariantClass();
             break;
 
+        // FLASKS:
+        case 'Stimpack': // No break on purpose
+        case 'Medikit':
+            if (startOfLevel && rnd.OneChanceFrom(15)) {
+                let fskType = Random(0, 2);
+                e.Replacement = 'RwSmallFlask';
+                if (fskType == 1) {
+                    e.Replacement = 'RwMediumFlask';
+                } else if (fskType == 2) {
+                    e.Replacement = 'RwBigFlask';
+                }
+            }
+            break;
+
 		// ONE-TIME PICKUPS:
 		case 'ArmorBonus':
 			e.Replacement = 'RwArmorBonus';
+            break;
+        case 'HealthBonus':
+			if (startOfLevel && rnd.OneChanceFrom(4)) e.Replacement = 'RwFlaskRefill';
             break;
         }
 	}

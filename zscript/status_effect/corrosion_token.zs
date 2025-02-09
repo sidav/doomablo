@@ -7,6 +7,10 @@ class RWCorrosionToken : RwStatusEffectToken {
 
     const DamageEach = TICRATE / 2;
 
+    override int GetAlignment() {
+        return -1;
+    }
+
     override string GetStatusName() {
         return "CORROSION";
     }

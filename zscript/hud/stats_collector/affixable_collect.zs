@@ -23,6 +23,12 @@ extend class RwHudArtifactStatsCollector {
             itemRarity = bkpk.GetRarity();
             itemFullAffixedName = bkpk.nameWithAppliedAffixes;
             itemBaseName = bkpk.rwBaseName;
+        } else if (RwFlask(item)) {
+            let fsk = RwFlask(item);
+            itemLvl = fsk.generatedQuality;
+            itemRarity = fsk.GetRarity();
+            itemFullAffixedName = fsk.nameWithAppliedAffixes;
+            itemBaseName = fsk.rwBaseName;
         }
 
         if (lines == 2) {

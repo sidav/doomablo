@@ -35,6 +35,7 @@ RWSETTINGS_HP_SCALING_SPEED = "Monster HP scaling speed modifier";
 RWMENU_CONTROLS_HEADER = "DOOMablo Controls";
 RWSETTINGS_SCRAPITEMBTN = "Scrap item";
 RWSETTINGS_SCRAPITEMTIME = "Item scrapping time (seconds)";
+RWSETTINGS_USEFLASKBTN = "Use a Flask";
 RWSETTINGS_EQUIPPEDARTIFACTSSCREENBTN = "Open equipped artifacts screen";
 RWSETTINGS_CHARACTERSCREENBTN = "Open Character Screen";
 

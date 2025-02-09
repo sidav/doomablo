@@ -29,6 +29,9 @@ extend class MyCustomHUD {
         } else if (RwBackpack(handler.currentItemToPickUp)) {
             DimScreenForStats();
             DrawPickupableBackpackInfo(RwBackpack(handler.currentItemToPickUp), plr);
+        } else if (RwFlask(handler.currentItemToPickUp)) {
+            DimScreenForStats();
+            DrawPickupableFlaskInfo(RwFlask(handler.currentItemToPickUp), plr);
         } else {
             debug.panic("Unknown item to draw pickupable stats for: "..handler.currentItemToPickUp.GetClassName());
         }
@@ -87,6 +90,15 @@ extend class MyCustomHUD {
         } else {
             PrintLineAt("No backpack equipped", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
+        PrintEmptyLine(itemStatsFont);
+
+        let fsk = RwFlask(plr.CurrentEquippedFlask);
+        PrintLineAt("===  CURRENT EQUIPPED FLASK:  ===", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_WHITE);
+        if (fsk) {
+            printFlaskStatsTableAt(fsk, null, statsX, 0, fullScreenStatusFlags);
+        } else {
+            PrintLineAt("No flask equipped", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
+        }
 
     }
 
@@ -109,10 +121,6 @@ extend class MyCustomHUD {
         }
 
 		if (armr) {
-            DrawInventoryIcon(armr, (20, -22));
-            DrawString(mHUDFont, 
-                FormatNumber(armr.stats.currDurability, 3),
-                (44, -40), DI_SCREEN_LEFT_BOTTOM, PickColorForRwArmorAmount(armr));
             DrawString(itemNameFont, 
                 "Armor: "..armr.nameWithAppliedAffixes,
                 (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(armr));

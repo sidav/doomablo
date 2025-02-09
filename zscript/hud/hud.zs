@@ -64,15 +64,46 @@ class MyCustomHUD : BaseStatusBar
 
 	protected void DrawFullScreenStuff()
 	{
+		let plr = RwPlayer(CPlayer.mo);
+        let fsk = RwFlask(plr.CurrentEquippedFlask);
+        let armr = RandomizedArmor(plr.CurrentEquippedArmor);
+
 		Vector2 iconbox = (40, 20);
 		// Draw health
 		let berserk = CPlayer.mo.FindInventory("PowerStrength");
 		DrawImage(berserk? "PSTRA0" : "MEDIA0", (20, -2));
 		DrawString(mHUDFont, FormatNumber(CPlayer.health, 3), (44, -20));
 
+		int invY = -40;
+		// FLASK
+		if (fsk) {
+			DrawInventoryIcon(fsk, (20, invY + 17));
+			if (fsk.cooldownTicksRemaining > 0) {
+				DrawString(mHUDFont, FormatNumber((fsk.cooldownTicksRemaining + TICRATE - 1)/TICRATE, 3), (44, invY), translation: Font.CR_DARKGRAY);
+			} else {
+				let clr = Font.CR_GREEN;
+				if (fsk.currentCharges < fsk.stats.chargeConsumption) {
+					clr = Font.CR_RED;
+				} else if (fsk.currentCharges == fsk.stats.maxCharges) {
+					clr = Font.CR_BLUE;
+				}
+				let shownPercentage = math.getIntFractionInPercent(fsk.currentCharges, fsk.stats.chargeConsumption);
+				DrawString(mHUDFont, FormatNumber(shownPercentage, 3).."%", (44, -40), translation: clr);
+			}
+			invY -= 20;
+		}
+
+		// ARMOR
+		if (armr) {
+			DrawInventoryIcon(armr, (20, invY + 17));
+			DrawString(mHUDFont,
+				FormatNumber(armr.stats.currDurability, 3),
+				(44, invY), DI_SCREEN_LEFT_BOTTOM, PickColorForRwArmorAmount(armr));
+		}
+
+		invY = -20;
 		Inventory ammotype1, ammotype2;
 		[ammotype1, ammotype2] = GetCurrentAmmo();
-		int invY = -20;
 		if (ammotype1 != null) {
 			DrawInventoryIcon(ammotype1, (-14, -4));
 			DrawString(mHUDFont, FormatNumber(ammotype1.Amount, 3), (-30, -20), DI_TEXT_ALIGN_RIGHT);

@@ -34,6 +34,15 @@ class RWOnWeaponDamageDealtHandler : EventHandler
                 current.onFatalDamageDealtByPlayer(damage, target, plr);
             }
         }
+
+        if (target.health <= 0) {
+            // Refill flask charge
+            if (plr.CurrentEquippedFlask) {
+                static const int refillAmount[] = {1, 3, 5, 10, 20, 50};
+                let rar = RwMonsterAffixator.GetMonsterRarity(target);
+                plr.CurrentEquippedFlask.Refill(refillAmount[rar]);
+            }
+        }
     }
     
 }

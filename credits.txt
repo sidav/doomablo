@@ -5,6 +5,7 @@ Thanks:
     ZDoom discord server - for answering my stupid questions
     Zerobyte666 - for the general design help
     fakemai - testing help
+    Divided Eye - Additional graphics help
 
 Resources:
     Uses ZForms by Gutawer
