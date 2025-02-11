@@ -8,14 +8,14 @@ class RwMediumFlask : RwFlask {
     // METHODS FOR AFFIXABLE:
 
     override void setBaseStats() {
-      rwbaseName = "Potion";
+      rwbaseName = "Flask";
       stats = New('RwFlaskStats');
       stats.healsUntilPercentage = 100;
 
-      stats.healAmount = 35;
-      stats.healDurationTicks = 7 * TICRATE;
+      stats.healAmount = 40;
+      stats.healDurationTicks = 5 * TICRATE;
 
-      stats.chargeConsumption = 25;
+      stats.chargeConsumption = 30;
       stats.maxCharges = 50;
 
       stats.usageCooldownTicks = 30 * TICRATE;
