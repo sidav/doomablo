@@ -8,16 +8,16 @@ class RwBigFlask : RwFlask {
     // METHODS FOR AFFIXABLE:
 
     override void setBaseStats() {
-      rwbaseName = "Flask";
+      rwbaseName = "Bottle";
       stats = New('RwFlaskStats');
       stats.healsUntilPercentage = 100;
 
-      stats.healAmount = 100;
-      stats.healDurationTicks = 30 * TICRATE;
+      stats.healAmount = 10;
+      stats.healDurationTicks = 3 * TICRATE;
 
-      stats.chargeConsumption = 30;
+      stats.chargeConsumption = 15;
       stats.maxCharges = 100;
 
-      stats.usageCooldownTicks = 60 * TICRATE;
+      stats.usageCooldownTicks = 10 * TICRATE;
     }
 }

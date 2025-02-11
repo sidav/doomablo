@@ -28,6 +28,12 @@ gameinfo
 		"Do you know?\nYou can improve one of the five stats when you gain a level.",
 		"Do you know?\nYou can bind all the neccessary buttons in DOOMablo options menu",
 		"Do you know?\nYour inferno level determines the level of monsters you face. That means they'll drop better loot!",
+		"Do you know?\nFlasks can restore your HP.\nThey do it gradually over several seconds.\nDon't forget to bind \"Use Flask\" button in settings!",
+		"Do you know?\nFlasks can be refilled with \"Flask Refill\" item, or by killing monsters.\nThe higher the monster rarity is, the bigger is the replenishment",
+
+		// Status effects tips
+		"Do you know?\nPROTECTED status effect reduces all the damage you take",
+		"Do you know?\nEXPERIENCE status effect increases all the experience you receive",
 
 		// Artifact affixes tips
 		"Do you know?\nFlechettes are slow homing projectiles",

@@ -12,12 +12,12 @@ class RwSmallFlask : RwFlask {
       stats = New('RwFlaskStats');
       stats.healsUntilPercentage = 100;
 
-      stats.healAmount = 20;
-      stats.healDurationTicks = 3 * TICRATE;
+      stats.healAmount = 120;
+      stats.healDurationTicks = 40 * TICRATE;
 
-      stats.chargeConsumption = 20;
+      stats.chargeConsumption = 25;
       stats.maxCharges = 30;
 
-      stats.usageCooldownTicks = 10 * TICRATE;
+      stats.usageCooldownTicks = 60 * TICRATE;
     }
 }

@@ -78,12 +78,20 @@ extend class RwPlayer {
             let dropAmount = RwFlask(itm).GetRarity() + 2;
             for (let i = 0; i < dropAmount; i++) {
                 Actor drop;
-                let whatToDrop = rnd.weightedRand(3, 2);
+                let whatToDrop = rnd.weightedRand(1, 2);
                 if (whatToDrop == 0) {
                     drop = DropsSpawner.createDropByClass(itm, 'RwFlaskRefill');
                 } else {
                     drop = DropsSpawner.createDropByClass(itm, 'HealthBonus');
                 }
+                AssignVeryMinorSpreadVelocityTo(drop);
+            }
+            // Drop guaranteed refills if scrapped flask has charges
+            int chgPerRefill = 8;
+            dropAmount = (RwFlask(itm).currentCharges + chgPerRefill / 2) / chgPerRefill;
+            for (let i = 0; i < dropAmount; i++) {
+                Actor drop = DropsSpawner.createDropByClass(itm, 'RwFlaskRefill');
+                Inventory(drop).Amount = chgPerRefill;
                 AssignVeryMinorSpreadVelocityTo(drop);
             }
 

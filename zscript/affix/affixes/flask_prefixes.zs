@@ -66,7 +66,8 @@ class FPrefLessHeal : RwFlaskPrefix {
         return a2.GetClass() != 'FPrefMoreHeal';
     }
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + modifierLevel/10;
+        let minPerc = math.minimumMeaningIntPercent(fsk.stats.healAmount);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 15, 0.1) + modifierLevel/10;
         fsk.stats.healAmount = math.getIntPercentage(fsk.stats.healAmount, 100 - modifierLevel);
     }
 }
@@ -85,7 +86,8 @@ class FPrefMoreHeal : RwFlaskPrefix {
         return a2.GetClass() != 'FPrefLessHeal';
     }
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + modifierLevel/10;
+        let minPerc = math.minimumMeaningIntPercent(fsk.stats.healAmount);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 25, 0.1) + modifierLevel/10;
         fsk.stats.healAmount = math.getIntPercentage(fsk.stats.healAmount, 100 + modifierLevel);
     }
 }
@@ -200,7 +202,7 @@ class FPrefSmallerConsumption : RwFlaskPrefix {
         return a2.GetClass() != 'FPrefBiggerConsumption';
     }
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.1);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 6, 0.1);
         fsk.stats.chargeConsumption -= modifierLevel;
     }
 }

@@ -65,6 +65,9 @@ class RwFlask : Inventory {
 
       if (cooldownTicksRemaining > 0) {
         cooldownTicksRemaining--;
+        if (owner && cooldownTicksRemaining == 0 && (currentCharges >= stats.chargeConsumption)) {
+          owner.A_StartSound("Flasks/Ready", CHAN_AUTO);
+        }
       }
 
       Affix aff;
@@ -113,8 +116,12 @@ class RwFlask : Inventory {
     }
 
     void Refill(int amount) {
+      bool enoughBefore = currentCharges >= stats.chargeConsumption;
       currentCharges += amount;
       currentCharges = min(currentCharges, stats.maxCharges);
+      if (owner && !enoughBefore && currentCharges >= stats.chargeConsumption && cooldownTicksRemaining == 0) {
+          owner.A_StartSound("Flasks/Ready", CHAN_AUTO);
+      }
     }
 
     action void RwUse() {
@@ -129,7 +136,7 @@ class RwFlask : Inventory {
       invoker.cooldownTicksRemaining = invoker.stats.usageCooldownTicks;
       RWHealingToken.ApplyToActor(invoker.owner, invoker.stats.healAmount, invoker.stats.healsUntilPercentage, invoker.stats.healDurationTicks);
 
-      A_StartSound("Flasks/Quaff", CHAN_ITEM, volume: 1.25);
+      invoker.owner.A_StartSound("Flasks/Quaff", CHAN_AUTO);
       invoker.owner.Player.bonusCount += 1;
     }
 }
