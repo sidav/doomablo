@@ -11,7 +11,7 @@ extend class RwHudArtifactStatsCollector {
             compareStr = "";
             compareClr = Font.CR_White;
         }
-        addTwoLabelsLine("Heal amount:", fsk.stats.healAmount.." HP "..compareStr,
+        addTwoLabelsLine("Total healing:", fsk.stats.healAmount.." HP "..compareStr,
                     Font.CR_White, compareClr);
 
 
@@ -22,7 +22,7 @@ extend class RwHudArtifactStatsCollector {
             compareStr = "";
             compareClr = Font.CR_White;
         }
-        addTwoLabelsLine("Heal duration:", String.Format("%.1f s", Gametime.ticksToSeconds(fsk.stats.healDurationTicks))..compareStr,
+        addTwoLabelsLine("Healing duration:", String.Format("%.1f s", Gametime.ticksToSeconds(fsk.stats.healDurationTicks))..compareStr,
                                 Font.CR_White, compareClr);
 
 
@@ -43,7 +43,7 @@ extend class RwHudArtifactStatsCollector {
             compareStr = "";
             compareClr = Font.CR_White;
         }
-        addTwoLabelsLine("Max charges:", ""..fsk.stats.maxCharges..compareStr,
+        addTwoLabelsLine("Charges:", fsk.currentCharges.."/"..fsk.stats.maxCharges..compareStr,
                                 Font.CR_White, compareClr);
 
         if (fskCmp && fsk.stats.chargeConsumption != fskCmp.stats.chargeConsumption) {
