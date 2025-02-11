@@ -1,8 +1,8 @@
-class RwFlaskRefill : Inventory
+class RwFlaskRefill : Inventory {
 
-{
 	Default
 	{
+		Inventory.Amount 5;
 		Inventory.Pickupmessage "You pour the liquid in your flask.";
 		+FLOATBOB
 		-COUNTITEM
@@ -21,7 +21,7 @@ class RwFlaskRefill : Inventory
         if (plr && plr.CurrentEquippedFlask) {
             let fsk = plr.CurrentEquippedFlask;
 			if (fsk.currentCharges < fsk.stats.maxCharges) {
-				fsk.Refill(3);
+				fsk.Refill(amount);
 				Destroy();
 				return true;
 			}
