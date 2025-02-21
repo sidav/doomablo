@@ -504,7 +504,7 @@ class WPrefFasterReload : RwWeaponPrefix {
 
 // Shotgun-specific
 
-class WPrefPuny : RwWeaponPrefix {
+class WPrefLessPellets : RwWeaponPrefix {
     override string getName() {
         return "puny";
     }
@@ -518,7 +518,7 @@ class WPrefPuny : RwWeaponPrefix {
         return wpn.stats.Pellets > 3;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WPrefBulk';
+        return a2.GetClass() != 'WPrefMorePellets' && a2.GetClass() != 'WSuffSlugshotShotgun';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         let minPerc = math.minimumMeaningIntPercent(wpn.stats.pellets);
@@ -528,7 +528,7 @@ class WPrefPuny : RwWeaponPrefix {
     }
 }
 
-class WPrefBulk : RwWeaponPrefix {
+class WPrefMorePellets : RwWeaponPrefix {
     override string getName() {
         return "bulk";
     }
@@ -545,7 +545,7 @@ class WPrefBulk : RwWeaponPrefix {
         return wpn.stats.Pellets > 3;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WPrefPuny';
+        return a2.GetClass() != 'WPrefLessPellets' && a2.GetClass() != 'WSuffSlugshotShotgun';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         let minPerc = math.minimumMeaningIntPercent(wpn.stats.pellets);

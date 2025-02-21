@@ -292,3 +292,36 @@ class WSuffFlechettes : RwWeaponSuffix {
         wpn.stats.maxDamage = math.divideIntWithRounding(wpn.stats.maxDamage * modifierLevel, 10);
     }
 }
+
+class WSuffSlugshotShotgun : RwWeaponSuffix {
+    override string getName() {
+        return "Slugshot";
+    }
+    override string getDescription() {
+        return String.Format("Fires a slug. DMG x%.1f, ACC x%.1f", (double(modifierLevel)/100., double(stat2)/100.));
+    }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.GetClass() == 'RwShotgun' || wpn.GetClass() == 'RwSuperShotgun';
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return super.isCompatibleWithAffClass(a2) && a2.GetClass() != 'WPrefLessPellets' && a2.GetClass() != 'WPrefMorePellets';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(50, 85, 0.1) + remapQualityToRange(quality, 0, 35);
+        wpn.stats.minDamage = math.divideIntWithRounding(wpn.stats.Pellets * wpn.stats.minDamage * modifierLevel, 100);
+        wpn.stats.maxDamage = math.divideIntWithRounding(wpn.stats.Pellets * wpn.stats.maxDamage * modifierLevel, 100);
+
+        stat2 = rnd.multipliedWeightedRandByEndWeight(500, 850, 0.1) + remapQualityToRange(quality, 0, 350);
+        wpn.stats.HorizSpread /= double(stat2) / 100.0;
+        wpn.stats.VertSpread /= double(stat2) / 400.0;
+
+        if (wpn.GetClass() == 'RwShotgun') {
+            wpn.stats.Pellets = 1;
+        } else if (wpn.GetClass() == 'RwSuperShotgun') {
+            wpn.stats.Pellets = 2;
+        } else {
+            debug.print("Unknown wpn class to apply WSuffSlugshotShotgun to: "..wpn.GetClassName());
+            return;
+        }
+    }
+}
