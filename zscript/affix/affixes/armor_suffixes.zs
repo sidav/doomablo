@@ -153,7 +153,7 @@ class ASuffSlowHeal : RwArmorSuffix {
         if (owner.Health < 100 && arm.IsNotBroken()) {
             let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, fractionAccumulator);
             if (addAmount > 0) {
-                owner.GiveBody(addAmount, 125);
+                owner.GiveBody(addAmount);
             }
         }
     }
@@ -297,7 +297,7 @@ class ASuffDurabToHealth : RwArmorSuffix {
         if (arm.stats.currDurability > 0 && owner.health < 100) {
             let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, precision, healAccum);
             if (addAmount > 0) {
-                owner.GiveBody(addAmount, 125);
+                owner.GiveBody(addAmount);
             }
             let subAmount = math.AccumulatedFixedPointAdd(0, stat2, precision, substractAccum);
             if (subAmount > 0) {

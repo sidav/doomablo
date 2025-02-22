@@ -93,7 +93,7 @@ class FSuffInstantHeal : RwFlaskSuffix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 1, 10);
     }
     override void onBeingUsed(Actor owner, Inventory affixedItem) {
-        owner.GiveBody(modifierLevel, owner.GetMaxHealth());
+        owner.GiveBody(modifierLevel);
     }
 }
 

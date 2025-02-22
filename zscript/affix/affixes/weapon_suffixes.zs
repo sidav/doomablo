@@ -49,7 +49,7 @@ class WSuffVampiric : RwWeaponSuffix {
     override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (rnd.PercentChance(modifierLevel)) {
             plr.Player.bonusCount += 3;
-            plr.GiveBody(1, 200);
+            plr.GiveBody(1);
         }
     }
 }

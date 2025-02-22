@@ -179,7 +179,7 @@ class MAffVampiric : RwMonsterAffix {
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive) {
             // debug.print("VAMPIRIC Source is "..source.GetClassName().." and owner is "..owner.GetClassName());
-            owner.GiveBody(modifierLevel, owner.GetMaxHealth());
+            owner.GiveBody(modifierLevel);
         }
     }
 }

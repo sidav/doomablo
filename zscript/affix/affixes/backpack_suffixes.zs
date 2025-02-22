@@ -164,7 +164,7 @@ class BSuffBetterMedikits : RwBackpackSuffix {
         // Caution here: this affix-caused healing may chain-trigger itself on next tick.
         // To prevent that the min allowed lastHealedBy should be bigger than the max affix heal amount.
         if (RwPlayer(owner).lastHealedBy >= 10 && RwPlayer(owner).lastHealedBy > modifierLevel) {
-            owner.GiveBody(modifierLevel, 200);
+            owner.GiveBody(modifierLevel);
         }
     }
 }
