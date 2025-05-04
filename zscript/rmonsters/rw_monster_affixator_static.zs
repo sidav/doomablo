@@ -28,7 +28,9 @@ extend class RwMonsterAffixator {
             return;
         }
         if (RwPlayer(monster) || !monster.bIsMonster) {
-            debug.panic("Trying to affixate but "..monster.GetClassName().." is not a monster!");
+            // Just silently skip this entity if it's not actually a monster
+            // debug.print("Trying to affixate but "..monster.GetClassName().." is not a monster!");
+            return;
         }
         let given = RwMonsterAffixator(monster.GiveInventoryType('RwMonsterAffixator'));
         given.Generate(rar, qty);
