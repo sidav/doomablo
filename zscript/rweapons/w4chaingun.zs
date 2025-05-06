@@ -3,6 +3,29 @@ class RwChaingun : RandomizedWeapon
 
 	int currentFireFrame;
 
+	// A couple simple wrapper functions to make the animation read a little more cleanly.
+	// - dbrz
+
+	action void ShootAndApplyROF() {
+		RWA_ApplyRateOfFire();
+		if (invoker.currentClipAmmo >= invoker.stats.ammoUsage) {
+			RWA_DoFire();
+			RWA_ChaingunFlash();
+		}
+		// The gun now shoots during spinup. This should make the chaingun feel way, way more responsive,
+		// since the old behavior meant that swapping to another weapon was basically mandatory if you had a threat to deal with right away.
+		// - dbrz
+	}
+
+	action void SpinDown() {
+		RWA_ApplyRateOfFire();
+		RWA_Refire();
+		// You can start firing again during spindown, but swapping weapons or reloading requires full spindown.
+		// Firing from spindown jumps right to full speed, as long as you're still in spindown when you hit the button again,
+		// so you no longer have to wait for the whole spindown and spinup if your finger slips.
+		// - dbrz
+	}
+
 	Default
 	{
         Weapon.SlotNumber 4;
@@ -28,34 +51,36 @@ class RwChaingun : RandomizedWeapon
 		CHGG A 1 A_Raise;
 		Loop;
 	Fire:
-		CHGG B 5 RWA_ApplyRateOfFire;
-		CHGG A 4 RWA_ApplyRateOfFire;
-		CHGG B 4 RWA_ApplyRateOfFire;
-		CHGG A 3 RWA_ApplyRateOfFire;
-		CHGG B 3 RWA_ApplyRateOfFire;
+		CHGG B 5 ShootAndApplyROF;
+		CHGG A 4 ShootAndApplyROF;
+		CHGG B 4 ShootAndApplyROF;
+		CHGG A 3 ShootAndApplyROF;
+		CHGG B 3 ShootAndApplyROF;
+		CHGG B 0 RWA_ReFire;
+		// "Spin down" begins here
+	Spin:
+		CHGG A 3 SpinDown;
+		CHGG B 3 SpinDown;
+		CHGG A 4 SpinDown;
+		CHGG B 4 SpinDown;
+		CHGG A 4 SpinDown;
+		CHGG B 5 SpinDown;
+		CHGG A 5 SpinDown;
+		CHGG B 6 SpinDown;
+		Goto Ready;
+	// Tapping the button now goes straight to spindown from initial burst.
+	// Hold is much shorter and thus more responsive (you don't lose as much ammo after letting go of the trigger).
+	// - dbrz
 	Hold: // Skip there on ReFire
 		TNT1 A 0 {
 			invoker.currentFireFrame = 0;
 		}
-		CHGG ABABABABABA 3 {
-			RWA_ApplyRateOfFire();
-			if (invoker.currentClipAmmo >= invoker.stats.ammoUsage) {
-				RWA_DoFire();
-				RWA_ChaingunFlash();
-			}
+		CHGG AB 3 {
+			ShootAndApplyROF();
 			invoker.currentFireFrame++;
         }
-		CHGG B 0 RWA_ReFire;
-		// "Spin down" begins here
-		CHGG A 3 RWA_ApplyRateOfFire;
-		CHGG B 3 RWA_ApplyRateOfFire;
-		CHGG A 4 RWA_ApplyRateOfFire;
-		CHGG B 4 RWA_ApplyRateOfFire;
-		CHGG A 4 RWA_ApplyRateOfFire;
-		CHGG B 5 RWA_ApplyRateOfFire;
-		CHGG A 5 RWA_ApplyRateOfFire;
-		CHGG B 6 RWA_ApplyRateOfFire;
-		Goto Ready;
+	CHGG B 0 RWA_ReFire;
+	Goto Spin;
 	Reload:
 		CHGG AAAABBBBAAAABBBBAAAA 1 A_WeaponOffset(-1, 1, WOF_ADD | WOF_INTERPOLATE);
 		CHGG BABAB 7 RWA_ApplyReloadSpeed();
