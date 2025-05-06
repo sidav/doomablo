@@ -42,6 +42,7 @@ Ich hoffe, dir würde mein kleines Mod gefallen.
 - Zerobyte666 - for the general design help
 - fakemai - testing help
 - Divided Eye - Additional graphics help
+- dawnbreez - tweaks & fixes
 
 ### Resources:
 - Additional graphics and mods's base: Id Software, Raven Software
