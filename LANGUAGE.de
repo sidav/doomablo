@@ -3,6 +3,11 @@
 // Gameplay
 RAREMONSTERSPAWNED = "Du spürst eine starke Präsenz an diesem Ort.";
 
+// Weapons
+TAG_SMG = "PLACEHOLDER_DE: Sub-Machine Gun";
+GOTSMG = "PLACEHOLDER_DE: You got a Sub-Machine Gun!";
+OB_MPSMG = "PLACEHOLDER_DE: %o was rattled by %k's little friend.";
+
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo anpassen";
 RWMENU_CUSTOMIZEDOOMABLO = "DOOMablo Einstellungen";

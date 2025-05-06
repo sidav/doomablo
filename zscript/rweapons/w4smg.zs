@@ -7,9 +7,9 @@ class RwSmg : RandomizedWeapon
 		Weapon.SelectionOrder 700;
 		// Weapon.AmmoGive 20;
 		Weapon.AmmoType "Clip";
-		Inventory.PickupMessage "$GOTCHAINGUN";
-		Obituary "$OB_MPCHAINGUN";
-		Tag "$TAG_CHAINGUN";
+		Inventory.PickupMessage "$GOTSMG";
+		Obituary "$OB_MPSMG";
+		Tag "$TAG_SMG";
 	}
 	States
 	{
