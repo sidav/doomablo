@@ -8,6 +8,7 @@ Thanks:
     Zerobyte666 - for the general design help
     fakemai - testing help
     Divided Eye - Additional graphics help
+    dawnbreez - tweaks & fixes
 
 Resources:
     Uses ZForms by Gutawer
