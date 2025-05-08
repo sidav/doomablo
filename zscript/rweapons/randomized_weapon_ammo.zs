@@ -72,7 +72,7 @@ extend class RandomizedWeapon {
 
     action void A_MagazineReload()
     {
-        while (invoker.ammo1.amount >= invoker.stats.ammoUsage && invoker.currentClipAmmo < invoker.stats.clipSize) {
+        while (invoker.ammo1.amount >= 1 && invoker.currentClipAmmo < invoker.stats.clipSize) {
             invoker.ammo1.amount--;
             invoker.currentClipAmmo++;
         }
