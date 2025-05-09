@@ -448,6 +448,7 @@ class WPrefBiggerMag : RwWeaponPrefix {
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         let minPerc = math.minimumMeaningIntPercent(wpn.stats.clipSize);
+        minPerc *= wpn.stats.ammoUsage; // The minimum should be at least one whole shot.
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 150, 0.01) + quality/50;
         modifierLevel = math.discretizeIntPercentFraction(wpn.stats.clipSize, modifierLevel);
         wpn.stats.clipSize = math.getIntPercentage(wpn.stats.clipSize, 100 + modifierLevel);
