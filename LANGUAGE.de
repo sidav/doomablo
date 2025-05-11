@@ -4,9 +4,9 @@
 RAREMONSTERSPAWNED = "Du spürst eine starke Präsenz an diesem Ort.";
 
 // Weapons
-TAG_SMG = "PLACEHOLDER_DE: Sub-Machine Gun";
-GOTSMG = "PLACEHOLDER_DE: You got a Sub-Machine Gun!";
-OB_MPSMG = "PLACEHOLDER_DE: %o was rattled by %k's little friend.";
+TAG_SMG = "Machinenpistole";
+GOTSMG = "Machinenpistole genommen.";
+OB_MPSMG = "%o wurde mit Blei aus %ks Machinenpistole vollgepumpt.";
 
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo anpassen";

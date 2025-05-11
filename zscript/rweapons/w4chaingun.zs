@@ -3,28 +3,6 @@ class RwChaingun : RandomizedWeapon
 
 	int currentFireFrame;
 
-	// A couple simple wrapper functions to make the animation read a little more cleanly.
-	// - dbrz
-
-	action void ShootAndApplyROF() {
-		RWA_ApplyRateOfFire();
-		if (invoker.currentClipAmmo >= invoker.stats.ammoUsage) {
-			RWA_DoFire();
-			RWA_ChaingunFlash();
-		}
-		// The gun now shoots during spinup. This should make the chaingun feel way, way more responsive,
-		// since the old behavior meant that swapping to another weapon was basically mandatory if you had a threat to deal with right away.
-		// - dbrz
-	}
-
-	action void SpinDown() {
-		RWA_ApplyRateOfFire();
-		RWA_Refire();
-		// You can start firing again during spindown, but swapping weapons or reloading requires full spindown.
-		// Firing from spindown jumps right to full speed, as long as you're still in spindown when you hit the button again,
-		// so you no longer have to wait for the whole spindown and spinup if your finger slips.
-		// - dbrz
-	}
 
 	Default
 	{
@@ -125,7 +103,29 @@ class RwChaingun : RandomizedWeapon
 		}
 	}
 
-    override void setBaseStats() {
+	// A couple simple wrapper functions to make the animation read a little more cleanly.
+	// - dbrz
+	action void ShootAndApplyROF() {
+		RWA_ApplyRateOfFire();
+		if (invoker.currentClipAmmo >= invoker.stats.ammoUsage) {
+			RWA_DoFire();
+			RWA_ChaingunFlash();
+		}
+		// The gun now shoots during spinup. This should make the chaingun feel way, way more responsive,
+		// since the old behavior meant that swapping to another weapon was basically mandatory if you had a threat to deal with right away.
+		// - dbrz
+	}
+
+	action void SpinDown() {
+		RWA_ApplyRateOfFire();
+		RWA_Refire();
+		// You can start firing again during spindown, but swapping weapons or reloading requires full spindown.
+		// Firing from spindown jumps right to full speed, as long as you're still in spindown when you hit the button again,
+		// so you no longer have to wait for the whole spindown and spinup if your finger slips.
+		// - dbrz
+	}
+
+	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
 			4, 8,
 			1,
@@ -135,7 +135,7 @@ class RwChaingun : RandomizedWeapon
 		);
 		stats.clipSize = 100;
 		rwBaseName = "Chaingun";
-    }
+	}
 
 	override string GetRandomFluffName() {
         static const string specialNames[] =
