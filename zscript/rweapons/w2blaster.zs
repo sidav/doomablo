@@ -98,7 +98,7 @@ class RwBlaster : RandomizedWeapon {
         stats = RWStatsClass.NewWeaponStats(
             10, 20,
             1,
-            5,
+            10,
             5.0,
             1.0
         );
