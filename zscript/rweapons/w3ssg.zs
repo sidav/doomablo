@@ -14,7 +14,7 @@ class RwSuperShotgun : RandomizedWeapon
 	States
 	{
 	Ready:
-		SHT2 A 1 A_WeaponReady;
+		SHT2 A 1 RWA_WeaponReadyReload;
 		Loop;
 	Deselect:
 		SHT2 A 1 A_Lower;
@@ -26,33 +26,39 @@ class RwSuperShotgun : RandomizedWeapon
 	Fire:
 		SHT2 A 3 RWA_ApplyRateOfFire;
 		SHT2 A 7 {
-			RWA_ApplyRateOfFire();
-			RWA_DoFire();
-			A_StartSound("weapons/sshotf", CHAN_WEAPON);
-			A_GunFlash();
+			if (invoker.currentClipAmmo >= invoker.stats.ammoUsage) {
+				RWA_ApplyRateOfFire();
+				RWA_DoFire();
+				A_StartSound("weapons/sshotf", CHAN_WEAPON);
+				A_GunFlash();
+			}
 		}
-		SHT2 B 7 RWA_ApplyRateOfFire;
+		SHT2 A 0 A_JumpIf(invoker.currentClipAmmo < invoker.stats.ammoUsage, "Reload");
+		Goto Ready;
+	Reload:
+		SHT2 B 7 RWA_ApplyReloadSpeed;
 		SHT2 C 7 {
-			RWA_ApplyRateOfFire();
+			RWA_ApplyReloadSpeed();
 			A_CheckReload();
 		}
 		SHT2 D 7 {
-			RWA_ApplyRateOfFire();
+			RWA_ApplyReloadSpeed();
 			A_StartSound("weapons/sshoto", CHAN_WEAPON);
 		}
-		SHT2 E 7 RWA_ApplyRateOfFire;
+		SHT2 E 7 RWA_ApplyReloadSpeed;
 		SHT2 F 7 {
-			RWA_ApplyRateOfFire();
+			RWA_ApplyReloadSpeed();
 			A_StartSound("weapons/sshotl", CHAN_WEAPON); 
+			A_MagazineReload();
 		}
-		SHT2 G 6 RWA_ApplyRateOfFire;
+		SHT2 G 6 RWA_ApplyReloadSpeed;
 		SHT2 H 6 {
-			RWA_ApplyRateOfFire();
+			RWA_ApplyReloadSpeed();
 			A_StartSound("weapons/sshotc", CHAN_WEAPON);
 			// A_Refire();
 		}
 		SHT2 A 5 {
-			RWA_ApplyRateOfFire();
+			RWA_ApplyReloadSpeed();
 			A_ReFire();
 		}
 		Goto Ready;
@@ -111,6 +117,7 @@ class RwSuperShotgun : RandomizedWeapon
 		stats.recoil = 1.5;
 		stats.TargetKnockback = 192;
 		stats.ShooterKickback = 0.5;
+		stats.ClipSize = 2;
         rwBaseName = "Super Shotgun";
     }
 
