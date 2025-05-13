@@ -1,4 +1,4 @@
-class RwFlask : Inventory {
+class RwFlask : Inventory abstract {
     mixin Affixable;
     RwFlaskStats stats;
     string rwbaseName;
@@ -6,8 +6,12 @@ class RwFlask : Inventory {
     // Current vars
     int currentCharges, cooldownTicksRemaining;
 
+    int rweight;
+    Property Weight: rweight;
+
     Default {
         Height 26;
+        RwFlask.Weight 10;
     }
     States {
         Spawn:
