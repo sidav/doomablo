@@ -10,6 +10,7 @@ class RwRocketLauncher : RandomizedWeapon
 		+WEAPON.NOAUTOFIRE
 		Inventory.PickupMessage "$GOTLAUNCHER";
 		Tag "$TAG_ROCKETLAUNCHER";
+		RandomizedWeapon.Weight 10;
 	}
 	States
 	{
