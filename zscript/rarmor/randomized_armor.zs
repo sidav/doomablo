@@ -1,4 +1,4 @@
-class RandomizedArmor : Armor {
+class RandomizedArmor : Armor abstract {
 
     mixin Affixable;
 
@@ -9,10 +9,14 @@ class RandomizedArmor : Armor {
     int lastDamageTick;
     int cumulativeRepair; 
 
+    int rweight; // Random drop weight.
+    Property Weight : rweight;
+
 	Default
 	{
 		Radius 20;
 		Height 16;
+        RandomizedArmor.Weight 10; // Same as green and blue armor.
 	}
 
     virtual void setBaseStats() {
