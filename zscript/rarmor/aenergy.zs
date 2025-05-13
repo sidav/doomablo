@@ -4,6 +4,7 @@ class RwEnergyArmor : RandomizedArmor
 	{
 		Inventory.Pickupmessage "Energy Armor";
 		Inventory.Icon "EARMA0";
+		RandomizedArmor.Weight 5;
 	}
 	States
 	{

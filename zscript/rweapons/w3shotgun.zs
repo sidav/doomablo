@@ -10,6 +10,7 @@ class rwShotgun : RandomizedWeapon
 		Inventory.PickupMessage "$GOTSHOTGUN";
 		Obituary "$OB_MPSHOTGUN";
 		Tag "$TAG_SHOTGUN";
+		RandomizedWeapon.Weight 25;
 	}
 	States
 	{
