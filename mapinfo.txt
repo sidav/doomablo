@@ -11,6 +11,7 @@ gameinfo
 	// AddEventHandlers = "MonstersCacheHandler" - UNUSED for now
 	AddEventHandlers = "AmmoDropsHandler"
 	AddEventHandlers = "DropsHandler"
+	AddEventHandlers = "DropDatabase"
 	AddEventHandlers = "ExperienceGivingHandler"
 	AddEventHandlers = "DroppedItemsUnclumpHandler"
 	AddEventHandlers = "MonstersAffixingHandler"
