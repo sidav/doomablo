@@ -7,6 +7,10 @@ class DropDatabase : StaticEventHandler { // Good thing this isn't SQL, lmao
     Map<String,int> ArmorItems; // As above, for armor.
     Map<String,int> EquipItems; // Non-armor equipment.
 
+    static DropDatabase Get() {
+        return DropDatabase(StaticEventHandler.Find("DropDatabase"));
+    }
+
     override void OnRegister() {
         // Start by pushing all the known OneTimeItems.
         // TODO: Better way of doing this.
@@ -73,7 +77,8 @@ class DropDatabase : StaticEventHandler { // Good thing this isn't SQL, lmao
 
     int WeightedRand(Array<int> weights) {
         int sum = 0;
-        foreach (w : weights) {
+        for (int i = 0; i < weights.size(); i++) {
+            int w = weights[i];
             sum += w;
         }
         if (sum <= 0) { debug.panic("Bad weights sent."); }
@@ -96,11 +101,10 @@ class DropDatabase : StaticEventHandler { // Good thing this isn't SQL, lmao
         MapIterator<String,int> it;
         Array<int> weights;
         Array<string> results;
-        if (it.init(items)) {
-            while (it.Valid() && it.Next()) {
-                weights.push(it.GetValue());
-                results.push(it.GetKey());
-            }
+        it.init(items);
+        foreach (k, v : it) {
+            weights.push(v);
+            results.push(k);
         }
 
         // Now we have a list of weights, so we can just do WeightedRand.
@@ -110,6 +114,28 @@ class DropDatabase : StaticEventHandler { // Good thing this isn't SQL, lmao
             debug.panic(err);
         }
 
-        return results[selected];
+        string result = results[selected];
+
+        return result;
+    }
+
+    String PickWeapon() {
+        return PickFromWeightList(WeaponItems);
+    }
+
+    String PickArmor() {
+        return PickFromWeightList(ArmorItems);
+    }
+
+    String PickEquip() {
+        return PickFromWeightList(EquipItems);
+    }
+
+    String PickAmmo() {
+        return PickFromWeightList(AmmoItems);
+    }
+
+    String PickOneTimeItem() {
+        return PickFromWeightList(OneTimeItems);
     }
 }
