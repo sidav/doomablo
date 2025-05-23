@@ -10,7 +10,8 @@ class RwBackpack : Inventory {
     Default {
 		Height 26;
         RwBackpack.Weight 10;
-		// Inventory.PickupMessage "$GOTBACKPACK"; }
+		Inventory.PickupMessage "$GOTBACKPACK";
+    }
 	States {
         Spawn:
             BPAK A -1;
