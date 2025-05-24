@@ -13,11 +13,16 @@ class Affix {
     }
 
     // For disable-able affixes
+    // TODO: I forgot why this method is there at all. Remove?
     virtual bool IsEnabled() {
         return true;
     }
 
-    // This SHOULD be overridden in descendants.
+    // This method should be used to make some affixes more rare than the others.
+    virtual int selectionProbabilityPercentage() {
+        return 100;
+    }
+
     protected virtual bool isCompatibleWithAffClass(Affix a2) {
         return true;
         // debug.panicUnimplemented(self);

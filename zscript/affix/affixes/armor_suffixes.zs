@@ -14,8 +14,8 @@ class RwArmorSuffix : Affix {
     override int minRequiredRarity() {
         return 3; // Most suffixes require at least "rare"
     }
-    override bool isCompatibleWithAffClass(Affix a2) {
-        return !(a2 is 'RwArmorSuffix'); // There may be only one suffix on an item
+    override int selectionProbabilityPercentage() {
+        return 50;
     }
     override bool IsCompatibleWithItem(Inventory item) {
         return (RandomizedArmor(item) != null) && IsCompatibleWithRArmor(RandomizedArmor(item));

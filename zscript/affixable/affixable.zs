@@ -87,7 +87,8 @@ mixin class Affixable {
                 newAffix.isEnabled() &&
                 newAffix.IsCompatibleWithItem(self) &&
                 newAffix.IsCompatibleWithListOfAffixes(appliedAffixes) &&
-                newAffix.minRequiredRarity() <= itemRarity
+                newAffix.minRequiredRarity() <= itemRarity &&
+                rnd.PercentChance(newAffix.selectionProbabilityPercentage())
             );
             appliedAffixes.push(newAffix);
         }
