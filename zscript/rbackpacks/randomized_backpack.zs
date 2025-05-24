@@ -4,10 +4,14 @@ class RwBackpack : Inventory {
     string rwbaseName;
     RwBackpackStats stats;
 
+    int rweight; // Just like in the others, this is the weight for random drops
+    Property Weight: rweight;
+
     Default {
 		Height 26;
-		// Inventory.PickupMessage "$GOTBACKPACK";
-	}
+        RwBackpack.Weight 10;
+		Inventory.PickupMessage "$GOTBACKPACK";
+    }
 	States {
         Spawn:
             BPAK A -1;

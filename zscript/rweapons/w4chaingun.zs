@@ -14,6 +14,7 @@ class RwChaingun : RandomizedWeapon
 		Inventory.PickupMessage "$GOTCHAINGUN";
 		Obituary "$OB_MPCHAINGUN";
 		Tag "$TAG_CHAINGUN";
+		RandomizedWeapon.Weight 20;
 	}
 	States
 	{

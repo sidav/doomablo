@@ -17,6 +17,7 @@ class RwChainsaw : RandomizedWeapon
 		Tag "$TAG_CHAINSAW";
 		+WEAPON.MELEEWEAPON		
 		+WEAPON.NOAUTOSWITCHTO
+		RandomizedWeapon.Weight 5;
 	}
 	States
 	{
