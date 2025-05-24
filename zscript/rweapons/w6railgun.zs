@@ -24,25 +24,31 @@ class RwRailgun : RandomizedWeapon
 		RLGG A 1 A_Raise;
 		Loop;
 	Fire:
-		RLGF A 5 RWA_ApplyRateOfFire();
-		RLGF B 5 {
+		RLGF A 3 RWA_ApplyRateOfFire();
+		RLGF B 4 {
+			A_StartSound("Railgun/Railin", CHAN_WEAPON);
 			RWA_ApplyRateOfFire();
 			FireRailgun();
 		}
-		RLGG B 20 RWA_ApplyRateOfFire();
+		RLGG B 35 RWA_ApplyRateOfFire();
 		Goto Ready;
 	Reload:
 		RLGG B 5 RWA_ApplyReloadSpeed();
 		RLGG C 5 RWA_ApplyReloadSpeed();
-		RLGG D 5 RWA_ApplyReloadSpeed();
-		RLGG E 3 RWA_ApplyReloadSpeed();
-		RLGG F 30 {
+		RLGG D 5 {
+			A_StartSound("Railgun/Railout", CHAN_WEAPON);
 			RWA_ApplyReloadSpeed();
-            A_MagazineReload();
 		}
+		RLGG E 3 RWA_ApplyReloadSpeed();
+		RLGG F 30 RWA_ApplyReloadSpeed();
 		RLGG G 5 RWA_ApplyReloadSpeed();
 		RLGG H 5 RWA_ApplyReloadSpeed();
-		RLGG I 17 RWA_ApplyReloadSpeed();
+		RLGG I 3 RWA_ApplyReloadSpeed();
+		RLGG I 14 {
+			A_StartSound("Railgun/Railbuzz", CHAN_WEAPON);
+			RWA_ApplyReloadSpeed();
+			A_MagazineReload();
+		}
 		RLGG J 3 RWA_ApplyReloadSpeed();
 		Goto Ready;
 	Flash:
@@ -87,7 +93,7 @@ class RwRailgun : RandomizedWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			minDmg: 40, maxDmg: 150,
+			minDmg: 65, maxDmg: 125,
 			pell: 1,
 			ammousg: 20,
 			hSpr: 0.5,
