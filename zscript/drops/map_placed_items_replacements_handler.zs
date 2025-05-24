@@ -34,7 +34,11 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 			e.Replacement = 'rwRocketLauncher';
             break;
 		case 'Plasmarifle':
-			e.Replacement = 'rwPlasmarifle';
+            if (rnd.OneChanceFrom(3)) {
+                e.Replacement = 'rwRailgun';
+            } else {
+                e.Replacement = 'rwPlasmarifle';
+            }
             break;
 		case 'BFG9000':
             if (rnd.OneChanceFrom(2)) {
