@@ -1,4 +1,4 @@
-class DropDatabase : StaticEventHandler { // Good thing this isn't SQL, lmao
+class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, lmao
     // This class has two jobs:
     // 1. At startup, iterate the whole class list looking for categories of items.
     Map<String,int> OneTimeItems; // Consumables such as Bonuses, Stimpacks, Scrolls, Spheres
