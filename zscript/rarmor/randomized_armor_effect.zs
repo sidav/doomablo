@@ -14,24 +14,9 @@ extend class RandomizedArmor {
 
     int absorptionFractionAccum;
     override void AbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, int flags) {
-        if (source && damage > 1) {
-            // TODO: Define this logic in "Thorns" affix code, not here
-            let aff = findAppliedAffix('ASuffThorns');
-            if (aff != null && rnd.PercentChance(aff.modifierLevel)) {
-                let thornDamage = max(1, math.getIntPercentage(damage, aff.stat2));
-                source.damageMobj(null, owner, thornDamage, 'Normal', DMG_NO_PROTECT);
-            }
-
-            // TODO: Define this logic in "Holy" affix code, not here
-            if (stats.currDurability > 0) {
-                aff = findAppliedAffix('ASuffHoly');
-                if (aff != null) {
-                    RwMonsterAffixator monAffixator = RwMonsterAffixator.GetMonsterAffixator(source);
-                    // Epic monsters and higher
-                    if (monAffixator != null && monAffixator.GetRarity() >= 3) {
-                        damage = max(1, math.getIntPercentage(damage, 100 - aff.modifierLevel));
-                    }
-                }
+        if (source && damage > 1 && stats.currDurability > 0) {
+            foreach (aff : appliedAffixes) {
+                aff.onAbsorbDamage(damage, damageType, damage, inflictor, source, owner, flags);
             }
         }
         if (stats.currDurability > 0) {

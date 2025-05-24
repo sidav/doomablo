@@ -16,6 +16,9 @@ extend class Affix {
     virtual play void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {}
     virtual play void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {}
 
+    // Armor
+    virtual play void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {}
+
     // Player-beneficial
     virtual play void onHandlePickup(Inventory pickedUp) {}
 

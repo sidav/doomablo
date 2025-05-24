@@ -169,6 +169,13 @@ class ASuffHoly : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 35, 0.05) + remapQualityToRange(quality, 0, 25);
     }
+    override void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {
+        RwMonsterAffixator monAffixator = RwMonsterAffixator.GetMonsterAffixator(source);
+        // Epic monsters and higher
+        if (monAffixator != null && monAffixator.GetRarity() >= 3) {
+            newdamage = max(1, math.getIntPercentage(damage, 100 - modifierLevel));
+        }
+    }
 }
 
 // Non-energy only
@@ -372,6 +379,12 @@ class ASuffThorns : RwArmorSuffix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 50, 0.05) + remapQualityToRange(quality, 0, 15);
         // Percentage. It may be really high (up to 500%) because the monster damage is not scaled, but their HP is.
         stat2 = rnd.multipliedWeightedRandByEndWeight(0, 300, 0.05) + remapQualityToRange(quality, 25, 200);
+    }
+    override void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {
+        if (rnd.PercentChance(modifierLevel)) {
+            let thornDamage = max(1, math.getIntPercentage(damage, stat2));
+            source.damageMobj(null, armorOwner, thornDamage, 'Normal', DMG_NO_PROTECT);
+        }
     }
 }
 

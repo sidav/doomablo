@@ -73,8 +73,6 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
     }
 
     // 2. When something asks for a random drop, give it to them.
-
-
     String PickFromWeightList(Map<String,int> items) {
         MapIterator<String,int> it;
         Array<int> weights;
