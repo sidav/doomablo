@@ -23,14 +23,15 @@ RWSETTINGS_BORDER_THICKNESS = "Border thickness";
 RWSETTINGS_MONSTER_NAME_YOFFSET = "Name relative position";
 RWSETTINGS_MONSTER_AFFIXES_YOFFSET = "Affixes relative position";
 RWSETTINGS_MONHPBARBORDER_COLOR = "Border color";
-RWSETTINGS_MONHPBAR_COLOR = "HP bar color";
+RWSETTINGS_MONHPBAR_COLOR_ENEMY = "Enemy HP bar color";
+RWSETTINGS_MONHPBAR_COLOR_FRIEND = "Friend HP bar color";
 RWSETTINGS_MONAFFIXESTEXT_COLOR = "Affixes text color";
 
 RWMENU_GAMEPLAYOPTIONS_HEADER = "Gameplay options";
 RWSETTINGS_UNCLUMP = "Too closely dropped items jump from each other";
 
 RWMENU_DIFFICULTYOPTIONS_HEADER = "Difficulty options";
-RWSETTINGS_HEAL_ON_LEVELUP = "Fully heal on new level gain";
+RWSETTINGS_HEAL_ON_LEVELUP = "Heal on new level gain";
 RWSETTINGS_START_WITH_SHOTGUN = "Start with common Shotgun";
 RWSETTINGS_START_WITH_SMG = "Start with common SMG";
 RWSETTINGS_ENABLE_MBLINK = "Enable Blink affix for monsters";

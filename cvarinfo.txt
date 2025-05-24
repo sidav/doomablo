@@ -16,5 +16,6 @@ server int rwhud_hpbar_border_thickness = 3;
 server int rwhud_monster_name_y_offset = 0;
 server int rwhud_monster_affixes_y_offset = 22;
 server color rwhud_monster_hpbar_color = 0xAA0000;
+server color rwhud_friendly_monster_hpbar_color = 0x00AA00;
 server color rwhud_monster_hpbar_border_color = 0x000000;
 server color rwhud_monster_affixes_text_color = 0xAA0000;

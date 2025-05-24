@@ -29,7 +29,11 @@ extend class MyCustomHUD {
         x += rwhud_hpbar_border_thickness * CleanXFac_1;
         h = (rwhud_hpbar_height - borderThickness2) * CleanYFac_1;
         y += rwhud_hpbar_border_thickness * CleanYFac_1;
-        Screen.Dim(rwhud_monster_hpbar_color, 0.3, x, y, w, h, STYLE_Translucent);
+        if (currentTargetMonster.bFriendly) {
+            Screen.Dim(rwhud_friendly_monster_hpbar_color, 0.3, x, y, w, h, STYLE_Translucent);
+        } else {
+            Screen.Dim(rwhud_monster_hpbar_color, 0.3, x, y, w, h, STYLE_Translucent);
+        }
 
         let clr = Font.CR_WHITE;
         if (currAffixator) {
