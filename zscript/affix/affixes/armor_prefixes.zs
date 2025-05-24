@@ -1,4 +1,4 @@
-class RwArmorPrefix : Affix {
+class RwArmorPrefix : Affix abstract {
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
         initAndapplyEffectToRArmor(RandomizedArmor(item), quality);
     }

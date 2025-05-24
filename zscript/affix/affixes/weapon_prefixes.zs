@@ -1,4 +1,4 @@
-class RwWeaponPrefix : Affix {
+class RwWeaponPrefix : Affix abstract {
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
         initAndApplyEffectToRWeapon(RandomizedWeapon(item), quality);
     }

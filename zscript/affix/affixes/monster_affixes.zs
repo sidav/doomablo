@@ -1,5 +1,5 @@
 // There is NO "one suffix" restriction for monsters, so monster prefixes and suffixes are just one class
-class RwMonsterAffix : Affix {
+class RwMonsterAffix : Affix abstract {
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
         initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator(item), quality);
     }

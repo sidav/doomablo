@@ -131,7 +131,7 @@ class AffixClassesCacheHandler : StaticEventHandler
         debug.print("  --- AFFIX SUPERCLASSES:");
         foreach (cls : AllClasses)  {
             let affClass = (class<Affix>)(cls);
-            if (affClass && isAffixASuperclass(affClass)) {
+            if (affClass && affClass.isAbstract()) {
                 debug.print("   |- "..affClass.GetClassName());
             }
         }
@@ -142,7 +142,7 @@ class AffixClassesCacheHandler : StaticEventHandler
             string specifyStr;
             let affClass = (class<Affix>)(cls);
 
-            if (affClass && !isAffixASuperclass(affClass)) {
+            if (affClass && !affClass.isAbstract()) {
 
                 if (isAffixForWeapon(affClass)) {
                     specifyStr = "(weapon affix)";
@@ -174,7 +174,7 @@ class AffixClassesCacheHandler : StaticEventHandler
         }
 
         debug.print("===== RW_ACCH REPORT SUMMARY =====");
-        debug.print("   Non-superclass affix classes found total: "..applicableAffixClasses.Size());
+        debug.print("   Non-abstract affix classes found total: "..applicableAffixClasses.Size());
         debug.print("   From them:");
         debug.print("             "..totalWeaponAffixesClasses.." for weapons");
         debug.print("             "..totalArmorAffixesClasses.." for armor");
@@ -188,15 +188,6 @@ class AffixClassesCacheHandler : StaticEventHandler
             debug.panic("At least one unknown affix class found. Check the instantiator.");
         }
 	}
-
-    static bool isAffixASuperclass(class<Affix> cls) {
-        return (cls == 'Affix') 
-            || (cls == 'RwWeaponPrefix') || (cls == 'RwWeaponSuffix')
-            || (cls == 'RwArmorPrefix') || (cls == 'RwArmorSuffix')
-            || (cls == 'RwBackpackPrefix') || (cls == 'RwBackpackSuffix')
-            || (cls == 'RwFlaskPrefix') || (cls == 'RwFlaskSuffix')
-            || (cls == 'RwMonsterAffix');
-    }
 
     static bool isAffixForWeapon(class<Affix> cls) {
         return (cls is 'RwWeaponPrefix') || (cls is 'RwWeaponSuffix');
