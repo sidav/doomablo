@@ -284,7 +284,7 @@ class WPrefTargetKnockback : RwWeaponPrefix { // There is no bad counterpart, I 
         return modifierLevel.."% target knockback";
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return !wpn.stats.isMelee;
+        return !wpn.stats.isMelee && wpn.stats.TargetKnockback > 0;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return true;

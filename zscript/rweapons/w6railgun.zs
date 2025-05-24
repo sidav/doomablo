@@ -89,6 +89,8 @@ class RwRailgun : RandomizedWeapon
 				limit: 0 // Max number of "piercable" actors. 0 is infinite. TODO: use this in affixes.
 			);
 		}
+		Thrust(-invoker.stats.ShooterKickback);
+        RWA_ApplyRecoil();
 	}
 
     override void setBaseStats() {
@@ -99,7 +101,9 @@ class RwRailgun : RandomizedWeapon
 			hSpr: 0.5,
 			vSpr: 0.5
 		);
-		stats.recoil = 0.7;
+		stats.recoil = 3.5;
+		stats.ShooterKickback = 5.0;
+		stats.TargetKnockback = 0;
 		stats.clipSize = 60;
 		rwBaseName = "Railgun";
     }
