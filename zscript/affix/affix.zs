@@ -23,8 +23,9 @@ class Affix {
 
     // This SHOULD be overridden in descendants.
     protected virtual bool isCompatibleWithAffClass(Affix a2) {
-        debug.panicUnimplemented(self);
-        return false;
+        return true;
+        // debug.panicUnimplemented(self);
+        // return false;
     }
 
     // Alignment is -1 for bad affixes and 1 for good ones. Alignment of 0 allows using Affix as any.

@@ -14,9 +14,6 @@ class RwArmorSuffix : Affix {
     override int minRequiredRarity() {
         return 3; // Most suffixes require at least "rare"
     }
-    override bool isCompatibleWithAffClass(Affix a2) {
-        return !(a2 is 'RwArmorSuffix'); // There may be only one suffix on an item
-    }
     override bool IsCompatibleWithItem(Inventory item) {
         return (RandomizedArmor(item) != null) && IsCompatibleWithRArmor(RandomizedArmor(item));
     }
@@ -77,6 +74,9 @@ class ASuffLengthenStatusEffects : RwArmorSuffix {
     override string getDescription() {
         return String.Format("Status effects wear off %d%% slower", (modifierLevel));
     }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'ASuffShortenStatusEffects';
+    }
     override int getAlignment() {
         return -1;
     }
@@ -110,6 +110,9 @@ class ASuffShortenStatusEffects : RwArmorSuffix {
     }
     override string getDescription() {
         return String.Format("Status effects wear off %d%% faster", (modifierLevel));
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'ASuffLengthenStatusEffects';
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 125, 0.05) + remapQualityToRange(quality, 0, 25);
@@ -185,6 +188,9 @@ class ASuffDegrading : RwArmorSuffix {
     }
     override string getDescription() {
         return String.Format("Loses %.1f DRB/sec until %d%% DRB", (double(modifierLevel) * TICRATE/precision, stat2));
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'ASuffSelfRepair';
     }
     override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
         return !(arm.stats.IsEnergyArmor());
@@ -334,6 +340,9 @@ class ASuffSelfrepair : RwArmorSuffix {
     }
     override string getDescription() {
         return String.Format("Repairs itself for %.1f DRB/sec", (double(modifierLevel) * TICRATE/precision));
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'ASuffDegrading';
     }
     override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
         return !(arm.stats.IsEnergyArmor());

@@ -17,9 +17,6 @@ class RwBackpackSuffix : Affix {
     override int minRequiredRarity() {
         return 3; // Most suffixes require at least "rare"
     }
-    override bool isCompatibleWithAffClass(Affix a2) {
-        return !(a2 is 'RwBackpackSuffix'); // There may be only one suffix on an item
-    }
 }
 
 class BSuffNoisy : RwBackpackSuffix {
