@@ -7,8 +7,8 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
     Map<String,int> ArmorItems; // As above, for armor.
     Map<String,int> EquipItems; // Non-armor equipment.
 
-    static DropDatabase Get() {
-        return DropDatabase(StaticEventHandler.Find("DropDatabase"));
+    static DropDatabaseHandler Get() {
+        return DropDatabaseHandler(StaticEventHandler.Find("DropDatabaseHandler"));
     }
 
     override void OnRegister() {
@@ -75,28 +75,6 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
     // 2. When something asks for a random drop, give it to them.
 
 
-    int WeightedRand(Array<int> weights) {
-        int sum = 0;
-        for (int i = 0; i < weights.size(); i++) {
-            int w = weights[i];
-            sum += w;
-        }
-        if (sum <= 0) { debug.panic("Bad weights sent."); }
-
-        int selected = random(0,sum-1);
-
-        for (int i = 0; i < weights.Size(); i++) {
-            if (weights[i] > 0 && selected < weights[i]) {
-                return i;
-            }
-
-            selected -= weights[i];
-        }
-
-        debug.panic("Weighted random failed to select an item.");
-        return 0;
-    }
-
     String PickFromWeightList(Map<String,int> items) {
         MapIterator<String,int> it;
         Array<int> weights;
@@ -108,7 +86,7 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
         }
 
         // Now we have a list of weights, so we can just do WeightedRand.
-        int selected = WeightedRand(weights);
+        int selected = rnd.WeightedRandArr(weights);
         if (selected < 0 || selected > results.Size()) {
             String err = String.format("Invalid result %d from WeightedRand",selected);
             debug.panic(err);
