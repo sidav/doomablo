@@ -1,4 +1,4 @@
-class RwFlaskSuffix : Affix {
+class RwFlaskSuffix : Affix abstract {
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
         initAndapplyEffectToRFlask(RWFlask(item), quality);
     }

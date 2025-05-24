@@ -31,6 +31,7 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
         AmmoItems.insert("RocketAmmo",1);
         AmmoItems.insert("Cell",2);
 
+        debug.print("=== All artifacts' weights: ===");
         // And now, iterate the whole class list...
         // I might be able to make this even more flexible later.
         // There's a way to check if a class has a function,
@@ -48,25 +49,25 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
                 Class<Actor> rwc = c.GetClassName();
                 let rw = RandomizedWeapon(GetDefaultByType(rwc));
                 WeaponItems.Insert(rw.GetClassName(),rw.rweight);
-                console.printf("Weapon - %s (%d)",rw.GetClassName(),rw.rweight);
+                console.printf("  Weapon - %s (%d)",rw.GetClassName(),rw.rweight);
             }
             if (c is "RandomizedArmor") {
                 Class<Actor> rac = c.GetClassName();
                 let ra = RandomizedArmor(GetDefaultByType(rac));
                 ArmorItems.Insert(ra.GetClassName(),ra.rweight);
-                console.printf("Armor - %s (%d)",ra.GetClassName(),ra.rweight);
+                console.printf("  Armor - %s (%d)",ra.GetClassName(),ra.rweight);
             }
             if (c is "RwBackpack") {
                 Class<Actor> bpc = c.GetClassName();
                 let bp = RwBackpack(GetDefaultByType(bpc));
                 EquipItems.Insert(bp.GetClassName(),bp.rweight);
-                console.printf("Backpack - %s (%d)",bp.GetClassName(),bp.rweight);
+                console.printf("  Backpack - %s (%d)",bp.GetClassName(),bp.rweight);
             }
             if (c is "RwFlask") {
                 Class<Actor> flc = c.GetClassName();
                 let fl = RwFlask(GetDefaultByType(flc));
                 EquipItems.Insert(fl.GetClassName(),fl.rweight);
-                console.printf("Flask - %s (%d)",fl.GetClassName(),fl.rweight);
+                console.printf("  Flask - %s (%d)",fl.GetClassName(),fl.rweight);
             }
         }
 
