@@ -8,6 +8,10 @@ TAG_SMG = "Machinenpistole";
 GOTSMG = "Machinenpistole genommen.";
 OB_MPSMG = "%o wurde mit Blei aus %ks Machinenpistole vollgepumpt.";
 
+TAG_BLASTER = "Blaster";
+GOTBLASTER = "You got a Blaster!";
+OB_MPBLASTER = "%o got tased by %k's blaster.";
+
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo anpassen";
 RWMENU_CUSTOMIZEDOOMABLO = "DOOMablo Einstellungen";
