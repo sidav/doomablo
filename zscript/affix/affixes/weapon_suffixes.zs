@@ -15,7 +15,7 @@ class RwWeaponSuffix : Affix abstract {
         return 3; // Most suffixes require at least "rare"
     }
     override int selectionProbabilityPercentage() {
-        return 50;
+        return 55;
     }
     override bool IsCompatibleWithItem(Inventory item) {
         return (RandomizedWeapon(item) != null) && IsCompatibleWithRWeapon(RandomizedWeapon(item));

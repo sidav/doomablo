@@ -400,6 +400,30 @@ class ASuffThorns : RwArmorSuffix {
     }
 }
 
+class ASuffRefillFlaskOnHit : RwArmorSuffix {
+    override string getName() {
+        return "Bloodcycle";
+    }
+    override string getDescription() {
+        return String.Format("%d%% chance to gain flask charge on being hit",
+            (modifierLevel));
+    }
+    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+        return !(arm.stats.IsEnergyArmor());
+    }
+    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+        // Chance
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 10, 0.05) + remapQualityToRange(quality, 0, 5);
+    }
+    override void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {
+        if (RWPlayer(armorOwner) && RWPlayer(armorOwner).CurrentEquippedFlask != null) {
+            if (rnd.PercentChance(modifierLevel)) {
+                RWPlayer(armorOwner).CurrentEquippedFlask.Refill(1);
+            }
+        }
+    }
+}
+
 // Energy-only
 
 class ASuffECellsSpend : RwArmorSuffix {

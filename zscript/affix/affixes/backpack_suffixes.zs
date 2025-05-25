@@ -115,6 +115,28 @@ class BSuffRestoreBullets : RwBackpackSuffix {
     }
 }
 
+class BSuffRestoreFlaskCharges : RwBackpackSuffix {
+    override string getName() {
+        return "Distilling";
+    }
+    override string getDescription() {
+        return String.Format("Gives %.2f flask charges per second", (double(modifierLevel) * TICRATE / 1000 ));
+    }
+    override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
+        // ModifierLevel is "charges per tick * 1000"
+        modifierLevel = (rnd.multipliedWeightedRandByEndWeight(75, 1000, 0.05) + modifierLevel*2 + TICRATE/2) / TICRATE;
+    }
+    int fractionAccumulator;
+    override void onDoEffect(Actor owner, Inventory affixedItem) {
+        if (RWPlayer(owner) && RWPlayer(owner).CurrentEquippedFlask != null) {
+            let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, fractionAccumulator);
+            if (addAmount > 0) {
+                RWPlayer(owner).CurrentEquippedFlask.Refill(addAmount);
+            }
+        }
+    }
+}
+
 class BSuffAutoreload : RwBackpackSuffix {
     override string getName() {
         return "Auto-reload";
