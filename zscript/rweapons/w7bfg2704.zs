@@ -83,10 +83,11 @@ class RwBFG2704 : RandomizedWeapon
 			14.0,
 			4.0
 		);
+		stats.fireType = stats.FTProjectile;
+
 		stats.recoil = 0.1;
 		stats.ShooterKickback = 0.1;
 		stats.clipSize = 0;
-		stats.firesProjectiles = true;
 		stats.projClass = 'RwPlasmaBall1';
 		rwBaseName = "BFG2704";
     }

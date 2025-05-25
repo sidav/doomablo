@@ -25,10 +25,10 @@ extend class RandomizedWeapon {
 
     action void RWA_DoFire() {
         Thrust(-invoker.stats.ShooterKickback);
-        if (invoker.stats.firesProjectiles) {
-            RWA_FireProjectile();
-        } else {
-            RWA_FireBullets();
+        switch (invoker.stats.fireType) {
+            case RWStatsClass.FTHitscan: RWA_FireBullets(); break;
+            case RWStatsClass.FTProjectile: RWA_FireProjectile(); break;
+            default: debug.print("REPORT THIS: unknown fire type for this weapon");
         }
         RWA_ApplyRecoil();
     }

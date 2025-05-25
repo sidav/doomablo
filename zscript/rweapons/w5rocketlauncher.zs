@@ -89,15 +89,14 @@ class RwRocketLauncher : RandomizedWeapon
 			3.0,
 			1.5
 		);
+		stats.fireType = stats.FTProjectile;
 
 		stats.recoil = 0.5;
 		stats.ShooterKickback = 0.8;
 		stats.clipSize = 3;
-		stats.firesProjectiles = true;
 		stats.projClass = 'RwRocket';
 		stats.BaseExplosionRadius = 96;
 		stats.ExplosionRadius = 96;
-
 		rwBaseName = "Rocket Launcher";
     }
 

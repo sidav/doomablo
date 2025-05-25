@@ -284,7 +284,7 @@ class WPrefTargetKnockback : RwWeaponPrefix { // There is no bad counterpart, I 
         return modifierLevel.."% target knockback";
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return !wpn.stats.isMelee && wpn.stats.TargetKnockback > 0;
+        return wpn.stats.fireType != RWStatsClass.FTMelee && wpn.stats.fireType != RWStatsClass.FTRailgun;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return true;
@@ -310,7 +310,7 @@ class WPrefBiggerShooterKickback : RwWeaponPrefix {
         return "+"..modifierLevel.."% shooter kickback";
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return !wpn.stats.isMelee && wpn.stats.ShooterKickback > 0;
+        return wpn.stats.fireType != RWStatsClass.FTMelee && wpn.stats.fireType != RWStatsClass.FTRailgun;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefSmallerShooterKickback';
@@ -336,7 +336,7 @@ class WPrefSmallerShooterKickback : RwWeaponPrefix {
         return "-"..modifierLevel.."% shooter kickback";
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return !wpn.stats.isMelee && wpn.stats.ShooterKickback > 0;
+        return wpn.stats.fireType != RWStatsClass.FTMelee && wpn.stats.fireType != RWStatsClass.FTRailgun;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBiggerShooterKickback';
@@ -571,7 +571,7 @@ class WPrefLazy : RwWeaponPrefix {
         return String.format("Projectile speed -%d%%", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.firesProjectiles;
+        return wpn.stats.fireType == RWStatsClass.FTProjectile;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefQuick';
@@ -597,7 +597,7 @@ class WPrefQuick : RwWeaponPrefix {
         return String.format("Projectile speed +%d%%", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.firesProjectiles;
+        return wpn.stats.fireType == RWStatsClass.FTProjectile;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefLazy';
@@ -631,7 +631,7 @@ class WPrefHomingProjectile : RwWeaponPrefix {
         return a2.GetClass() != 'WSuffFlechettes';
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.firesProjectiles;
+        return wpn.stats.fireType == RWStatsClass.FTProjectile;
     }
     override int minRequiredRarity() {
         return 3; // It's quite a rare affix
@@ -740,7 +740,7 @@ class WPrefLessMeleeRange : RwWeaponPrefix {
         return String.format("attack range -%d%%", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.isMelee;
+        return wpn.stats.fireType == RWStatsClass.FTMelee;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefMoreMeleeRange';
@@ -765,7 +765,7 @@ class WPrefMoreMeleeRange : RwWeaponPrefix {
         return String.format("attack range +%d%%", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.isMelee;
+        return wpn.stats.fireType == RWStatsClass.FTMelee;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefLessMeleeRange';

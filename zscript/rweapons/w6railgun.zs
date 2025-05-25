@@ -101,6 +101,8 @@ class RwRailgun : RandomizedWeapon
 			hSpr: 0.5,
 			vSpr: 0.5
 		);
+		stats.fireType = stats.FTRailgun;
+
 		stats.recoil = 3.5;
 		stats.ShooterKickback = 5.0;
 		stats.TargetKnockback = 0;

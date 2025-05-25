@@ -69,10 +69,10 @@ class RwChainsaw : RandomizedWeapon
 			20.0,
 			2.5
 		);
+		stats.fireType = stats.FTMelee;
         stats.clipSize = 0;
 		stats.recoil = 1.5;
         stats.attackRange = 72;
-        stats.isMelee = true;
 		rwBaseName = "Chainsaw";
     }
 
