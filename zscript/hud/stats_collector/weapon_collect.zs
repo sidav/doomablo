@@ -81,7 +81,7 @@ extend class RwHudArtifactStatsCollector {
                     Font.CR_White, compareClr);
 
         // Attack range
-        if (wpn.stats.isMelee) {
+        if (wpn.stats.fireType == wpn.stats.FTMelee) {
             if (wpnComp && wpn.stats.attackRange != wpnComp.stats.attackRange) {
                 compareStr = " ("..intToSignedStr(wpn.stats.attackRange - wpnComp.stats.attackRange)..")";
                 compareClr = GetDifferenceColor((wpn.stats.attackRange - wpnComp.stats.attackRange) * 100);

@@ -77,10 +77,11 @@ class RwBFG : RandomizedWeapon
 			5.0,
 			0.5
 		);
+		stats.fireType = stats.FTProjectile;
+
 		stats.recoil = 1.5;
 		stats.ShooterKickback = 5.0;
 		stats.clipSize = 0;
-		stats.firesProjectiles = true;
 		stats.projClass = 'RwBFGBall';
 		rwBaseName = "BFG";
 

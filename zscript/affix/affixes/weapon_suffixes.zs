@@ -263,11 +263,11 @@ class WSuffMinirockets : RwWeaponSuffix {
         return a2.GetClass() != 'WSuffFlechettes' && a2.GetClass() != 'WSuffSlugshotShotgun';
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return !wpn.stats.isMelee && wpn.stats.firesProjectiles == false;
+        return wpn.stats.fireType == RWStatsClass.FTHitscan;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 5);
-        wpn.stats.firesProjectiles = true;
+        wpn.stats.fireType = RWStatsClass.FTProjectile;
         wpn.stats.projClass = 'RwMiniRocket';
         wpn.stats.BaseExplosionRadius = 64;
         wpn.stats.ExplosionRadius = 16;
@@ -287,11 +287,11 @@ class WSuffFlechettes : RwWeaponSuffix {
         return a2.GetClass() != 'WSuffSlugshotShotgun' && a2.GetClass() != 'WSuffMinirockets';
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return !wpn.stats.isMelee && wpn.stats.firesProjectiles == false;
+        return wpn.stats.fireType == RWStatsClass.FTHitscan;
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(8, 13, 0.1) + remapQualityToRange(quality, 0, 2);
-        wpn.stats.firesProjectiles = true;
+        wpn.stats.fireType = RWStatsClass.FTProjectile;
         wpn.stats.projClass = 'RwFlechette';
         wpn.stats.levelOfSeekerProjectile = 1; // Level itself is unused; just needs to be non-zero for RWA_FireProjectile() to use correct flags
         wpn.stats.minDamage = math.divideIntWithRounding(wpn.stats.minDamage * modifierLevel, 10);

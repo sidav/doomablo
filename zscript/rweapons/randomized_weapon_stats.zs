@@ -1,4 +1,13 @@
 class RWStatsClass {
+
+    enum WeaponFireTypes {
+		FTHitscan,
+		FTProjectile,
+		FTMelee,
+		FTRailgun
+	}
+    byte fireType;
+
     int minDamage;
     int maxDamage;
     int additionalDamagePromille; // 153 means "+15.3% damage". Made as a separate stat so that damage values like 4.1 are properly accounted
@@ -11,11 +20,9 @@ class RWStatsClass {
     float Recoil; // In degrees.
 
     // Melee-specific
-    bool isMelee;
     int attackRange; // currently used for melee only
 
     // Projectile-specific
-    bool firesProjectiles;
     class <Actor> projClass;
     int projSpeedPercModifier;
     int ExplosionRadius;
@@ -45,6 +52,8 @@ class RWStatsClass {
         rws.HorizSpread = hSpr;
         rws.VertSpread = vSpr;
         rws.TargetKnockback = 128; // Default "Kickback" value from Doom is 100
+
+        rws.fireType = FTHitscan;
 
         // TODO: Maybe remove those from here?..
         rws.ShooterKickback = 0.1; 
