@@ -8,9 +8,10 @@ TAG_SMG = "Machinenpistole";
 GOTSMG = "Machinenpistole genommen.";
 OB_MPSMG = "%o wurde mit Blei aus %ks Machinenpistole vollgepumpt.";
 
-TAG_BLASTER = "Blaster";
-GOTBLASTER = "You got a Blaster!";
-OB_MPBLASTER = "%o got tased by %k's blaster.";
+TAG_BLASTER = "TODO: Blaster";
+GOTBLASTER = "TODO: You got a Blaster!";
+OB_MPBLASTER = "TODO: %o got tased by %k's blaster.";
+
 
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo anpassen";
@@ -26,14 +27,15 @@ RWSETTINGS_BORDER_THICKNESS = "Randstärke";
 RWSETTINGS_MONSTER_NAME_YOFFSET = "Relative Namenposition";
 RWSETTINGS_MONSTER_AFFIXES_YOFFSET = "Relative Affixposition";
 RWSETTINGS_MONHPBARBORDER_COLOR = "Randfarbe";
-RWSETTINGS_MONHPBAR_COLOR = "Farbe für GP-Bar";
+RWSETTINGS_MONHPBAR_COLOR_ENEMY = "Farbe für Feind-GP-Bar";
+RWSETTINGS_MONHPBAR_COLOR_FRIEND = "Farbe für Freund-GP-bar";
 RWSETTINGS_MONAFFIXESTEXT_COLOR = "Farbe für Affixtexte";
 
 RWMENU_GAMEPLAYOPTIONS_HEADER = "Gameplayeinstellungen";
 RWSETTINGS_UNCLUMP = "Nebenen Artefakten vom einander springen";
 
 RWMENU_DIFFICULTYOPTIONS_HEADER = "Schwierigkeiteinstellungen";
-RWSETTINGS_HEAL_ON_LEVELUP = "Heilen voll, wenn eine neue Stufe bekommen ist";
+RWSETTINGS_HEAL_ON_LEVELUP = "Heilen die hälfte GP, wenn neue Stufe erreicht wird";
 RWSETTINGS_START_WITH_SHOTGUN = "Mit gewöhnlichen Schrotflinte anfangen";
 RWSETTINGS_START_WITH_SMG = "Mit gewöhnlicher MP anfangen";
 RWSETTINGS_ENABLE_MBLINK = "Blink-Affix für Monster aktivieren";

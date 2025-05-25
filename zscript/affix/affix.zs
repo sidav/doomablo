@@ -1,30 +1,32 @@
-class Affix {
+class Affix abstract {
 
     int modifierLevel;
     int stat2; // Not neccessarily used. Needed for two-stat affixes. Btw, TODO: rename modifierLevel to stat1. 
 
     bool IsCompatibleWithListOfAffixes(out array <Affix> list) {
         foreach (aff : list) {
-            if (!isCompatibleWithAff(aff)) {
+            if (aff.GetClass() == GetClass() || !isCompatibleWithAffClass(aff)) {
                 return false;
             }
         }
         return true;
     }
 
-    virtual bool IsCompatibleWithAff(Affix a2) {
-        return a2.GetClass() != GetClass() && isCompatibleWithAffClass(a2);
-    }
-
     // For disable-able affixes
+    // TODO: I forgot why this method is there at all. Remove?
     virtual bool IsEnabled() {
         return true;
     }
 
-    // This SHOULD be overridden in descendants.
+    // This method should be used to make some affixes more rare than the others.
+    virtual int selectionProbabilityPercentage() {
+        return 100;
+    }
+
     protected virtual bool isCompatibleWithAffClass(Affix a2) {
-        debug.panicUnimplemented(self);
-        return false;
+        return true;
+        // debug.panicUnimplemented(self);
+        // return false;
     }
 
     // Alignment is -1 for bad affixes and 1 for good ones. Alignment of 0 allows using Affix as any.

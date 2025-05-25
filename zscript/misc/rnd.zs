@@ -141,6 +141,29 @@ class rnd {
         return 0;
     }
 
+    static int WeightedRandArr(Array<int> weights) {
+        int sum = 0;
+        for (int i = 0; i < weights.size(); i++) {
+            int w = weights[i];
+            sum += w;
+        }
+        if (sum <= 0) { debug.panic("Bad weights sent."); }
+
+        int selected = random(0,sum-1);
+
+        for (int i = 0; i < weights.Size(); i++) {
+            if (weights[i] > 0 && selected < weights[i]) {
+                return i;
+            }
+
+            selected -= weights[i];
+        }
+
+        debug.panic("Weighted random failed to select an item.");
+        return 0;
+    }
+
+
     // Nonlinear weighted random (known as discrete geometrical distribution).
     // weightIncreaseFactor is how much times the next value is more probable than the previous one.
     // For example, if we repeatedly roll random in range 1-3 with weightIncreaseFactor 2 (each next is 2x more probable than the previous), total results will be like:

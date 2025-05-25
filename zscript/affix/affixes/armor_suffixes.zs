@@ -1,4 +1,4 @@
-class RwArmorSuffix : Affix {
+class RwArmorSuffix : Affix abstract {
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
         initAndapplyEffectToRArmor(RandomizedArmor(item), quality);
     }
@@ -14,8 +14,8 @@ class RwArmorSuffix : Affix {
     override int minRequiredRarity() {
         return 3; // Most suffixes require at least "rare"
     }
-    override bool isCompatibleWithAffClass(Affix a2) {
-        return !(a2 is 'RwArmorSuffix'); // There may be only one suffix on an item
+    override int selectionProbabilityPercentage() {
+        return 50;
     }
     override bool IsCompatibleWithItem(Inventory item) {
         return (RandomizedArmor(item) != null) && IsCompatibleWithRArmor(RandomizedArmor(item));
@@ -77,6 +77,9 @@ class ASuffLengthenStatusEffects : RwArmorSuffix {
     override string getDescription() {
         return String.Format("Status effects wear off %d%% slower", (modifierLevel));
     }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'ASuffShortenStatusEffects';
+    }
     override int getAlignment() {
         return -1;
     }
@@ -110,6 +113,9 @@ class ASuffShortenStatusEffects : RwArmorSuffix {
     }
     override string getDescription() {
         return String.Format("Status effects wear off %d%% faster", (modifierLevel));
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'ASuffLengthenStatusEffects';
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 125, 0.05) + remapQualityToRange(quality, 0, 25);
@@ -169,6 +175,13 @@ class ASuffHoly : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 35, 0.05) + remapQualityToRange(quality, 0, 25);
     }
+    override void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {
+        RwMonsterAffixator monAffixator = RwMonsterAffixator.GetMonsterAffixator(source);
+        // Epic monsters and higher
+        if (monAffixator != null && monAffixator.GetRarity() >= 3) {
+            newdamage = max(1, math.getIntPercentage(damage, 100 - modifierLevel));
+        }
+    }
 }
 
 // Non-energy only
@@ -185,6 +198,9 @@ class ASuffDegrading : RwArmorSuffix {
     }
     override string getDescription() {
         return String.Format("Loses %.1f DRB/sec until %d%% DRB", (double(modifierLevel) * TICRATE/precision, stat2));
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'ASuffSelfRepair';
     }
     override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
         return !(arm.stats.IsEnergyArmor());
@@ -335,6 +351,9 @@ class ASuffSelfrepair : RwArmorSuffix {
     override string getDescription() {
         return String.Format("Repairs itself for %.1f DRB/sec", (double(modifierLevel) * TICRATE/precision));
     }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'ASuffDegrading';
+    }
     override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
@@ -372,6 +391,12 @@ class ASuffThorns : RwArmorSuffix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 50, 0.05) + remapQualityToRange(quality, 0, 15);
         // Percentage. It may be really high (up to 500%) because the monster damage is not scaled, but their HP is.
         stat2 = rnd.multipliedWeightedRandByEndWeight(0, 300, 0.05) + remapQualityToRange(quality, 25, 200);
+    }
+    override void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {
+        if (rnd.PercentChance(modifierLevel)) {
+            let thornDamage = max(1, math.getIntPercentage(damage, stat2));
+            source.damageMobj(null, armorOwner, thornDamage, 'Normal', DMG_NO_PROTECT);
+        }
     }
 }
 

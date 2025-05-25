@@ -87,25 +87,36 @@ mixin class Affixable {
                 newAffix.isEnabled() &&
                 newAffix.IsCompatibleWithItem(self) &&
                 newAffix.IsCompatibleWithListOfAffixes(appliedAffixes) &&
-                newAffix.minRequiredRarity() <= itemRarity
+                newAffix.minRequiredRarity() <= itemRarity &&
+                rnd.PercentChance(newAffix.selectionProbabilityPercentage())
             );
             appliedAffixes.push(newAffix);
         }
-        // If there are suffixes, move them to the front of the list
-        int currSuffIndex = 0;
-        for (int i = 1; i < appliedAffixes.Size(); i++) {
-            if (appliedAffixes[i].isSuffix()) {
-                let t = appliedAffixes[currSuffIndex];
-                appliedAffixes[currSuffIndex] = appliedAffixes[i];
-                appliedAffixes[i] = t;
-                currSuffIndex++;
-            }
-        }
+        orderAppliedAffixes();
         // Apply them in reverse order on purpose (so that the name generation will have correct affix order)
         for (int i = appliedAffixes.Size() - 1; i >= 0; i--) {
             // debug.print("Applying affix "..appliedAffixes[i].getName().." of level "..affQualities[i]);
             appliedAffixes[i].InitAndApplyEffectToItem(self, math.abs(affQualities[i]));
         }
+    }
+
+    private void orderAppliedAffixes() {
+        for (int i = 0; i < appliedAffixes.Size() - 1; i++) {
+            for (int j = i + 1; j < appliedAffixes.Size(); j++) {
+                if (affixOrderScore(appliedAffixes[i]) < affixOrderScore(appliedAffixes[j])) {
+                    let t = appliedAffixes[i];
+                    appliedAffixes[i] = appliedAffixes[j];
+                    appliedAffixes[j] = t;
+                }
+            }
+        }
+    }
+
+    private int affixOrderScore(Affix aff) {
+        if (aff.isSuffix()) {
+            return 100 + aff.getAlignment();
+        }
+        return aff.getAlignment();
     }
 
     Affix findAppliedAffix(class <Affix> affcls) {

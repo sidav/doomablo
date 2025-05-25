@@ -1,4 +1,4 @@
-class DropDatabase : StaticEventHandler { // Good thing this isn't SQL, lmao
+class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, lmao
     // This class has two jobs:
     // 1. At startup, iterate the whole class list looking for categories of items.
     Map<String,int> OneTimeItems; // Consumables such as Bonuses, Stimpacks, Scrolls, Spheres
@@ -7,8 +7,8 @@ class DropDatabase : StaticEventHandler { // Good thing this isn't SQL, lmao
     Map<String,int> ArmorItems; // As above, for armor.
     Map<String,int> EquipItems; // Non-armor equipment.
 
-    static DropDatabase Get() {
-        return DropDatabase(StaticEventHandler.Find("DropDatabase"));
+    static DropDatabaseHandler Get() {
+        return DropDatabaseHandler(StaticEventHandler.Find("DropDatabaseHandler"));
     }
 
     override void OnRegister() {
@@ -30,7 +30,7 @@ class DropDatabase : StaticEventHandler { // Good thing this isn't SQL, lmao
         AmmoItems.insert("Shell",5);
         AmmoItems.insert("RocketAmmo",1);
         AmmoItems.insert("Cell",2);
-
+        debug.print("=== All artifacts' weights: ===");
         // And now, iterate the whole class list...
         // I might be able to make this even more flexible later.
         // There's a way to check if a class has a function,
@@ -48,54 +48,31 @@ class DropDatabase : StaticEventHandler { // Good thing this isn't SQL, lmao
                 Class<Actor> rwc = c.GetClassName();
                 let rw = RandomizedWeapon(GetDefaultByType(rwc));
                 WeaponItems.Insert(rw.GetClassName(),rw.rweight);
-                console.printf("Weapon - %s (%d)",rw.GetClassName(),rw.rweight);
+                console.printf("  Weapon - %s (%d)",rw.GetClassName(),rw.rweight);
             }
             if (c is "RandomizedArmor") {
                 Class<Actor> rac = c.GetClassName();
                 let ra = RandomizedArmor(GetDefaultByType(rac));
                 ArmorItems.Insert(ra.GetClassName(),ra.rweight);
-                console.printf("Armor - %s (%d)",ra.GetClassName(),ra.rweight);
+                console.printf("  Armor - %s (%d)",ra.GetClassName(),ra.rweight);
             }
             if (c is "RwBackpack") {
                 Class<Actor> bpc = c.GetClassName();
                 let bp = RwBackpack(GetDefaultByType(bpc));
                 EquipItems.Insert(bp.GetClassName(),bp.rweight);
-                console.printf("Backpack - %s (%d)",bp.GetClassName(),bp.rweight);
+                console.printf("  Backpack - %s (%d)",bp.GetClassName(),bp.rweight);
             }
             if (c is "RwFlask") {
                 Class<Actor> flc = c.GetClassName();
                 let fl = RwFlask(GetDefaultByType(flc));
                 EquipItems.Insert(fl.GetClassName(),fl.rweight);
-                console.printf("Flask - %s (%d)",fl.GetClassName(),fl.rweight);
+                console.printf("  Flask - %s (%d)",fl.GetClassName(),fl.rweight);
             }
         }
 
     }
 
     // 2. When something asks for a random drop, give it to them.
-
-
-    int WeightedRand(Array<int> weights) {
-        int sum = 0;
-        for (int i = 0; i < weights.size(); i++) {
-            int w = weights[i];
-            sum += w;
-        }
-        if (sum <= 0) { debug.panic("Bad weights sent."); }
-
-        int selected = random(0,sum-1);
-
-        for (int i = 0; i < weights.Size(); i++) {
-            if (weights[i] > 0 && selected < weights[i]) {
-                return i;
-            }
-
-            selected -= weights[i];
-        }
-
-        debug.panic("Weighted random failed to select an item.");
-        return 0;
-    }
 
     String PickFromWeightList(Map<String,int> items) {
         MapIterator<String,int> it;
@@ -108,7 +85,8 @@ class DropDatabase : StaticEventHandler { // Good thing this isn't SQL, lmao
         }
 
         // Now we have a list of weights, so we can just do WeightedRand.
-        int selected = WeightedRand(weights);
+
+        int selected = rnd.WeightedRandArr(weights);
         if (selected < 0 || selected > results.Size()) {
             String err = String.format("Invalid result %d from WeightedRand",selected);
             debug.panic(err);

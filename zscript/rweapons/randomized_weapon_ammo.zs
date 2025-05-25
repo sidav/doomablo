@@ -72,9 +72,16 @@ extend class RandomizedWeapon {
 
     action void A_MagazineReload()
     {
-        while (invoker.ammo1.amount >= invoker.stats.ammoUsage && invoker.currentClipAmmo < invoker.stats.clipSize) {
-            invoker.ammo1.amount--;
-            invoker.currentClipAmmo++;
+        let remainsToFullMag = invoker.stats.clipSize - invoker.currentClipAmmo;
+        let refill = min(invoker.ammo1.amount, remainsToFullMag);
+        // Don't refill if the ammo is not enough for a shot:
+        if (refill > 0) {
+            if ((invoker.currentClipAmmo + refill) / invoker.stats.ammoUsage ==
+                (invoker.currentClipAmmo) / invoker.stats.ammoUsage) {
+                    return;
+            }
         }
+        invoker.ammo1.amount -= refill;
+        invoker.currentClipAmmo += refill;
     }
 }

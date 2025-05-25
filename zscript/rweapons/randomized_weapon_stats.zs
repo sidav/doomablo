@@ -36,7 +36,7 @@ class RWStatsClass {
     int additionalBfgRayDamagePromille;
 	bool raysWillOriginateFromMissile; // false means rays from shooter, like in vanilla Doom.
 
-    static RWStatsClass NewWeaponStats(int minDmg, int maxDmg, int pell, int ammousg, float hSpr, float vSpr) {
+    static RWStatsClass NewWeaponStats(int minDmg = 1, int maxDmg = 2, int pell = 1, int ammousg = 1, float hSpr = 5, float vSpr = 5) {
         let rws = New('RwStatsClass');
         rws.minDamage = minDmg;
         rws.maxDamage = maxDmg;

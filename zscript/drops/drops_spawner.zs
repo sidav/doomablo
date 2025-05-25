@@ -9,7 +9,7 @@ class DropsSpawner {
 
     static play Actor SpawnRandomOneTimeItemDrop(Actor dropper) {
         Actor itemDrop;
-        DropDatabase db = DropDatabase.Get();
+        DropDatabaseHandler db = DropDatabaseHandler.Get();
         String spawnedClass = db.PickOneTimeItem();
         itemDrop = createDropByClass(dropper,spawnedClass);
         return itemDrop;
@@ -17,7 +17,7 @@ class DropsSpawner {
 
     static play Actor SpawnRandomAmmoDrop(Actor dropper, int maxAmmoPercentage = 200) {
         Actor ammoDrop;
-        DropDatabase db = DropDatabase.Get();
+        DropDatabaseHandler db = DropDatabaseHandler.Get();
         String spawnedClass = db.PickAmmo();
         ammoDrop = createDropByClass(dropper,spawnedClass);
 
@@ -49,7 +49,7 @@ class DropsSpawner {
 
     private static play Actor SpawnRWeaponDrop(Actor dropper) {
         Actor spawnedItem;
-        DropDatabase db = DropDatabase.Get();
+        DropDatabaseHandler db = DropDatabaseHandler.Get();
         String spawnedClass = db.PickWeapon();
         spawnedItem = createDropByClass(dropper,spawnedClass);
         return spawnedItem;
@@ -57,7 +57,7 @@ class DropsSpawner {
 
     private static play Actor SpawnRArmorDrop(Actor dropper) {
         Actor spawnedItem;
-        DropDatabase db = DropDatabase.Get();
+        DropDatabaseHandler db = DropDatabaseHandler.Get();
         String spawnedClass = db.PickArmor();
         spawnedItem = createDropByClass(dropper,spawnedClass);
         return spawnedItem;
@@ -94,7 +94,7 @@ class DropsSpawner {
 
     private static play Actor SpawnREquipDrop(Actor dropper) {
         Actor spawnedItem;
-        DropDatabase db = DropDatabase.Get();
+        DropDatabaseHandler db = DropDatabaseHandler.Get();
         String spawnedClass = db.PickEquip();
         spawnedItem = createDropByClass(dropper,spawnedClass);
         return spawnedItem;

@@ -1,4 +1,4 @@
-class RwBackpackPrefix : Affix {
+class RwBackpackPrefix : Affix abstract {
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
         initAndapplyEffectToRBackpack(RWBackpack(item), quality);
     }

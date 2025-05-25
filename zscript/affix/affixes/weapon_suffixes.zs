@@ -1,4 +1,4 @@
-class RwWeaponSuffix : Affix {
+class RwWeaponSuffix : Affix abstract {
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
         initAndApplyEffectToRWeapon(RandomizedWeapon(item), quality);
     }
@@ -14,8 +14,8 @@ class RwWeaponSuffix : Affix {
     override int minRequiredRarity() {
         return 3; // Most suffixes require at least "rare"
     }
-    override bool isCompatibleWithAffClass(Affix a2) {
-        return !(a2 is 'RwWeaponSuffix'); // There may be only one suffix on an item
+    override int selectionProbabilityPercentage() {
+        return 50;
     }
     override bool IsCompatibleWithItem(Inventory item) {
         return (RandomizedWeapon(item) != null) && IsCompatibleWithRWeapon(RandomizedWeapon(item));
@@ -259,6 +259,9 @@ class WSuffMinirockets : RwWeaponSuffix {
     override string getDescription() {
         return "Fires exploding mini-rockets. Damage x"..(modifierLevel/10).."."..(modifierLevel%10);
     }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WSuffFlechettes' && a2.GetClass() != 'WSuffSlugshotShotgun';
+    }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return !wpn.stats.isMelee && wpn.stats.firesProjectiles == false;
     }
@@ -280,6 +283,9 @@ class WSuffFlechettes : RwWeaponSuffix {
     override string getDescription() {
         return String.Format("Fires slow homing bullets. Damage x%.1f", (double(modifierLevel)/10.));
     }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WSuffSlugshotShotgun' && a2.GetClass() != 'WSuffMinirockets';
+    }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return !wpn.stats.isMelee && wpn.stats.firesProjectiles == false;
     }
@@ -300,11 +306,12 @@ class WSuffSlugshotShotgun : RwWeaponSuffix {
     override string getDescription() {
         return String.Format("Fires a slug. DMG x%.1f, ACC x%.1f", (double(modifierLevel)/100., double(stat2)/100.));
     }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WSuffFlechettes' && a2.GetClass() != 'WSuffMinirockets' 
+            && a2.GetClass() != 'WPrefLessPellets' && a2.GetClass() != 'WPrefMorePellets';
+    }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.GetClass() == 'RwShotgun' || wpn.GetClass() == 'RwSuperShotgun';
-    }
-    override bool isCompatibleWithAffClass(Affix a2) {
-        return super.isCompatibleWithAffClass(a2) && a2.GetClass() != 'WPrefLessPellets' && a2.GetClass() != 'WPrefMorePellets';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(50, 85, 0.1) + remapQualityToRange(quality, 0, 35);
