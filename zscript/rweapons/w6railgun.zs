@@ -113,9 +113,12 @@ class RwRailgun : RandomizedWeapon
 	override string GetRandomFluffName() {
         static const string specialNames[] =
         {
-			"Railer",
-            "Gauss Gun",
-            "Siege Piercer"
+			"ASMD",
+			"Coilgun",
+            "Gaussgewehr",
+			"Hyper-velocity gun",
+			"Lorenz force gun",
+			"EM field accelerator"
         };
         return specialNames[rnd.randn(specialNames.Size())];
     }
