@@ -37,7 +37,8 @@ class RandomizedWeapon : DoomWeapon abstract {
         stats.maxDamage = StatsScaler.ScaleIntValueByLevelRandomized(stats.maxDamage, generatedQuality);
 
         // First, compensate for the damage scaling (the target knockback is damage-dependent in DOOM).
-        stats.TargetKnockback = max((initialMaxDamage * stats.TargetKnockback + stats.maxDamage/2) / stats.maxDamage, 1);
+        if (stats.TargetKnockback > 0)
+            stats.TargetKnockback = max((initialMaxDamage * stats.TargetKnockback + stats.maxDamage/2) / stats.maxDamage, 1);
         // It is a TARGET kickback. It uses weapon's default mechanism for kickback... Maybe its needed to rewrite that
         Kickback = stats.TargetKnockback;
         // Set it for projectiles too.
