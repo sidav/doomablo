@@ -97,14 +97,14 @@ class RwRailgun : RandomizedWeapon
 		stats = RWStatsClass.NewWeaponStats(
 			minDmg: 65, maxDmg: 125,
 			pell: 1,
-			ammousg: 20,
+			ammousg: 15,
 			hSpr: 0.5,
 			vSpr: 0.5
 		);
 		stats.recoil = 3.5;
 		stats.ShooterKickback = 5.0;
 		stats.TargetKnockback = 0;
-		stats.clipSize = 60;
+		stats.clipSize = stats.ammoUsage * 3;
 		rwBaseName = "Railgun";
     }
 
