@@ -63,6 +63,20 @@ mixin class Affixable {
         return 0;
     }
 
+    // Be careful modifying this: it may cause generation failures
+    private static int minSuffixesForRarity(int rarity) {
+        switch (rarity) {
+            case 0: return 0;
+            case 1: return 0;
+            case 2: return 0;
+            case 3: return 1;
+            case 4: return 1;
+            case 5: return 2;
+        }
+        debug.panic("Rarity "..rarity.." not found");
+        return 0;
+    }
+
     private static int maxSuffixesForRarity(int rarity) {
         switch (rarity) {
             case 0: return 0;
@@ -105,9 +119,17 @@ mixin class Affixable {
     }
 
     private bool isNewAffixApplicable(Affix newAffix, int currentExpectedQuality, int appliedSuffixesCount) {
+        // Suffix constraint: force selecting a suffix if there are not enough
+        let minSuffixes = minSuffixesForRarity(generatedRarity);
+        let minSuffixesCheck = newAffix.isSuffix() || appliedSuffixesCount >= minSuffixes;
+        // WORKAROUND: Monster affixes have no difference between prefix and suffix, so we ignore this constraint
+        // TODO: rework this (split monster affixes to prefix/suffix?)
+        if (self is 'RwMonsterAffixator') minSuffixesCheck = true;
+
         // Suffix constraint: check if we applied too much suffixes
         let maxSuffixes = maxSuffixesForRarity(generatedRarity);
-        let hasNotTooMuchSuffixes = !newAffix.isSuffix() || appliedSuffixesCount < maxSuffixes;
+        let maxSuffixesCheck = !newAffix.isSuffix() || appliedSuffixesCount < maxSuffixes;
+
         return
             // (newAffix.GetClass() == 'ASuffHealthToDurab' || (rnd.randn(4000) == 0)) &&  // Uncomment for specific affix testing
             newAffix.isEnabled() && // Dev option for affixes disabling
@@ -115,7 +137,7 @@ mixin class Affixable {
             newAffix.IsCompatibleWithListOfAffixes(appliedAffixes) && 
             newAffix.minRequiredRarity() <= generatedRarity &&
             ((newAffix.getAlignment() == 0) || (newAffix.getAlignment() == math.sign(currentExpectedQuality))) &&
-            hasNotTooMuchSuffixes &&
+            minSuffixesCheck && maxSuffixesCheck &&
             rnd.PercentChance(newAffix.selectionProbabilityPercentage());
     }
 
