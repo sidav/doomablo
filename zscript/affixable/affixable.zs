@@ -2,6 +2,7 @@ mixin class Affixable {
 
     array <Affix> appliedAffixes;
     int generatedQuality;
+    int generatedRarity;
     string nameWithAppliedAffixes;
     RarityIndicator attachedRarityIndicator;
 
@@ -9,6 +10,7 @@ mixin class Affixable {
     void Generate(int rarity, int affixQuality) {
 
         RW_Reset(); // Just in case; events order is unclear so let's clear once more
+        generatedRarity = rarity;
         generatedQuality = affixQuality;
 
         prepareForGeneration(); // this method is unique to each item type; may be empty
@@ -29,7 +31,7 @@ mixin class Affixable {
         //     ..debug.intArrToString(affQualities)
         // );
 
-        AssignRandomAffixesByAffQualityArr(affQualities, rarity);
+        AssignRandomAffixesByAffQualityArr(affQualities);
         setNameAfterGeneration();
         attachRarityIndicatorIfNone();
         finalizeAfterGeneration();
@@ -61,8 +63,22 @@ mixin class Affixable {
         return 0;
     }
 
+    private static int maxSuffixesForRarity(int rarity) {
+        switch (rarity) {
+            case 0: return 0;
+            case 1: return 0;
+            case 2: return 0;
+            case 3: return 1;
+            case 4: return 2;
+            case 5: return 3;
+        }
+        debug.panic("Rarity "..rarity.." not found");
+        return 0;
+    }
+
     const ASSIGN_TRIES = 1000;
-    private void AssignRandomAffixesByAffQualityArr(array <int> affQualities, int itemRarity) {
+    private void AssignRandomAffixesByAffQualityArr(array <int> affQualities) {
+        int appliedSuffixes = 0;
         for (int i = 0; i < affQualities.Size(); i++) {
             Affix newAffix;
             let try = 0;
@@ -74,7 +90,7 @@ mixin class Affixable {
                     foreach(a : appliedAffixes) {
                         debug.print("  "..a.getName());
                     }
-                    debug.print("Arguments: affQualities "..debug.intArrToString(affQualities).."; rarity "..itemRarity);
+                    debug.print("Arguments: affQualities "..debug.intArrToString(affQualities).."; rarity "..generatedRarity);
                     debug.print("Current quality is "..i.."th, value "..affQualities[i]);
                     debug.panic();
                 }
@@ -82,15 +98,10 @@ mixin class Affixable {
                 newAffix = Affix.GetRandomAffixFor(self);
                 // debug.print("Checking "..newAffix.GetClassName());
             } until (
-                // (newAffix.GetClass() == 'ASuffHealthToDurab' || (rnd.randn(4000) == 0)) &&  // Uncomment for specific affix testing
-                ((newAffix.getAlignment() == 0) || (newAffix.getAlignment() == math.sign(affQualities[i]))) &&
-                newAffix.isEnabled() &&
-                newAffix.IsCompatibleWithItem(self) &&
-                newAffix.IsCompatibleWithListOfAffixes(appliedAffixes) &&
-                newAffix.minRequiredRarity() <= itemRarity &&
-                rnd.PercentChance(newAffix.selectionProbabilityPercentage())
+                isNewAffixApplicable(newAffix, affQualities[i], appliedSuffixes)
             );
             appliedAffixes.push(newAffix);
+            if (newAffix.isSuffix()) appliedSuffixes++;
         }
         orderAppliedAffixes();
         // Apply them in reverse order on purpose (so that the name generation will have correct affix order)
@@ -98,6 +109,21 @@ mixin class Affixable {
             // debug.print("Applying affix "..appliedAffixes[i].getName().." of level "..affQualities[i]);
             appliedAffixes[i].InitAndApplyEffectToItem(self, math.abs(affQualities[i]));
         }
+    }
+
+    private bool isNewAffixApplicable(Affix newAffix, int currentExpectedQuality, int appliedSuffixes) {
+        let maxSuffixes = maxSuffixesForRarity(generatedRarity);
+        // Suffix constraint: check if we applied too much suffixes
+        let hasNotTooMuchSuffixes = (!newAffix.isSuffix() || appliedSuffixes < maxSuffixes);
+        return
+            // (newAffix.GetClass() == 'ASuffHealthToDurab' || (rnd.randn(4000) == 0)) &&  // Uncomment for specific affix testing
+            newAffix.isEnabled() && // Dev option for affixes disabling
+            newAffix.IsCompatibleWithItem(self) &&
+            newAffix.IsCompatibleWithListOfAffixes(appliedAffixes) && 
+            newAffix.minRequiredRarity() <= generatedRarity &&
+            ((newAffix.getAlignment() == 0) || (newAffix.getAlignment() == math.sign(currentExpectedQuality))) &&
+            hasNotTooMuchSuffixes &&
+            rnd.PercentChance(newAffix.selectionProbabilityPercentage());
     }
 
     private void orderAppliedAffixes() {
