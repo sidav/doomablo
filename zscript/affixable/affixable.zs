@@ -78,32 +78,25 @@ mixin class Affixable {
 
     const ASSIGN_TRIES = 1000;
     private void AssignRandomAffixesByAffQualityArr(array <int> affQualities) {
-        int appliedSuffixes = 0;
+        int appliedSuffixesCount = 0;
         for (int i = 0; i < affQualities.Size(); i++) {
             Affix newAffix;
             let try = 0;
             do {
                 if (try >= ASSIGN_TRIES) {
-                    debug.print("ERROR: Failed to find good affix. Found "..appliedAffixes.Size().." out of "..affQualities.Size().." total.");
-                    debug.print("Applied affixes:");
-                    Affix a;
-                    foreach(a : appliedAffixes) {
-                        debug.print("  "..a.getName());
-                    }
-                    debug.print("Arguments: affQualities "..debug.intArrToString(affQualities).."; rarity "..generatedRarity);
-                    debug.print("Current quality is "..i.."th, value "..affQualities[i]);
-                    debug.panic();
+                    handleGenerationFailure(affQualities, i);
+                    break;
                 }
                 try++;
                 newAffix = Affix.GetRandomAffixFor(self);
                 // debug.print("Checking "..newAffix.GetClassName());
             } until (
-                isNewAffixApplicable(newAffix, affQualities[i], appliedSuffixes)
+                isNewAffixApplicable(newAffix, affQualities[i], appliedSuffixesCount)
             );
             appliedAffixes.push(newAffix);
-            if (newAffix.isSuffix()) appliedSuffixes++;
+            if (newAffix.isSuffix()) appliedSuffixesCount++;
         }
-        orderAppliedAffixes();
+        reorderAppliedAffixes();
         // Apply them in reverse order on purpose (so that the name generation will have correct affix order)
         for (int i = appliedAffixes.Size() - 1; i >= 0; i--) {
             // debug.print("Applying affix "..appliedAffixes[i].getName().." of level "..affQualities[i]);
@@ -111,10 +104,10 @@ mixin class Affixable {
         }
     }
 
-    private bool isNewAffixApplicable(Affix newAffix, int currentExpectedQuality, int appliedSuffixes) {
-        let maxSuffixes = maxSuffixesForRarity(generatedRarity);
+    private bool isNewAffixApplicable(Affix newAffix, int currentExpectedQuality, int appliedSuffixesCount) {
         // Suffix constraint: check if we applied too much suffixes
-        let hasNotTooMuchSuffixes = (!newAffix.isSuffix() || appliedSuffixes < maxSuffixes);
+        let maxSuffixes = maxSuffixesForRarity(generatedRarity);
+        let hasNotTooMuchSuffixes = !newAffix.isSuffix() || appliedSuffixesCount < maxSuffixes;
         return
             // (newAffix.GetClass() == 'ASuffHealthToDurab' || (rnd.randn(4000) == 0)) &&  // Uncomment for specific affix testing
             newAffix.isEnabled() && // Dev option for affixes disabling
@@ -126,7 +119,20 @@ mixin class Affixable {
             rnd.PercentChance(newAffix.selectionProbabilityPercentage());
     }
 
-    private void orderAppliedAffixes() {
+    private void handleGenerationFailure(array <int> affQualities, int currentQtyIndex) {
+        debug.print("GENERATION FAILURE: Failed to find appropriate affix for "..self.GetClassName().." after "..ASSIGN_TRIES.." tries");
+        debug.print("  Found "..appliedAffixes.Size().." out of "..affQualities.Size().." expected affixes.");
+        debug.print("  Arguments: affQualities "..debug.intArrToString(affQualities).."; rarity "..generatedRarity);
+        debug.print("  Failed at "..currentQtyIndex.."th quality with value of "..affQualities[currentQtyIndex]);
+        debug.print("  Applied affixes:");
+        Affix a;
+        foreach(a : appliedAffixes) {
+            debug.print("  ->  "..a.getName());
+        }
+        debug.print("  Generation was interrupted.");
+    }
+
+    private void reorderAppliedAffixes() {
         for (int i = 0; i < appliedAffixes.Size() - 1; i++) {
             for (int j = i + 1; j < appliedAffixes.Size(); j++) {
                 if (affixOrderScore(appliedAffixes[i]) < affixOrderScore(appliedAffixes[j])) {
@@ -174,7 +180,8 @@ mixin class Affixable {
     }
 
     clearscope int getRarity() {
-        return appliedAffixes.Size();
+        // return appliedAffixes.Size(); - USAGE OF THIS IS DEPRECATED
+        return generatedRarity;
     }
 
     /////////////////////////
