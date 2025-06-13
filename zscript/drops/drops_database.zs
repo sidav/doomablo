@@ -30,7 +30,6 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
         AmmoItems.insert("Shell",5);
         AmmoItems.insert("RocketAmmo",1);
         AmmoItems.insert("Cell",2);
-
         debug.print("=== All artifacts' weights: ===");
         // And now, iterate the whole class list...
         // I might be able to make this even more flexible later.
@@ -74,6 +73,7 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
     }
 
     // 2. When something asks for a random drop, give it to them.
+
     String PickFromWeightList(Map<String,int> items) {
         MapIterator<String,int> it;
         Array<int> weights;
@@ -85,6 +85,7 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
         }
 
         // Now we have a list of weights, so we can just do WeightedRand.
+
         int selected = rnd.WeightedRandArr(weights);
         if (selected < 0 || selected > results.Size()) {
             String err = String.format("Invalid result %d from WeightedRand",selected);
