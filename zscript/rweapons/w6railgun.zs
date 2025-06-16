@@ -8,7 +8,7 @@ class RwRailgun : RandomizedWeapon
 		Inventory.PickupMessage "$GOTRAILGUN";
 		Tag "$TAG_RAILGUN";
 
-		RandomizedWeapon.Weight 5;
+		RandomizedWeapon.Weight 7;
 	}
 	States
 	{
