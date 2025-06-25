@@ -64,7 +64,7 @@ class ASuffHealthToDurab : RwArmorSuffix {
             }
             let subAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, precision, hpAccum);
             if (subAmount > 0) {
-                owner.damageMobj(null, null, subAmount, 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR);
+                owner.damageMobj(null, null, subAmount, 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR|DMG_NO_PAIN);
             }
         }
     }
