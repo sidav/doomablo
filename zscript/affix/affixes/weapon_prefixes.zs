@@ -281,7 +281,7 @@ class WPrefTargetKnockback : RwWeaponPrefix { // There is no bad counterpart, I 
         return 0;
     }
     override string getDescription() {
-        return modifierLevel.."% target knockback";
+        return String.format("x%.1f target knockback", double(modifierLevel)/100.);
     }
     override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
         return wpn.stats.fireType != RWStatsClass.FTMelee && wpn.stats.fireType != RWStatsClass.FTRailgun;
