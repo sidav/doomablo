@@ -136,7 +136,8 @@ class WSuffPoison : RwWeaponSuffix {
             maxPercentage = 33;
         }
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxPercentage, 0.05) + quality/25;
-        stat2 = StatsScaler.ScaleIntValueByLevelRandomized(1, quality);
+        let baseDmg = rnd.multipliedWeightedRandByEndWeight(1, 3, 0.1) + remapQualityToRange(quality, 0, 2);
+        stat2 = StatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
     }
     override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (rnd.PercentChance(modifierLevel)) {
