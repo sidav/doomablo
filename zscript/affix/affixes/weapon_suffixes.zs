@@ -277,6 +277,33 @@ class WSuffSpawnBarrelOnKill : RwWeaponSuffix {
     }
 }
 
+class WSuffTargetExplode : RwWeaponSuffix {
+    mixin DropSpreadable;
+    override string getName() {
+        return "Overloading";
+    }
+    override string getDescription() {
+        return modifierLevel.."% chance for killed target to explode ("..stat2.." DMG)";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 10);
+        int baseDmg = rnd.multipliedWeightedRandByEndWeight(10, 30, 0.1);
+        stat2 = StatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
+    }
+    override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (rnd.PercentChance(modifierLevel)) {
+            // It's a workaround... Maybe a separate "explosion" class is needed?
+            let explosion = RwProjectile(target.Spawn("RwRocket", target.Pos.PlusZ(target.Height/2)));
+            explosion.setStatsForExternallySpawned(stat2, 96, true);
+            explosion.target = plr; // Setting this so that the explosion won't damage the player
+            let expState = explosion.ResolveState('Death');
+            if (expState) {
+                explosion.SetState(expState);
+            }
+        }
+    }
+}
+
 // Hitscan only
 class WSuffMinirockets : RwWeaponSuffix {
     override string getName() {
