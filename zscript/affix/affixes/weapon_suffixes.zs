@@ -193,7 +193,30 @@ class WSuffPain : RwWeaponSuffix {
     }
 }
 
-class WSuffHoly : RwWeaponSuffix {
+class WSuffMoreDmgToCommonEnemies : RwWeaponSuffix {
+    override string getName() {
+        return "Pest control";
+    }
+    override string getDescription() {
+        return modifierLevel.."% additional damage to common enemies";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 20, 0.1) + remapQualityToRange(quality, 0, 30);
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WSuffMoreDmgToRareEnemies';
+    }
+    // UPD: ModifyDamage() can't support conditions like rarity :(
+    // Maybe it makes sense to add OnModifyDamageReceivedByMonster() callback?
+    override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (RwMonsterAffixator.GetMonsterRarity(target) == 0) {
+            // null inflictor causes callbacks to be skipped
+            target.damageMobj(null, plr, math.getIntPercentage(damage, modifierLevel), 'Normal');
+        }
+    }
+}
+
+class WSuffMoreDmgToRareEnemies : RwWeaponSuffix {
     override string getName() {
         return "Holy";
     }
@@ -202,6 +225,9 @@ class WSuffHoly : RwWeaponSuffix {
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 50, 0.1) + remapQualityToRange(quality, 0, 50);
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WSuffMoreDmgToCommonEnemies';
     }
     // UPD: ModifyDamage() can't support conditions like rarity :(
     // Maybe it makes sense to add OnModifyDamageReceivedByMonster() callback?
