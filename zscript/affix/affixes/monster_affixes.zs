@@ -6,6 +6,11 @@ class RwMonsterAffix : Affix abstract {
     protected virtual void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         debug.panicUnimplemented(self);
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        // Most monster affixes actually don't alter stats
+        // So they can be simply removed if needed
+        return true; 
+    }
     override int getAlignment() {
         return 0;
     }
@@ -41,6 +46,9 @@ class MAffMoreHealth : RwMonsterAffix { // It WILL synergize with the affixator-
     override void onPutIntoMonsterInventory(Actor owner) {
         owner.starthealth = math.getIntPercentage(owner.health, modifierLevel);
         owner.A_SetHealth(owner.starthealth);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return false;
     }
 }
 

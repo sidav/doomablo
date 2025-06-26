@@ -219,7 +219,7 @@ class WSuffMoreDmgToCommonEnemies : RwWeaponSuffix {
 
 class WSuffMoreDmgToRareEnemies : RwWeaponSuffix {
     override string getName() {
-        return "Holy";
+        return "Sanctity";
     }
     override string getDescription() {
         return modifierLevel.."% additional damage to Epic enemies and higher";
@@ -236,6 +236,30 @@ class WSuffMoreDmgToRareEnemies : RwWeaponSuffix {
         if (RwMonsterAffixator.GetMonsterRarity(target) >= 3) {
             // null inflictor causes callbacks to be skipped
             target.damageMobj(null, plr, math.getIntPercentage(damage, modifierLevel), 'Normal');
+        }
+    }
+}
+
+class WSuffRemoveAffixesFromEnemies : RwWeaponSuffix {
+    override string getName() {
+        return "Purity";
+    }
+    override string getDescription() {
+        return modifierLevel.."% chance to remove affix from target enemy";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.1) + remapQualityToRange(quality, 0, 5);
+    }
+    override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (rnd.PercentChance(modifierLevel)) {
+            let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
+            if (!monAff || monAff.appliedAffixes.Size() == 0) return;
+            for (let i = 0; i < monAff.appliedAffixes.Size(); i++) {
+                if (monAff.appliedAffixes[i].TryUnapplyingSelfFrom(monAff)) {
+                    monAff.appliedAffixes.Delete(i, 1);
+                    return;
+                }
+            }
         }
     }
 }
