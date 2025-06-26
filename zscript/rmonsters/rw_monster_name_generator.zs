@@ -1,7 +1,7 @@
 extend class RwMonsterAffixator {
     private void GenerateOwnersName() {
 
-        switch (appliedAffixes.Size()) {
+        switch (GetRarity()) {
             case 0: 
                 owner.SetTag(levelString().." "..owner.GetTag());
                 return;

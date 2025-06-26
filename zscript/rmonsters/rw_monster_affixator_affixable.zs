@@ -24,8 +24,8 @@ extend class RwMonsterAffixator {
             let minPerc = 100 - 10;
             let maxPerc = 100 + 10;
             if (getRarity() > 0) {
-                minPerc = 100+((appliedAffixes.Size() - 1) * 25);
-                maxPerc = 100+(appliedAffixes.Size() * 25);
+                minPerc = 100+((GetRarity() - 1) * 25);
+                maxPerc = 100+(GetRarity() * 25);
             }
             newHealth = Random(math.getIntPercentage(newHealth, minPerc), math.getIntPercentage(newHealth, maxPerc));
             owner.starthealth = newHealth;
@@ -43,10 +43,10 @@ extend class RwMonsterAffixator {
             
             GenerateOwnersName();
             attachLight();
-            if (appliedAffixes.Size() >= 2) {
+            if (GetRarity() >= 2) {
                 bNOINFIGHTING = true;
             }
-            if (appliedAffixes.Size() >= 3) {
+            if (GetRarity() >= 3) {
                 bNOTARGET = true;
             }
         } else {

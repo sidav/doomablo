@@ -317,7 +317,7 @@ mixin class Affixable {
 
     void attachRarityIndicatorIfNone() {
         if (attachedRarityIndicator == null) {
-            attachedRarityIndicator = RarityIndicator.Attach(self, appliedAffixes.Size());
+            attachedRarityIndicator = RarityIndicator.Attach(self, GetRarity());
         }
     }
 
