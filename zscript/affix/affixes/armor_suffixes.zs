@@ -89,6 +89,9 @@ class ASuffLengthenStatusEffects : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(3, 40, 0.05) + remapQualityToRange(quality, 0, 10);
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
+    }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RandomizedArmor arm = RandomizedArmor(affixedItem);
         if (arm.IsFullyBroken()) return;
@@ -213,6 +216,9 @@ class ASuffDegrading : RwArmorSuffix {
         );
         // stat2 is "percentage at which it stops"
         stat2 = rnd.multipliedWeightedRandByEndWeight(25, 75, 0.1);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
     }
     const precision = 1000;
     int fractionAccumulator;
@@ -441,6 +447,9 @@ class ASuffECellsSpend : RwArmorSuffix {
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 10);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RandomizedArmor arm = RandomizedArmor(affixedItem);

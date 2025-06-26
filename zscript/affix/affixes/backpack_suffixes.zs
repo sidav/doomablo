@@ -35,6 +35,9 @@ class BSuffNoisy : RwBackpackSuffix {
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 100); // Chance 1-100
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
+    }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         if (affixedItem.GetAge() % (TICRATE * 5) == 0 && rnd.PercentChance(modifierLevel)) {
             // Iterate through all monsters
@@ -65,6 +68,9 @@ class BSuffLessAmmoChance : RwBackpackSuffix {
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 25) + 5;
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
     }
     override void onHandlePickup(Inventory pickedUp) {
         if (pickedUp is 'Ammo' && rnd.PercentChance(modifierLevel)) {

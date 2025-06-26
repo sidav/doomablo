@@ -53,7 +53,7 @@ class Affix abstract {
     // This should just revert the item stat alterations. This shouldn't remove itself from the item.
     // If no stat alterations reversal is needed, it's safe to just return true.
     virtual bool TryUnapplyingSelfFrom(Inventory item) {
-        debug.print("Can't unapply affix: "..GetClassName()); // COMMENT THIS OUT WHEN NOT DEBUGGING!
+        // debug.print("Can't unapply affix: "..GetClassName()); // COMMENT THIS OUT WHEN NOT DEBUGGING!
         return false;
     }
 

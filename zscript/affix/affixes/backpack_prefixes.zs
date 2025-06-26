@@ -31,6 +31,10 @@ class BPrefLessBull : RwBackpackPrefix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + modifierLevel/10;
         bpk.stats.maxBull = math.getIntPercentage(bpk.stats.maxBull, 100 - modifierLevel);
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwBackpack(item).stats.maxBull = math.getWholeByPartPercentage(RwBackpack(item).stats.maxBull, 100 - modifierLevel);
+        return true;
+    }
 }
 
 class BPrefMoreBull : RwBackpackPrefix {
@@ -68,6 +72,10 @@ class BPrefLessShel : RwBackpackPrefix {
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + modifierLevel/10;
         bpk.stats.maxShel = math.getIntPercentage(bpk.stats.maxShel, 100 - modifierLevel);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwBackpack(item).stats.maxShel = math.getWholeByPartPercentage(RwBackpack(item).stats.maxShel, 100 - modifierLevel);
+        return true;
     }
 }
 
@@ -107,6 +115,10 @@ class BPrefLessRckt : RwBackpackPrefix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + modifierLevel/10;
         bpk.stats.maxRckt = math.getIntPercentage(bpk.stats.maxRckt, 100 - modifierLevel);
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwBackpack(item).stats.maxRckt = math.getWholeByPartPercentage(RwBackpack(item).stats.maxRckt, 100 - modifierLevel);
+        return true;
+    }
 }
 
 class BPrefMoreRckt : RwBackpackPrefix {
@@ -144,6 +156,10 @@ class BPrefLessCell : RwBackpackPrefix {
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + modifierLevel/10;
         bpk.stats.maxCell = math.getIntPercentage(bpk.stats.maxCell, 100 - modifierLevel);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwBackpack(item).stats.maxCell = math.getWholeByPartPercentage(RwBackpack(item).stats.maxCell, 100 - modifierLevel);
+        return true;
     }
 }
 

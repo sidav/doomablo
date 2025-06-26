@@ -74,7 +74,8 @@ class Math {
 
     // If "part" is partPercent% of X, this will return X. Kinda reverses the previous method.
     static int getWholeByPartPercentage(int part, int partPercent) {
-        return (part * (10000/partPercent) + 50) / 100;
+        // "+ partPercent/2" and "+50" are for proper integer rounding
+        return (part * ((10000 + partPercent/2)/partPercent) + 50) / 100;
     }
 
     // Returns integer: how many percents is "part" of the "whole"

@@ -69,7 +69,7 @@ version "4.10.0"
 
 #include "zscript/onetime_items/abonus.zs"
 #include "zscript/onetime_items/flask_refill.zs"
-#include "zscript/onetime_items/forsaken_tome.zs"
+#include "zscript/onetime_items/tome_of_change.zs"
 #include "zscript/onetime_items/inferno_book.zs"
 #include "zscript/onetime_items/inferno_sigil.zs"
 #include "zscript/onetime_items/stat_scroll.zs"

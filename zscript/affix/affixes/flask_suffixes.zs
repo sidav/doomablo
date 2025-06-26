@@ -35,6 +35,9 @@ class FSuffPainfulHeal : RwFlaskSuffix {
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
         modifierLevel = Random(2, 6) + remapQualityToRange(quality, 0, 4);
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
+    }
     override void onBeingUsed(Actor owner, Inventory affixedItem) {
         owner.GiveInventory('RWPainToken', modifierLevel);
     }
@@ -53,6 +56,9 @@ class FSuffVulnerableHeal : RwFlaskSuffix {
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
         modifierLevel = Random(2, 6) + remapQualityToRange(quality, 0, 4);
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
+    }
     override void onBeingUsed(Actor owner, Inventory affixedItem) {
         owner.GiveInventory('RWVulnerabilityToken', modifierLevel);
     }
@@ -70,6 +76,9 @@ class FSuffDamagesOnUse : RwFlaskSuffix {
     }
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 10, 10.0) + remapQualityToRange(quality, 0, 10);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
     }
     override void onBeingUsed(Actor owner, Inventory affixedItem) {
         let damageAmount = min(owner.Health - 1, modifierLevel);
