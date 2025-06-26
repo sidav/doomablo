@@ -279,7 +279,6 @@ class WSuffSpawnBarrelOnKill : RwWeaponSuffix {
 }
 
 class WSuffTargetExplode : RwWeaponSuffix {
-    mixin DropSpreadable;
     override string getName() {
         return "Overloading";
     }

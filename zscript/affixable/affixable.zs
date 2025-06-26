@@ -182,13 +182,14 @@ mixin class Affixable {
         return null;
     }
 
-    Affix getAppliedSuffix() {
+    private int countAppliedSuffixes() {
+        let count = 0;
         foreach (aff : appliedAffixes) {
             if (aff.isSuffix()) {
-                return aff;
+                count++;
             }
         }
-        return null;
+        return count;
     }
 
     // True if has no negative affixes
@@ -199,6 +200,48 @@ mixin class Affixable {
             }
         }
         return true;
+    }
+
+    // Returns the replaced affix and the affix it was replaced with.
+    // Automatically "unapplies" affix effects.
+    // Needed for artifact-modifying items.
+    // TODO: allow selection of desired alignments for affected affixes
+    Affix, Affix replaceRandomAffixWithRandomAffix() {
+        Affix removed, newAffix;
+        for (let i = 0; i < appliedAffixes.Size(); i++) {
+			let aff = appliedAffixes[i];
+			if (aff.TryUnapplyingSelfFrom(self)) {
+				removed = aff;
+				appliedAffixes.Delete(i, 1);
+				break;
+			}
+		}
+        if (!removed) {
+            return null, null;
+        }
+
+        let qualityForNewAffix = rnd.Rand(generatedQuality/2 + 1, generatedQuality);
+        let appliedSuffixes = countAppliedSuffixes();
+        let try = 0;
+        do {
+            if (try >= ASSIGN_TRIES) {
+                debug.print("ERROR: Can't find an appropriate affix.");
+                return removed, null;
+            }
+            try++;
+            if (rnd.oneChanceFrom(3)) { // Generate bad affixes too, why not.
+                qualityForNewAffix = -qualityForNewAffix;
+            }
+            newAffix = Affix.GetRandomAffixFor(self);
+        } until (
+            newAffix.GetClass() != removed.GetClass() &&
+                isNewAffixApplicable(newAffix, qualityForNewAffix, appliedSuffixes)
+        );
+
+        appliedAffixes.push(newAffix);
+        newAffix.InitAndApplyEffectToItem(self, abs(qualityForNewAffix));
+        reorderAppliedAffixes();
+        return removed, newAffix;
     }
 
     clearscope int getRarity() {
@@ -258,7 +301,7 @@ mixin class Affixable {
 
     string nameRar3Item() {
         string setName = rwBaseName;
-        Affix suffix = getAppliedSuffix();
+        Affix suffix = appliedAffixes[0]; // We can count that affixes are ordered now
 
         if (suffix) {
             return nameWithAffixNamesAppended();

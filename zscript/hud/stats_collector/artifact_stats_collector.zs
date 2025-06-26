@@ -9,6 +9,12 @@ class RwHudArtifactStatsCollector {
     }
 
     void CollectStatsFromAffixableItem(Inventory itm, Inventory itemToCompareWith, int lines) {
+        // Items can change now, so we need to invalidate cache every now and then
+        // TODO: find a better solution, as it's dirty
+        if (Level.Maptime % TICRATE == 0) {
+            lastCollectedItem = null;
+        }
+
         if (itm == lastCollectedItem && lastCollectedComparisonItem == itemToCompareWith) return;
 
         clearAllLines();

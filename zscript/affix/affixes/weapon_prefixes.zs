@@ -134,6 +134,10 @@ class WPrefWorseDamage : RwWeaponPrefix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 60, 0.1) + remapQualityToRange(quality, 0, 40);
         wpn.stats.additionalDamagePromille = -modifierLevel;
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RandomizedWeapon(item).stats.additionalDamagePromille += modifierLevel;
+        return true;
+    }
 }
 
 class WPrefBetterDamage : RwWeaponPrefix {
@@ -180,6 +184,11 @@ class WPrefInaccurate : RwWeaponPrefix {
         wpn.stats.HorizSpread *= float(100+modifierLevel)/100;
         wpn.stats.VertSpread *= float(100+modifierLevel)/100;
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RandomizedWeapon(item).stats.HorizSpread /= float(100+modifierLevel)/100;
+        RandomizedWeapon(item).stats.VertSpread /= float(100+modifierLevel)/100;
+        return true;
+    }
 }
 
 class WPrefPrecise : RwWeaponPrefix {
@@ -220,6 +229,10 @@ class WPrefSlow : RwWeaponPrefix {
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 15, 0.1) + remapQualityToRange(quality, 1, 15);
         wpn.stats.rofModifier = -modifierLevel;
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RandomizedWeapon(item).stats.rofModifier += modifierLevel;
+        return true;
     }
 }
 
@@ -320,6 +333,10 @@ class WPrefBiggerShooterKickback : RwWeaponPrefix {
 
         wpn.stats.ShooterKickback *= double(100+modifierLevel)/100;
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RandomizedWeapon(item).stats.ShooterKickback /= double(100 + modifierLevel)/100;
+        return true;
+    }
 }
 
 class WPrefSmallerShooterKickback : RwWeaponPrefix {
@@ -343,7 +360,6 @@ class WPrefSmallerShooterKickback : RwWeaponPrefix {
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = remapQualityToRange(quality, 1, 95);
-
         wpn.stats.ShooterKickback *= double(100-modifierLevel)/100;
     }
 }
@@ -370,6 +386,10 @@ class WPrefBiggerRecoil : RwWeaponPrefix {
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 100, 0.1) + remapQualityToRange(quality, 1, 50);
         wpn.stats.Recoil *= double(100+modifierLevel)/100;
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RandomizedWeapon(item).stats.Recoil /= double(100 + modifierLevel)/100;
+        return true;
     }
 }
 
@@ -426,6 +446,10 @@ class WPrefSmallerMag : RwWeaponPrefix {
         modifierLevel = math.discretizeIntPercentFraction(wpn.stats.clipSize/wpn.stats.ammoUsage, modifierLevel);
         wpn.stats.clipSize = math.getIntPercentage(wpn.stats.clipSize, 100 - modifierLevel);
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RandomizedWeapon(item).stats.clipSize = math.getWholeByPartPercentage(RandomizedWeapon(item).stats.clipSize, 100-modifierLevel);
+        return true;
+    }
 }
 
 class WPrefBiggerMag : RwWeaponPrefix {
@@ -478,6 +502,10 @@ class WPrefSlowerReload : RwWeaponPrefix {
 
         wpn.stats.reloadSpeedModifier = -modifierLevel;
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RandomizedWeapon(item).stats.reloadSpeedModifier += modifierLevel;
+        return true;
+    }
 }
 
 class WPrefFasterReload : RwWeaponPrefix {
@@ -528,6 +556,10 @@ class WPrefLessPellets : RwWeaponPrefix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 50, 0.1);
         modifierLevel = math.discretizeIntPercentFraction(wpn.stats.Pellets, modifierLevel);
         wpn.stats.Pellets = math.getIntPercentage(wpn.stats.pellets, 100 - modifierLevel);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RandomizedWeapon(item).stats.Pellets = math.getWholeByPartPercentage(RandomizedWeapon(item).stats.pellets, 100-modifierLevel);
+        return true;
     }
 }
 
@@ -580,6 +612,10 @@ class WPrefLazy : RwWeaponPrefix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 50, 0.05) + quality/10;
 
         wpn.stats.projSpeedPercModifier = -modifierLevel;
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RandomizedWeapon(item).stats.projSpeedPercModifier += modifierLevel;
+        return true;
     }
 }
 
@@ -696,6 +732,10 @@ class WPrefSmallerExplosion : RwWeaponPrefix {
             100-modifierLevel
         );
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RandomizedWeapon(item).stats.ExplosionRadius = math.getWholeByPartPercentage(RandomizedWeapon(item).stats.ExplosionRadius, 100-modifierLevel);
+        return true;
+    }
 }
 
 class WPrefBiggerExplosion : RwWeaponPrefix {
@@ -748,6 +788,10 @@ class WPrefLessMeleeRange : RwWeaponPrefix {
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 25, 0.1) + remapQualityToRange(quality, 1, 25);
         wpn.stats.attackRange = math.getIntPercentage(wpn.stats.attackRange, 100 - modifierLevel);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RandomizedWeapon(item).stats.attackRange = math.getWholeByPartPercentage(RandomizedWeapon(item).stats.attackRange, 100-modifierLevel);
+        return true;
     }
 }
 

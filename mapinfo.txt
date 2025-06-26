@@ -42,6 +42,7 @@ gameinfo
 		"Do you know?\nBackpack level determines the strength of applied affixes and base capacity for ammunition",
 		"Do you know?\nEnergy armor level determines the strength of applied affixes as well as base capacity and recharge speed",
 		"Do you know?\nAffix pools for regular armor and energy armor are different",
+		"Do you know?\nTome of Change is a powerful and rare consumable.\nIt will replace a random bad affix on your weapon.\nThe replacement may even be good!",
 
 		// Monster affixes tips
 		"Do you know?\nMonsters with ANGER affix increase their damage each time they get hit",
