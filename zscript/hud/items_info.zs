@@ -6,34 +6,34 @@ extend class MyCustomHUD {
         let lineHRel = itemStatsFont.mFont.GetHeight();
         let lineHAbs = lineHRel * CleanYFac_1;
 
-        let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
-        if (handler.currentItemToPickUp == null) {
+        let itemUnderCrosshair = PressToPickupHandler.GetItemUnderCrosshair();
+        if (itemUnderCrosshair == null) {
             return;
         }
 
         let plr = RwPlayer(CPlayer.mo);
         if (!plr) return;
 
-        if (plr.scrapItemButtonPressedTicks > 0 && AffixableDetector.IsAffixableItem(handler.currentItemToPickUp)) {
+        if (plr.scrapItemButtonPressedTicks > 0 && AffixableDetector.IsAffixableItem(itemUnderCrosshair)) {
             DrawString(itemNameFont, "RECYCLING: "..plr.getScrapProgressPercentage().."%",
                 (0, 0), DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER, Font.CR_Red);
             return;
         }
         
-        if (RandomizedWeapon(handler.currentItemToPickUp)) {
+        if (RandomizedWeapon(itemUnderCrosshair)) {
             DimScreenForStats();
-            DrawPickupableWeaponInfo(RandomizedWeapon(handler.currentItemToPickUp), plr);
-        } else if (RandomizedArmor(handler.currentItemToPickUp)) {
+            DrawPickupableWeaponInfo(RandomizedWeapon(itemUnderCrosshair), plr);
+        } else if (RandomizedArmor(itemUnderCrosshair)) {
             DimScreenForStats();
-            DrawPickupableArmorInfo(RandomizedArmor(handler.currentItemToPickUp), plr);
-        } else if (RwBackpack(handler.currentItemToPickUp)) {
+            DrawPickupableArmorInfo(RandomizedArmor(itemUnderCrosshair), plr);
+        } else if (RwBackpack(itemUnderCrosshair)) {
             DimScreenForStats();
-            DrawPickupableBackpackInfo(RwBackpack(handler.currentItemToPickUp), plr);
-        } else if (RwFlask(handler.currentItemToPickUp)) {
+            DrawPickupableBackpackInfo(RwBackpack(itemUnderCrosshair), plr);
+        } else if (RwFlask(itemUnderCrosshair)) {
             DimScreenForStats();
-            DrawPickupableFlaskInfo(RwFlask(handler.currentItemToPickUp), plr);
+            DrawPickupableFlaskInfo(RwFlask(itemUnderCrosshair), plr);
         } else {
-            debug.panic("Unknown item to draw pickupable stats for: "..handler.currentItemToPickUp.GetClassName());
+            debug.panic("Unknown item to draw pickupable stats for: "..itemUnderCrosshair.GetClassName());
         }
     }
 

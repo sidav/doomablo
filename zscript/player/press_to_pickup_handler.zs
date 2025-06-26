@@ -83,4 +83,10 @@ class PressToPickupHandler : EventHandler {
         }
         return currClosestPickup;
     }
+
+    // Shorthand for ease of use. Optimizations can go there
+    clearscope static Inventory GetItemUnderCrosshair() {
+        let handler = PressToPickupHandler(Find('PressToPickupHandler'));
+        return handler.currentItemToPickUp;
+    }
 }

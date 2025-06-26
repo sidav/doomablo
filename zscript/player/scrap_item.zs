@@ -5,12 +5,11 @@ extend class RwPlayer {
 
     void onScrapItemButtonPressed() {
         if (scrapItemButtonPressedTicks == 1) { // Save current targeted item
-            let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
-            currentItemBeingScrapped = handler.currentItemToPickUp;
+            currentItemBeingScrapped = PressToPickupHandler.GetItemUnderCrosshair();
 
         } else if (scrapItemButtonPressedTicks % 7 == 0) { // Check if the targeted item is still the one being scrapped
-            let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
-            if (handler.currentItemToPickUp == null || handler.currentItemToPickUp != currentItemBeingScrapped) {
+            let itm = PressToPickupHandler.GetItemUnderCrosshair();
+            if (itm == null || itm != currentItemBeingScrapped) {
                 // ... if not, reset the progress
                 scrapItemButtonPressedTicks = 1;
                 currentItemBeingScrapped = null;
@@ -26,8 +25,7 @@ extend class RwPlayer {
     }
 
     void tryScrapCurrentTargetedItem() {
-        let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
-        let itm = handler.currentItemToPickUp;
+        let itm = PressToPickupHandler.GetItemUnderCrosshair();
 
         if (itm == null || !AffixableDetector.IsAffixableItem(itm) || itm.owner) {
             return;
@@ -99,6 +97,7 @@ extend class RwPlayer {
             debug.print("Unhandled scrapped item class (report this): "..itm.GetClassName());
         }
 
+        let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
         handler.currentItemToPickUp = null;
         itm.Destroy();
 
