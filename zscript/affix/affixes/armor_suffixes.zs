@@ -239,7 +239,7 @@ class ASuffAbsImprove : RwArmorSuffix {
         return "AdapTek";
     }
     override string getDescription() {
-        if (maxEffectReached) return "(ABS already at maximum)";
+        if (maxEffectReached && Gametime.GetPhase(3*TICRATE/2)) return " -> ABS already at maximum";
         return "Gain +1% ABS (max "..modifierLevel..") for each "..stat2.." repaired";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
@@ -270,7 +270,7 @@ class ASuffDrbImprove : RwArmorSuffix {
         return "Overbuild";
     }
     override string getDescription() {
-        if (maxEffectReached) return "(DRB already at maximum)";
+        if (maxEffectReached && Gametime.GetPhase(3*TICRATE/2)) return " -> DRB already at maximum";
         return "Gain +1 DRB (max "..modifierLevel..") for each "..stat2.." repaired";
     }
     override bool isCompatibleWithAffClass(Affix a2) {

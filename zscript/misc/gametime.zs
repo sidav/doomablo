@@ -1,8 +1,8 @@
 class Gametime {
 
-    // Returns true if tick is the first tick of any of the each Nth seconds.
-    static bool checkPeriod(int tick, int seconds) {
-        return tick > 0 && tick % (seconds * TICRATE) == 0;
+    // Alternates between returning true and false each periodLengthTicks
+    static bool GetPhase(int periodLengthTicks) {
+        return (Level.maptime % (periodLengthTicks * 2)) < periodLengthTicks;
     }
 
     static float ticksToSeconds(int ticks) {
