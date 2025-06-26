@@ -220,7 +220,7 @@ mixin class Affixable {
             return null, null;
         }
 
-        let qualityForNewAffix = rnd.Rand(generatedQuality/2 + 1, generatedQuality);
+        let qualityForNewAffix = rnd.Rand(generatedQuality/3 + 1, 2*generatedQuality/3 + 1); // TODO: move this to arguments?
         let appliedSuffixes = countAppliedSuffixes();
         let try = 0;
         do {
@@ -229,7 +229,7 @@ mixin class Affixable {
                 return removed, null;
             }
             try++;
-            if (rnd.oneChanceFrom(3)) { // Generate bad affixes too, why not.
+            if (rnd.PercentChance(35)) { // Generate bad affixes too, why not.
                 qualityForNewAffix = -qualityForNewAffix;
             }
             newAffix = Affix.GetRandomAffixFor(self);
