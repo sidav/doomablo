@@ -234,10 +234,12 @@ class ASuffDegrading : RwArmorSuffix {
 }
 
 class ASuffAbsImprove : RwArmorSuffix {
+    bool maxEffectReached;
     override string getName() {
         return "AdapTek";
     }
     override string getDescription() {
+        if (maxEffectReached) return "(ABS already at maximum)";
         return "Gain +1% ABS (max "..modifierLevel..") for each "..stat2.." repaired";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
@@ -248,7 +250,7 @@ class ASuffAbsImprove : RwArmorSuffix {
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = remapQualityToRange(quality, 5*arm.stats.AbsorbsPercentage/4, min(5*arm.stats.AbsorbsPercentage/2, 100));
-        stat2 = 65 - rnd.multipliedWeightedRandByEndWeight(0, 30, 0.05); // Upgrade each this much repaired
+        stat2 = 60 - rnd.multipliedWeightedRandByEndWeight(0, 30, 0.05); // Upgrade each this much repaired
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RandomizedArmor arm = RandomizedArmor(affixedItem);
@@ -256,14 +258,19 @@ class ASuffAbsImprove : RwArmorSuffix {
             arm.stats.AbsorbsPercentage += 1;
             arm.cumulativeRepair = 0;
         }
+        if (modifierLevel <= arm.stats.AbsorbsPercentage) {
+            maxEffectReached = true;
+        }
     }
 }
 
 class ASuffDrbImprove : RwArmorSuffix {
+    bool maxEffectReached;
     override string getName() {
         return "Overbuild";
     }
     override string getDescription() {
+        if (maxEffectReached) return "(DRB already at maximum)";
         return "Gain +1 DRB (max "..modifierLevel..") for each "..stat2.." repaired";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
@@ -276,7 +283,7 @@ class ASuffDrbImprove : RwArmorSuffix {
         // 120-250% max
         let percentage = rnd.multipliedWeightedRandByEndWeight(120, 200, 0.05) + remapQualityToRange(quality, 0, 50);
         modifierLevel = math.getIntPercentage(arm.stats.maxDurability, percentage);
-        stat2 = 55 - rnd.multipliedWeightedRandByEndWeight(0, 35, 0.05); // Upgrade each this much repaired
+        stat2 = 50 - rnd.multipliedWeightedRandByEndWeight(0, 35, 0.05); // Upgrade each this much repaired
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RandomizedArmor arm = RandomizedArmor(affixedItem);
@@ -284,6 +291,9 @@ class ASuffDrbImprove : RwArmorSuffix {
             arm.stats.maxDurability += 1;
             arm.stats.currDurability += 1;
             arm.cumulativeRepair = 0;
+        }
+        if (modifierLevel <= arm.stats.maxDurability) {
+            maxEffectReached = true;
         }
     }
 }
