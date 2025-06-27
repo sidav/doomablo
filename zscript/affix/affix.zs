@@ -40,7 +40,7 @@ class Affix abstract {
     }
 
     virtual bool IsCompatibleWithItem(Inventory item) {
-        debug.panicUnimplemented(self);
+        debug.panicUnimplemented(self, "IsCompatibleWithItem()");
         return false;
     }
 

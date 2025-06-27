@@ -11,8 +11,8 @@ class Debug {
         ThrowAbortException(msg);
     }
 
-    static void panicUnimplemented(Object caller) {
-        ThrowAbortException("Something is unimplemented in "..caller.GetClassName());
+    static void panicUnimplemented(Object caller, string message = "Something") {
+        ThrowAbortException(message.." is unimplemented in "..caller.GetClassName());
     }
 
     static string intArrToString(array <int> arr) {

@@ -1,0 +1,5 @@
+Ideas to implement next:
+- Unique weapons
+- Player stat altering affixes
+- Universal affixes (applicable to any item)
+- Identification mechanics

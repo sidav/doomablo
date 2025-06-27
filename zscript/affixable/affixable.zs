@@ -136,7 +136,7 @@ mixin class Affixable {
         let maxSuffixesCheck = !newAffix.isSuffix() || appliedSuffixesCount < maxSuffixes;
 
         return
-            // (newAffix.GetClass() == 'ASuffHealthToDurab' || (rnd.randn(4000) == 0)) &&  // Uncomment for specific affix testing
+            // (newAffix.GetClass() == 'WSuffMaxDamageSelfUpgrade' || (rnd.randn(10) == 0)) &&  // Uncomment for specific affix testing
             newAffix.isEnabled() && // Dev option for affixes disabling
             newAffix.IsCompatibleWithItem(self) &&
             newAffix.IsCompatibleWithListOfAffixes(appliedAffixes) && 
@@ -234,7 +234,7 @@ mixin class Affixable {
                 return removed, null;
             }
             try++;
-            if (rnd.PercentChance(35)) { // Generate bad affixes too, why not.
+            if (rnd.PercentChance(50)) { // Generate bad affixes too, why not.
                 qualityForNewAffix = -qualityForNewAffix;
             }
             newAffix = Affix.GetRandomAffixFor(self);
