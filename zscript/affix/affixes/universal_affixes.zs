@@ -28,6 +28,9 @@ class UPrefVitalityDecrease : RwUniversalAffix {
     override int getAlignment() {
         return -1;
     }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return !(item is 'RwMonsterAffixator' || item is 'RandomizedWeapon');
+    }
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.1) + remapQualityToRange(quality, 1, 5);
     }
@@ -48,6 +51,9 @@ class UPrefVitalityIncrease : RwUniversalAffix {
     }
     override string getDescription() {
         return "Vitality stat +"..modifierLevel;
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return !(item is 'RwMonsterAffixator' || item is 'RandomizedWeapon');
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'UPrefVitalityDecrease';

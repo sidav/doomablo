@@ -105,7 +105,12 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         // Apply max health
         let initialMaxHp = MaxHealth;
         MaxHealth = stats.GetMaxHealth();
-        GiveBody(MaxHealth - initialMaxHp, MaxHealth);
+        let diff = MaxHealth - initialMaxHp;
+        // Add/remove health if max hp is changed.
+        if (diff > 0)
+            GiveBody(MaxHealth - initialMaxHp, MaxHealth);
+        else if (Health > -diff) // Don't kill the player!
+            damageMobj(null, null, -diff, 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR|DMG_NO_PAIN);
     }
 
     // We store those to detect eqipped item changes
@@ -131,7 +136,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         return changed;
     }
 
-    // This reapplies the stats if the equipped items have changed. Don't call this too frequently
+    // This reapplies the stats modifiers if the equipped items have changed. Don't call this too frequently, it's slow
     private void applyPlayerStatsFromEquippedItems() {
         if (CurrentEquippedArmor != null) {
             foreach (aff : CurrentEquippedArmor.appliedAffixes) {
