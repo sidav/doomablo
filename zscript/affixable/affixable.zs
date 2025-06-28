@@ -99,6 +99,7 @@ mixin class Affixable {
             do {
                 if (try >= ASSIGN_TRIES) {
                     handleGenerationFailure(affQualities, i);
+                    newAffix = null;
                     break;
                 }
                 try++;
@@ -107,8 +108,11 @@ mixin class Affixable {
             } until (
                 isNewAffixApplicable(newAffix, affQualities[i], appliedSuffixesCount)
             );
-            appliedAffixes.push(newAffix);
-            if (newAffix.isSuffix()) appliedSuffixesCount++;
+            // newAffix can be null only in case of generation failure; but the routine shouldn't crash even then
+            if (newAffix != null) {
+                appliedAffixes.push(newAffix);
+                if (newAffix.isSuffix()) appliedSuffixesCount++;
+            }
         }
         reorderAppliedAffixes();
         // Apply them in reverse order on purpose (so that the name generation will have correct affix order)

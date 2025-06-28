@@ -128,7 +128,7 @@ class UPrefCritDmgDecrease : RwUniversalAffix {
 
 class UPrefCritDmgIncrease : RwUniversalAffix {
     override string getName() {
-        return "Dexter";
+        return "Critical";
     }
     override string getDescription() {
         return "Crit damage stat +"..modifierLevel;
