@@ -10,10 +10,6 @@ extend class RwHudArtifactStatsCollector {
         addTwoLabelsLine("Durability:", armr.stats.currDurability.."/"..armr.stats.maxDurability..compareStr, 
                     Font.CR_White, compareClr);
 
-        // if (armr.stats.DamageReduction > 0) {
-        //     PrintTableLine("Incoming damage", "-"..armr.stats.DamageReduction, pickupableStatsTableWidth,
-        //             itemStatsFont, textFlags, Font.CR_White);    
-        // }
         if (armrCmp && armr.stats.AbsorbsPercentage != armrCmp.stats.AbsorbsPercentage) {
             compareStr = " ("..intToSignedStr(armr.stats.AbsorbsPercentage - armrCmp.stats.AbsorbsPercentage).."%)";
             compareClr = GetDifferenceColor(armr.stats.AbsorbsPercentage - armrCmp.stats.AbsorbsPercentage);

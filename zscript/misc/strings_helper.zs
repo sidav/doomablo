@@ -14,8 +14,14 @@ class StringsHelper {
 
     static string IntPromilleAsSignedPercentageString(int promille) {
         if (promille < 0)
-            return String.format("%.1f", double(promille)/10.0);
-        return String.format("+%.1f", double(promille)/10.0);
+            return String.format("%.1f%%", double(promille)/10.0);
+        return String.format("+%.1f%%", double(promille)/10.0);
+    }
+
+    // If we need 12.34, then value is 1234 and divisor is 100
+    // If we need 123.4, then value is 1234 and divisor is 10
+    static string FixedPointIntAsString(int value, int divisor) {
+        return String.format("%.1f", double(value)/double(divisor));
     }
 
     static string FloatToSignedStr(float v) {

@@ -72,15 +72,15 @@ extend class RwPlayerStats {
                         .." The effect is twice as small for each next rarity level.\n"
                         ..newLineString
                         .."Your current chances for increased rarity are:\n\n"
-                        ..String.Format("Uncommon: %s%%\n",
+                        ..String.Format("Uncommon: %s\n",
                             StringsHelper.IntPromilleAsSignedPercentageString(getIncreaseRarityChancePromilleFor(0)))
-                        ..String.Format("Rare: %s%%\n",
+                        ..String.Format("Rare: %s\n",
                             StringsHelper.IntPromilleAsSignedPercentageString(getIncreaseRarityChancePromilleFor(1)))
-                        ..String.Format("Epic: %s%%\n",
+                        ..String.Format("Epic: %s\n",
                             StringsHelper.IntPromilleAsSignedPercentageString(getIncreaseRarityChancePromilleFor(2)))
-                        ..String.Format("Legendary: %s%%\n",
+                        ..String.Format("Legendary: %s\n",
                             StringsHelper.IntPromilleAsSignedPercentageString(getIncreaseRarityChancePromilleFor(3)))
-                        ..String.Format("Mythic: %s%%\n",
+                        ..String.Format("Mythic: %s\n",
                             StringsHelper.IntPromilleAsSignedPercentageString(getIncreaseRarityChancePromilleFor(4)));
         }
         debug.print("Unknown stat description: "..id);

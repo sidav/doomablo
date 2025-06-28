@@ -174,18 +174,22 @@ class APrefDamageIncrease : RwArmorPrefix {
         return -1;
     }
     override string getDescription() {
-        return "Increases incoming damage by "..modifierLevel;
+        return "Increases incoming damage by "..StringsHelper.FixedPointIntAsString(modifierLevel, 10);
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefDamageReduction';
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 6, 0.1) + remapQualityToRange(quality, 0, 4);
-        arm.stats.DamageReduction -= modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(3, 20, 0.1) + remapQualityToRange(quality, 0, 10);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
-        RandomizedArmor(item).stats.DamageReduction += modifierLevel;
         return true;
+    }
+    int fractionAccum;
+    override void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {
+        if (damage > 0) {
+            newdamage = math.AccumulatedFixedPointAdd(damage, modifierLevel, 10, fractionAccum);
+        }
     }
 }
 
@@ -197,19 +201,25 @@ class APrefDamageReduction : RwArmorPrefix {
         return 1;
     }
     override string getDescription() {
-        return "Reduces incoming damage by "..modifierLevel;
+        return "Reduces incoming damage by "..StringsHelper.FixedPointIntAsString(modifierLevel, 10);
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefDamageIncrease';
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         if (arm.stats.IsEnergyArmor()) {
-            modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 4, 0.05) + remapQualityToRange(quality, 0, 2);
+            modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 20, 0.05) + remapQualityToRange(quality, 0, 15);
         } else {
-            modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 6, 0.05) + remapQualityToRange(quality, 0, 3);
+            modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 30, 0.05) + remapQualityToRange(quality, 0, 30);
         }
-
-        arm.stats.DamageReduction += modifierLevel;
+    }
+    int fractionAccum;
+    override void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {
+        if (damage > 0) {
+            let reduction = math.AccumulatedFixedPointAdd(damage, modifierLevel, 10, fractionAccum);
+            if (reduction > damage) reduction = damage - 1; // Don't reduce to 0
+            newdamage = damage - reduction;
+        }
     }
 }
 

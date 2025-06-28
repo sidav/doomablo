@@ -19,12 +19,6 @@ extend class RandomizedArmor {
                 aff.onAbsorbDamage(damage, damageType, damage, inflictor, source, owner, flags);
             }
         }
-        if (stats.currDurability > 0) {
-            damage -= stats.DamageReduction;
-            if (damage <= 0) {
-                damage = 1;
-            }
-        }
         let damageToArmor = math.AccumulatedFixedPointAdd(0, 
             damage * stats.AbsorbsPercentage,
             100, absorptionFractionAccum);
