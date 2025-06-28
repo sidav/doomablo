@@ -22,11 +22,11 @@ extend class Affix {
 
     private static Affix GetRandomWeaponAffixInstance() {
         let handler = AffixClassesCacheHandler(StaticEventHandler.Find('AffixClassesCacheHandler'));
-        let index = rnd.randn(handler.totalWeaponAffixesClasses);
+        let index = rnd.randn(handler.totalWeaponAffixesClasses + handler.totalUniversalAffixesClasses);
 
         Affix affToReturn;
         foreach (affClass : handler.applicableAffixClasses) {
-            if ((affClass is 'RwWeaponPrefix') || (affClass is 'RwWeaponSuffix')) {
+            if (affClass is 'RwWeaponPrefix' || affClass is 'RwWeaponSuffix' || affClass is 'RwUniversalAffix') {
                 if (index > 0) {
                     index--;
                 } else {
@@ -40,11 +40,11 @@ extend class Affix {
 
     private static Affix GetRandomArmorAffixInstance() {
         let handler = AffixClassesCacheHandler(StaticEventHandler.Find('AffixClassesCacheHandler'));
-        let index = rnd.randn(handler.totalArmorAffixesClasses);
+        let index = rnd.randn(handler.totalArmorAffixesClasses + handler.totalUniversalAffixesClasses);
 
         Affix affToReturn;
         foreach (affClass : handler.applicableAffixClasses) {
-            if ((affClass is 'RwArmorPrefix') || (affClass is 'RwArmorSuffix')) {
+            if (affClass is 'RwArmorPrefix' || affClass is 'RwArmorSuffix' || affClass is 'RwUniversalAffix') {
                 if (index > 0) {
                     index--;
                 } else {
@@ -58,11 +58,11 @@ extend class Affix {
 
     private static Affix GetRandomBackpackAffixInstance() {
         let handler = AffixClassesCacheHandler(StaticEventHandler.Find('AffixClassesCacheHandler'));
-        let index = rnd.randn(handler.totalBackpackAffixesClasses);
+        let index = rnd.randn(handler.totalBackpackAffixesClasses + handler.totalUniversalAffixesClasses);
 
         Affix affToReturn;
         foreach (affClass : handler.applicableAffixClasses) {
-            if (affClass is 'RwBackpackPrefix' || affClass is 'RwBackpackSuffix') {
+            if (affClass is 'RwBackpackPrefix' || affClass is 'RwBackpackSuffix' || affClass is 'RwUniversalAffix') {
                 if (index > 0) {
                     index--;
                 } else {
@@ -76,11 +76,11 @@ extend class Affix {
 
     private static Affix GetRandomFlaskAffixInstance() {
         let handler = AffixClassesCacheHandler(StaticEventHandler.Find('AffixClassesCacheHandler'));
-        let index = rnd.randn(handler.totalFlaskAffixesClasses);
+        let index = rnd.randn(handler.totalFlaskAffixesClasses + handler.totalUniversalAffixesClasses);
 
         Affix affToReturn;
         foreach (affClass : handler.applicableAffixClasses) {
-            if (affClass is 'RwFlaskPrefix' || affClass is 'RwFlaskSuffix') {
+            if (affClass is 'RwFlaskPrefix' || affClass is 'RwFlaskSuffix' || affClass is 'RwUniversalAffix') {
                 if (index > 0) {
                     index--;
                 } else {
@@ -123,6 +123,7 @@ class AffixClassesCacheHandler : StaticEventHandler
     int totalArmorAffixesClasses;
     int totalBackpackAffixesClasses;
     int totalFlaskAffixesClasses;
+    int totalUniversalAffixesClasses;
     int totalMonsterAffixesClasses;
 
 	override void OnRegister() {
@@ -162,6 +163,9 @@ class AffixClassesCacheHandler : StaticEventHandler
                 } else if (isAffixForMonster(affClass)) {
                     specifyStr = "(monster affix)";
                     totalMonsterAffixesClasses++;
+                } else if (isAffixUniversal(affClass)) {
+                    specifyStr = "(universal affix)";
+                    totalUniversalAffixesClasses++;
                 } else {
                     specifyStr = "(!! unknown !!)";
                     totalUnknownAffixesClasses++;
@@ -203,6 +207,10 @@ class AffixClassesCacheHandler : StaticEventHandler
 
     static bool isAffixForFlask(class<Affix> cls) {
         return (cls is 'RwFlaskPrefix') || (cls is 'RwFlaskSuffix');
+    }
+
+    static bool isAffixUniversal(class<Affix> cls) {
+        return (cls is 'RwUniversalAffix');
     }
 
     static bool isAffixForMonster(class<Affix> cls) {
