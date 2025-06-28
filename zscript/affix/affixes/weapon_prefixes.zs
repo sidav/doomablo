@@ -437,7 +437,7 @@ class WPrefSmallerMag : RwWeaponPrefix {
         return wpn.stats.clipSize > 2;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WPrefBiggerMag';
+        return a2.GetClass() != 'WPrefBiggerMag' && a2.GetClass() != 'WPrefMoreAmmoConsumed';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         let minPerc = math.minimumMeaningIntPercent(wpn.stats.clipSize/max(wpn.stats.ammoUsage, 1));
@@ -536,6 +536,63 @@ class WPrefFasterReload : RwWeaponPrefix {
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 50, 0.1) + remapQualityToRange(quality, 1, 50);
         wpn.stats.reloadSpeedModifier = modifierLevel;
+    }
+}
+
+// Ammo consuption > 2 specific
+class WPrefMoreAmmoConsumed : RwWeaponPrefix {
+    override string getName() {
+        return "Inefficient";
+    }
+    override string getNameAsSuffix() {
+        return "Inefficiency";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return "+"..modifierLevel.." ammo consumption";
+    }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.ammoUsage >= 10;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefLessAmmoConsumed' && a2.GetClass() != 'WPrefSmallerMag';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        let maxChange = wpn.stats.ammoUsage;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
+        wpn.stats.ammoUsage += modifierLevel;
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RandomizedWeapon(item).stats.ammoUsage -= modifierLevel;
+        return true;
+    }
+}
+
+class WPrefLessAmmoConsumed : RwWeaponPrefix {
+    override string getName() {
+        return "Efficient";
+    }
+    override string getNameAsSuffix() {
+        return "Efficiency";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return "-"..modifierLevel.." ammo consumption";
+    }
+    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+        return wpn.stats.ammoUsage >= 10;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefMoreAmmoConsumed'; // && a2.GetClass() != 'WPrefSmallerMag' && a2.GetClass() != 'WPrefBiggerMag';
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        let maxChange = wpn.stats.ammoUsage / 2;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
+        wpn.stats.ammoUsage -= modifierLevel;
     }
 }
 

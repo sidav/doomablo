@@ -144,60 +144,6 @@ class WAffBetterBFGRayDamage : RwWeaponPrefix {
     }
 }
 
-// Next two are universal, but currently are used for BFG only
-
-class WPrefMoreAmmoConsumed : RwWeaponPrefix {
-    override string getName() {
-        return "Inefficient";
-    }
-    override string getNameAsSuffix() {
-        return "Inefficiency";
-    }
-    override int getAlignment() {
-        return -1;
-    }
-    override string getDescription() {
-        return "+"..modifierLevel.." ammo consumption";
-    }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.clipSize == 0 && wpn.stats.ammoUsage >= 10;
-    }
-    override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WPrefLessAmmoConsumed';
-    }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        let maxChange = wpn.stats.ammoUsage;
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
-        wpn.stats.ammoUsage += modifierLevel;
-    }
-}
-
-class WPrefLessAmmoConsumed : RwWeaponPrefix {
-    override string getName() {
-        return "Efficient";
-    }
-    override string getNameAsSuffix() {
-        return "Efficiency";
-    }
-    override int getAlignment() {
-        return 1;
-    }
-    override string getDescription() {
-        return "-"..modifierLevel.." ammo consumption";
-    }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
-        return wpn.stats.clipSize == 0 && wpn.stats.ammoUsage >= 10;
-    }
-    override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WPrefMoreAmmoConsumed';
-    }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        let maxChange = wpn.stats.ammoUsage / 2;
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
-        wpn.stats.ammoUsage -= modifierLevel;
-    }
-}
-
 // Suffixes
 
 class WSuffBFG10K : RwWeaponSuffix {
