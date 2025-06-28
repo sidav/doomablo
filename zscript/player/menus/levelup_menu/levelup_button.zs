@@ -51,7 +51,7 @@ class LevelUpButton : ZFButton {
         currentHoldTicsRemaining = 0;
         let plr = RwPlayer(players[consoleplayer].mo);
         if (plr == null || !plr.stats.canStatBeIncreased(statId)) return;
-        plr.stats.doIncreaseStat(statId);
+        plr.stats.doIncreaseBaseStat(statId);
         setText();
     }
 }
