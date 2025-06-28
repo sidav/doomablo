@@ -30,7 +30,7 @@ class APrefFragile : RwArmorPrefix {
         return a2.GetClass() != 'APrefSturdy';
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, arm.stats.maxDurability/5, 0.05) + remapQualityToRange(quality, 0, arm.stats.maxDurability/5);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, arm.stats.maxDurability/6, 0.05) + remapQualityToRange(quality, 0, arm.stats.maxDurability/6);
 
         arm.stats.maxDurability -= modifierLevel;
     }
@@ -58,7 +58,7 @@ class APrefSturdy : RwArmorPrefix {
         if (arm.stats.IsEnergyArmor()) {
             modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, arm.stats.maxDurability, 0.05) + remapQualityToRange(quality, 0, arm.stats.maxDurability/2);
         } else {
-            modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, arm.stats.maxDurability, 0.05) + remapQualityToRange(quality, 0, arm.stats.maxDurability);
+            modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, arm.stats.maxDurability/2, 0.05) + remapQualityToRange(quality, 0, 3*arm.stats.maxDurability/2);
         }
 
         arm.stats.maxDurability += modifierLevel;
@@ -79,7 +79,7 @@ class APrefWorseAbsorption : RwArmorPrefix {
         return a2.GetClass() != 'APrefBetterAbsorption';
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, arm.stats.AbsorbsPercentage/5, 0.05) + remapQualityToRange(quality, 0, arm.stats.AbsorbsPercentage/5);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, arm.stats.AbsorbsPercentage/6, 0.05) + remapQualityToRange(quality, 0, arm.stats.AbsorbsPercentage/6);
         arm.stats.AbsorbsPercentage -= modifierLevel;
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
@@ -108,7 +108,7 @@ class APrefBetterAbsorption : RwArmorPrefix {
             modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, remainingToMax/2, 0.05) + remapQualityToRange(quality, 0, remainingToMax/2);
         } else {
             let remainingToMax = 100 - arm.stats.AbsorbsPercentage;
-            modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, remainingToMax/2, 0.05) + remapQualityToRange(quality, 0, remainingToMax/2);
+            modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, remainingToMax/3, 0.05) + remapQualityToRange(quality, 0, 2*remainingToMax/3);
         }
 
         arm.stats.AbsorbsPercentage += modifierLevel;

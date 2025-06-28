@@ -10,7 +10,7 @@ class RwUniversalAffix : Affix abstract {
         return 1;
     }
     override int selectionProbabilityPercentage() {
-        return 55;
+        return 25;
     }
 }
 
