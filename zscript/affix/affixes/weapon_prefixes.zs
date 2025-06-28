@@ -440,8 +440,11 @@ class WPrefSmallerMag : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefBiggerMag';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        let minPerc = math.minimumMeaningIntPercent(wpn.stats.clipSize);
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 50, 0.1);
+        let minPerc = math.minimumMeaningIntPercent(wpn.stats.clipSize/max(wpn.stats.ammoUsage, 1));
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 50, 0.05);
+        if (modifierLevel < minPerc) {
+            modifierLevel = minPerc;
+        }
         // Make the percent value meaningful and consider ammo usage.
         modifierLevel = math.discretizeIntPercentFraction(wpn.stats.clipSize/wpn.stats.ammoUsage, modifierLevel);
         wpn.stats.clipSize = math.getIntPercentage(wpn.stats.clipSize, 100 - modifierLevel);
@@ -472,8 +475,11 @@ class WPrefBiggerMag : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefSmallerMag';
     }
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
-        let minPerc = math.minimumMeaningIntPercent(wpn.stats.clipSize);
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 175, 0.01) + quality/2;
+        let minPerc = math.minimumMeaningIntPercent(wpn.stats.clipSize / max(wpn.stats.ammoUsage, 1));
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 125, 0.01) + remapQualityToRange(quality, 0, 75);
+        if (modifierLevel < minPerc) {
+            modifierLevel = minPerc;
+        }
         // Make the percent value meaningful and consider ammo usage.
         modifierLevel = math.discretizeIntPercentFraction(wpn.stats.clipSize/wpn.stats.ammoUsage, modifierLevel);
 
