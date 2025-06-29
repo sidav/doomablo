@@ -1,3 +1,4 @@
 Ideas to implement next:
 - Unique weapons
 - Identification mechanics
+- Rename RandomizedWeapon and RandomizedArmor to RWWeapon and RWArmor lol

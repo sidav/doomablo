@@ -35,7 +35,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
 
         let ba = FindInventory('BasicArmor');
         if (ba != null) {
-            // debug.print("Basic armor exists! Amount: "..ba.Amount);
+            // debug.warning("Basic armor exists! Amount: "..ba.Amount);
             if (CurrentEquippedArmor != null) {
                 CurrentEquippedArmor.RepairFor(ba.Amount);
             }

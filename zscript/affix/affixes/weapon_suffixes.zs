@@ -42,7 +42,6 @@ class WSuffVampiric : RwWeaponSuffix {
         } else if (wpn.stats.clipSize > 5) {
             maxPercentage = 40;
         }
-        // debug.print("maxPerc is "..maxPercentage);
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxPercentage/2, 0.1) + remapQualityToRange(quality, 0, maxPercentage/2);
     }
 

@@ -48,7 +48,6 @@ class RwMonsterAffixator : Inventory {
             }
         }
 
-        // debug.print("Owner "..owner.GetClassName()..": damage before "..damage);
         // Passive is True if the attack is being received by the owner. False if the attack is being dealt by the owner.
         newdamage = damage;
         Affix aff;

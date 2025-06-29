@@ -151,16 +151,16 @@ mixin class Affixable {
     }
 
     private void handleGenerationFailure(array <int> affQualities, int currentQtyIndex) {
-        debug.print("GENERATION FAILURE: Failed to find appropriate affix for "..self.GetClassName().." after "..ASSIGN_TRIES.." tries");
-        debug.print("  Found "..appliedAffixes.Size().." out of "..affQualities.Size().." expected affixes.");
-        debug.print("  Arguments: affQualities "..debug.intArrToString(affQualities).."; rarity "..generatedRarity);
-        debug.print("  Failed at "..currentQtyIndex.."th quality with value of "..affQualities[currentQtyIndex]);
-        debug.print("  Applied affixes:");
+        debug.warning("GENERATION FAILURE: Failed to find appropriate affix for "..self.GetClassName().." after "..ASSIGN_TRIES.." tries");
+        debug.warning("  Found "..appliedAffixes.Size().." out of "..affQualities.Size().." expected affixes.");
+        debug.warning("  Arguments: affQualities "..debug.intArrToString(affQualities).."; rarity "..generatedRarity);
+        debug.warning("  Failed at "..currentQtyIndex.."th quality with value of "..affQualities[currentQtyIndex]);
+        debug.warning("  Applied affixes:");
         Affix a;
         foreach(a : appliedAffixes) {
-            debug.print("  ->  "..a.getName());
+            debug.warning("  ->  "..a.getName());
         }
-        debug.print("  Generation was interrupted.");
+        debug.warning("  Generation was interrupted.");
     }
 
     private void reorderAppliedAffixes() {

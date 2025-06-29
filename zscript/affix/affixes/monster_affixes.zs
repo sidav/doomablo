@@ -186,7 +186,6 @@ class MAffVampiric : RwMonsterAffix {
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive) {
-            // debug.print("VAMPIRIC Source is "..source.GetClassName().." and owner is "..owner.GetClassName());
             owner.GiveBody(modifierLevel);
         }
     }
@@ -403,7 +402,6 @@ class MAffSummoner : RwMonsterAffix {
             if (!rnd.OneChanceFrom(maxChance)) {
                 return;
             }
-            // debug.print("    Spawning "..i);
             let newMo = owner.Spawn(RandomMonsterHelper.GetRandomWeakMonsterClass(false), owner.Pos, ALLOW_REPLACE);
             if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, owner.radius * 2, 5 * owner.radius, owner.Pos)) {
                 newMo.destroy();
@@ -518,11 +516,9 @@ class MAffSpawnHordeOnDeath : RwMonsterAffix {
     }
     mixin DropSpreadable;
     override void onOwnerDied(Actor owner) {
-        // debug.print("Spawning!");
         if (owner) {
             owner.A_SpawnItemEx('TeleportFog');
             for (let i = 0; i < modifierLevel; i++) {
-                // debug.print("    Spawning "..i);
                 let newMo = owner.Spawn(RandomMonsterHelper.GetRandomWeakMonsterClass(true), owner.Pos, ALLOW_REPLACE);
                 if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, 0, 6 * owner.radius, owner.Pos)) {
                     newMo.destroy();

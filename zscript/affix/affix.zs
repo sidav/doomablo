@@ -106,7 +106,7 @@ class Affix abstract {
 
     bool occuredMoreThanTicksAgo(int ticks) {
         if (level.maptime < lastEffectTick) {
-            debug.print("WARNING: Tick correction occured. Report if you see this.");
+            debug.warning("Tick correction occured. Report if you see this.");
             lastEffectTick = level.maptime;
         }
         return (level.maptime - lastEffectTick) > ticks;
