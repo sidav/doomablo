@@ -216,7 +216,7 @@ class APrefDamageReduction : RwArmorPrefix {
     int fractionAccum;
     override void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {
         if (damage > 0) {
-            let reduction = math.AccumulatedFixedPointAdd(damage, modifierLevel, 10, fractionAccum);
+            let reduction = math.AccumulatedFixedPointAdd(0, modifierLevel, 10, fractionAccum);
             if (reduction > damage) reduction = damage - 1; // Don't reduce to 0
             newdamage = damage - reduction;
         }
