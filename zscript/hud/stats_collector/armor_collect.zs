@@ -51,14 +51,14 @@ extend class RwHudArtifactStatsCollector {
 
         } else {
 
-            if (armrCmp && armr.stats.BonusRepair != armrCmp.stats.BonusRepair) {
-                compareStr = " ("..intToSignedStr(armr.stats.BonusRepair - armrCmp.stats.BonusRepair)..")";
-                compareClr = GetDifferenceColor(armr.stats.BonusRepair - armrCmp.stats.BonusRepair);
+            if (armrCmp && armr.stats.RepairFromBonusx1000 != armrCmp.stats.RepairFromBonusx1000) {
+                compareStr = " ("..StringsHelper.FixedPointIntAsSignedString(armr.stats.RepairFromBonusx1000 - armrCmp.stats.RepairFromBonusx1000, 1000)..")";
+                compareClr = GetDifferenceColor(armr.stats.RepairFromBonusx1000 - armrCmp.stats.RepairFromBonusx1000);
             } else {
                 compareStr = "";
                 compareClr = Font.CR_White;
             }
-            addTwoLabelsLine("Repair amount", armr.stats.BonusRepair..compareStr,
+            addTwoLabelsLine("Repair amount", StringsHelper.FixedPointIntAsString(armr.stats.RepairFromBonusx1000, 1000)..compareStr,
                         Font.CR_White, compareClr);
 
         }

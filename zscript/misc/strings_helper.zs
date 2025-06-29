@@ -24,6 +24,13 @@ class StringsHelper {
         return String.format("%.1f", double(value)/double(divisor));
     }
 
+    // Same as above, but with "+" in front if needed
+    static string FixedPointIntAsSignedString(int value, int divisor) {
+        if (value > 0)
+            return String.format("+%.1f", double(value)/double(divisor));
+        return String.format("%.1f", double(value)/double(divisor));
+    }
+
     static string FloatToSignedStr(float v) {
         if (v > 0) {
             return String.Format("+%.1f", v);

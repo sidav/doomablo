@@ -123,7 +123,7 @@ class APrefWorseRepair : RwArmorPrefix {
         return -1;
     }
     override string getDescription() {
-        return "Gets -"..modifierLevel.." armor from repairs";
+        return "Gets -"..StringsHelper.FixedPointIntAsString(modifierLevel, 1000).." armor from repairs";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefBetterRepair';
@@ -132,12 +132,11 @@ class APrefWorseRepair : RwArmorPrefix {
         return !(arm.stats.IsEnergyArmor());
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, arm.stats.BonusRepair-1);
-
-        arm.stats.BonusRepair -= modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(200, arm.stats.RepairFromBonusx1000/2, 0.05) + remapQualityToRange(quality, 100, arm.stats.RepairFromBonusx1000/2);
+        arm.stats.RepairFromBonusx1000 -= modifierLevel;
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
-        RandomizedArmor(item).stats.BonusRepair += modifierLevel;
+        RandomizedArmor(item).stats.RepairFromBonusx1000 += modifierLevel;
         return true;
     }
 }
@@ -151,7 +150,7 @@ class APrefBetterRepair : RwArmorPrefix {
         return 1;
     }
     override string getDescription() {
-        return "Gets +"..modifierLevel.." armor from repairs";
+        return "Gets +"..StringsHelper.FixedPointIntAsString(modifierLevel, 1000).." armor from repairs";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefWorseRepair';
@@ -160,9 +159,8 @@ class APrefBetterRepair : RwArmorPrefix {
         return !(arm.stats.IsEnergyArmor());
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 4, 0.1) + remapQualityToRange(quality, 0, 2);
-
-        arm.stats.BonusRepair += modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(300, 3000, 0.1) + remapQualityToRange(quality, 0, 2000);
+        arm.stats.RepairFromBonusx1000 += modifierLevel;
     }
 }
 

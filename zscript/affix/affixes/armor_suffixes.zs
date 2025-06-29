@@ -211,11 +211,11 @@ class ASuffDegrading : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         // ModifierLevel is "DRB per tick * precision"
         modifierLevel = math.divideIntWithRounding(
-            rnd.multipliedWeightedRandByEndWeight(150, 700, 0.05) + remapQualityToRange(quality, 0, 100),
+            rnd.multipliedWeightedRandByEndWeight(100, 500, 0.05) + remapQualityToRange(quality, 0, 100),
             TICRATE
         );
         // stat2 is "percentage at which it stops"
-        stat2 = rnd.multipliedWeightedRandByEndWeight(25, 75, 0.1);
+        stat2 = rnd.multipliedWeightedRandByEndWeight(50, 95, 0.1);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
         return true;
@@ -365,7 +365,7 @@ class ASuffSelfrepair : RwArmorSuffix {
         return "UAC Nanotech";
     }
     override string getDescription() {
-        return String.Format("Repairs itself for %.1f DRB/sec", (double(modifierLevel) * TICRATE/precision));
+        return String.Format("Repairs itself for %.1f DRB/sec", (double(modifierLevel) * TICRATE/1000));
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'ASuffDegrading';
@@ -380,11 +380,9 @@ class ASuffSelfrepair : RwArmorSuffix {
             TICRATE
         );
     }
-    const precision = 1000;
-    int fractionAccumulator;
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RandomizedArmor arm = RandomizedArmor(affixedItem);
-        let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, fractionAccumulator);
+        let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, arm.stats.currRepairFraction);
         if (addAmount > 0) {
             arm.RepairFor(addAmount);
         }
@@ -456,7 +454,7 @@ class ASuffECellsSpend : RwArmorSuffix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 10);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 15, 0.1) + remapQualityToRange(quality, 0, 10);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
         return true;
@@ -479,7 +477,7 @@ class ASuffEBonusRepair : RwArmorSuffix {
         return "Recycling";
     }
     override string getDescription() {
-        return String.Format("Can be recharged by armor bonuses (+%d)", modifierLevel);
+        return String.Format("Can be recharged by armor bonuses (+%s)", StringsHelper.FixedPointIntAsString(modifierLevel, 1000));
     }
     override int getAlignment() {
         return 1;
@@ -488,8 +486,8 @@ class ASuffEBonusRepair : RwArmorSuffix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.05) + remapQualityToRange(quality, 0, 5);
-        arm.stats.BonusRepair = modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1000, 3000, 0.05) + remapQualityToRange(quality, 0, 4000);
+        arm.stats.RepairFromBonusx1000 = modifierLevel;
     }
 }
 
