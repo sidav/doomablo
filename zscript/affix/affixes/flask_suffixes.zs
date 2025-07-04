@@ -118,7 +118,7 @@ class FSuffProtection : RwFlaskSuffix {
     }
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 35, 0.1) + remapQualityToRange(quality, 0, 15);
-        stat2 = rnd.multipliedWeightedRandByEndWeight(3, 10, 0.1);
+        stat2 = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 10);
     }
     override void onBeingUsed(Actor owner, Inventory affixedItem) {
         RWProtectedToken.ApplyToActor(owner, modifierLevel, stat2);
@@ -136,8 +136,8 @@ class FSuffExperienceBonus : RwFlaskSuffix {
         return 1;
     }
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + remapQualityToRange(quality, 0, 25);
-        stat2 = rnd.multipliedWeightedRandByEndWeight(3, 10, 0.1);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + remapQualityToRange(quality, 0, 15);
+        stat2 = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 10);
     }
     override void onBeingUsed(Actor owner, Inventory affixedItem) {
         RWExperienceBonusToken.ApplyToActor(owner, modifierLevel, stat2);
