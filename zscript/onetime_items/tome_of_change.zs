@@ -21,7 +21,7 @@ class TomeOfChange : Inventory {
 	}
 
 	Inventory willBeUsedOn;
-	const USAGE_CONFIRMATION_TIME = 3 * TICRATE;
+	const USAGE_CONFIRMATION_SECONDS = 3;
 	int lastTickUsed;
 
 	override bool CanPickup(Actor toucher) {
@@ -42,13 +42,14 @@ class TomeOfChange : Inventory {
 			usedOn = Players[0].ReadyWeapon;
 			usedOnWeaponInHands = true;
 			if (!AffixableDetector.IsAffixableItem(usedOn)) {
-				plr.A_Print("You don't see anything which can be changed");
+				plr.A_Print("Look at the item you want to apply this tome to,\n"..
+				 			"then use it to alter item's random bad affix");
 				return false;
 			}
 		}
 
 		// Usage confirmation timeout
-		if (lastTickUsed == 0 || Level.MapTime - lastTickUsed > USAGE_CONFIRMATION_TIME) {
+		if (lastTickUsed == 0 || Level.MapTime - lastTickUsed > USAGE_CONFIRMATION_SECONDS * TICRATE) {
 			willBeUsedOn = null;
 		}
 		lastTickUsed = Level.MapTime;
@@ -58,11 +59,11 @@ class TomeOfChange : Inventory {
 			if (usedOnWeaponInHands) {
 				plr.A_Print("Use Tome of Change again to apply it to\n"
 					..AffixableDetector.GetNameOfAffixableItem(usedOn)
-					.."\nin your hands");
+					.."\nin your hands", USAGE_CONFIRMATION_SECONDS);
 			} else {
 				plr.A_Print("Use Tome of Change again to apply it to\n"
 					..AffixableDetector.GetNameOfAffixableItem(usedOn)
-					.."\nlying before you");
+					.."\nlying before you", USAGE_CONFIRMATION_SECONDS);
 			}
 			return false;
 		}
@@ -73,41 +74,41 @@ class TomeOfChange : Inventory {
 		if (usedOn is "RandomizedWeapon") {
 			[affixToRemove, newAffix] = RandomizedWeapon(usedOn).replaceRandomAffixWithRandomAffix();
 			if (affixToRemove) {
-				plr.A_Print("What once was cursed with "..affixToRemove.getName().."\n"
-							.."now bears the burden of "..newAffix.getName().."ness");
+				plr.A_Print("The armament that once was cursed with "..affixToRemove.getName().."\n"
+							.."now bears the burden of "..newAffix.getName().."ness", 5);
 				return true;
 			}
-			plr.A_Print("This weapon can't be changed");
+			plr.A_Print("This weapon can't be altered");
 			return false;
 		}
 		if (usedOn is "RandomizedArmor") {
 			[affixToRemove, newAffix] = RandomizedArmor(usedOn).replaceRandomAffixWithRandomAffix();
 			if (affixToRemove) {
-				plr.A_Print("What once was cursed with "..affixToRemove.getName().."\n"
-							.."now bears the burden of "..newAffix.getName().."ness");
+				plr.A_Print("The armor that was cursed with "..affixToRemove.getName().."\n"
+							.."now bears the burden of "..newAffix.getName().."ness", 5);
 				return true;
 			}
-			plr.A_Print("This armor can't be changed");
+			plr.A_Print("This armor can't be altered");
 			return false;
 		}
 		if (usedOn is "RwBackpack") {
 			[affixToRemove, newAffix] = RwBackpack(usedOn).replaceRandomAffixWithRandomAffix();
 			if (affixToRemove) {
-				plr.A_Print("What once was cursed with "..affixToRemove.getName().."\n"
-							.."now bears the burden of "..newAffix.getName().."ness");
+				plr.A_Print("The bag that once was cursed with "..affixToRemove.getName().."\n"
+							.."now bears the burden of "..newAffix.getName().."ness", 5);
 				return true;
 			}
-			plr.A_Print("This backpack can't be changed");
+			plr.A_Print("This backpack can't be altered");
 			return false;
 		}
 		if (usedOn is "RwFlask") {
 			[affixToRemove, newAffix] = RwFlask(usedOn).replaceRandomAffixWithRandomAffix();
 			if (affixToRemove) {
-				plr.A_Print("What once was cursed with "..affixToRemove.getName().."\n"
-							.."now bears the burden of "..newAffix.getName().."ness");
+				plr.A_Print("The glass that once was cursed with "..affixToRemove.getName().."\n"
+							.."now bears the burden of "..newAffix.getName().."ness", 5);
 				return true;
 			}
-			plr.A_Print("This flask can't be changed");
+			plr.A_Print("This flask can't be altered");
 			return false;
 		}
 		plr.A_Print("You shouldn't see this line, report it please.");

@@ -87,13 +87,13 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 			if (startOfLevel && rnd.OneChanceFrom(4)) e.Replacement = 'RwFlaskRefill';
             break;
         case 'Soulsphere':
-			if (startOfLevel && rnd.OneChanceFrom(5)) e.Replacement = 'TomeOfChange';
+			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
             break;
         case 'Blursphere':
-			if (startOfLevel && rnd.OneChanceFrom(5)) e.Replacement = 'TomeOfChange';
+			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
             break;
         case 'Megasphere':
-			if (startOfLevel && rnd.OneChanceFrom(5)) e.Replacement = 'TomeOfChange';
+			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
             break;
         }
 	}
