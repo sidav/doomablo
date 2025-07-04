@@ -64,7 +64,7 @@ class ASuffHealthToDurab : RwArmorSuffix {
             }
             let subAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, precision, hpAccum);
             if (subAmount > 0) {
-                owner.damageMobj(null, null, subAmount, 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR);
+                owner.damageMobj(null, null, subAmount, 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR|DMG_NO_PAIN);
             }
         }
     }
@@ -88,6 +88,9 @@ class ASuffLengthenStatusEffects : RwArmorSuffix {
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(3, 40, 0.05) + remapQualityToRange(quality, 0, 10);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RandomizedArmor arm = RandomizedArmor(affixedItem);
@@ -208,11 +211,14 @@ class ASuffDegrading : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         // ModifierLevel is "DRB per tick * precision"
         modifierLevel = math.divideIntWithRounding(
-            rnd.multipliedWeightedRandByEndWeight(150, 700, 0.05) + remapQualityToRange(quality, 0, 100),
+            rnd.multipliedWeightedRandByEndWeight(100, 500, 0.05) + remapQualityToRange(quality, 0, 100),
             TICRATE
         );
         // stat2 is "percentage at which it stops"
-        stat2 = rnd.multipliedWeightedRandByEndWeight(25, 75, 0.1);
+        stat2 = rnd.multipliedWeightedRandByEndWeight(50, 95, 0.1);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
     }
     const precision = 1000;
     int fractionAccumulator;
@@ -228,10 +234,12 @@ class ASuffDegrading : RwArmorSuffix {
 }
 
 class ASuffAbsImprove : RwArmorSuffix {
+    bool maxEffectReached;
     override string getName() {
         return "AdapTek";
     }
     override string getDescription() {
+        if (maxEffectReached && Gametime.GetPhase(3*TICRATE/2)) return " -> ABS already at maximum";
         return "Gain +1% ABS (max "..modifierLevel..") for each "..stat2.." repaired";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
@@ -242,7 +250,7 @@ class ASuffAbsImprove : RwArmorSuffix {
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
         modifierLevel = remapQualityToRange(quality, 5*arm.stats.AbsorbsPercentage/4, min(5*arm.stats.AbsorbsPercentage/2, 100));
-        stat2 = 65 - rnd.multipliedWeightedRandByEndWeight(0, 30, 0.05); // Upgrade each this much repaired
+        stat2 = 60 - rnd.multipliedWeightedRandByEndWeight(0, 30, 0.05); // Upgrade each this much repaired
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RandomizedArmor arm = RandomizedArmor(affixedItem);
@@ -250,14 +258,19 @@ class ASuffAbsImprove : RwArmorSuffix {
             arm.stats.AbsorbsPercentage += 1;
             arm.cumulativeRepair = 0;
         }
+        if (modifierLevel <= arm.stats.AbsorbsPercentage) {
+            maxEffectReached = true;
+        }
     }
 }
 
 class ASuffDrbImprove : RwArmorSuffix {
+    bool maxEffectReached;
     override string getName() {
         return "Overbuild";
     }
     override string getDescription() {
+        if (maxEffectReached && Gametime.GetPhase(3*TICRATE/2)) return " -> DRB already at maximum";
         return "Gain +1 DRB (max "..modifierLevel..") for each "..stat2.." repaired";
     }
     override bool isCompatibleWithAffClass(Affix a2) {
@@ -270,7 +283,7 @@ class ASuffDrbImprove : RwArmorSuffix {
         // 120-250% max
         let percentage = rnd.multipliedWeightedRandByEndWeight(120, 200, 0.05) + remapQualityToRange(quality, 0, 50);
         modifierLevel = math.getIntPercentage(arm.stats.maxDurability, percentage);
-        stat2 = 55 - rnd.multipliedWeightedRandByEndWeight(0, 35, 0.05); // Upgrade each this much repaired
+        stat2 = 50 - rnd.multipliedWeightedRandByEndWeight(0, 35, 0.05); // Upgrade each this much repaired
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RandomizedArmor arm = RandomizedArmor(affixedItem);
@@ -278,6 +291,9 @@ class ASuffDrbImprove : RwArmorSuffix {
             arm.stats.maxDurability += 1;
             arm.stats.currDurability += 1;
             arm.cumulativeRepair = 0;
+        }
+        if (modifierLevel <= arm.stats.maxDurability) {
+            maxEffectReached = true;
         }
     }
 }
@@ -349,7 +365,7 @@ class ASuffSelfrepair : RwArmorSuffix {
         return "UAC Nanotech";
     }
     override string getDescription() {
-        return String.Format("Repairs itself for %.1f DRB/sec", (double(modifierLevel) * TICRATE/precision));
+        return String.Format("Repairs itself for %.1f DRB/sec", (double(modifierLevel) * TICRATE/1000));
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'ASuffDegrading';
@@ -364,11 +380,9 @@ class ASuffSelfrepair : RwArmorSuffix {
             TICRATE
         );
     }
-    const precision = 1000;
-    int fractionAccumulator;
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RandomizedArmor arm = RandomizedArmor(affixedItem);
-        let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, fractionAccumulator);
+        let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, arm.stats.currRepairFraction);
         if (addAmount > 0) {
             arm.RepairFor(addAmount);
         }
@@ -440,7 +454,10 @@ class ASuffECellsSpend : RwArmorSuffix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 10);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 15, 0.1) + remapQualityToRange(quality, 0, 10);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RandomizedArmor arm = RandomizedArmor(affixedItem);
@@ -460,7 +477,7 @@ class ASuffEBonusRepair : RwArmorSuffix {
         return "Recycling";
     }
     override string getDescription() {
-        return String.Format("Can be recharged by armor bonuses (+%d)", modifierLevel);
+        return String.Format("Can be recharged by armor bonuses (+%s)", StringsHelper.FixedPointIntAsString(modifierLevel, 1000));
     }
     override int getAlignment() {
         return 1;
@@ -469,8 +486,8 @@ class ASuffEBonusRepair : RwArmorSuffix {
         return arm.stats.IsEnergyArmor();
     }
     override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.05) + remapQualityToRange(quality, 0, 5);
-        arm.stats.BonusRepair = modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1000, 3000, 0.05) + remapQualityToRange(quality, 0, 4000);
+        arm.stats.RepairFromBonusx1000 = modifierLevel;
     }
 }
 

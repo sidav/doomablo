@@ -10,10 +10,6 @@ extend class RwHudArtifactStatsCollector {
         addTwoLabelsLine("Durability:", armr.stats.currDurability.."/"..armr.stats.maxDurability..compareStr, 
                     Font.CR_White, compareClr);
 
-        // if (armr.stats.DamageReduction > 0) {
-        //     PrintTableLine("Incoming damage", "-"..armr.stats.DamageReduction, pickupableStatsTableWidth,
-        //             itemStatsFont, textFlags, Font.CR_White);    
-        // }
         if (armrCmp && armr.stats.AbsorbsPercentage != armrCmp.stats.AbsorbsPercentage) {
             compareStr = " ("..intToSignedStr(armr.stats.AbsorbsPercentage - armrCmp.stats.AbsorbsPercentage).."%)";
             compareClr = GetDifferenceColor(armr.stats.AbsorbsPercentage - armrCmp.stats.AbsorbsPercentage);
@@ -55,14 +51,14 @@ extend class RwHudArtifactStatsCollector {
 
         } else {
 
-            if (armrCmp && armr.stats.BonusRepair != armrCmp.stats.BonusRepair) {
-                compareStr = " ("..intToSignedStr(armr.stats.BonusRepair - armrCmp.stats.BonusRepair)..")";
-                compareClr = GetDifferenceColor(armr.stats.BonusRepair - armrCmp.stats.BonusRepair);
+            if (armrCmp && armr.stats.RepairFromBonusx1000 != armrCmp.stats.RepairFromBonusx1000) {
+                compareStr = " ("..StringsHelper.FixedPointIntAsSignedString(armr.stats.RepairFromBonusx1000 - armrCmp.stats.RepairFromBonusx1000, 1000)..")";
+                compareClr = GetDifferenceColor(armr.stats.RepairFromBonusx1000 - armrCmp.stats.RepairFromBonusx1000);
             } else {
                 compareStr = "";
                 compareClr = Font.CR_White;
             }
-            addTwoLabelsLine("Repair amount", armr.stats.BonusRepair..compareStr,
+            addTwoLabelsLine("Repair amount", StringsHelper.FixedPointIntAsString(armr.stats.RepairFromBonusx1000, 1000)..compareStr,
                         Font.CR_White, compareClr);
 
         }

@@ -20,8 +20,8 @@ class RwArmorBonus : Inventory
         let plr = RwPlayer(toucher);
         if (plr && plr.CurrentEquippedArmor) {
             let arm = plr.CurrentEquippedArmor;
-			if (arm.stats.BonusRepair > 0 && arm.stats.currDurability < arm.stats.maxDurability) {
-				let repairAmount = arm.stats.BonusRepair;
+			if (arm.stats.RepairFromBonusx1000 > 0 && arm.stats.currDurability < arm.stats.maxDurability) {
+				let repairAmount = math.AccumulatedFixedPointAdd(0, arm.stats.RepairFromBonusx1000, 1000, arm.stats.currRepairFraction);
 				arm.RepairFor(repairAmount);
 				Destroy();
 				return true;

@@ -19,8 +19,7 @@ class RwBlueArmor : RandomizedArmor
 		stats.currDurability = 100;
 		stats.maxDurability = 100;
 		stats.AbsorbsPercentage = 50;
-		stats.DamageReduction = 0;
-		stats.BonusRepair = 3;
+		stats.RepairFromBonusx1000 = 2500;
     }
 
 	override string GetRandomFluffName() {

@@ -40,12 +40,21 @@ class Affix abstract {
     }
 
     virtual bool IsCompatibleWithItem(Inventory item) {
-        debug.panicUnimplemented(self);
+        debug.panicUnimplemented(self, "IsCompatibleWithItem()");
         return false;
     }
 
     virtual void InitAndApplyEffectToItem(Inventory item, int quality) {
         debug.panicUnimplemented(self);
+    }
+
+    // Called when removing affixes from an item.
+    // Returns true if this affix can be removed.
+    // This should just revert the item stat alterations. This shouldn't remove itself from the item.
+    // If no stat alterations reversal is needed, it's safe to just return true.
+    virtual bool TryUnapplyingSelfFrom(Inventory item) {
+        // debug.print("Can't unapply affix: "..GetClassName()); // COMMENT THIS OUT WHEN NOT DEBUGGING!
+        return false;
     }
 
     // Helper method for code readability.
@@ -97,7 +106,7 @@ class Affix abstract {
 
     bool occuredMoreThanTicksAgo(int ticks) {
         if (level.maptime < lastEffectTick) {
-            debug.print("WARNING: Tick correction occured. Report if you see this.");
+            debug.warning("Tick correction occured. Report if you see this.");
             lastEffectTick = level.maptime;
         }
         return (level.maptime - lastEffectTick) > ticks;

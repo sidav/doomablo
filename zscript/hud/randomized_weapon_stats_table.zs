@@ -3,8 +3,7 @@ extend class MyCustomHUD {
     void DrawPickupableWeaponInfo(RandomizedWeapon wpn, RwPlayer plr) {
         RandomizedWeapon wpnComp = RandomizedWeapon(CPlayer.ReadyWeapon);
 
-        let handler = PressToPickupHandler(EventHandler.Find('PressToPickupHandler'));
-        let wpn = RandomizedWeapon(handler.currentItemToPickUp);
+        let wpn = RandomizedWeapon(PressToPickupHandler.GetItemUnderCrosshair());
         if (!wpn || wpnComp == wpn) return;
 
         currentLineHeight = 0;

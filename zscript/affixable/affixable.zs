@@ -99,6 +99,7 @@ mixin class Affixable {
             do {
                 if (try >= ASSIGN_TRIES) {
                     handleGenerationFailure(affQualities, i);
+                    newAffix = null;
                     break;
                 }
                 try++;
@@ -107,8 +108,11 @@ mixin class Affixable {
             } until (
                 isNewAffixApplicable(newAffix, affQualities[i], appliedSuffixesCount)
             );
-            appliedAffixes.push(newAffix);
-            if (newAffix.isSuffix()) appliedSuffixesCount++;
+            // newAffix can be null only in case of generation failure; but the routine shouldn't crash even then
+            if (newAffix != null) {
+                appliedAffixes.push(newAffix);
+                if (newAffix.isSuffix()) appliedSuffixesCount++;
+            }
         }
         reorderAppliedAffixes();
         // Apply them in reverse order on purpose (so that the name generation will have correct affix order)
@@ -122,6 +126,11 @@ mixin class Affixable {
         // Suffix constraint: force selecting a suffix if there are not enough
         let minSuffixes = minSuffixesForRarity(generatedRarity);
         let minSuffixesCheck = newAffix.isSuffix() || appliedSuffixesCount >= minSuffixes;
+        // Additional higher rarity for suffixes, but only if the min count is already satisfied
+        // TODO: maybe it's a bad place for this?! Side effects and stuff.
+        if (newAffix.isSuffix() && appliedSuffixesCount >= minSuffixes) {
+            if (rnd.percentChance(35)) return false;
+        }
         // WORKAROUND: Monster affixes have no difference between prefix and suffix, so we ignore this constraint
         // TODO: rework this (split monster affixes to prefix/suffix?)
         if (self is 'RwMonsterAffixator') minSuffixesCheck = true;
@@ -131,7 +140,7 @@ mixin class Affixable {
         let maxSuffixesCheck = !newAffix.isSuffix() || appliedSuffixesCount < maxSuffixes;
 
         return
-            // (newAffix.GetClass() == 'ASuffHealthToDurab' || (rnd.randn(4000) == 0)) &&  // Uncomment for specific affix testing
+            // (newAffix.GetClass() == 'WSuffMaxDamageSelfUpgrade' || (rnd.randn(10) == 0)) &&  // Uncomment for specific affix testing
             newAffix.isEnabled() && // Dev option for affixes disabling
             newAffix.IsCompatibleWithItem(self) &&
             newAffix.IsCompatibleWithListOfAffixes(appliedAffixes) && 
@@ -142,16 +151,16 @@ mixin class Affixable {
     }
 
     private void handleGenerationFailure(array <int> affQualities, int currentQtyIndex) {
-        debug.print("GENERATION FAILURE: Failed to find appropriate affix for "..self.GetClassName().." after "..ASSIGN_TRIES.." tries");
-        debug.print("  Found "..appliedAffixes.Size().." out of "..affQualities.Size().." expected affixes.");
-        debug.print("  Arguments: affQualities "..debug.intArrToString(affQualities).."; rarity "..generatedRarity);
-        debug.print("  Failed at "..currentQtyIndex.."th quality with value of "..affQualities[currentQtyIndex]);
-        debug.print("  Applied affixes:");
+        debug.warning("GENERATION FAILURE: Failed to find appropriate affix for "..self.GetClassName().." after "..ASSIGN_TRIES.." tries");
+        debug.warning("  Found "..appliedAffixes.Size().." out of "..affQualities.Size().." expected affixes.");
+        debug.warning("  Arguments: affQualities "..debug.intArrToString(affQualities).."; rarity "..generatedRarity);
+        debug.warning("  Failed at "..currentQtyIndex.."th quality with value of "..affQualities[currentQtyIndex]);
+        debug.warning("  Applied affixes:");
         Affix a;
         foreach(a : appliedAffixes) {
-            debug.print("  ->  "..a.getName());
+            debug.warning("  ->  "..a.getName());
         }
-        debug.print("  Generation was interrupted.");
+        debug.warning("  Generation was interrupted.");
     }
 
     private void reorderAppliedAffixes() {
@@ -182,13 +191,14 @@ mixin class Affixable {
         return null;
     }
 
-    Affix getAppliedSuffix() {
+    private int countAppliedSuffixes() {
+        let count = 0;
         foreach (aff : appliedAffixes) {
             if (aff.isSuffix()) {
-                return aff;
+                count++;
             }
         }
-        return null;
+        return count;
     }
 
     // True if has no negative affixes
@@ -199,6 +209,48 @@ mixin class Affixable {
             }
         }
         return true;
+    }
+
+    // Returns the replaced affix and the affix it was replaced with.
+    // Automatically "unapplies" affix effects.
+    // Needed for artifact-modifying items.
+    // TODO: allow selection of desired alignments for affected affixes
+    Affix, Affix replaceRandomAffixWithRandomAffix() {
+        Affix removed, newAffix;
+        for (let i = 0; i < appliedAffixes.Size(); i++) {
+			let aff = appliedAffixes[i];
+			if (aff.TryUnapplyingSelfFrom(self)) {
+				removed = aff;
+				appliedAffixes.Delete(i, 1);
+				break;
+			}
+		}
+        if (!removed) {
+            return null, null;
+        }
+
+        let qualityForNewAffix = rnd.Rand(generatedQuality/3 + 1, 2*generatedQuality/3 + 1); // TODO: move this to arguments?
+        let appliedSuffixes = countAppliedSuffixes();
+        let try = 0;
+        do {
+            if (try >= ASSIGN_TRIES) {
+                debug.print("ERROR: Can't find an appropriate affix.");
+                return removed, null;
+            }
+            try++;
+            if (rnd.PercentChance(50)) { // Generate bad affixes too, why not.
+                qualityForNewAffix = -qualityForNewAffix;
+            }
+            newAffix = Affix.GetRandomAffixFor(self);
+        } until (
+            newAffix.GetClass() != removed.GetClass() &&
+                isNewAffixApplicable(newAffix, qualityForNewAffix, appliedSuffixes)
+        );
+
+        appliedAffixes.push(newAffix);
+        newAffix.InitAndApplyEffectToItem(self, abs(qualityForNewAffix));
+        reorderAppliedAffixes();
+        return removed, newAffix;
     }
 
     clearscope int getRarity() {
@@ -258,7 +310,7 @@ mixin class Affixable {
 
     string nameRar3Item() {
         string setName = rwBaseName;
-        Affix suffix = getAppliedSuffix();
+        Affix suffix = appliedAffixes[0]; // We can count that affixes are ordered now
 
         if (suffix) {
             return nameWithAffixNamesAppended();
@@ -274,7 +326,7 @@ mixin class Affixable {
 
     void attachRarityIndicatorIfNone() {
         if (attachedRarityIndicator == null) {
-            attachedRarityIndicator = RarityIndicator.Attach(self, appliedAffixes.Size());
+            attachedRarityIndicator = RarityIndicator.Attach(self, GetRarity());
         }
     }
 

@@ -22,8 +22,9 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
         OneTimeItems.insert("Berserk",5);
         OneTimeItems.insert("MegaSphere",3);
         OneTimeItems.insert("InvulnerabilitySphere",1);
-        OneTimeItems.insert("StatScroll",10);
         OneTimeItems.insert("RwFlaskRefill",200);
+        OneTimeItems.insert("TomeOfChange", 5);
+        OneTimeItems.insert("StatScroll",5);
         // Also, ammo items.
         // No plans to add new ammo, AFAIK.
         AmmoItems.insert("Clip",5);

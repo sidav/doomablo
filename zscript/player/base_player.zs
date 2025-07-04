@@ -35,7 +35,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
 
         let ba = FindInventory('BasicArmor');
         if (ba != null) {
-            // debug.print("Basic armor exists! Amount: "..ba.Amount);
+            // debug.warning("Basic armor exists! Amount: "..ba.Amount);
             if (CurrentEquippedArmor != null) {
                 CurrentEquippedArmor.RepairFor(ba.Amount);
             }
@@ -90,18 +90,77 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         }
     }
 
+    ///////////////////////////
     // Stats/EXP related
     void reapplyPlayerStats() {
         if (stats == null) {
             stats = RwPlayerStats.Create();
         }
-        if (!stats.statsChanged) return;
-        stats.statsChanged = false;
+
+        if (!(stats.baseStatsChanged || didEquippedItemsChange())) return;
+        stats.baseStatsChanged = false;
+        stats.ResetCurrentStats();
+        applyPlayerStatsFromEquippedItems();
 
         // Apply max health
         let initialMaxHp = MaxHealth;
         MaxHealth = stats.GetMaxHealth();
-        GiveBody(MaxHealth - initialMaxHp, MaxHealth);
+        let diff = MaxHealth - initialMaxHp;
+        // Add/remove health if max hp is changed.
+        if (diff > 0)
+            GiveBody(MaxHealth - initialMaxHp, MaxHealth);
+        else if (Health > -diff) // Don't kill the player!
+            damageMobj(null, null, -diff, 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR|DMG_NO_PAIN);
+    }
+
+    // We store those to detect eqipped item changes
+    private Inventory prevTickArmor, prevTickBackpack, prevTickWeapon, prevTickFlask;
+    private bool didEquippedItemsChange() {
+        let changed = false;
+        if (prevTickWeapon != Player.ReadyWeapon) {
+            changed = true;
+            prevTickWeapon = Player.ReadyWeapon;
+        }
+        if (prevTickArmor != CurrentEquippedArmor) {
+            changed = true;
+            prevTickArmor = CurrentEquippedArmor;
+        }
+        if (prevTickBackpack != CurrentEquippedBackpack) {
+            changed = true;
+            prevTickBackpack = CurrentEquippedBackpack;
+        }
+        if (prevTickFlask != CurrentEquippedFlask) {
+            changed = true;
+            prevTickFlask = CurrentEquippedFlask;
+        }
+        return changed;
+    }
+
+    // This reapplies the stats modifiers if the equipped items have changed. Don't call this too frequently, it's slow
+    private void applyPlayerStatsFromEquippedItems() {
+        if (CurrentEquippedArmor != null) {
+            foreach (aff : CurrentEquippedArmor.appliedAffixes) {
+                aff.onPlayerStatsRecalc(self);
+            }
+        }
+        if (CurrentEquippedBackpack != null) {
+            foreach (aff : CurrentEquippedBackpack.appliedAffixes) {
+                aff.onPlayerStatsRecalc(self);
+            }
+        }
+        if (CurrentEquippedFlask != null) {
+            foreach (aff : CurrentEquippedFlask.appliedAffixes) {
+                aff.onPlayerStatsRecalc(self);
+            }
+        }
+        if (Player) {
+            let currWpn = RandomizedWeapon(Player.ReadyWeapon);
+            if (currWpn != null) {
+                foreach (aff : currWpn.appliedAffixes) {
+                    aff.onPlayerStatsRecalc(self);
+                }
+            }
+        }
     }
 
     void ReceiveExperience(double amount) {

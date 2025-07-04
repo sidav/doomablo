@@ -8,9 +8,10 @@ class RwPlayerStats {
 	}
     const totalStatsCount = 5;
     int baseStats[totalStatsCount];
+    int currentStats[totalStatsCount]; // Those are stats with modifiers
 
     int statPointsAvailable;
-    bool statsChanged; // True if stats need to be re-applied to Player
+    bool baseStatsChanged; // True if stats need to be re-applied to Player
 
     static RwPlayerStats Create() {
         let newStats = new('RwPlayerStats');
@@ -22,16 +23,14 @@ class RwPlayerStats {
         newStats.baseStats[StatCritDmg] = 0;
         newStats.baseStats[StatMeleeDmg] = 0;
         newStats.baseStats[StatRareFind] = 0;
-        newStats.statsChanged = true;
+        newStats.ResetCurrentStats();
+        newStats.baseStatsChanged = true;
         return newStats;
     }
 
-    // Full crit logic in a single func (maybe it's slow?)
-    int rollAndModifyDamageForCrit(int initialDamage) {
-        // Roll for crit chance itself first
-        if (rollCritChance()) {
-            return getCritDamageFor(initialDamage);
+    void ResetCurrentStats() {
+        for (let i = 0; i < baseStats.Size(); i++) {
+            currentStats[i] = baseStats[i];
         }
-        return initialDamage;
     }
 }

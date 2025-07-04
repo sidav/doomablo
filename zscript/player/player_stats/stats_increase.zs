@@ -3,7 +3,7 @@ extend class RwPlayerStats {
         if (statPointsAvailable < 1) return false;
         switch (id) {
             case StatVitality: 
-                return GetMaxHealth() < 300;
+                return GetMaxHealth() < 500;
             case StatCritChance: 
                 return getCritChancePromille() < 1000;
             case StatCritDmg: 
@@ -17,9 +17,17 @@ extend class RwPlayerStats {
         return false;
     }
 
-    void doIncreaseStat(int id) {
+    // This should be called by player level-up routines
+    void doIncreaseBaseStat(int id) {
         statPointsAvailable--;
         baseStats[id]++;
-        statsChanged = true;
+        currentStats[id]++;
+        baseStatsChanged = true;
+    }
+
+    // This should be called by stat-altering items
+    void modifyCurrentStat(int id, int amount) {
+        currentStats[id] += amount;
+        // currentStats[id] = max(0, currentStats[id]);
     }
 }

@@ -1,10 +1,11 @@
 class RwArmorStats {
     int currDurability;
+    int currRepairFraction; // stores current fractional part of the repair progress.
+                            // OR currect fraction of energy armor recharge
+
     int maxDurability;
     int AbsorbsPercentage; // this many percents of damage will be directed to armor amount.
-    int DamageReduction; // this many points of damage will be nullified.
-    int BonusRepair; // How many armor points it gets from armor bonus. Is 0, can't be repaired.
-    // Damage can't be nullified to 0, and can't be nullified if damage is higher than current armor amount
+    int RepairFromBonusx1000; // How many armor points it gets from armor bonus, x1000 for fraction. If 0, can't be repaired.
 
     int delayUntilRecharge; // Ticks. Only for energy armor
     int energyRestoreSpeedX1000; // Restored per tick. x1000 because of frame-logic related fixed point math

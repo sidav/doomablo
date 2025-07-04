@@ -86,6 +86,15 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
         case 'HealthBonus':
 			if (startOfLevel && rnd.OneChanceFrom(4)) e.Replacement = 'RwFlaskRefill';
             break;
+        case 'Soulsphere':
+			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
+            break;
+        case 'Blursphere':
+			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
+            break;
+        case 'Megasphere':
+			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
+            break;
         }
 	}
 

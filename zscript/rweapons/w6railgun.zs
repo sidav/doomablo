@@ -97,7 +97,7 @@ class RwRailgun : RandomizedWeapon
 		stats = RWStatsClass.NewWeaponStats(
 			minDmg: 65, maxDmg: 125,
 			pell: 1,
-			ammousg: 15,
+			ammousg: 10,
 			hSpr: 0.5,
 			vSpr: 0.5
 		);

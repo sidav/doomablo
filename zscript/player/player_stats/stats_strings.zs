@@ -1,17 +1,36 @@
 extend class RwPlayerStats {
 
-    string getStatButtonText(int id) {
+    static string getStatName(int id) {
         switch (id) {
-            case StatVitality: 
-                return String.Format("Vitality:   %d", baseStats[StatVitality]);
+            case StatVitality:
+                return String.Format("Vitality");
             case StatCritChance: 
-                return String.Format("Crit chance lvl: %d", baseStats[StatCritChance]);
+                return String.Format("Crit chance");
             case StatCritDmg: 
-                return String.Format("Crit dmg lvl: %d", baseStats[StatCritDmg]);
+                return String.Format("Crit dmg");
             case StatMeleeDmg: 
-                return String.Format("Fist dmg lvl: %d", baseStats[StatMeleeDmg]);
+                return String.Format("Strength lvl");
             case StatRareFind:
-                return String.Format("Rare find chance lvl: %d", baseStats[StatRareFind]);
+                return String.Format("Rare find");
+        }
+        return "Unknown stat: "..id;
+    }
+
+    string getStatButtonText(int id) {
+        string nonBaseStatStr = "";
+        if (baseStats[id] != currentStats[id])
+            nonBaseStatStr = " ("..currentStats[id]..")";
+        switch (id) {
+            case StatVitality:
+                return String.Format("Vitality:   %d"..nonBaseStatStr, baseStats[StatVitality]);
+            case StatCritChance: 
+                return String.Format("Crit chance lvl: %d"..nonBaseStatStr, baseStats[StatCritChance]);
+            case StatCritDmg: 
+                return String.Format("Crit dmg lvl: %d"..nonBaseStatStr, baseStats[StatCritDmg]);
+            case StatMeleeDmg: 
+                return String.Format("Strength lvl: %d"..nonBaseStatStr, baseStats[StatMeleeDmg]);
+            case StatRareFind:
+                return String.Format("Rare find chance lvl: %d"..nonBaseStatStr, baseStats[StatRareFind]);
         }
         debug.print("Unknown stat text: "..id);
         return "";
@@ -53,11 +72,16 @@ extend class RwPlayerStats {
                         .." The effect is twice as small for each next rarity level.\n"
                         ..newLineString
                         .."Your current chances for increased rarity are:\n\n"
-                        ..String.Format("Uncommon: +%.1f%%\n", double(getIncreaseRarityChancePromilleFor(0))/10)
-                        ..String.Format("Rare: +%.1f%%\n", double(getIncreaseRarityChancePromilleFor(1))/10)
-                        ..String.Format("Epic: +%.1f%%\n", double(getIncreaseRarityChancePromilleFor(2))/10)
-                        ..String.Format("Legendary: +%.1f%%\n", double(getIncreaseRarityChancePromilleFor(3))/10)
-                        ..String.Format("Mythic: +%.1f%%\n", double(getIncreaseRarityChancePromilleFor(4))/10);
+                        ..String.Format("Uncommon: %s\n",
+                            StringsHelper.IntPromilleAsSignedPercentageString(getIncreaseRarityChancePromilleFor(0)))
+                        ..String.Format("Rare: %s\n",
+                            StringsHelper.IntPromilleAsSignedPercentageString(getIncreaseRarityChancePromilleFor(1)))
+                        ..String.Format("Epic: %s\n",
+                            StringsHelper.IntPromilleAsSignedPercentageString(getIncreaseRarityChancePromilleFor(2)))
+                        ..String.Format("Legendary: %s\n",
+                            StringsHelper.IntPromilleAsSignedPercentageString(getIncreaseRarityChancePromilleFor(3)))
+                        ..String.Format("Mythic: %s\n",
+                            StringsHelper.IntPromilleAsSignedPercentageString(getIncreaseRarityChancePromilleFor(4)));
         }
         debug.print("Unknown stat description: "..id);
         return "";

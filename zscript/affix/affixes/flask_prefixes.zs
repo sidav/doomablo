@@ -31,6 +31,10 @@ class FPrefLessMaxHeal : RwFlaskPrefix {
         modifierLevel = 100 - rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) - quality/10;
         fsk.stats.healsUntilPercentage = modifierLevel;
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwFlask(item).stats.healsUntilPercentage = 100;
+        return true;
+    }
 }
 
 class FPrefMoreMaxHeal : RwFlaskPrefix {
@@ -69,6 +73,10 @@ class FPrefLessHeal : RwFlaskPrefix {
         let minPerc = math.minimumMeaningIntPercent(fsk.stats.healAmount);
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 15, 0.1) + quality/10;
         fsk.stats.healAmount = math.getIntPercentage(fsk.stats.healAmount, 100 - modifierLevel);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwFlask(item).stats.healAmount = math.getWholeByPartPercentage(RwFlask(item).stats.healAmount, 100 - modifierLevel);
+        return true;
     }
 }
 
@@ -109,6 +117,10 @@ class FPrefLongerDuration : RwFlaskPrefix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + quality/10;
         fsk.stats.healDurationTicks = math.getIntPercentage(fsk.stats.healDurationTicks, 100 + modifierLevel);
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwFlask(item).stats.healDurationTicks = math.getWholeByPartPercentage(RwFlask(item).stats.healDurationTicks, 100 + modifierLevel);
+        return true;
+    }
 }
 
 class FPrefShorterDuration : RwFlaskPrefix {
@@ -146,6 +158,10 @@ class FPrefLessCharges : RwFlaskPrefix {
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, fsk.stats.maxCharges - fsk.stats.chargeConsumption, 0.1);
         fsk.stats.maxCharges -= modifierLevel;
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwFlask(item).stats.maxCharges += modifierLevel;
+        return true;
     }
 }
 
@@ -186,6 +202,10 @@ class FPrefBiggerConsumption : RwFlaskPrefix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, min(diff, 10), 0.1);
         fsk.stats.chargeConsumption += modifierLevel;
     }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwFlask(item).stats.chargeConsumption -= modifierLevel;
+        return true;
+    }
 }
 
 class FPrefSmallerConsumption : RwFlaskPrefix {
@@ -223,6 +243,10 @@ class FPrefLongerCooldown : RwFlaskPrefix {
     override void initAndapplyEffectToRFlask(RWFlask fsk, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + quality/10;
         fsk.stats.usageCooldownTicks = math.getIntPercentage(fsk.stats.usageCooldownTicks, 100 + modifierLevel);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwFlask(item).stats.usageCooldownTicks = math.getWholeByPartPercentage(RwFlask(item).stats.usageCooldownTicks, 100 + modifierLevel);
+        return true;
     }
 }
 

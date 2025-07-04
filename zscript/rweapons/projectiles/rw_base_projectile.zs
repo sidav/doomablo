@@ -33,6 +33,16 @@ class RwProjectile : Actor {
 		vel.z *= factor;
 	}
 
+	// Needed for when this object is spawned via e.g. affixes and not fired as usual.
+	void setStatsForExternallySpawned(int dmg, int radius, bool noDmgToOwner) {
+		// Set damage. DO NOT use SetDamage() for this, because it makes the projectile have randomized damage 
+		// (it's some strange implicit Doom behavior)
+		rwSetDmg = dmg;
+        rwExplosionRadius = radius;
+		explosionSpriteScale = 1.0;
+        noDamageToOwner = noDmgToOwner;
+	}
+
 	action void rwExplode() {
 		self.scale = (invoker.explosionSpriteScale, invoker.explosionSpriteScale);
 		A_Explode(

@@ -19,7 +19,8 @@ extend class Affix {
     // Armor
     virtual play void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {}
 
-    // Player-beneficial
+    // Player-beneficial or player-related
+    virtual play void onPlayerStatsRecalc(RwPlayer owner) {}
     virtual play void onHandlePickup(Inventory pickedUp) {}
 
     // For monster affixes

@@ -1,6 +1,12 @@
 class Debug {
+    // Use this for stuff that should be printed only in development
     static void print(string msg) {
         console.printf(msg);
+    }
+
+    // Use this for stuff that should be printed even in release version
+    static void warning(string msg) {
+        console.printf("[WARN]: "..msg);
     }
 
     static void tprint(string msg) {
@@ -11,8 +17,8 @@ class Debug {
         ThrowAbortException(msg);
     }
 
-    static void panicUnimplemented(Object caller) {
-        ThrowAbortException("Something is unimplemented in "..caller.GetClassName());
+    static void panicUnimplemented(Object caller, string message = "Something") {
+        ThrowAbortException(message.." is unimplemented in "..caller.GetClassName());
     }
 
     static string intArrToString(array <int> arr) {

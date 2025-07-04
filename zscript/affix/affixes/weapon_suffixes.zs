@@ -42,7 +42,6 @@ class WSuffVampiric : RwWeaponSuffix {
         } else if (wpn.stats.clipSize > 5) {
             maxPercentage = 40;
         }
-        // debug.print("maxPerc is "..maxPercentage);
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxPercentage/2, 0.1) + remapQualityToRange(quality, 0, maxPercentage/2);
     }
 
@@ -136,7 +135,8 @@ class WSuffPoison : RwWeaponSuffix {
             maxPercentage = 33;
         }
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxPercentage, 0.05) + quality/25;
-        stat2 = StatsScaler.ScaleIntValueByLevelRandomized(1, quality);
+        let baseDmg = rnd.multipliedWeightedRandByEndWeight(1, 3, 0.1) + remapQualityToRange(quality, 0, 2);
+        stat2 = StatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
     }
     override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (rnd.PercentChance(modifierLevel)) {
@@ -193,9 +193,32 @@ class WSuffPain : RwWeaponSuffix {
     }
 }
 
-class WSuffHoly : RwWeaponSuffix {
+class WSuffMoreDmgToCommonEnemies : RwWeaponSuffix {
     override string getName() {
-        return "Holy";
+        return "Pest control";
+    }
+    override string getDescription() {
+        return modifierLevel.."% additional damage to common enemies";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 20, 0.1) + remapQualityToRange(quality, 0, 30);
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WSuffMoreDmgToRareEnemies';
+    }
+    // UPD: ModifyDamage() can't support conditions like rarity :(
+    // Maybe it makes sense to add OnModifyDamageReceivedByMonster() callback?
+    override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (RwMonsterAffixator.GetMonsterRarity(target) == 0) {
+            // null inflictor causes callbacks to be skipped
+            target.damageMobj(null, plr, math.getIntPercentage(damage, modifierLevel), 'Normal');
+        }
+    }
+}
+
+class WSuffMoreDmgToRareEnemies : RwWeaponSuffix {
+    override string getName() {
+        return "Sanctity";
     }
     override string getDescription() {
         return modifierLevel.."% additional damage to Epic enemies and higher";
@@ -203,12 +226,39 @@ class WSuffHoly : RwWeaponSuffix {
     override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 50, 0.1) + remapQualityToRange(quality, 0, 50);
     }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WSuffMoreDmgToCommonEnemies';
+    }
     // UPD: ModifyDamage() can't support conditions like rarity :(
     // Maybe it makes sense to add OnModifyDamageReceivedByMonster() callback?
     override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (RwMonsterAffixator.GetMonsterRarity(target) >= 3) {
             // null inflictor causes callbacks to be skipped
             target.damageMobj(null, plr, math.getIntPercentage(damage, modifierLevel), 'Normal');
+        }
+    }
+}
+
+class WSuffRemoveAffixesFromEnemies : RwWeaponSuffix {
+    override string getName() {
+        return "Purity";
+    }
+    override string getDescription() {
+        return modifierLevel.."% chance to remove affix from target enemy";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.1) + remapQualityToRange(quality, 0, 5);
+    }
+    override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (rnd.PercentChance(modifierLevel)) {
+            let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
+            if (!monAff || monAff.appliedAffixes.Size() == 0) return;
+            for (let i = 0; i < monAff.appliedAffixes.Size(); i++) {
+                if (monAff.appliedAffixes[i].TryUnapplyingSelfFrom(monAff)) {
+                    monAff.appliedAffixes.Delete(i, 1);
+                    return;
+                }
+            }
         }
     }
 }
@@ -251,6 +301,33 @@ class WSuffSpawnBarrelOnKill : RwWeaponSuffix {
     }
 }
 
+class WSuffTargetExplode : RwWeaponSuffix {
+    override string getName() {
+        return "Overloading";
+    }
+    override string getDescription() {
+        return modifierLevel.."% chance for killed target to explode ("..stat2.." DMG)";
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 10);
+        int baseDmg = rnd.multipliedWeightedRandByEndWeight(10, 30, 0.1);
+        stat2 = StatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
+    }
+    override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (rnd.PercentChance(modifierLevel)) {
+            // It's a workaround... Maybe a separate "explosion" class is needed?
+            let explosion = RwProjectile(target.Spawn("RwRocket", target.Pos.PlusZ(target.Height/2)));
+            explosion.setStatsForExternallySpawned(stat2, 96, true);
+            explosion.target = plr; // Setting this so that the explosion won't damage the player
+            let expState = explosion.ResolveState('Death');
+            if (expState) {
+                explosion.SetState(expState);
+            }
+        }
+    }
+}
+
+////////////////////////////
 // Hitscan only
 class WSuffMinirockets : RwWeaponSuffix {
     override string getName() {
@@ -330,5 +407,112 @@ class WSuffSlugshotShotgun : RwWeaponSuffix {
             debug.print("Unknown wpn class to apply WSuffSlugshotShotgun to: "..wpn.GetClassName());
             return;
         }
+    }
+}
+
+////////////////////////////
+// Self-upgrade affixes
+class WSuffRofSelfUpgrade : RwWeaponSuffix {
+    bool maxEffectReached;
+    override string getName() {
+        return "Consecration";
+    }
+    override int selectionProbabilityPercentage() {
+        return 50;
+    }
+    override string getDescription() {
+        if (Gametime.GetPhase(3*TICRATE/2)) {
+            return "Gain +1% rate of fire (max +"..modifierLevel.."%) for each epic+ kill";
+        } else {
+            if (maxEffectReached) return " -> RoF +"..modifierLevel.."% - already at maximum";
+            return " -> Currently +"..stat2.."% gained";
+        }
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        // 10-30% max
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 20, 0.05) + remapQualityToRange(quality, 0, 10);
+        stat2 = 0; // stat2 is current cumulative increase
+    }
+    override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (maxEffectReached) return;
+        let rWeap = RandomizedWeapon(plr.Player.ReadyWeapon);
+        if (!rWeap) return;
+        let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
+        if (!monAff || monAff.GetRarity() < 3) return;
+
+        rWeap.stats.rofModifier++;
+        stat2++;
+        if (stat2 >= modifierLevel) maxEffectReached = true;
+    }
+}
+
+class WSuffReloadSpeedSelfUpgrade : RwWeaponSuffix {
+    bool maxEffectReached;
+    override string getName() {
+        return "Servant";
+    }
+    override int selectionProbabilityPercentage() {
+        return 50;
+    }
+    override string getDescription() {
+        if (Gametime.GetPhase(3*TICRATE/2)) {
+            return "Gain +1% reload speed (max +"..modifierLevel.."%) for each epic+ kill";
+        } else {
+            if (maxEffectReached) return " -> Reload speed +"..modifierLevel.."% - already at maximum";
+            return " -> Currently +"..stat2.."% gained";
+        }
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        // 10-30% max
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 20, 0.05) + remapQualityToRange(quality, 0, 10);
+        stat2 = 0; // stat2 is current cumulative increase
+    }
+    override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (maxEffectReached) return;
+        let rWeap = RandomizedWeapon(plr.Player.ReadyWeapon);
+        if (!rWeap) return;
+        let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
+        if (!monAff || monAff.GetRarity() < 3) return;
+
+        rWeap.stats.reloadSpeedModifier++;
+        stat2++;
+        if (stat2 >= modifierLevel) maxEffectReached = true;
+    }
+}
+
+class WSuffMaxDamageSelfUpgrade : RwWeaponSuffix {
+    bool maxEffectReached;
+    int cumulativeDmgIncrease;
+    override string getName() {
+        return "Justicar";
+    }
+    override int selectionProbabilityPercentage() {
+        return 50;
+    }
+    override string getDescription() {
+        if (!maxEffectReached && Gametime.GetPhase(3*TICRATE/2)) {
+            return "Gain +"..modifierLevel.." max damage for next "..stat2.." legendary+ kills";
+        } else {
+            if (maxEffectReached) return " -> Max DMG +"..modifierLevel.." - already at maximum";
+            return " -> Currently +"..cumulativeDmgIncrease.." max DMG gained";
+        }
+    }
+    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+        let percentage = rnd.multipliedWeightedRandByEndWeight(5, 10, 0.1);
+        modifierLevel = max(1, math.getIntPercentage(wpn.stats.maxDamage, percentage)); // The increase itself
+        stat2 = rnd.multipliedWeightedRandByEndWeight(2, 4, 0.05) + remapQualityToRange(quality, 0, 3);
+        cumulativeDmgIncrease = 0;
+    }
+    override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (maxEffectReached) return;
+        let rWeap = RandomizedWeapon(plr.Player.ReadyWeapon);
+        if (!rWeap) return;
+        let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
+        if (!monAff || monAff.GetRarity() < 4) return;
+    
+        rWeap.stats.maxDamage += modifierLevel;
+        cumulativeDmgIncrease += modifierLevel;
+        stat2--;
+        if (stat2 == 0) maxEffectReached = true;
     }
 }

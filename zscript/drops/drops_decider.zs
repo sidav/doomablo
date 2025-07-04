@@ -75,7 +75,7 @@ class DropsDecider {
             rar = plr.stats.rollForIncreasedRarity(rar);
             qty = plr.rollForDropLevel();
         } else {
-            debug.print("Non-player quality roll, report this please!");
+            debug.warning("Non-player quality roll, report this please!");
             qty = 1;
         }
         qty = min(qty+qtyMod, 100);
