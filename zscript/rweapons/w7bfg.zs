@@ -1,4 +1,4 @@
-class RwBFG : RandomizedWeapon
+class RwBFG : RwWeapon
 {
 	Default
 	{
@@ -9,7 +9,7 @@ class RwBFG : RandomizedWeapon
 		+WEAPON.NOAUTOFIRE;
 		Inventory.PickupMessage "$GOTBFG9000";
 		Tag "$TAG_BFG9000";
-		RandomizedWeapon.Weight 1;
+		RwWeapon.Weight 1;
 	}
 	States
 	{

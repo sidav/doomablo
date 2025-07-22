@@ -1,10 +1,10 @@
 extend class Affix {
 
     static Affix GetRandomAffixFor(Inventory item) {
-        if (item is 'RandomizedWeapon') {
+        if (item is 'RwWeapon') {
             return GetRandomWeaponAffixInstance();
         } 
-        if (item is 'RandomizedArmor') {
+        if (item is 'RwArmor') {
             return GetRandomArmorAffixInstance();
         }
         if (item is 'RwBackpack') {

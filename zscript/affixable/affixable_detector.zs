@@ -2,15 +2,15 @@
 class AffixableDetector {
 
     static bool IsAffixableItem(Actor a) {
-        return (a is 'RandomizedWeapon') || (a is 'RandomizedArmor') || (a is 'RwBackpack') || (a is 'RwFlask');
+        return (a is 'RwWeapon') || (a is 'RwArmor') || (a is 'RwBackpack') || (a is 'RwFlask');
     }
 
     static string GetNameOfAffixableItem(Actor a) {
-        if (a is "RandomizedWeapon") {
-			return RandomizedWeapon(a).nameWithAppliedAffixes;
+        if (a is "RwWeapon") {
+			return RwWeapon(a).nameWithAppliedAffixes;
 		}
-		if (a is "RandomizedArmor") {
-			return RandomizedArmor(a).nameWithAppliedAffixes;
+		if (a is "RwArmor") {
+			return RwArmor(a).nameWithAppliedAffixes;
 		}
 		if (a is "RwBackpack") {
 			return RwBackpack(a).nameWithAppliedAffixes;

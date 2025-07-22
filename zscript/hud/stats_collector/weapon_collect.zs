@@ -1,6 +1,6 @@
 extend class RwHudArtifactStatsCollector {
 
-    void collectRWWeaponStats(RandomizedWeapon wpn, RandomizedWeapon wpnComp) {
+    void collectRWWeaponStats(RwWeapon wpn, RwWeapon wpnComp) {
         string compareStr = "";
         let compareClr = Font.CR_White;
         // Damage

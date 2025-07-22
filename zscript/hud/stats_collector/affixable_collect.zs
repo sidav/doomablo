@@ -5,14 +5,14 @@ extend class RwHudArtifactStatsCollector {
         string itemFullAffixedName = "Unknown Item";
         string itemBaseName = "Unknown class "..item.GetClassName();
 
-        if (RandomizedWeapon(item)) {
-            let wpn = RandomizedWeapon(item);
+        if (RwWeapon(item)) {
+            let wpn = RwWeapon(item);
             itemLvl = wpn.generatedQuality;
             itemRarity = wpn.GetRarity();
             itemFullAffixedName = wpn.nameWithAppliedAffixes;
             itemBaseName = wpn.rwBaseName;
-        } else if (RandomizedArmor(item)) {
-            let armr = RandomizedArmor(item);
+        } else if (RwArmor(item)) {
+            let armr = RwArmor(item);
             itemLvl = armr.generatedQuality;
             itemRarity = armr.GetRarity();
             itemFullAffixedName = armr.nameWithAppliedAffixes;

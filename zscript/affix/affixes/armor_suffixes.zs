@@ -1,8 +1,8 @@
 class RwArmorSuffix : Affix abstract {
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
-        initAndapplyEffectToRArmor(RandomizedArmor(item), quality);
+        initAndapplyEffectToRArmor(RwArmor(item), quality);
     }
-    protected virtual void initAndapplyEffectToRArmor(RandomizedArmor armor, int quality) {
+    protected virtual void initAndapplyEffectToRArmor(RwArmor armor, int quality) {
         debug.panicUnimplemented(self);
     }
     override bool isSuffix() {
@@ -18,10 +18,10 @@ class RwArmorSuffix : Affix abstract {
         return 50;
     }
     override bool IsCompatibleWithItem(Inventory item) {
-        return (RandomizedArmor(item) != null) && IsCompatibleWithRArmor(RandomizedArmor(item));
+        return (RwArmor(item) != null) && IsCompatibleWithRArmor(RwArmor(item));
     }
     // Override this, and not IsCompatibleWithItem() in descendants. Stop excessive super.IsCompatibleWithItem() calls!
-    private virtual bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    private virtual bool IsCompatibleWithRArmor(RwArmor arm) {
         return true;
     }
 }
@@ -39,7 +39,7 @@ class ASuffHealthToDurab : RwArmorSuffix {
         return String.Format("Regains %.1f DRB/sec for %.1f HP/sec (leaves %d HP)",
         (double(stat2) * TICRATE/precision, double(modifierLevel) * TICRATE/precision, HpDrainThreshold));
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         // ModifierLevel is "HP per tick * precision"
         modifierLevel = math.divideIntWithRounding(
             1000 - (rnd.multipliedWeightedRandByEndWeight(0, 500, 0.05) + remapQualityToRange(quality, 0, 250)),
@@ -56,7 +56,7 @@ class ASuffHealthToDurab : RwArmorSuffix {
     int drbAccum; // fraction for reducing armor
     int hpAccum; // fraction for healed value
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        RwArmor arm = RwArmor(affixedItem);
         if (RwPlayer(owner).health > HpDrainThreshold && arm.GetDrbPercentage() < 100) {
             let addAmount = math.AccumulatedFixedPointAdd(0, stat2, precision, drbAccum);
             if (addAmount > 0) {
@@ -86,14 +86,14 @@ class ASuffLengthenStatusEffects : RwArmorSuffix {
     override int minRequiredRarity() {
         return 2;
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(3, 40, 0.05) + remapQualityToRange(quality, 0, 10);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
         return true;
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        RwArmor arm = RwArmor(affixedItem);
         if (arm.IsFullyBroken()) return;
         let invlist = owner.inv;
         while(invlist != null) {
@@ -120,11 +120,11 @@ class ASuffShortenStatusEffects : RwArmorSuffix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'ASuffLengthenStatusEffects';
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 125, 0.05) + remapQualityToRange(quality, 0, 25);
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        RwArmor arm = RwArmor(affixedItem);
         if (arm.IsFullyBroken()) return;
         let invlist = owner.inv;
         while(invlist != null) {
@@ -148,7 +148,7 @@ class ASuffSlowHeal : RwArmorSuffix {
     override string getDescription() {
         return String.Format("Heals %.1f HP/sec for free", (double(modifierLevel) * TICRATE/precision));
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         // ModifierLevel is "HP per tick * precision"
         modifierLevel = math.divideIntWithRounding(
             rnd.multipliedWeightedRandByEndWeight(120, 1250, 0.01) + remapQualityToRange(quality, 0, 250),
@@ -158,7 +158,7 @@ class ASuffSlowHeal : RwArmorSuffix {
     const precision = 1000;
     int fractionAccumulator;
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        RwArmor arm = RwArmor(affixedItem);
         if (owner.Health < 100 && arm.IsNotBroken()) {
             let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, fractionAccumulator);
             if (addAmount > 0) {
@@ -175,7 +175,7 @@ class ASuffHoly : RwArmorSuffix {
     override string getDescription() {
         return String.Format("-%d%% damage from epic monsters and higher", (modifierLevel));
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 35, 0.05) + remapQualityToRange(quality, 0, 25);
     }
     override void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {
@@ -205,10 +205,10 @@ class ASuffDegrading : RwArmorSuffix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'ASuffSelfRepair';
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         // ModifierLevel is "DRB per tick * precision"
         modifierLevel = math.divideIntWithRounding(
             rnd.multipliedWeightedRandByEndWeight(100, 500, 0.05) + remapQualityToRange(quality, 0, 100),
@@ -223,7 +223,7 @@ class ASuffDegrading : RwArmorSuffix {
     const precision = 1000;
     int fractionAccumulator;
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        RwArmor arm = RwArmor(affixedItem);
         if (arm.GetDrbPercentage() > stat2) {
             let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, fractionAccumulator);
             if (addAmount > 0) {
@@ -245,15 +245,15 @@ class ASuffAbsImprove : RwArmorSuffix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return !(a2 is 'RwArmorSuffix' || a2 is 'APrefBetterAbsorption');
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = remapQualityToRange(quality, 5*arm.stats.AbsorbsPercentage/4, min(5*arm.stats.AbsorbsPercentage/2, 100));
         stat2 = 60 - rnd.multipliedWeightedRandByEndWeight(0, 30, 0.05); // Upgrade each this much repaired
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        RwArmor arm = RwArmor(affixedItem);
         if (arm.cumulativeRepair >= stat2 && modifierLevel > arm.stats.AbsorbsPercentage) {
             arm.stats.AbsorbsPercentage += 1;
             arm.cumulativeRepair = 0;
@@ -276,17 +276,17 @@ class ASuffDrbImprove : RwArmorSuffix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return !(a2 is 'RwArmorSuffix' || a2 is 'APrefSturdy');
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         // 120-250% max
         let percentage = rnd.multipliedWeightedRandByEndWeight(120, 200, 0.05) + remapQualityToRange(quality, 0, 50);
         modifierLevel = math.getIntPercentage(arm.stats.maxDurability, percentage);
         stat2 = 50 - rnd.multipliedWeightedRandByEndWeight(0, 35, 0.05); // Upgrade each this much repaired
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        RwArmor arm = RwArmor(affixedItem);
         if (arm.cumulativeRepair >= stat2 && modifierLevel > arm.stats.maxDurability) {
             arm.stats.maxDurability += 1;
             arm.stats.currDurability += 1;
@@ -306,10 +306,10 @@ class ASuffDurabToHealth : RwArmorSuffix {
         return String.Format("Spends %.1f DUR/sec to heal you for %.1f HP/sec", 
             (double(stat2) * TICRATE/precision, double(modifierLevel) * TICRATE/precision));
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         // ModifierLevel is "HP per tick * precision"
         modifierLevel = math.divideIntWithRounding(
             rnd.multipliedWeightedRandByEndWeight(500, 2250, 0.05) + remapQualityToRange(quality, 0, 500),
@@ -325,7 +325,7 @@ class ASuffDurabToHealth : RwArmorSuffix {
     int substractAccum; // fraction for reducing armor
     int healAccum; // fraction for healed value
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        RwArmor arm = RwArmor(affixedItem);
         if (arm.stats.currDurability > 0 && owner.health < 100) {
             let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, precision, healAccum);
             if (addAmount > 0) {
@@ -346,14 +346,14 @@ class ASuffMedikitsRepairArmor : RwArmorSuffix {
     override string getDescription() {
         return String.Format("Repair %d DRB on non-bonus heal", (modifierLevel));
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.1) + remapQualityToRange(quality, 0, 5);
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        RwArmor arm = RwArmor(affixedItem);
         if (RwPlayer(owner) && RwPlayer(owner).lastHealedBy >= 10) {
             arm.RepairFor(modifierLevel);
         }
@@ -370,10 +370,10 @@ class ASuffSelfrepair : RwArmorSuffix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'ASuffDegrading';
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         // ModifierLevel is "HP per tick * precision"
         modifierLevel = math.divideIntWithRounding(
             rnd.multipliedWeightedRandByEndWeight(250, 1000, 0.05) + remapQualityToRange(quality, 0, 250),
@@ -381,7 +381,7 @@ class ASuffSelfrepair : RwArmorSuffix {
         );
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        RwArmor arm = RwArmor(affixedItem);
         let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, arm.stats.currRepairFraction);
         if (addAmount > 0) {
             arm.RepairFor(addAmount);
@@ -397,10 +397,10 @@ class ASuffThorns : RwArmorSuffix {
         return String.Format("%d%% chance to return %d%% of damage to the attacker",
             (modifierLevel, stat2));
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         // Chance
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 50, 0.05) + remapQualityToRange(quality, 0, 15);
         // Percentage. It may be really high (up to 500%) because the monster damage is not scaled, but their HP is.
@@ -422,10 +422,10 @@ class ASuffRefillFlaskOnHit : RwArmorSuffix {
         return String.Format("%d%% chance to gain flask charge on being hit",
             (modifierLevel));
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         // Chance
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 10, 0.05) + remapQualityToRange(quality, 0, 5);
     }
@@ -450,17 +450,17 @@ class ASuffECellsSpend : RwArmorSuffix {
     override int getAlignment() {
         return -1;
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return arm.stats.IsEnergyArmor();
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 15, 0.1) + remapQualityToRange(quality, 0, 10);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
         return true;
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        RwArmor arm = RwArmor(affixedItem);
         if (arm.stats.currDurability == 0 && (arm.ticksSinceDamage() == arm.stats.delayUntilRecharge)) {
             let cl = owner.FindInventory('Cell');
             if (cl && cl.Amount >= modifierLevel) {
@@ -482,10 +482,10 @@ class ASuffEBonusRepair : RwArmorSuffix {
     override int getAlignment() {
         return 1;
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return arm.stats.IsEnergyArmor();
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1000, 3000, 0.05) + remapQualityToRange(quality, 0, 4000);
         arm.stats.RepairFromBonusx1000 = modifierLevel;
     }
@@ -501,10 +501,10 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
     override int getAlignment() {
         return 1;
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return arm.stats.IsEnergyArmor();
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         // Damage
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 45, 0.01) + remapQualityToRange(quality, 0, 15);
         modifierLevel = StatsScaler.ScaleIntValueByLevelRandomized(modifierLevel, quality);
@@ -512,7 +512,7 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
         stat2 = rnd.multipliedWeightedRandByEndWeight(75, 200, 0.05);
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        RandomizedArmor arm = RandomizedArmor(affixedItem);
+        RwArmor arm = RwArmor(affixedItem);
         if (arm.stats.currDurability == 0 && (arm.ticksSinceDamage() == 1)) {
             let ti = ThinkerIterator.Create('Actor');
             Actor mo;

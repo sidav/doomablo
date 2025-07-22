@@ -1,4 +1,4 @@
-class RwPlasmaRifle : RandomizedWeapon
+class RwPlasmaRifle : RwWeapon
 {
 	Default
 	{
@@ -9,7 +9,7 @@ class RwPlasmaRifle : RandomizedWeapon
 		Weapon.AmmoType "Cell";
 		Inventory.PickupMessage "$GOTPLASMA";
 		Tag "$TAG_PLASMARIFLE";
-		RandomizedWeapon.Weight 10;
+		RwWeapon.Weight 10;
 	}
 	States
 	{

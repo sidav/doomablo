@@ -28,10 +28,10 @@ extend class MyCustomHUD {
 
     static int PickColorForAffixableItem(Inventory i) {
         int rarity = -1;
-        if (i is 'RandomizedWeapon') {
-            rarity = RandomizedWeapon(i).GetRarity();
-        } else if (i is 'RandomizedArmor') {
-            rarity = RandomizedArmor(i).GetRarity();
+        if (i is 'RwWeapon') {
+            rarity = RwWeapon(i).GetRarity();
+        } else if (i is 'RwArmor') {
+            rarity = RwArmor(i).GetRarity();
         } else if (i is 'RwBackpack') {
             rarity = RwBackpack(i).GetRarity();
         } else if (i is 'RwMonsterAffixator') {

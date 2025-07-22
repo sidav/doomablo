@@ -1,4 +1,4 @@
-class rwPistol : RandomizedWeapon
+class rwPistol : RwWeapon
 {
 	Default
 	{
@@ -10,7 +10,7 @@ class rwPistol : RandomizedWeapon
 		Obituary "$OB_MPPISTOL";
 		Inventory.PickupMessage "$GOTPISTOL";
 		Tag "$TAG_PISTOL";
-		RandomizedWeapon.Weight 25;
+		RwWeapon.Weight 25;
 	}
 	States
 	{

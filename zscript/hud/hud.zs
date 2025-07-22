@@ -66,7 +66,7 @@ class MyCustomHUD : BaseStatusBar
 	{
 		let plr = RwPlayer(CPlayer.mo);
         let fsk = RwFlask(plr.CurrentEquippedFlask);
-        let armr = RandomizedArmor(plr.CurrentEquippedArmor);
+        let armr = RwArmor(plr.CurrentEquippedArmor);
 
 		Vector2 iconbox = (40, 20);
 		// Draw health

@@ -20,12 +20,12 @@ extend class MyCustomHUD {
             return;
         }
         
-        if (RandomizedWeapon(itemUnderCrosshair)) {
+        if (RwWeapon(itemUnderCrosshair)) {
             DimScreenForStats();
-            DrawPickupableWeaponInfo(RandomizedWeapon(itemUnderCrosshair), plr);
-        } else if (RandomizedArmor(itemUnderCrosshair)) {
+            DrawPickupableWeaponInfo(RwWeapon(itemUnderCrosshair), plr);
+        } else if (RwArmor(itemUnderCrosshair)) {
             DimScreenForStats();
-            DrawPickupableArmorInfo(RandomizedArmor(itemUnderCrosshair), plr);
+            DrawPickupableArmorInfo(RwArmor(itemUnderCrosshair), plr);
         } else if (RwBackpack(itemUnderCrosshair)) {
             DimScreenForStats();
             DrawPickupableBackpackInfo(RwBackpack(itemUnderCrosshair), plr);
@@ -48,8 +48,8 @@ extend class MyCustomHUD {
     const fullScreenStatusFlags = DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT;
     void DrawFullCurrentItemsInfo() {
         let plr = RwPlayer(CPlayer.mo);
-        let wpn = RandomizedWeapon(CPlayer.ReadyWeapon);
-        let arm = RandomizedArmor(plr.CurrentEquippedArmor);
+        let wpn = RwWeapon(CPlayer.ReadyWeapon);
+        let arm = RwArmor(plr.CurrentEquippedArmor);
 
         let headerX = Screen.GetWidth() / (3 * CleanXFac_1);
         let statsX = 26 * Screen.GetWidth() / (100 * CleanXFac_1);
@@ -104,8 +104,8 @@ extend class MyCustomHUD {
 
     void DrawShortCurrentItemsInfo() {
         let plr = RwPlayer(CPlayer.mo);
-        let wpn = RandomizedWeapon(CPlayer.ReadyWeapon);
-        let armr = RandomizedArmor(plr.CurrentEquippedArmor);
+        let wpn = RwWeapon(CPlayer.ReadyWeapon);
+        let armr = RwArmor(plr.CurrentEquippedArmor);
 
         if (wpn) {
             if (wpn.stats.reloadable())

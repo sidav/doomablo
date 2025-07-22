@@ -1,6 +1,6 @@
 extend class MyCustomHUD {
 
-    void DrawPickupableArmorInfo(RandomizedArmor armr, RwPlayer plr) {
+    void DrawPickupableArmorInfo(RwArmor armr, RwPlayer plr) {
         if (plr.CurrentEquippedArmor == armr) return;
 
         currentLineHeight = 0;
@@ -19,12 +19,12 @@ extend class MyCustomHUD {
         printArmorStatsTableAt(armr, plr.CurrentEquippedArmor, defaultLeftStatsPosX, defaultLeftStatsPosY, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT);
     }
 
-    void printArmorStatsTableAt(RandomizedArmor armr, RandomizedArmor armrCmp, int x, int y, int textFlags) {
+    void printArmorStatsTableAt(RwArmor armr, RwArmor armrCmp, int x, int y, int textFlags) {
         statsCollector.CollectStatsFromAffixableItem(armr, armrCmp, 1);
         printAllCollectorLines(x, y, pickupableStatsTableWidth, textFlags);
     }
 
-    static int PickColorForRwArmorAmount(RandomizedArmor a) {
+    static int PickColorForRwArmorAmount(RwArmor a) {
         let perc = math.getIntFractionInPercent(a.stats.currDurability, a.stats.maxDurability);
         if (perc < 33) {
             return Font.CR_RED;

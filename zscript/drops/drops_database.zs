@@ -46,15 +46,15 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
                 continue;
             }
             // Sort items into their proper lists.
-            if (c is "RandomizedWeapon") {
+            if (c is "RwWeapon") {
                 Class<Actor> rwc = c.GetClassName();
-                let rw = RandomizedWeapon(GetDefaultByType(rwc));
+                let rw = RwWeapon(GetDefaultByType(rwc));
                 WeaponItems.Insert(rw.GetClassName(),rw.rweight);
                 console.printf("  Weapon - %s (%d)",rw.GetClassName(),rw.rweight);
             }
-            if (c is "RandomizedArmor") {
+            if (c is "RwArmor") {
                 Class<Actor> rac = c.GetClassName();
-                let ra = RandomizedArmor(GetDefaultByType(rac));
+                let ra = RwArmor(GetDefaultByType(rac));
                 ArmorItems.Insert(ra.GetClassName(),ra.rweight);
                 console.printf("  Armor - %s (%d)",ra.GetClassName(),ra.rweight);
             }

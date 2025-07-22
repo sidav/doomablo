@@ -1,4 +1,4 @@
-class RwChainsaw : RandomizedWeapon
+class RwChainsaw : RwWeapon
 {
 
     double lastXOffset, lastYOffset;
@@ -17,7 +17,7 @@ class RwChainsaw : RandomizedWeapon
 		Tag "$TAG_CHAINSAW";
 		+WEAPON.MELEEWEAPON		
 		+WEAPON.NOAUTOSWITCHTO
-		RandomizedWeapon.Weight 5;
+		RwWeapon.Weight 5;
 	}
 	States
 	{

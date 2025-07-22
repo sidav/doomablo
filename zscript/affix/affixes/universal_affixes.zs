@@ -29,7 +29,7 @@ class UPrefVitalityDecrease : RwUniversalAffix {
         return -1;
     }
     override bool IsCompatibleWithItem(Inventory item) {
-        return !(item is 'RwMonsterAffixator' || item is 'RandomizedWeapon');
+        return !(item is 'RwMonsterAffixator' || item is 'RwWeapon');
     }
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.1) + remapQualityToRange(quality, 1, 5);
@@ -53,7 +53,7 @@ class UPrefVitalityIncrease : RwUniversalAffix {
         return "Vitality stat +"..modifierLevel;
     }
     override bool IsCompatibleWithItem(Inventory item) {
-        return !(item is 'RwMonsterAffixator' || item is 'RandomizedWeapon');
+        return !(item is 'RwMonsterAffixator' || item is 'RwWeapon');
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'UPrefVitalityDecrease';
@@ -161,7 +161,7 @@ class UPrefMeleeDmgDecrease : RwUniversalAffix {
         return -1;
     }
     override bool IsCompatibleWithItem(Inventory item) {
-        return !(item is 'RwMonsterAffixator' || item is 'RandomizedWeapon');
+        return !(item is 'RwMonsterAffixator' || item is 'RwWeapon');
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'UPrefMeleeDmgIncrease';
@@ -185,7 +185,7 @@ class UPrefMeleeDmgIncrease : RwUniversalAffix {
         return "Fist dmg stat +"..modifierLevel;
     }
     override bool IsCompatibleWithItem(Inventory item) {
-        return !(item is 'RwMonsterAffixator' || item is 'RandomizedWeapon');
+        return !(item is 'RwMonsterAffixator' || item is 'RwWeapon');
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'UPrefMeleeDmgDecrease';

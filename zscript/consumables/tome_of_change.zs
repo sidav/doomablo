@@ -71,8 +71,8 @@ class TomeOfChange : Inventory {
 		// Actually apply on the item
 		string usageStr;
 		Affix affixToRemove, newAffix;
-		if (usedOn is "RandomizedWeapon") {
-			[affixToRemove, newAffix] = RandomizedWeapon(usedOn).replaceRandomAffixWithRandomAffix();
+		if (usedOn is "RwWeapon") {
+			[affixToRemove, newAffix] = RwWeapon(usedOn).replaceRandomAffixWithRandomAffix();
 			if (affixToRemove) {
 				plr.A_Print("The armament that once was cursed with "..affixToRemove.getName().."\n"
 							.."now bears the burden of "..newAffix.getName().."ness", 5);
@@ -81,8 +81,8 @@ class TomeOfChange : Inventory {
 			plr.A_Print("This weapon can't be altered");
 			return false;
 		}
-		if (usedOn is "RandomizedArmor") {
-			[affixToRemove, newAffix] = RandomizedArmor(usedOn).replaceRandomAffixWithRandomAffix();
+		if (usedOn is "RwArmor") {
+			[affixToRemove, newAffix] = RwArmor(usedOn).replaceRandomAffixWithRandomAffix();
 			if (affixToRemove) {
 				plr.A_Print("The armor that was cursed with "..affixToRemove.getName().."\n"
 							.."now bears the burden of "..newAffix.getName().."ness", 5);

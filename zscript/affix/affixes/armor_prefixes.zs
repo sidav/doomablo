@@ -1,15 +1,15 @@
 class RwArmorPrefix : Affix abstract {
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
-        initAndapplyEffectToRArmor(RandomizedArmor(item), quality);
+        initAndapplyEffectToRArmor(RwArmor(item), quality);
     }
-    protected virtual void initAndapplyEffectToRArmor(RandomizedArmor armor, int quality) {
+    protected virtual void initAndapplyEffectToRArmor(RwArmor armor, int quality) {
         debug.panicUnimplemented(self);
     }
     override bool IsCompatibleWithItem(Inventory item) {
-        return (RandomizedArmor(item) != null) && IsCompatibleWithRArmor(RandomizedArmor(item));
+        return (RwArmor(item) != null) && IsCompatibleWithRArmor(RwArmor(item));
     }
     // Override this, and not IsCompatibleWithItem() in descendants. Stop excessive super.IsCompatibleWithItem() calls!
-    private virtual bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    private virtual bool IsCompatibleWithRArmor(RwArmor arm) {
         return true;
     }
 }
@@ -29,13 +29,13 @@ class APrefFragile : RwArmorPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefSturdy';
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, arm.stats.maxDurability/6, 0.05) + remapQualityToRange(quality, 0, arm.stats.maxDurability/6);
 
         arm.stats.maxDurability -= modifierLevel;
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
-        RandomizedArmor(item).stats.maxDurability += modifierLevel;
+        RwArmor(item).stats.maxDurability += modifierLevel;
         return true;
     }
 }
@@ -54,7 +54,7 @@ class APrefSturdy : RwArmorPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefFragile';
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         if (arm.stats.IsEnergyArmor()) {
             modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, arm.stats.maxDurability, 0.05) + remapQualityToRange(quality, 0, arm.stats.maxDurability/2);
         } else {
@@ -78,12 +78,12 @@ class APrefWorseAbsorption : RwArmorPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefBetterAbsorption';
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, arm.stats.AbsorbsPercentage/6, 0.05) + remapQualityToRange(quality, 0, arm.stats.AbsorbsPercentage/6);
         arm.stats.AbsorbsPercentage -= modifierLevel;
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
-        RandomizedArmor(item).stats.AbsorbsPercentage += modifierLevel;
+        RwArmor(item).stats.AbsorbsPercentage += modifierLevel;
         return true;
     }
 }
@@ -102,7 +102,7 @@ class APrefBetterAbsorption : RwArmorPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefWorseAbsorption';
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         if (arm.stats.IsEnergyArmor()) {
             let remainingToMax = 95 - arm.stats.AbsorbsPercentage;
             modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, remainingToMax/2, 0.05) + remapQualityToRange(quality, 0, remainingToMax/2);
@@ -128,15 +128,15 @@ class APrefWorseRepair : RwArmorPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefBetterRepair';
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(200, arm.stats.RepairFromBonusx1000/2, 0.05) + remapQualityToRange(quality, 100, arm.stats.RepairFromBonusx1000/2);
         arm.stats.RepairFromBonusx1000 -= modifierLevel;
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
-        RandomizedArmor(item).stats.RepairFromBonusx1000 += modifierLevel;
+        RwArmor(item).stats.RepairFromBonusx1000 += modifierLevel;
         return true;
     }
 }
@@ -155,10 +155,10 @@ class APrefBetterRepair : RwArmorPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefWorseRepair';
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return !(arm.stats.IsEnergyArmor());
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(300, 3000, 0.1) + remapQualityToRange(quality, 0, 2000);
         arm.stats.RepairFromBonusx1000 += modifierLevel;
     }
@@ -177,7 +177,7 @@ class APrefDamageIncrease : RwArmorPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefDamageReduction';
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(3, 20, 0.1) + remapQualityToRange(quality, 0, 10);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
@@ -204,7 +204,7 @@ class APrefDamageReduction : RwArmorPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefDamageIncrease';
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         if (arm.stats.IsEnergyArmor()) {
             modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 20, 0.05) + remapQualityToRange(quality, 0, 15);
         } else {
@@ -236,15 +236,15 @@ class APrefELongerDelay : RwArmorPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefEShorterDelay';
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return arm.stats.IsEnergyArmor();
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(max(5, quality/10), 50, 0.1);
         arm.stats.delayUntilRecharge = math.getIntPercentage(arm.stats.delayUntilRecharge, 100 + modifierLevel);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
-        RandomizedArmor(item).stats.delayUntilRecharge = math.getWholeByPartPercentage(RandomizedArmor(item).stats.delayUntilRecharge, 100 + modifierLevel);
+        RwArmor(item).stats.delayUntilRecharge = math.getWholeByPartPercentage(RwArmor(item).stats.delayUntilRecharge, 100 + modifierLevel);
         return true;
     }
 }
@@ -262,10 +262,10 @@ class APrefEShorterDelay : RwArmorPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefELongerDelay';
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return arm.stats.IsEnergyArmor();
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 60, 0.05) + remapQualityToRange(quality, 0, 10);
         arm.stats.delayUntilRecharge = math.getIntPercentage(arm.stats.delayUntilRecharge, 100 - modifierLevel);
     }
@@ -284,15 +284,15 @@ class APrefELongerRecharge : RwArmorPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefEFasterRecharge';
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return arm.stats.IsEnergyArmor();
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(max(5, quality/10), 50, 0.1);
         arm.stats.energyRestoreSpeedX1000 = math.getIntPercentage(arm.stats.energyRestoreSpeedX1000, 100-modifierLevel);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
-        RandomizedArmor(item).stats.energyRestoreSpeedX1000 = math.getWholeByPartPercentage(RandomizedArmor(item).stats.energyRestoreSpeedX1000, 100-modifierLevel);
+        RwArmor(item).stats.energyRestoreSpeedX1000 = math.getWholeByPartPercentage(RwArmor(item).stats.energyRestoreSpeedX1000, 100-modifierLevel);
         return true;
     }
 }
@@ -310,10 +310,10 @@ class APrefEFasterRecharge : RwArmorPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'APrefELongerRecharge';
     }
-    override bool IsCompatibleWithRArmor(RandomizedArmor arm) {
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
         return arm.stats.IsEnergyArmor();
     }
-    override void initAndapplyEffectToRArmor(RandomizedArmor arm, int quality) {
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 250, 0.05) + remapQualityToRange(quality, 0, 50);
         arm.stats.energyRestoreSpeedX1000 = math.getIntPercentage(arm.stats.energyRestoreSpeedX1000, 100+modifierLevel);
     }

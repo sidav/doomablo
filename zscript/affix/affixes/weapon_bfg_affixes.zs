@@ -10,13 +10,13 @@ class WAffLessBFGRays : RwWeaponPrefix {
     override int getAlignment() {
         return -1;
     }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.GetClass() == 'RwBfg';
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffMoreBFGRays' && a2.GetClass() != 'WSuffBFGNoRays';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = wpn.stats.NumberOfRays/2;
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.NumberOfRays -= modifierLevel;
@@ -33,13 +33,13 @@ class WAffMoreBFGRays : RwWeaponPrefix {
     override int getAlignment() {
         return 1;
     }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.GetClass() == 'RwBfg';
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffLessBFGRays' && a2.GetClass() != 'WSuffBFGNoRays';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = 30;
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.NumberOfRays += modifierLevel;
@@ -56,13 +56,13 @@ class WAffNarrowerBFGAngle : RwWeaponPrefix {
     override int getAlignment() {
         return -1;
     }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.GetClass() == 'RwBfg';
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffWiderBFGAngle' && a2.GetClass() != 'WSuffBFGNoRays' && a2.GetClass() != 'WSuffBFG10K';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = (wpn.stats.RaysConeAngle / 2)*10;
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.RaysConeAngle -= double(modifierLevel)/10;
@@ -79,13 +79,13 @@ class WAffWiderBFGAngle : RwWeaponPrefix {
     override int getAlignment() {
         return 1;
     }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.GetClass() == 'RwBfg';
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffNarrowerBFGAngle' && a2.GetClass() != 'WSuffBFGNoRays' && a2.GetClass() != 'WSuffBFG10K';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = wpn.stats.RaysConeAngle*10;
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.RaysConeAngle += double(modifierLevel)/10;
@@ -108,10 +108,10 @@ class WAffWorseBFGRayDamage : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffBetterBFGRayDamage' && a2.GetClass() != 'WSuffBFGNoRays';
     }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.GetClass() == 'RwBfg';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = 200;
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.additionalBfgRayDamagePromille = -modifierLevel;
@@ -134,10 +134,10 @@ class WAffBetterBFGRayDamage : RwWeaponPrefix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffWorseBFGRayDamage' && a2.GetClass() != 'WSuffBFGNoRays';
     }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.GetClass() == 'RwBfg';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = 200;
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.additionalBfgRayDamagePromille = modifierLevel;
@@ -153,10 +153,10 @@ class WSuffBFG10K : RwWeaponSuffix {
     override string getDescription() {
         return String.format("x%d.%d rays. Rays are fired from the target", (modifierLevel/10, modifierLevel%10) );
     }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.GetClass() == 'RwBfg';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = 40;
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(15, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.RaysConeAngle = 360.;
@@ -172,10 +172,10 @@ class WSuffBFGNoRays : RwWeaponSuffix {
     override string getDescription() {
         return String.format("x%d.%d damage. Projectile explodes on hit. No rays are fired", (modifierLevel/10, modifierLevel%10) );
     }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.GetClass() == 'RwBfg';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = 100;
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(15, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
         wpn.stats.minDamage = wpn.stats.minDamage * modifierLevel / 10;

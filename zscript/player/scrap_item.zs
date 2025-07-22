@@ -31,25 +31,25 @@ extend class RwPlayer {
             return;
         }
 
-        if (itm is 'RandomizedWeapon') {
+        if (itm is 'RwWeapon') {
 
-            let dropAmount = RandomizedWeapon(itm).GetRarity() + 1;
+            let dropAmount = RwWeapon(itm).GetRarity() + 1;
             for (let i = 0; i < dropAmount; i++) {
                 Actor drop;
-                if (RandomizedWeapon(itm).ammotype1) {
-                    drop = DropsSpawner.createDropByClass(itm, RandomizedWeapon(itm).ammotype1);
+                if (RwWeapon(itm).ammotype1) {
+                    drop = DropsSpawner.createDropByClass(itm, RwWeapon(itm).ammotype1);
                 } else {
                     drop = DropsSpawner.SpawnRandomAmmoDrop(itm);
                 }
                 AssignVeryMinorSpreadVelocityTo(drop);
             }
 
-        } else if (itm is 'RandomizedArmor') {
+        } else if (itm is 'RwArmor') {
 
-            let dropAmount = RandomizedArmor(itm).GetRarity() + 1;
+            let dropAmount = RwArmor(itm).GetRarity() + 1;
             for (let i = 0; i < dropAmount; i++) {
                 Actor drop;
-                if (RandomizedArmor(itm).stats.IsEnergyArmor() && rnd.OneChanceFrom(2)) {
+                if (RwArmor(itm).stats.IsEnergyArmor() && rnd.OneChanceFrom(2)) {
                     drop = DropsSpawner.createDropByClass(itm, 'Cell');
                 } else {
                     drop = DropsSpawner.createDropByClass(itm, 'RwArmorBonus');

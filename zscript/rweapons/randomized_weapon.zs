@@ -1,4 +1,4 @@
-class RandomizedWeapon : DoomWeapon abstract {
+class RwWeapon : DoomWeapon abstract {
 
     mixin Affixable;
 
@@ -11,7 +11,7 @@ class RandomizedWeapon : DoomWeapon abstract {
     Default {
         Weapon.AmmoUse 1; // We use custom ammo usage routine anyway
         Weapon.AmmoGive 0; // Ammo is dropped separately so that the player doesn't have to "press use to pick it up"
-        RandomizedWeapon.Weight 20; // A sane default--about as common as the Chaingun and SMG.
+        RwWeapon.Weight 20; // A sane default--about as common as the Chaingun and SMG.
     }
 
     virtual void setBaseStats() {

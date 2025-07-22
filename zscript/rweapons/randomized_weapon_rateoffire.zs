@@ -1,4 +1,4 @@
-extend class RandomizedWeapon {
+extend class RwWeapon {
 
     // FDFAccum stands for "Frame Duration's Fraction Accumulator".
     int FireFDFAccum;

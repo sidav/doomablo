@@ -1,8 +1,8 @@
 class RwWeaponSuffix : Affix abstract {
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
-        initAndApplyEffectToRWeapon(RandomizedWeapon(item), quality);
+        initAndApplyEffectToRWeapon(RwWeapon(item), quality);
     }
-    protected virtual void initAndApplyEffectToRWeapon(RandomizedWeapon weapon, int quality) {
+    protected virtual void initAndApplyEffectToRWeapon(RwWeapon weapon, int quality) {
         debug.panicUnimplemented(self);
     }
     override bool isSuffix() {
@@ -18,10 +18,10 @@ class RwWeaponSuffix : Affix abstract {
         return 55;
     }
     override bool IsCompatibleWithItem(Inventory item) {
-        return (RandomizedWeapon(item) != null) && IsCompatibleWithRWeapon(RandomizedWeapon(item));
+        return (RwWeapon(item) != null) && IsCompatibleWithRWeapon(RwWeapon(item));
     }
     // Override this, and not IsCompatibleWithItem() in descendants. Stop excessive super() calls!
-    private virtual bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+    private virtual bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return true;
     }
 }
@@ -35,7 +35,7 @@ class WSuffVampiric : RwWeaponSuffix {
     override string getDescription() {
         return modifierLevel.."% chance to regain health on hit";
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxPercentage = 50;
         if (wpn.stats.Pellets > 1) {
             maxPercentage = 16;
@@ -60,7 +60,7 @@ class WSuffDamageIncreaseOnLowHealth : RwWeaponSuffix {
     override string getDescription() {
         return String.Format("+%d%% damage when you have %d HP or less", (modifierLevel, stat2));
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxPercentage = 200;
         if (wpn.stats.Pellets > 1) {
             maxPercentage = 100;
@@ -83,7 +83,7 @@ class WSuffDamageIncreaseOnZeroArmor : RwWeaponSuffix {
     override string getDescription() {
         return "+"..modifierLevel.."% damage when you have zero armor";
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxPercentage = 100;
         if (wpn.stats.Pellets > 1) {
             maxPercentage = 50;
@@ -105,7 +105,7 @@ class WSuffDamageIncreaseOnFullArmor : RwWeaponSuffix {
     override string getDescription() {
         return "+"..modifierLevel.."% damage when you have full non-energy armor";
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxPercentage = 100;
         if (wpn.stats.Pellets > 1) {
             maxPercentage = 75;
@@ -127,7 +127,7 @@ class WSuffPoison : RwWeaponSuffix {
     override string getDescription() {
         return String.Format("%d%% chance to poison the target for %d DMG/S", (modifierLevel, stat2));
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxPercentage = 50;
         if (wpn.stats.Pellets > 1) {
             maxPercentage = 20;
@@ -152,7 +152,7 @@ class WSuffRadiation : RwWeaponSuffix {
     override string getDescription() {
         return String.Format("%d%% chance to irradiate the target for %d seconds", (modifierLevel, stat2));
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxPercentage = 50;
         if (wpn.stats.Pellets > 1) {
             maxPercentage = 20;
@@ -176,7 +176,7 @@ class WSuffPain : RwWeaponSuffix {
     override string getDescription() {
         return modifierLevel.."% chance to inflict pain on target";
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxPercentage = 50;
         if (wpn.stats.Pellets > 1) {
             maxPercentage = 15;
@@ -200,7 +200,7 @@ class WSuffMoreDmgToCommonEnemies : RwWeaponSuffix {
     override string getDescription() {
         return modifierLevel.."% additional damage to common enemies";
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 20, 0.1) + remapQualityToRange(quality, 0, 30);
     }
     override bool isCompatibleWithAffClass(Affix a2) {
@@ -223,7 +223,7 @@ class WSuffMoreDmgToRareEnemies : RwWeaponSuffix {
     override string getDescription() {
         return modifierLevel.."% additional damage to Epic enemies and higher";
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 50, 0.1) + remapQualityToRange(quality, 0, 50);
     }
     override bool isCompatibleWithAffClass(Affix a2) {
@@ -246,7 +246,7 @@ class WSuffRemoveAffixesFromEnemies : RwWeaponSuffix {
     override string getDescription() {
         return modifierLevel.."% chance to remove affix from target enemy";
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.1) + remapQualityToRange(quality, 0, 5);
     }
     override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
@@ -271,7 +271,7 @@ class WSuffAmmoDrops : RwWeaponSuffix {
     override string getDescription() {
         return modifierLevel.."% chance for killed enemy to drop additional ammo";
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 35, 0.1) + remapQualityToRange(quality, 0, 15);
     }
     override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
@@ -290,7 +290,7 @@ class WSuffSpawnBarrelOnKill : RwWeaponSuffix {
     override string getDescription() {
         return modifierLevel.."% chance to create explosive barrel on kill";
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 25, 0.1) + remapQualityToRange(quality, 0, 10);
     }
     override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
@@ -308,7 +308,7 @@ class WSuffTargetExplode : RwWeaponSuffix {
     override string getDescription() {
         return modifierLevel.."% chance for killed target to explode ("..stat2.." DMG)";
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 10);
         int baseDmg = rnd.multipliedWeightedRandByEndWeight(10, 30, 0.1);
         stat2 = StatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
@@ -339,10 +339,10 @@ class WSuffMinirockets : RwWeaponSuffix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WSuffFlechettes' && a2.GetClass() != 'WSuffSlugshotShotgun';
     }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.stats.fireType == RWStatsClass.FTHitscan;
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 5);
         wpn.stats.fireType = RWStatsClass.FTProjectile;
         wpn.stats.projClass = 'RwMiniRocket';
@@ -363,10 +363,10 @@ class WSuffFlechettes : RwWeaponSuffix {
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WSuffSlugshotShotgun' && a2.GetClass() != 'WSuffMinirockets';
     }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.stats.fireType == RWStatsClass.FTHitscan;
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(8, 13, 0.1) + remapQualityToRange(quality, 0, 2);
         wpn.stats.fireType = RWStatsClass.FTProjectile;
         wpn.stats.projClass = 'RwFlechette';
@@ -387,10 +387,10 @@ class WSuffSlugshotShotgun : RwWeaponSuffix {
         return a2.GetClass() != 'WSuffFlechettes' && a2.GetClass() != 'WSuffMinirockets' 
             && a2.GetClass() != 'WPrefLessPellets' && a2.GetClass() != 'WPrefMorePellets';
     }
-    override bool IsCompatibleWithRWeapon(RandomizedWeapon wpn) {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.GetClass() == 'RwShotgun' || wpn.GetClass() == 'RwSuperShotgun';
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(50, 85, 0.1) + remapQualityToRange(quality, 0, 35);
         wpn.stats.minDamage = math.divideIntWithRounding(wpn.stats.Pellets * wpn.stats.minDamage * modifierLevel, 100);
         wpn.stats.maxDamage = math.divideIntWithRounding(wpn.stats.Pellets * wpn.stats.maxDamage * modifierLevel, 100);
@@ -428,14 +428,14 @@ class WSuffRofSelfUpgrade : RwWeaponSuffix {
             return " -> Currently +"..stat2.."% gained";
         }
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         // 10-30% max
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 20, 0.05) + remapQualityToRange(quality, 0, 10);
         stat2 = 0; // stat2 is current cumulative increase
     }
     override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (maxEffectReached) return;
-        let rWeap = RandomizedWeapon(plr.Player.ReadyWeapon);
+        let rWeap = RwWeapon(plr.Player.ReadyWeapon);
         if (!rWeap) return;
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 3) return;
@@ -462,14 +462,14 @@ class WSuffReloadSpeedSelfUpgrade : RwWeaponSuffix {
             return " -> Currently +"..stat2.."% gained";
         }
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         // 10-30% max
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 20, 0.05) + remapQualityToRange(quality, 0, 10);
         stat2 = 0; // stat2 is current cumulative increase
     }
     override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (maxEffectReached) return;
-        let rWeap = RandomizedWeapon(plr.Player.ReadyWeapon);
+        let rWeap = RwWeapon(plr.Player.ReadyWeapon);
         if (!rWeap) return;
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 3) return;
@@ -497,7 +497,7 @@ class WSuffMaxDamageSelfUpgrade : RwWeaponSuffix {
             return " -> Currently +"..cumulativeDmgIncrease.." max DMG gained";
         }
     }
-    override void initAndApplyEffectToRWeapon(RandomizedWeapon wpn, int quality) {
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let percentage = rnd.multipliedWeightedRandByEndWeight(5, 10, 0.1);
         modifierLevel = max(1, math.getIntPercentage(wpn.stats.maxDamage, percentage)); // The increase itself
         stat2 = rnd.multipliedWeightedRandByEndWeight(2, 4, 0.05) + remapQualityToRange(quality, 0, 3);
@@ -505,7 +505,7 @@ class WSuffMaxDamageSelfUpgrade : RwWeaponSuffix {
     }
     override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (maxEffectReached) return;
-        let rWeap = RandomizedWeapon(plr.Player.ReadyWeapon);
+        let rWeap = RwWeapon(plr.Player.ReadyWeapon);
         if (!rWeap) return;
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 4) return;

@@ -11,7 +11,7 @@ class StartingItemsHandler : EventHandler
 		// Update: this damn bug returns once again and I once again don't know why
 		// WeapCheck is a new shiny workaround for that
 		let rWeap = players[e.PlayerNumber].ReadyWeapon;
-		bool weapCheck = (rWeap == null) || ((rWeap.GetClass() != 'RwFist') && (RandomizedWeapon(rWeap) == null));
+		bool weapCheck = (rWeap == null) || ((rWeap.GetClass() != 'RwFist') && (RwWeapon(rWeap) == null));
 
 		if (pmo && pmo.Inv && weapCheck) {
 			clearBasicItems(pmo);
@@ -25,7 +25,7 @@ class StartingItemsHandler : EventHandler
         while(invlist != null) {
 			Inventory toDestroy;
             if (Weapon(invlist) || BasicArmor(invlist)) {
-				if (RandomizedWeapon(invlist)) {
+				if (RwWeapon(invlist)) {
 					rwCount++;
 				} else {
                 	toDestroy = invlist;
@@ -39,15 +39,15 @@ class StartingItemsHandler : EventHandler
 		// If player has no RWs instances, this means it's a game start. Let's give them basic weapons:
 		if (rwCount == 0) {
 			pmo.GiveInventory('RwFist', 1);
-			let given = RandomizedWeapon(pmo.GiveInventoryType('RwPistol'));
+			let given = RwWeapon(pmo.GiveInventoryType('RwPistol'));
 			given.Generate(3, 1);
 			if (rw_start_with_shotgun) {
-				let shg = RandomizedWeapon(pmo.GiveInventoryType('RwShotgun'));
+				let shg = RwWeapon(pmo.GiveInventoryType('RwShotgun'));
 				shg.Generate(0, 1);
 				pmo.GiveInventory('Shell', shg.stats.clipSize);
 			}
 			if (rw_start_with_smg) {
-				let shg = RandomizedWeapon(pmo.GiveInventoryType('RwSmg'));
+				let shg = RwWeapon(pmo.GiveInventoryType('RwSmg'));
 				shg.Generate(0, 1);
 			}
 		}

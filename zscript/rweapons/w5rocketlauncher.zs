@@ -1,4 +1,4 @@
-class RwRocketLauncher : RandomizedWeapon
+class RwRocketLauncher : RwWeapon
 {
 	Default
 	{
@@ -10,7 +10,7 @@ class RwRocketLauncher : RandomizedWeapon
 		+WEAPON.NOAUTOFIRE
 		Inventory.PickupMessage "$GOTLAUNCHER";
 		Tag "$TAG_ROCKETLAUNCHER";
-		RandomizedWeapon.Weight 10;
+		RwWeapon.Weight 10;
 	}
 	States
 	{

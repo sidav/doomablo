@@ -1,4 +1,4 @@
-class RwBlueArmor : RandomizedArmor
+class RwBlueArmor : RwArmor
 {
 	Default
 	{

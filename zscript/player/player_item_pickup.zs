@@ -22,7 +22,7 @@ extend class RwPlayer {
         player.PendingWeapon = weap;
     }
 
-    void PickUpArmor(RandomizedArmor armr) {
+    void PickUpArmor(RwArmor armr) {
         // First, check if we already have armor
         let hasEmptySlot = CurrentEquippedArmor == null;
         // Picking up the weapon.

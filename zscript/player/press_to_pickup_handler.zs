@@ -15,11 +15,11 @@ class PressToPickupHandler : EventHandler {
         } else {
             // Check if button is pressed
             if (currentItemToPickUp && players[0].mo && (players[0].cmd.buttons & BT_USE)) {
-                if (RandomizedWeapon(currentItemToPickUp)) {
-                    RandomizedWeapon(currentItemToPickUp).rwTouch(players[0].mo);
+                if (RwWeapon(currentItemToPickUp)) {
+                    RwWeapon(currentItemToPickUp).rwTouch(players[0].mo);
 
-                } else if (RandomizedArmor(currentItemToPickUp)) {
-                    RandomizedArmor(currentItemToPickUp).rwTouch(players[0].mo);
+                } else if (RwArmor(currentItemToPickUp)) {
+                    RwArmor(currentItemToPickUp).rwTouch(players[0].mo);
 
                 } else if (RwBackpack(currentItemToPickUp)) {
                     RwBackpack(currentItemToPickUp).rwTouch(players[0].mo);

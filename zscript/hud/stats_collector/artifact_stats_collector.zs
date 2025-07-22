@@ -20,10 +20,10 @@ class RwHudArtifactStatsCollector {
         clearAllLines();
         addHeaderLinesForAffixable(itm, lines);
         addSeparatorLine();
-        if (RandomizedWeapon(itm)) {
-            collectRWWeaponStats(RandomizedWeapon(itm), RandomizedWeapon(itemToCompareWith));
-        } else if (RandomizedArmor(itm)) {
-            collectRWArmorStats(RandomizedArmor(itm), RandomizedArmor(itemToCompareWith));
+        if (RwWeapon(itm)) {
+            collectRWWeaponStats(RwWeapon(itm), RwWeapon(itemToCompareWith));
+        } else if (RwArmor(itm)) {
+            collectRWArmorStats(RwArmor(itm), RwArmor(itemToCompareWith));
         } else if (RwBackpack(itm)) {
             collectRWBackpackStats(RwBackpack(itm), RwBackpack(itemToCompareWith));
         } else if (RwFlask(itm)) {

@@ -1,7 +1,7 @@
 // Suffixes are unique things gameplay-wise, so they require this separate definition.
 // TODO: optimization of this logic...
 
-extend class RandomizedArmor {
+extend class RwArmor {
 
     override void DoEffect() {
         let age = GetAge();

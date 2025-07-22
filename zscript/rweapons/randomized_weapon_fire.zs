@@ -1,4 +1,4 @@
-extend class RandomizedWeapon {
+extend class RwWeapon {
 
     int damageFractionAccumulator; // needed so that damage values like 4.1 are properly accounted
     action int RWA_RollDamage() {

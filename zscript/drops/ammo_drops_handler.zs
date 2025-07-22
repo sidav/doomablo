@@ -1,10 +1,10 @@
-// Spawns ammo near RandomizedWeapons (because we purposely have AmmoGive at zero at all weapons)
+// Spawns ammo near RwWeapons (because we purposely have AmmoGive at zero at all weapons)
 // Ammo is dropped separately so that the player doesn't have to "press use to pick it up"
 class AmmoDropsHandler : EventHandler
 {
 	override void WorldThingSpawned(worldEvent e)
 	{
-		let wpn = RandomizedWeapon(e.thing);
+		let wpn = RwWeapon(e.thing);
 
 		if (wpn && !wpn.owner && !wpn.bTossed) {
             bool spawned;

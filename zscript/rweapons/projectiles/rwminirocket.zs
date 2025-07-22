@@ -40,7 +40,7 @@ class RwMiniRocket : RwProjectile
 		Stop;
 	}
 
-	override void applyWeaponStats(RandomizedWeapon weapon) {
+	override void applyWeaponStats(RwWeapon weapon) {
 		super.applyWeaponStats(weapon);
 		firedPellets = float(weapon.stats.Pellets);
 		if (firedPellets == 0.0) firedPellets = 1.;

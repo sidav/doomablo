@@ -1,4 +1,4 @@
-extend class RandomizedArmor {
+extend class RwArmor {
 	override void Touch(Actor toucher)
 	{
         return;

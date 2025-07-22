@@ -16,7 +16,7 @@ class RwProjectile : Actor {
 	float explosionSpriteScale;
 	// BUG: this is NOT called if a rocket is fired at point blank range.
 	// Resolved (work-arounded) by calling pointBlank() after A_FireProjectile() return values check, see below
-    virtual void applyWeaponStats(RandomizedWeapon weapon) {
+    virtual void applyWeaponStats(RwWeapon weapon) {
 		// Set damage. DO NOT use SetDamage() for this, because it makes the projectile have randomized damage 
 		// (it's some strange implicit Doom behavior)
 		rwSetDmg = weapon.RWA_RollDamage();

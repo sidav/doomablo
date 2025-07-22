@@ -1,9 +1,9 @@
 extend class MyCustomHUD {
 
-    void DrawPickupableWeaponInfo(RandomizedWeapon wpn, RwPlayer plr) {
-        RandomizedWeapon wpnComp = RandomizedWeapon(CPlayer.ReadyWeapon);
+    void DrawPickupableWeaponInfo(RwWeapon wpn, RwPlayer plr) {
+        RwWeapon wpnComp = RwWeapon(CPlayer.ReadyWeapon);
 
-        let wpn = RandomizedWeapon(PressToPickupHandler.GetItemUnderCrosshair());
+        let wpn = RwWeapon(PressToPickupHandler.GetItemUnderCrosshair());
         if (!wpn || wpnComp == wpn) return;
 
         currentLineHeight = 0;
@@ -37,7 +37,7 @@ extend class MyCustomHUD {
         printWeaponStatsAt(wpn, wpnComp, defaultLeftStatsPosX, defaultLeftStatsPosY, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT);
     }
 
-    void printWeaponStatsAt(RandomizedWeapon wpn, RandomizedWeapon wpnComp, int x, int y, int textFlags) {
+    void printWeaponStatsAt(RwWeapon wpn, RwWeapon wpnComp, int x, int y, int textFlags) {
         statsCollector.CollectStatsFromAffixableItem(wpn, wpnComp, 1);
         printAllCollectorLines(x, y, pickupableStatsTableWidth, textFlags);
     }

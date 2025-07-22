@@ -1,10 +1,10 @@
-class RwEnergyArmor : RandomizedArmor
+class RwEnergyArmor : RwArmor
 {
 	Default
 	{
 		Inventory.Pickupmessage "Energy Armor";
 		Inventory.Icon "EARMA0";
-		RandomizedArmor.Weight 5;
+		RwArmor.Weight 5;
 	}
 	States
 	{

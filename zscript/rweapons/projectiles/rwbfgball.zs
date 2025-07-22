@@ -35,7 +35,7 @@ class RwBFGBall : RwProjectile
 	bool raysWillOriginateFromMissile; // false means rays from shooter, like in vanilla Doom.
 	int rayDamageFractionAccumulator; // needed so that damage values like 4.1 are properly accounted
 
-	override void applyWeaponStats(RandomizedWeapon wpn) {
+	override void applyWeaponStats(RwWeapon wpn) {
 		super.applyWeaponStats(wpn);
 
 		NumberOfRays = wpn.stats.NumberOfRays;

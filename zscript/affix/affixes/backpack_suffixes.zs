@@ -163,7 +163,7 @@ class BSuffAutoreload : RwBackpackSuffix {
             // Iterate through all weapons
             let invlist = owner.Inv;
             while(invlist != null) {
-                let toReload = RandomizedWeapon(invlist);
+                let toReload = RwWeapon(invlist);
                 if (toReload && owner.Player.ReadyWeapon != invlist && toReload.ammotype1 != null) {
                     let clipBefore = toReload.currentClipAmmo;
                     toReload.A_MagazineReload();

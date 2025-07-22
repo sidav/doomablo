@@ -31,8 +31,8 @@ class RWEquippedArtifactsMenu : RwBaseMenu {
         let plr = RwPlayer(players[consoleplayer].mo);
         currentHeight = 160;
         // Weapon in hands:
-        if (RandomizedWeapon(players[consoleplayer].ReadyWeapon)) {
-            addArtifactButton(RandomizedWeapon(players[consoleplayer].ReadyWeapon));
+        if (RwWeapon(players[consoleplayer].ReadyWeapon)) {
+            addArtifactButton(RwWeapon(players[consoleplayer].ReadyWeapon));
         }
         // Armor
         if (plr.CurrentEquippedArmor) {

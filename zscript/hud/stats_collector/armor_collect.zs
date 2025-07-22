@@ -1,6 +1,6 @@
 extend class RwHudArtifactStatsCollector {
 
-    void collectRWArmorStats(RandomizedArmor armr, RandomizedArmor armrCmp) {
+    void collectRWArmorStats(RwArmor armr, RwArmor armrCmp) {
         string compareStr = "";
         let compareClr = Font.CR_White;
         if (armrCmp && armr.stats.maxDurability != armrCmp.stats.maxDurability) {

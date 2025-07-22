@@ -1,4 +1,4 @@
-extend class RandomizedWeapon {
+extend class RwWeapon {
 
     override void Touch(Actor toucher)
 	{

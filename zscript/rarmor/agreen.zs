@@ -1,6 +1,6 @@
 // Green armor --------------------------------------------------------------
 
-class RwGreenArmor : RandomizedArmor
+class RwGreenArmor : RwArmor
 {
 	Default
 	{

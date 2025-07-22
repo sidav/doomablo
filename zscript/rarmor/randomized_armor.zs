@@ -1,4 +1,4 @@
-class RandomizedArmor : Armor abstract {
+class RwArmor : Armor abstract {
 
     mixin Affixable;
 
@@ -16,7 +16,7 @@ class RandomizedArmor : Armor abstract {
 	{
 		Radius 20;
 		Height 16;
-        RandomizedArmor.Weight 10; // Same as green and blue armor.
+        RwArmor.Weight 10; // Same as green and blue armor.
 	}
 
     virtual void setBaseStats() {

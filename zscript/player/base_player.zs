@@ -4,7 +4,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
 
     RwPlayerStats stats;
 
-    RandomizedArmor CurrentEquippedArmor;
+    RwArmor CurrentEquippedArmor;
     RwBackpack CurrentEquippedBackpack;
     RwFlask CurrentEquippedFlask;
 
@@ -154,7 +154,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
             }
         }
         if (Player) {
-            let currWpn = RandomizedWeapon(Player.ReadyWeapon);
+            let currWpn = RwWeapon(Player.ReadyWeapon);
             if (currWpn != null) {
                 foreach (aff : currWpn.appliedAffixes) {
                     aff.onPlayerStatsRecalc(self);

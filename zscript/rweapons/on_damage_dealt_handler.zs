@@ -23,7 +23,7 @@ class RWOnWeaponDamageDealtHandler : EventHandler
     }
 
     static void handleDamageFromPlayer(RwPlayer plr, Actor target, int damage) {
-        let wpn = RandomizedWeapon(plr.Player.ReadyWeapon);
+        let wpn = RwWeapon(plr.Player.ReadyWeapon);
         if (!wpn) return;
 
         Affix current;
