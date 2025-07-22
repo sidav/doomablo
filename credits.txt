@@ -14,6 +14,8 @@ Resources:
     Uses ZForms by Gutawer
     Additional graphics and mods's base: Id Software, Raven Software
     Armor and backpack sprites: cybermonday https://forum.zdoom.org/viewtopic.php?t=78536
+    Blaster graphics from Breadbagfly's Scrapyard https://forum.zdoom.org/viewtopic.php?p=921224
+    Blaster projectile graphics from Realm667, "Plasma Bolter" (Sprites from id Software and 3D Realms, edited by Daniel) https://www.realm667.com/component/docman/?task=doc_download&gid=313&Itemid=
 
 Other sprites:
     Realm667 - per-resource credits are inside credits folder
