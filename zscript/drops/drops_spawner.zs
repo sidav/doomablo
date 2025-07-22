@@ -7,10 +7,10 @@ class DropsSpawner {
         return spawnedItem;
     }
 
-    static play Actor SpawnRandomOneTimeItemDrop(Actor dropper) {
+    static play Actor SpawnRandomConsumableDrop(Actor dropper) {
         Actor itemDrop;
         DropDatabaseHandler db = DropDatabaseHandler.Get();
-        String spawnedClass = db.PickOneTimeItem();
+        String spawnedClass = db.PickConsumable();
         itemDrop = createDropByClass(dropper,spawnedClass);
         return itemDrop;
     }

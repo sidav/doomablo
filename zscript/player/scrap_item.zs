@@ -66,7 +66,7 @@ extend class RwPlayer {
                 if (whatToDrop == 0) {
                     drop = DropsSpawner.SpawnRandomAmmoDrop(itm);
                 } else {
-                    drop = DropsSpawner.SpawnRandomOneTimeItemDrop(itm);
+                    drop = DropsSpawner.SpawnRandomConsumableDrop(itm);
                 }
                 AssignVeryMinorSpreadVelocityTo(drop);
             }

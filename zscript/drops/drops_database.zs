@@ -1,7 +1,7 @@
 class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, lmao
     // This class has two jobs:
     // 1. At startup, iterate the whole class list looking for categories of items.
-    Map<String,int> OneTimeItems; // Consumables such as Bonuses, Stimpacks, Scrolls, Spheres
+    Map<String,int> Consumables; // Consumables such as Bonuses, Stimpacks, Scrolls, Spheres
     Map<String,int> AmmoItems; // Ammunition drops.
     Map<String,int> WeaponItems; // Types of weapons that can be dropped.
     Map<String,int> ArmorItems; // As above, for armor.
@@ -12,19 +12,19 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
     }
 
     override void OnRegister() {
-        // Start by pushing all the known OneTimeItems.
+        // Start by pushing all the known Consumables.
         // TODO: Better way of doing this.
-        OneTimeItems.insert("RwArmorBonus",400);
-        OneTimeItems.insert("HealthBonus",400);
-        OneTimeItems.insert("Stimpack",100);
-        OneTimeItems.insert("Blursphere",10);
-        OneTimeItems.insert("Soulsphere",7);
-        OneTimeItems.insert("Berserk",5);
-        OneTimeItems.insert("MegaSphere",3);
-        OneTimeItems.insert("InvulnerabilitySphere",1);
-        OneTimeItems.insert("RwFlaskRefill",200);
-        OneTimeItems.insert("TomeOfChange", 5);
-        OneTimeItems.insert("StatScroll",5);
+        Consumables.insert("RwArmorBonus",400);
+        Consumables.insert("HealthBonus",400);
+        Consumables.insert("Stimpack",100);
+        Consumables.insert("Blursphere",10);
+        Consumables.insert("Soulsphere",7);
+        Consumables.insert("Berserk",5);
+        Consumables.insert("MegaSphere",3);
+        Consumables.insert("InvulnerabilitySphere",1);
+        Consumables.insert("RwFlaskRefill",200);
+        Consumables.insert("TomeOfChange", 5);
+        Consumables.insert("StatScroll",5);
         // Also, ammo items.
         // No plans to add new ammo, AFAIK.
         AmmoItems.insert("Clip",5);
@@ -113,7 +113,7 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
         return PickFromWeightList(AmmoItems);
     }
 
-    String PickOneTimeItem() {
-        return PickFromWeightList(OneTimeItems);
+    String PickConsumable() {
+        return PickFromWeightList(Consumables);
     }
 }

@@ -27,7 +27,7 @@ class DropsHandler : EventHandler
         Actor spawnedItem;
         switch (whatToDrop) {
             case 0: 
-                spawnedItem = DropsSpawner.SpawnRandomOneTimeItemDrop(dropper);
+                spawnedItem = DropsSpawner.SpawnRandomConsumableDrop(dropper);
                 break;
             case 1:
                 spawnedItem = DropsSpawner.SpawnRandomAmmoDrop(dropper);
