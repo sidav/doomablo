@@ -7,6 +7,11 @@ extend class RwPlayerStats {
         return 100 + (175 * (currentStats[StatVitality]) / 100);
     }
 
+    // Shorthand: returns how many health is perc% of max health.
+    int GetMaxHealthPercentage(int perc) {
+        return math.getIntPercentage(GetMaxHealth(), perc);
+    }
+
     /////////////////
     // Crit chance
     int getCritChancePromille() {

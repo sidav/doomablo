@@ -79,10 +79,7 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             }
             break;
 
-		// ONE-TIME PICKUPS:
-		case 'ArmorBonus':
-			e.Replacement = 'RwArmorBonus';
-            break;
+		// Consumables:
         case 'HealthBonus':
 			if (startOfLevel && rnd.OneChanceFrom(4)) e.Replacement = 'RwFlaskRefill';
             break;
