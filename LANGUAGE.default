@@ -7,6 +7,8 @@ RAREMONSTERSPAWNED = "You feel a powerful presence in this place.";
 TAG_SMG = "Sub-Machine Gun";
 GOTSMG = "You got a Sub-Machine Gun!";
 OB_MPSMG = "%o was rattled by %k's little friend.";
+TAG_REVOLVER = "Revolver";
+GOTREVOLVER = "Got a Revolver. Colt Single Action Space Marine, caliber .45";
 
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo settings";

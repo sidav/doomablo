@@ -15,7 +15,11 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             e.Replacement = 'rwChainsaw';
             break;
 		case 'Pistol':
-			e.Replacement = 'rwPistol';
+            if (rnd.OneChanceFrom(2)) {
+                e.Replacement = 'rwRevolver';
+            } else {
+			    e.Replacement = 'RwPistol';
+            }
             break;
 		case 'Shotgun':
 			e.Replacement = 'rwShotgun';

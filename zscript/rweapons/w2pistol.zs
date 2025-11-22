@@ -67,7 +67,7 @@ class rwPistol : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			6, 15,
+			5, 13,
 			1,
 			1,
 			2.0,
@@ -83,7 +83,6 @@ class rwPistol : RwWeapon
 			"Agent",
 			"Beretta",
             "Bullseye",
-			"Gunslinger",
 			"Judge",
 			"Law",
             "Repeater"

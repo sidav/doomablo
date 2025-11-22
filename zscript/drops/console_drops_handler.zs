@@ -26,6 +26,9 @@ class ConsoleDropsHandler : EventHandler
             case 2: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwPistol', xofs: xofs, zvel: zvel);
                 break;
+            case 22: 
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwRevolver', xofs: xofs, zvel: zvel);
+                break;
             case 3: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwShotgun', xofs: xofs, zvel: zvel);
                 break;
