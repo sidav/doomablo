@@ -4,9 +4,13 @@ class RwPlayerStats {
 		StatCritChance,
 		StatCritDmg,
 		StatMeleeDmg,
-        StatRareFind
+        StatRareFind,
+
+        // HIDDEN STATS (not in any menus, given only by items):
+        StatReloadSpeedBonus, // percentage
+		StatRateOfFireBonus // percentage
 	}
-    const totalStatsCount = 5;
+    const totalStatsCount = 7;
     int baseStats[totalStatsCount];
     int currentStats[totalStatsCount]; // Those are stats with modifiers
 
@@ -23,6 +27,8 @@ class RwPlayerStats {
         newStats.baseStats[StatCritDmg] = 0;
         newStats.baseStats[StatMeleeDmg] = 0;
         newStats.baseStats[StatRareFind] = 0;
+        newStats.baseStats[StatReloadSpeedBonus] = 0;
+        newStats.baseStats[StatRateOfFireBonus] = 0;
         newStats.ResetCurrentStats();
         newStats.baseStatsChanged = true;
         return newStats;
@@ -32,5 +38,9 @@ class RwPlayerStats {
         for (let i = 0; i < baseStats.Size(); i++) {
             currentStats[i] = baseStats[i];
         }
+    }
+
+    int GetCurrentStat(int statIndex) {
+        return currentStats[statIndex];
     }
 }
