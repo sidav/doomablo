@@ -26,27 +26,26 @@ class rwAutoShotgun : RwWeapon
 		SMAG A 1 A_Raise;
 		Loop;
 	Fire:
-		SMAG A 3 RWA_ApplyRateOfFire();
-		SMAG B 1 {
+		SMAG A 1 RWA_ApplyRateOfFire();
+		SMAG B 2 {
 			RWA_ApplyRateOfFire();
 			RWA_DoFire();
 			A_StartSound("Smasher/Smshfire", CHAN_WEAPON);
 			A_GunFlash();
 		}
-		SMAG B 0 bright {
+		// SMAG B 0 bright {
 			// A_SetPitch (pitch-0.9);
-		}
+		// }
 		SMAG CE 2 Bright {
 			RWA_ApplyRateOfFire();
 		}
-		SMAG FH 3 {
+		SMAG FH 2 {
 			RWA_ApplyRateOfFire();
 			// A_SetPitch (pitch+0.3);
 		}
-		SMAG A 2 RWA_ApplyRateOfFire();
-		SMAG A 1 {
+		SMAG A 2 {
+			RWA_ApplyRateOfFire();
 			RWA_ReFire();
-			// RWA_ApplyRateOfFire();
 		}
 		Goto Ready;
 	Reload:
@@ -103,7 +102,7 @@ class rwAutoShotgun : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			minDmg: 4, maxDmg: 10,
+			minDmg: 3, maxDmg: 8,
 			pell: 5,
 			ammousg: 1,
 			hSpr: 10.5,

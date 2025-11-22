@@ -762,7 +762,7 @@ class WPrefLighterGrenade : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefHeavierGrenade';
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 70, 0.05) + quality/10;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 70, 0.05) + remapQualityToRange(quality, 0, 15);
     }
     override void onProjectileSpawnedByPlayer(RwProjectile proj, RwPlayer plr) {
         proj.Gravity = math.getFloatPercentage(proj.Gravity, 100 - modifierLevel);
@@ -792,7 +792,7 @@ class WPrefHeavierGrenade : RwWeaponPrefix {
         return true;
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 40, 0.07) + quality/3;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 40, 0.07) + remapQualityToRange(quality, 0, 30);
     }
     override void onProjectileSpawnedByPlayer(RwProjectile proj, RwPlayer plr) {
         proj.Gravity = math.getFloatPercentage(proj.Gravity, 100 + modifierLevel);
@@ -824,7 +824,7 @@ class WPrefShorterFuse : RwWeaponPrefix {
         return true;
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 40, 0.07) + quality/5;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 40, 0.07) + remapQualityToRange(quality, 0, 20);
     }
     override void onProjectileSpawnedByPlayer(RwProjectile proj, RwPlayer plr) {
         proj.ReactionTime = math.getIntPercentage(proj.ReactionTime, 100-modifierLevel);
@@ -854,7 +854,7 @@ class WPrefLongerFuse : RwWeaponPrefix {
         return true;
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(15, 120, 0.05) + quality/3;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(15, 120, 0.05) + remapQualityToRange(quality, 0, 30);
     }
     override void onProjectileSpawnedByPlayer(RwProjectile proj, RwPlayer plr) {
         proj.ReactionTime = math.getIntPercentage(proj.ReactionTime, 100+modifierLevel);
