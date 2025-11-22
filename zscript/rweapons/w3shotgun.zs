@@ -36,7 +36,7 @@ class rwShotgun : RwWeapon
 		SHTG BC 5 RWA_ApplyRateOfFire();
 		SHTG D 4 RWA_ApplyRateOfFire();
 		SHTG CB 5 RWA_ApplyRateOfFire();
-		SHTG A 3 RWA_ApplyRateOfFire();
+		SHTG A 3;
 		SHTG A 7 {
 			RWA_ReFire();
 			// RWA_ApplyRateOfFire();

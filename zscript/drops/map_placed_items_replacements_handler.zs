@@ -22,10 +22,18 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             }
             break;
 		case 'Shotgun':
-			e.Replacement = 'rwShotgun';
+            if (rnd.OneChanceFrom(8)) {
+                e.Replacement = 'rwAutoshotgun';
+            } else {
+			    e.Replacement = 'rwShotgun';
+            }
             break;
 		case 'SuperShotgun':
-			e.Replacement = 'rwSuperShotgun';
+            if (rnd.OneChanceFrom(4)) {
+                e.Replacement = 'rwAutoshotgun';
+            } else {
+			    e.Replacement = 'RwSuperShotgun';
+            }
             break;
 		case 'Chaingun':
             if (rnd.OneChanceFrom(2)) {

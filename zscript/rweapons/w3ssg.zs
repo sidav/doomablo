@@ -122,7 +122,6 @@ class RwSuperShotgun : RwWeapon
 			"Double Trouble",
 			"Howitzer",
             "Lead delivery",
-			"Smasher",
 			"Sprayer",
             "Terrifier"
         };

@@ -1,0 +1,17 @@
+Code: Captain Toenail
+GLDefs: N/A
+Sounds: Quake2
+Sprites: Doom, Blood, JoeyTD
+Sprite Edit: Captain Toenail
+Idea Base: Striker shotgun from CoD MW2
+
+Name: Smasher
+Class: Level 3
+Type: Hitscan
+Palette: Doom
+Summon: Smasher
+Ammotype: Shell
+AltFire: No
+Powered Mode: No
+Added States: No
+
