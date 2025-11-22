@@ -11,6 +11,8 @@ TAG_REVOLVER = "Revolver";
 GOTREVOLVER = "Revolver genommen. Bist du ein Clint-Eastwood-Anbeter auch?";
 TAG_AUTOSHOTGUN = "Autoflinte";
 GOTAUTOSHOTGUN = "Autoflinte genommen.";
+TAG_GRENADELAUNCHER = "Granatenwerfer";
+GOTGRENADELAUNCHER = "Granatenwerfer genommen.";
 
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo anpassen";
