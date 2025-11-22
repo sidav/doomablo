@@ -86,6 +86,9 @@ extend class RwWeapon {
             );
 
             RwProjectile(msl).applyWeaponStats(invoker);
+            foreach (aff : invoker.appliedAffixes) {
+                aff.onProjectileSpawnedByPlayer(RwProjectile(msl), RwPlayer(invoker.owner));
+            }
 
             if (!actuallyFired) { // See comment on pointBlank() to understand what's happening here
                 RwProjectile(msl).pointBlank();
