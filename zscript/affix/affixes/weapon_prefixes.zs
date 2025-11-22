@@ -730,7 +730,7 @@ class WPrefHomingProjectile : RwWeaponPrefix {
         return a2.GetClass() != 'WSuffFlechettes';
     }
     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.stats.fireType == RWStatsClass.FTProjectile;
+        return wpn.stats.fireType == RWStatsClass.FTProjectile && wpn.GetClass() != 'RwGrenadeLauncher';
     }
     override int minRequiredRarity() {
         return 3; // It's quite a rare affix
