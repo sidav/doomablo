@@ -28,6 +28,7 @@ extend class RwWeapon {
         switch (invoker.stats.fireType) {
             case RWStatsClass.FTHitscan: RWA_FireBullets(); break;
             case RWStatsClass.FTProjectile: RWA_FireProjectile(); break;
+            case RwStatsClass.FTArcingProjectile: RWA_FireProjectile(); break;
             default: debug.print("REPORT THIS: unknown fire type for this weapon");
         }
         RWA_ApplyRecoil();
@@ -70,15 +71,24 @@ extend class RwWeapon {
         }
         for (let pellet = 0; pellet < invoker.stats.Pellets; pellet++) {
             Actor actuallyFired, msl;
+
+            let rndPitch = rnd.randf(-invoker.stats.VertSpread, invoker.stats.VertSpread);
+            if (invoker.stats.fireType == RwStatsClass.FTArcingProjectile) {
+                rndPitch -= 6.0; // Arc-firing projectiles always shoot this many degrees up from center
+            }
+
             [actuallyFired, msl] = A_FireProjectile(
                 invoker.stats.projClass,
                 angle: rnd.randf(-invoker.stats.HorizSpread, invoker.stats.HorizSpread),
                 useammo: false,
                 flags: flags,
-                pitch: rnd.randf(-invoker.stats.VertSpread, invoker.stats.VertSpread)
+                pitch: rndPitch
             );
 
             RwProjectile(msl).applyWeaponStats(invoker);
+            foreach (aff : invoker.appliedAffixes) {
+                aff.onProjectileSpawnedByPlayer(RwProjectile(msl), RwPlayer(invoker.owner));
+            }
 
             if (!actuallyFired) { // See comment on pointBlank() to understand what's happening here
                 RwProjectile(msl).pointBlank();

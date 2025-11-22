@@ -8,7 +8,7 @@ extend class RwWeapon {
     action void RWA_ApplyRateOfFire() { 
         let newDuration = invoker.getFrameDurationWithSpeedBonus(
             self.player.FindPSprite(PSP_WEAPON).tics,
-            invoker.stats.rofModifier,
+            invoker.stats.rofModifier + RwPlayer(invoker.owner).Stats.GetCurrentStat(RwPlayerStats.StatRateOfFireBonus),
             invoker.FireFDFAccum
         );
         A_SetTics(newDuration);
@@ -17,7 +17,7 @@ extend class RwWeapon {
     action void RWA_ApplyRateOfFireToFlash() {
         let newDuration = invoker.getFrameDurationWithSpeedBonus(
             self.player.FindPSprite(PSP_FLASH).tics,
-            invoker.stats.rofModifier,
+            invoker.stats.rofModifier  + RwPlayer(invoker.owner).Stats.GetCurrentStat(RwPlayerStats.StatRateOfFireBonus),
             invoker.FlashFDFAccum
         );
         A_SetTics(clamp(newDuration, 1, 175)); // Don't reduce the ticks for flash below 1
@@ -27,7 +27,7 @@ extend class RwWeapon {
         A_WeaponReady(WRF_NOFIRE | WRF_NOBOB); // This allows switching during reloading. NOBOB is here to prevent weapon sprite resetting its position
         let newDuration = invoker.getFrameDurationWithSpeedBonus(
             self.player.FindPSprite(PSP_WEAPON).tics,
-            invoker.stats.reloadSpeedModifier,
+            invoker.stats.reloadSpeedModifier + RwPlayer(invoker.owner).Stats.GetCurrentStat(RwPlayerStats.StatReloadSpeedBonus),
             invoker.ReloadFDFAccum
         );
         A_SetTics(newDuration);

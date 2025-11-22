@@ -5,3 +5,18 @@ Flasks/Ready        FLASKRDY
 Railgun/Railbuzz    RAILBUZZ
 Railgun/Railin      RAILIN
 Railgun/Railout     RAILOUT
+Revolver/Coltclac   COLTCLAC
+Revolver/Coltplow   COLTPLOW
+Revolver/Coltopen   COLTOPEN
+Revolver/Coltejec   COLTEJEC
+Revolver/Coltinsr   COLTINSR
+Revolver/Coltclos   COLTCLOS
+Smasher/Smshfire    DSSMASHF
+
+40mm/grenfire       GFIRE
+40mm/grenbounce     BOUNCE
+explode1            explode1
+explode2            explode2
+explode3            explode3
+explode4            explode4
+$RANDOM 40mm/grenexplode { explode1 explode2 explode3 explode4 }

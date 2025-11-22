@@ -26,11 +26,17 @@ class ConsoleDropsHandler : EventHandler
             case 2: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwPistol', xofs: xofs, zvel: zvel);
                 break;
+            case 22: 
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwRevolver', xofs: xofs, zvel: zvel);
+                break;
             case 3: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwShotgun', xofs: xofs, zvel: zvel);
                 break;
             case 33: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwSuperShotgun', xofs: xofs, zvel: zvel);
+                break;
+            case 333: 
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwAutoShotgun', xofs: xofs, zvel: zvel);
                 break;
             case 4: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwChaingun', xofs: xofs, zvel: zvel);
@@ -40,6 +46,9 @@ class ConsoleDropsHandler : EventHandler
                 break;
             case 5: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwRocketLauncher', xofs: xofs, zvel: zvel);
+                break;
+            case 55: 
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwGrenadeLauncher', xofs: xofs, zvel: zvel);
                 break;
             case 6: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwPlasmarifle', xofs: xofs, zvel: zvel);

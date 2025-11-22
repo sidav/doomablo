@@ -730,7 +730,7 @@ class WPrefHomingProjectile : RwWeaponPrefix {
         return a2.GetClass() != 'WSuffFlechettes';
     }
     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.stats.fireType == RWStatsClass.FTProjectile;
+        return wpn.stats.fireType == RWStatsClass.FTProjectile && wpn.GetClass() != 'RwGrenadeLauncher';
     }
     override int minRequiredRarity() {
         return 3; // It's quite a rare affix
@@ -738,6 +738,126 @@ class WPrefHomingProjectile : RwWeaponPrefix {
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 3, 0.5);
         wpn.stats.levelOfSeekerProjectile = modifierLevel;
+    }
+}
+
+// Arcing projectile specific
+class WPrefLighterGrenade : RwWeaponPrefix {
+    override string getName() {
+        return "throwing";
+    }
+    override string getNameAsSuffix() {
+        return "throws";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return String.format("%d%% lighter grenade", (modifierLevel) );
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.fireType == RwStatsClass.FTArcingProjectile;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefHeavierGrenade';
+    }
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 70, 0.05) + remapQualityToRange(quality, 0, 15);
+    }
+    override void onProjectileSpawnedByPlayer(RwProjectile proj, RwPlayer plr) {
+        proj.Gravity = math.getFloatPercentage(proj.Gravity, 100 - modifierLevel);
+    }
+}
+
+class WPrefHeavierGrenade : RwWeaponPrefix {
+    override string getName() {
+        return "unsafe";
+    }
+    override string getNameAsSuffix() {
+        return "unsafety";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return String.format("%d%% heavier grenade", (modifierLevel) ); 
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.fireType == RwStatsClass.FTArcingProjectile;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefLighterGrenade';
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
+    }
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 40, 0.07) + remapQualityToRange(quality, 0, 30);
+    }
+    override void onProjectileSpawnedByPlayer(RwProjectile proj, RwPlayer plr) {
+        proj.Gravity = math.getFloatPercentage(proj.Gravity, 100 + modifierLevel);
+    }
+}
+
+// Grenade launcher specific
+
+class WPrefShorterFuse : RwWeaponPrefix {
+    override string getName() {
+        return "short fused";
+    }
+    override string getNameAsSuffix() {
+        return "short fuse";
+    }
+    override int getAlignment() {
+        return 0;
+    }
+    override string getDescription() {
+        return String.format("%d%% shorter fuse", (modifierLevel) );
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.projClass is "RwGlGrenade";
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefLongerFuse';
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
+    }
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 40, 0.07) + remapQualityToRange(quality, 0, 20);
+    }
+    override void onProjectileSpawnedByPlayer(RwProjectile proj, RwPlayer plr) {
+        proj.ReactionTime = math.getIntPercentage(proj.ReactionTime, 100-modifierLevel);
+    }
+}
+
+class WPrefLongerFuse : RwWeaponPrefix {
+    override string getName() {
+        return "patient";
+    }
+    override string getNameAsSuffix() {
+        return "patience";
+    }
+    override int getAlignment() {
+        return 0;
+    }
+    override string getDescription() {
+        return String.format("%d%% longer fuse", (modifierLevel) );
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.projClass is "RwGlGrenade";
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WPrefShorterFuse';
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
+    }
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(15, 120, 0.05) + remapQualityToRange(quality, 0, 30);
+    }
+    override void onProjectileSpawnedByPlayer(RwProjectile proj, RwPlayer plr) {
+        proj.ReactionTime = math.getIntPercentage(proj.ReactionTime, 100+modifierLevel);
     }
 }
 

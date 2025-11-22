@@ -15,6 +15,7 @@ extend class Affix {
     // Weapons
     virtual play void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {}
     virtual play void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {}
+    virtual play void onProjectileSpawnedByPlayer(RwProjectile projectile, RwPlayer plr) {}
 
     // Armor
     virtual play void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {}

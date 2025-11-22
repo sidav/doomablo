@@ -105,10 +105,7 @@ class RwRocketLauncher : RwWeapon
         {
 			"Argument",
 			"Bazooka",
-            "Destructor",
-			"Demolisher",
-            "Obliterator",
-			"Ruiner"
+            "Destructor"
         };
         return specialNames[rnd.randn(specialNames.Size())];
     }

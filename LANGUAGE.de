@@ -7,6 +7,12 @@ RAREMONSTERSPAWNED = "Du spürst eine starke Präsenz an diesem Ort.";
 TAG_SMG = "Machinenpistole";
 GOTSMG = "Machinenpistole genommen.";
 OB_MPSMG = "%o wurde mit Blei aus %ks Machinenpistole vollgepumpt.";
+TAG_REVOLVER = "Revolver";
+GOTREVOLVER = "Revolver genommen. Bist du ein Clint-Eastwood-Anbeter auch?";
+TAG_AUTOSHOTGUN = "Autoflinte";
+GOTAUTOSHOTGUN = "Autoflinte genommen.";
+TAG_GRENADELAUNCHER = "Granatenwerfer";
+GOTGRENADELAUNCHER = "Granatenwerfer genommen.";
 
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo anpassen";

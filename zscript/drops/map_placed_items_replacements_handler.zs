@@ -15,13 +15,25 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             e.Replacement = 'rwChainsaw';
             break;
 		case 'Pistol':
-			e.Replacement = 'rwPistol';
+            if (rnd.OneChanceFrom(2)) {
+                e.Replacement = 'rwRevolver';
+            } else {
+			    e.Replacement = 'RwPistol';
+            }
             break;
 		case 'Shotgun':
-			e.Replacement = 'rwShotgun';
+            if (rnd.OneChanceFrom(8)) {
+                e.Replacement = 'rwAutoshotgun';
+            } else {
+			    e.Replacement = 'rwShotgun';
+            }
             break;
 		case 'SuperShotgun':
-			e.Replacement = 'rwSuperShotgun';
+            if (rnd.OneChanceFrom(4)) {
+                e.Replacement = 'rwAutoshotgun';
+            } else {
+			    e.Replacement = 'RwSuperShotgun';
+            }
             break;
 		case 'Chaingun':
             if (rnd.OneChanceFrom(2)) {
@@ -31,7 +43,11 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             }
             break;
 		case 'Rocketlauncher':
-			e.Replacement = 'rwRocketLauncher';
+            if (rnd.OneChanceFrom(2)) {
+                e.Replacement = 'rwGrenadeLauncher';
+            } else {
+                e.Replacement = 'rwRocketLauncher';
+            }
             break;
 		case 'Plasmarifle':
             if (rnd.OneChanceFrom(3)) {

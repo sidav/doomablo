@@ -239,3 +239,102 @@ class UPrefRareFindIncrease : RwUniversalAffix {
         owner.stats.modifyCurrentStat(RwPlayerStats.StatRareFind, modifierLevel);
     }
 }
+
+///////////////////////////////////
+/// HIDDEN STAT ALTERING AFFIXES
+///////////////////////////////////
+class UPrefSlowerReload : RwUniversalAffix {
+    override string getName() {
+        return "Clunky";
+    }
+    override string getDescription() {
+        return "-"..modifierLevel.."% weapons reload speed";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return !(item is 'RwMonsterAffixator' || item is 'RwWeapon');
+    }
+    override void InitAndApplyEffectToItem(Inventory item, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 15, 0.1) + remapQualityToRange(quality, 1, 10);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'UPrefFasterReload';
+    }
+    override void onPlayerStatsRecalc(RwPlayer owner) {
+        owner.stats.modifyCurrentStat(RwPlayerStats.StatReloadSpeedBonus, -modifierLevel);
+    }
+}
+
+class UPrefFasterReload : RwUniversalAffix {
+    override string getName() {
+        return "Motivating";
+    }
+    override string getDescription() {
+        return "+"..modifierLevel.."% weapons reload speed";
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return !(item is 'RwMonsterAffixator' || item is 'RwWeapon');
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'UPrefSlowerReload';
+    }
+    override void InitAndApplyEffectToItem(Inventory item, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 15, 0.05) + remapQualityToRange(quality, 1, 10);
+    }
+    override void onPlayerStatsRecalc(RwPlayer owner) {
+        owner.stats.modifyCurrentStat(RwPlayerStats.StatReloadSpeedBonus, modifierLevel);
+    }
+}
+
+class UPrefSlowerRateOfFire : RwUniversalAffix {
+    override string getName() {
+        return "Slowing";
+    }
+    override string getDescription() {
+        return "-"..modifierLevel.."% weapons rate of fire";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return !(item is 'RwMonsterAffixator' || item is 'RwWeapon');
+    }
+    override void InitAndApplyEffectToItem(Inventory item, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 15, 0.1) + remapQualityToRange(quality, 1, 10);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        return true;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'UPrefFasterRateOfFire';
+    }
+    override void onPlayerStatsRecalc(RwPlayer owner) {
+        owner.stats.modifyCurrentStat(RwPlayerStats.StatRateOfFireBonus, -modifierLevel);
+    }
+}
+
+class UPrefFasterRateOfFire : RwUniversalAffix {
+    override string getName() {
+        return "Invigorating";
+    }
+    override string getDescription() {
+        return "+"..modifierLevel.."% weapons rate of fire";
+    }
+    override bool IsCompatibleWithItem(Inventory item) {
+        return !(item is 'RwMonsterAffixator' || item is 'RwWeapon');
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'UPrefSlowerRateOfFire';
+    }
+    override void InitAndApplyEffectToItem(Inventory item, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 15, 0.05) + remapQualityToRange(quality, 1, 10);
+    }
+    override void onPlayerStatsRecalc(RwPlayer owner) {
+        owner.stats.modifyCurrentStat(RwPlayerStats.StatRateOfFireBonus, modifierLevel);
+    }
+}

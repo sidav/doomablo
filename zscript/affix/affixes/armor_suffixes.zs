@@ -496,7 +496,7 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
         return "UAC A-Def";
     }
     override string getDescription() {
-        return String.Format("On emptying: %d dmg to nearby enemies (radius %.1f)", (modifierLevel, float(stat2)/10));
+        return String.Format("On depletion: %d dmg to nearby enemies (radius %.1f)", (modifierLevel, float(stat2)/10));
     }
     override int getAlignment() {
         return 1;

@@ -3,6 +3,7 @@ class RWStatsClass {
     enum WeaponFireTypes {
 		FTHitscan,
 		FTProjectile,
+        FTArcingProjectile,
 		FTMelee,
 		FTRailgun
 	}

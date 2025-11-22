@@ -72,6 +72,11 @@ class Math {
         return (value * percent + 50) / 100;
     }
 
+    static float getFloatPercentage(float value, int percent) {
+        // +50 needed for proper rounding
+        return (value * float(percent)) / 100.0;
+    }
+
     // If "part" is partPercent% of X, this will return X. Kinda reverses the previous method.
     static int getWholeByPartPercentage(int part, int partPercent) {
         // "+ partPercent/2" and "+50" are for proper integer rounding

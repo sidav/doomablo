@@ -67,13 +67,13 @@ class rwPistol : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			6, 15,
+			5, 13,
 			1,
 			1,
 			2.0,
 			0.5
 		);
-		stats.clipSize = 8;
+		stats.clipSize = 10;
 		rwBaseName = "Pistol";
     }
 
@@ -83,7 +83,6 @@ class rwPistol : RwWeapon
 			"Agent",
 			"Beretta",
             "Bullseye",
-			"Gunslinger",
 			"Judge",
 			"Law",
             "Repeater"
