@@ -109,7 +109,7 @@ class rwRevolver : RwWeapon
 			hSpr: 1.5,
 			vSpr: 0.7
 		);
-		stats.clipSize = 5;
+		stats.clipSize = 6;
 		rwBaseName = "Revolver";
     }
 

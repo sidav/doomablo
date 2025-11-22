@@ -8,9 +8,9 @@ class RwGlGrenade : RwProjectile
 		Speed 30;
 		Gravity 0.5;
 		ReactionTime 60; // Life time of the grenade
-		BounceType "Grenade";
-		BounceFactor 0.5;
-		WallBounceFactor 0.5;
+		BounceType "Doomcompat";
+		BounceFactor 0.6;
+		WallBounceFactor 0.6;
 		BounceCount 10;
 
 		Projectile;

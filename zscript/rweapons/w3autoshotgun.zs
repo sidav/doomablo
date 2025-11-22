@@ -4,13 +4,13 @@ class rwAutoShotgun : RwWeapon
 	{
         Weapon.SlotNumber 3;
 
-		Weapon.SelectionOrder 1300;
+		Weapon.SelectionOrder 1400;
 		// Weapon.AmmoGive 8;
 		Weapon.AmmoType "Shell";
 		Inventory.PickupMessage "$GOTAUTOSHOTGUN";
 		Obituary "$OB_MPAUTOSHOTGUN";
 		Tag "$TAG_AUTOSHOTGUN";
-		RwWeapon.Weight 10;
+		RwWeapon.Weight 7;
 	}
 	States
 	{

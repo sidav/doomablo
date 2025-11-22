@@ -4,13 +4,13 @@ class RwGrenadeLauncher : RwWeapon
 	{
 		Weapon.SlotNumber 5;
 
-		Weapon.SelectionOrder 2500;
+		Weapon.SelectionOrder 2000;
 		// Weapon.AmmoGive 5;
 		Weapon.AmmoType "RocketAmmo";
 		+WEAPON.NOAUTOFIRE
 		Inventory.PickupMessage "$GOTGRENADELAUNCHER";
 		Tag "$TAG_GRENADELAUNCHER";
-		RwWeapon.Weight 10;
+		RwWeapon.Weight 7;
 	}
 	States
 	{
@@ -90,10 +90,10 @@ class RwGrenadeLauncher : RwWeapon
 			minDmg: 72, maxDmg: 96,
 			pell: 1,
 			ammousg: 1,
-			hSpr: 4.5,
-			vSpr: 1.5
+			hSpr: 3.5,
+			vSpr: 2.0
 		);
-		stats.fireType = stats.FTProjectile;
+		stats.fireType = stats.FTArcingProjectile;
 
 		stats.recoil = 0.5;
 		stats.ShooterKickback = 0.8;

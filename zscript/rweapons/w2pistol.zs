@@ -73,7 +73,7 @@ class rwPistol : RwWeapon
 			2.0,
 			0.5
 		);
-		stats.clipSize = 8;
+		stats.clipSize = 10;
 		rwBaseName = "Pistol";
     }
 
