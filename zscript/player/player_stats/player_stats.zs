@@ -10,6 +10,7 @@ class RwPlayerStats {
         StatReloadSpeedBonus, // percentage
 		StatRateOfFireBonus // percentage
 	}
+    const nonHiddenStatsCount = 5;
     const totalStatsCount = 7;
     int baseStats[totalStatsCount];
     int currentStats[totalStatsCount]; // Those are stats with modifiers

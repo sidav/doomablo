@@ -52,7 +52,7 @@ class RWLevelupMenu : RwBaseMenu {
         DescriptionLabel.Pack(mainFrame);
 
         currentHeight = 175;
-        for (let sid = 0; sid < RwPlayerStats.totalStatsCount; sid++) {
+        for (let sid = 0; sid < RwPlayerStats.nonHiddenStatsCount; sid++) {
             addLevelUpButton(sid);
         }
         setBasicDescription();
