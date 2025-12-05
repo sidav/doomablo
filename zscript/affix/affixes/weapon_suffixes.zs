@@ -388,7 +388,7 @@ class WSuffSlugshotShotgun : RwWeaponSuffix {
             && a2.GetClass() != 'WPrefLessPellets' && a2.GetClass() != 'WPrefMorePellets';
     }
     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.GetClass() == 'RwShotgun' || wpn.GetClass() == 'RwSuperShotgun';
+        return wpn.GetClass() == 'RwShotgun' || wpn.GetClass() == 'RwSuperShotgun' || wpn.GetClass() == 'RwAutoShotgun';
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(50, 85, 0.1) + remapQualityToRange(quality, 0, 35);
@@ -399,7 +399,7 @@ class WSuffSlugshotShotgun : RwWeaponSuffix {
         wpn.stats.HorizSpread /= double(stat2) / 100.0;
         wpn.stats.VertSpread /= double(stat2) / 400.0;
 
-        if (wpn.GetClass() == 'RwShotgun') {
+        if (wpn.GetClass() == 'RwShotgun' || wpn.GetClass() == 'RwAutoShotgun') {
             wpn.stats.Pellets = 1;
         } else if (wpn.GetClass() == 'RwSuperShotgun') {
             wpn.stats.Pellets = 2;
@@ -440,6 +440,7 @@ class WSuffRofSelfUpgrade : RwWeaponSuffix {
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 3) return;
 
+        plr.A_PrintBold("Affix level up: +1% rate of fire for this weapon");
         rWeap.stats.rofModifier++;
         stat2++;
         if (stat2 >= modifierLevel) maxEffectReached = true;
@@ -474,6 +475,7 @@ class WSuffReloadSpeedSelfUpgrade : RwWeaponSuffix {
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 3) return;
 
+        plr.A_PrintBold("Affix level up: +1% reload speed for this weapon");
         rWeap.stats.reloadSpeedModifier++;
         stat2++;
         if (stat2 >= modifierLevel) maxEffectReached = true;
@@ -487,7 +489,7 @@ class WSuffMaxDamageSelfUpgrade : RwWeaponSuffix {
         return "Justicar";
     }
     override int selectionProbabilityPercentage() {
-        return 50;
+        return 75;
     }
     override string getDescription() {
         if (!maxEffectReached && Gametime.GetPhase(3*TICRATE/2)) {
@@ -510,8 +512,49 @@ class WSuffMaxDamageSelfUpgrade : RwWeaponSuffix {
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 4) return;
     
+        plr.A_PrintBold("Affix level up: +"..modifierLevel.." max damage for this weapon");
         rWeap.stats.maxDamage += modifierLevel;
         cumulativeDmgIncrease += modifierLevel;
+        stat2--;
+        if (stat2 == 0) maxEffectReached = true;
+    }
+}
+
+class WSuffPelletsSelfUpgrade : RwWeaponSuffix {
+    bool maxEffectReached;
+    int cumulativePelletsIncrease;
+    override string getName() {
+        return "Leadstorm";
+    }
+    override int selectionProbabilityPercentage() {
+        return 75;
+    }
+    override string getDescription() {
+        if (!maxEffectReached && Gametime.GetPhase(3*TICRATE/2)) {
+            return "Gain +1 pellets for next "..stat2.." epic+ kills";
+        } else {
+            if (maxEffectReached) return " -> Pellets +"..modifierLevel.." - already at maximum";
+            return " -> Currently +"..cumulativePelletsIncrease.." pellets gained";
+        }
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.GetClass() == 'RwShotgun' || wpn.GetClass() == 'RwSuperShotgun' || wpn.GetClass() == 'RwAutoShotgun';
+    }
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        modifierLevel = 1; // The increase itself
+        stat2 = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.1) + remapQualityToRange(quality, 0, 2); // maximum
+        cumulativePelletsIncrease = 0;
+    }
+    override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (maxEffectReached) return;
+        let rWeap = RwWeapon(plr.Player.ReadyWeapon);
+        if (!rWeap) return;
+        let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
+        if (!monAff || monAff.GetRarity() < 3) return;
+    
+        plr.A_PrintBold("Affix level up: +1 pellet for this weapon");
+        rWeap.stats.pellets += modifierLevel;
+        cumulativePelletsIncrease += modifierLevel;
         stat2--;
         if (stat2 == 0) maxEffectReached = true;
     }
