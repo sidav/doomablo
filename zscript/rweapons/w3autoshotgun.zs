@@ -4,7 +4,7 @@ class rwAutoShotgun : RwWeapon
 	{
         Weapon.SlotNumber 3;
 
-		Weapon.SelectionOrder 1400;
+		Weapon.SelectionOrder 400;
 		// Weapon.AmmoGive 8;
 		Weapon.AmmoType "Shell";
 		Inventory.PickupMessage "$GOTAUTOSHOTGUN";
@@ -102,10 +102,10 @@ class rwAutoShotgun : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			minDmg: 3, maxDmg: 8,
-			pell: 5,
+			minDmg: 4, maxDmg: 8,
+			pell: 6,
 			ammousg: 1,
-			hSpr: 10.5,
+			hSpr: 12.5,
 			vSpr: 3.5
 		);
 		stats.recoil = 2.5;

@@ -4,7 +4,7 @@ class rwRevolver : RwWeapon
 	{
 		Weapon.SlotNumber 2;
 
-		Weapon.SelectionOrder 1950;
+		Weapon.SelectionOrder 1000;
 		// Weapon.AmmoGive 0;
 		Weapon.AmmoType "Clip";
 		Obituary "$OB_MPPISTOL";
@@ -103,7 +103,7 @@ class rwRevolver : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			minDmg: 10, maxDmg: 20,
+			minDmg: 15, maxDmg: 30,
 			pell: 1,
 			ammousg: 1,
 			hSpr: 1.5,
