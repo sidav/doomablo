@@ -418,11 +418,11 @@ class WSuffRofSelfUpgrade : RwWeaponSuffix {
         return "Consecration";
     }
     override int selectionProbabilityPercentage() {
-        return 50;
+        return 75;
     }
     override string getDescription() {
         if (Gametime.GetPhase(3*TICRATE/2)) {
-            return "Gain +1% rate of fire (max +"..modifierLevel.."%) for each epic+ kill";
+            return "Gain +1% rate of fire (max +"..modifierLevel.."%) for each rare+ kill";
         } else {
             if (maxEffectReached) return " -> RoF +"..modifierLevel.."% - already at maximum";
             return " -> Currently +"..stat2.."% gained";
@@ -438,7 +438,7 @@ class WSuffRofSelfUpgrade : RwWeaponSuffix {
         let rWeap = RwWeapon(plr.Player.ReadyWeapon);
         if (!rWeap) return;
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
-        if (!monAff || monAff.GetRarity() < 3) return;
+        if (!monAff || monAff.GetRarity() < 2) return;
 
         plr.A_PrintBold("Affix level up: +1% rate of fire for this weapon");
         rWeap.stats.rofModifier++;
@@ -453,11 +453,11 @@ class WSuffReloadSpeedSelfUpgrade : RwWeaponSuffix {
         return "Servant";
     }
     override int selectionProbabilityPercentage() {
-        return 50;
+        return 75;
     }
     override string getDescription() {
         if (Gametime.GetPhase(3*TICRATE/2)) {
-            return "Gain +1% reload speed (max +"..modifierLevel.."%) for each epic+ kill";
+            return "Gain +1% reload speed (max +"..modifierLevel.."%) for each rare+ kill";
         } else {
             if (maxEffectReached) return " -> Reload speed +"..modifierLevel.."% - already at maximum";
             return " -> Currently +"..stat2.."% gained";
@@ -473,7 +473,7 @@ class WSuffReloadSpeedSelfUpgrade : RwWeaponSuffix {
         let rWeap = RwWeapon(plr.Player.ReadyWeapon);
         if (!rWeap) return;
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
-        if (!monAff || monAff.GetRarity() < 3) return;
+        if (!monAff || monAff.GetRarity() < 2) return;
 
         plr.A_PrintBold("Affix level up: +1% reload speed for this weapon");
         rWeap.stats.reloadSpeedModifier++;
@@ -493,7 +493,7 @@ class WSuffMaxDamageSelfUpgrade : RwWeaponSuffix {
     }
     override string getDescription() {
         if (!maxEffectReached && Gametime.GetPhase(3*TICRATE/2)) {
-            return "Gain +"..modifierLevel.." max damage for next "..stat2.." legendary+ kills";
+            return "Gain +"..modifierLevel.." max damage for next "..stat2.." epic+ kills";
         } else {
             if (maxEffectReached) return " -> Max DMG +"..modifierLevel.." - already at maximum";
             return " -> Currently +"..cumulativeDmgIncrease.." max DMG gained";
@@ -510,7 +510,7 @@ class WSuffMaxDamageSelfUpgrade : RwWeaponSuffix {
         let rWeap = RwWeapon(plr.Player.ReadyWeapon);
         if (!rWeap) return;
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
-        if (!monAff || monAff.GetRarity() < 4) return;
+        if (!monAff || monAff.GetRarity() < 3) return;
     
         plr.A_PrintBold("Affix level up: +"..modifierLevel.." max damage for this weapon");
         rWeap.stats.maxDamage += modifierLevel;
