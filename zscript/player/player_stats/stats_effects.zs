@@ -30,15 +30,15 @@ extend class RwPlayerStats {
         return 1500 + (currentStats[StatCritDmg] * 250 + 5) / 10;
     }
 
-    int getCritDamageFor(int nonCritDamage) {
-        return (nonCritDamage * getCritDmgPromille() + 500) / 1000;
+    int getCritDamageFor(int nonCritDamage, int additionalPromille = 0) {
+        return (nonCritDamage * (getCritDmgPromille() + additionalPromille) + 500) / 1000;
     }
 
     // Full crit logic in a single func (maybe it's slow?)
-    int rollAndModifyDamageForCrit(int initialDamage) {
+    int rollAndModifyDamageForCrit(int initialDamage, int additionalPromille = 0) {
         // Roll for crit chance itself first
         if (rollCritChance()) {
-            return getCritDamageFor(initialDamage);
+            return getCritDamageFor(initialDamage, additionalPromille);
         }
         return initialDamage;
     }

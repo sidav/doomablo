@@ -26,8 +26,8 @@ class rwRevolver : RwWeapon
 		COLT B 1 A_Raise;
 		Loop;
 	Fire:
-		COLT B 2 RWA_ApplyRateOfFire();
-		COLT A 4 {
+		// COLT B 2 RWA_ApplyRateOfFire();
+		COLT A 5 {
 			A_StartSound("Revolver/Coltclac", CHAN_WEAPON);
 			RWA_ApplyRateOfFire();
 		}
@@ -60,28 +60,29 @@ class rwRevolver : RwWeapon
 		}
 		Goto Ready;
 	Reload:
-		COLT F 6 RWA_ApplyReloadSpeed();
-		COLT G 4 {
+		COLT F 4 RWA_ApplyReloadSpeed();
+		COLT G 3 {
 			RWA_ApplyReloadSpeed();
 			A_StartSound("Revolver/Coltopen", CHAN_WEAPON);
 		}
-		COLT H 6 RWA_ApplyReloadSpeed();
-		COLT IJK 4 RWA_ApplyReloadSpeed();
+		COLT H 7 RWA_ApplyReloadSpeed();
+		COLT IJ 4 RWA_ApplyReloadSpeed();
+		COLT K 3 RWA_ApplyReloadSpeed();
 		COLT L 4 {
 			RWA_ApplyReloadSpeed();
 			A_StartSound("Revolver/Coltejec", CHAN_WEAPON);
 		}
-		COLT M 16 RWA_ApplyReloadSpeed();
+		COLT M 22 RWA_ApplyReloadSpeed();
 		COLT LK 4 RWA_ApplyReloadSpeed();
-		COLT J 7 {
+		COLT J 6 {
 			RWA_ApplyReloadSpeed();
             A_StartSound("Revolver/Coltinsr", CHAN_WEAPON);
             A_MagazineReload(); //do the reload
 		}
 		COLT I 4 RWA_ApplyReloadSpeed();
 		COLT H 6 RWA_ApplyReloadSpeed();
-		COLT G 4 RWA_ApplyReloadSpeed();
-		COLT F 6 {
+		COLT G 3 RWA_ApplyReloadSpeed();
+		COLT F 4 {
 			RWA_ApplyReloadSpeed();
 			A_StartSound("Revolver/Coltclos", CHAN_WEAPON);
 		}
@@ -103,13 +104,15 @@ class rwRevolver : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			minDmg: 15, maxDmg: 30,
+			minDmg: 16, maxDmg: 30,
 			pell: 1,
 			ammousg: 1,
 			hSpr: 1.5,
 			vSpr: 0.7
 		);
 		stats.clipSize = 6;
+		stats.recoil = 3.5;
+		stats.additionalCritDamagePromille = 250;
 		rwBaseName = "Revolver";
     }
 

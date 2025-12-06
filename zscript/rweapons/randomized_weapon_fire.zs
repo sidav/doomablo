@@ -18,7 +18,7 @@ extend class RwWeapon {
         // debug.print("Modified to "..dmg.." damage");
 
         // Crit chance logic
-        dmg = plr.stats.rollAndModifyDamageForCrit(dmg);
+        dmg = plr.stats.rollAndModifyDamageForCrit(dmg, invoker.stats.additionalCritDamagePromille);
 
         return dmg;
     }

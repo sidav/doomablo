@@ -20,6 +20,8 @@ class RWStatsClass {
     double ShooterKickback; // Dunno if it is in Doom
     float Recoil; // In degrees.
 
+    int additionalCritDamagePromille;
+
     // Melee-specific
     int attackRange; // currently used for melee only
 

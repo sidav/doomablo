@@ -418,6 +418,28 @@ class WPrefSmallerRecoil : RwWeaponPrefix {
     }
 }
 
+// TODO: unneeded? (since there's already +crit dmg stat affix)
+// class WPrefAdditionalCritPercentage : RwWeaponPrefix {
+//     override string getName() {
+//         return "bullseye";
+//     }
+//     override int getAlignment() {
+//         return 1;
+//     }
+//     override string getDescription() {
+//         return String.format("+%d%% crit damage", (modifierLevel/10) );
+//     }
+//     override bool isCompatibleWithAffClass(Affix a2) {
+//         return true; // TODO: maybe not?
+//     }
+//     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+//         let addition = rnd.multipliedWeightedRandByEndWeight(200, 450, 0.1) + remapQualityToRange(quality, 0, 250);
+
+//         wpn.stats.additionalCritDamagePromille += addition;
+//         modifierLevel = wpn.stats.additionalCritDamagePromille;
+//     }
+// }
+
 // Magazine-related
 
 class WPrefSmallerMag : RwWeaponPrefix {
