@@ -28,6 +28,29 @@ class RwWeaponSuffix : Affix abstract {
 
 // Universal ones
 
+class WSuffReloadOnKill : RwWeaponSuffix {
+    override string getName() {
+        return "quick hand";
+    }
+    override string getDescription() {
+        return modifierLevel.."% chance for instant reload on kill";
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.clipSize > 2;
+    }
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 5);
+    }
+    override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (rnd.PercentChance(modifierLevel)) {
+            let rWeap = RwWeapon(plr.Player.ReadyWeapon);
+            if (!rWeap) return;
+            rWeap.A_MagazineReload();
+            rWeap.A_StartSound("misc/w_pkup", CHAN_WEAPON); // plays Doom's "weapon pickup" sound
+        }
+    }
+}
+
 class WSuffVampiric : RwWeaponSuffix {
     override string getName() {
         return "Vampirism";
