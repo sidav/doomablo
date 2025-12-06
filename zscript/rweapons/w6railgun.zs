@@ -104,6 +104,7 @@ class RwRailgun : RwWeapon
 		stats.fireType = stats.FTRailgun;
 
 		stats.recoil = 3.5;
+		stats.additionalCritDamagePromille = 250;
 		stats.ShooterKickback = 5.0;
 		stats.TargetKnockback = 0;
 		stats.clipSize = stats.ammoUsage * 3;
