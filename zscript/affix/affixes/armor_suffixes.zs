@@ -255,6 +255,7 @@ class ASuffAbsImprove : RwArmorSuffix {
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RwArmor arm = RwArmor(affixedItem);
         if (arm.cumulativeRepair >= stat2 && modifierLevel > arm.stats.AbsorbsPercentage) {
+            owner.A_PrintBold("Affix level up: +1% max ABS for your armor");
             arm.stats.AbsorbsPercentage += 1;
             arm.cumulativeRepair = 0;
         }
@@ -288,6 +289,7 @@ class ASuffDrbImprove : RwArmorSuffix {
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RwArmor arm = RwArmor(affixedItem);
         if (arm.cumulativeRepair >= stat2 && modifierLevel > arm.stats.maxDurability) {
+            owner.A_PrintBold("Affix level up: +1 max DRB for your armor");
             arm.stats.maxDurability += 1;
             arm.stats.currDurability += 1;
             arm.cumulativeRepair = 0;
