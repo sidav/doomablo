@@ -118,6 +118,8 @@ version "4.10.0"
 #include "zscript/active_slot_items/rflasks/rw_small_flask.zs"
 #include "zscript/active_slot_items/rflasks/rw_flask_stats.zs"
 
+#include "zscript/active_slot_items/rturrets/base_rw_turret_actor.zs"
+
 #include "zscript/rmonsters/monster_affixing_handler.zs"
 #include "zscript/rmonsters/rw_monster_affixator.zs"
 #include "zscript/rmonsters/rw_monster_affixator_affixable.zs"

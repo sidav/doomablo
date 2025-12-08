@@ -1,0 +1,14 @@
+Name: Deployable SentryGun
+Type: Custom Inventory
+Palette: Doom
+Summon: SentryBox, SentryGun
+Duration: infinite (until sentry destroyed)
+Use Type: Inventory
+
+Submitted: Captain Toenail
+Decorate: Captain Toenail
+GLDefs: Captain Toenail
+Sounds: Valve, Id Software
+Sprites: Id Software, 3D Realms, Raven
+Sprite Edit: Captain Toenail
+Idea Base: MW2 Sentry killstreak
