@@ -8,7 +8,7 @@ class TomeOfChange : Inventory {
 		Inventory.Amount 1;
 		Inventory.MaxAmount 1;
 		Inventory.InterHubAmount 1;
-		Inventory.Icon "FSTIN";
+		Inventory.Icon "FTINA0";
 		-Inventory.AUTOACTIVATE
 		+INVENTORY.INVBAR
 		+BRIGHT
