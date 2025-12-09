@@ -6,7 +6,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
 
     RwArmor CurrentEquippedArmor;
     RwBackpack CurrentEquippedBackpack;
-    RwFlask CurrentEquippedFlask;
+    RwActiveSlotItem EquippedActiveSlotItem;
 
     int showStatsButtonPressedTicks;
     int scrapItemButtonPressedTicks;
@@ -54,8 +54,12 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
             scrapItemButtonPressedTicks = 0;
         }
         if (Player.cmd.buttons & BT_USER2) {
-            if (CurrentEquippedFlask != null) {
-                CurrentEquippedFlask.RwUse();
+            if (EquippedActiveSlotItem != null) {
+                if (RwFlask(EquippedActiveSlotItem)) {
+                    RwFlask(EquippedActiveSlotItem).RwUse();
+                } else {
+                    debug.panic("Crash: trying to use unimplemented RwUse for "..EquippedActiveSlotItem.GetClassName());
+                }
             }
         }
         if (Player.cmd.buttons & BT_USER3) {
@@ -129,9 +133,9 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
             changed = true;
             prevTickBackpack = CurrentEquippedBackpack;
         }
-        if (prevTickFlask != CurrentEquippedFlask) {
+        if (prevTickFlask != EquippedActiveSlotItem) {
             changed = true;
-            prevTickFlask = CurrentEquippedFlask;
+            prevTickFlask = EquippedActiveSlotItem;
         }
         return changed;
     }
@@ -148,8 +152,8 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
                 aff.onPlayerStatsRecalc(self);
             }
         }
-        if (CurrentEquippedFlask != null) {
-            foreach (aff : CurrentEquippedFlask.appliedAffixes) {
+        if (EquippedActiveSlotItem != null) {
+            foreach (aff : EquippedActiveSlotItem.appliedAffixes) {
                 aff.onPlayerStatsRecalc(self);
             }
         }

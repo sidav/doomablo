@@ -20,7 +20,7 @@ version "4.10.0"
 #include "zscript/hud/randomized_weapon_stats_table.zs"
 #include "zscript/hud/randomized_armor_stats_table.zs"
 #include "zscript/hud/randomized_backpack_stats_table.zs"
-#include "zscript/hud/randomized_flask_stats_table.zs"
+#include "zscript/hud/randomized_active_slot_item_stats_table.zs"
 #include "zscript/hud/items_info.zs"
 
 #include "zscript/misc/debug.zs"
@@ -41,13 +41,13 @@ version "4.10.0"
 #include "zscript/affix/affixes/armor_suffixes.zs"
 #include "zscript/affix/affixes/backpack_prefixes.zs"
 #include "zscript/affix/affixes/backpack_suffixes.zs"
-#include "zscript/affix/affixes/flask_prefixes.zs"
-#include "zscript/affix/affixes/flask_suffixes.zs"
 #include "zscript/affix/affixes/monster_affixes.zs"
 #include "zscript/affix/affixes/universal_affixes.zs"
 #include "zscript/affix/affixes/weapon_bfg_affixes.zs"
 #include "zscript/affix/affixes/weapon_prefixes.zs"
 #include "zscript/affix/affixes/weapon_suffixes.zs"
+#include "zscript/affix/affixes/active_slot_items/flask_prefixes.zs"
+#include "zscript/affix/affixes/active_slot_items/flask_suffixes.zs"
 
 #include "zscript/affixable/affixable.zs"
 #include "zscript/affixable/affixable_detector.zs"
@@ -112,6 +112,10 @@ version "4.10.0"
 #include "zscript/rbackpacks/randomized_backpack_pickup.zs"
 #include "zscript/rbackpacks/randomized_backpack_stats.zs"
 
+// ACTIVE SLOT ITEMS
+#include "zscript/active_slot_items/base_active_slot_item.zs"
+#include "zscript/active_slot_items/rw_active_slot_item_stats.zs"
+
 #include "zscript/active_slot_items/rflasks/base_rw_flask.zs"
 #include "zscript/active_slot_items/rflasks/rw_big_flask.zs"
 #include "zscript/active_slot_items/rflasks/rw_medium_flask.zs"
@@ -120,6 +124,7 @@ version "4.10.0"
 
 #include "zscript/active_slot_items/rturrets/base_rw_turret_actor.zs"
 
+// MONSTER AFFIXATOR AND RELATED STUFF
 #include "zscript/rmonsters/monster_affixing_handler.zs"
 #include "zscript/rmonsters/rw_monster_affixator.zs"
 #include "zscript/rmonsters/rw_monster_affixator_affixable.zs"

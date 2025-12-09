@@ -43,8 +43,8 @@ class RWEquippedArtifactsMenu : RwBaseMenu {
             addArtifactButton(plr.CurrentEquippedBackpack);
         }
         // Flask:
-        if (plr.CurrentEquippedFlask) {
-            addArtifactButton(plr.CurrentEquippedFlask);
+        if (plr.EquippedActiveSlotItem) {
+            addArtifactButton(plr.EquippedActiveSlotItem);
         }
 
         setBasicDescription();

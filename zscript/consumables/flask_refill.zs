@@ -18,10 +18,10 @@ class RwFlaskRefill : Inventory {
 
 	override bool TryPickup(in out Actor toucher) {
         let plr = RwPlayer(toucher);
-        if (plr && plr.CurrentEquippedFlask) {
-            let fsk = plr.CurrentEquippedFlask;
-			if (fsk.currentCharges < fsk.stats.maxCharges) {
-				fsk.Refill(amount);
+        if (plr && plr.EquippedActiveSlotItem) {
+            let asi = plr.EquippedActiveSlotItem;
+			if (asi.currentCharges < asi.GetMaxCharges()) {
+				asi.Refill(amount);
 				Destroy();
 				return true;
 			}

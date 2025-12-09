@@ -64,11 +64,11 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
                 EquipItems.Insert(bp.GetClassName(),bp.rweight);
                 console.printf("  Backpack - %s (%d)",bp.GetClassName(),bp.rweight);
             }
-            if (c is "RwFlask") {
-                Class<Actor> flc = c.GetClassName();
-                let fl = RwFlask(GetDefaultByType(flc));
-                EquipItems.Insert(fl.GetClassName(),fl.rweight);
-                console.printf("  Flask - %s (%d)",fl.GetClassName(),fl.rweight);
+            if (c is "RwActiveSlotItem") {
+                Class<Actor> asiClass = c.GetClassName();
+                let asi = RwActiveSlotItem(GetDefaultByType(asiClass));
+                EquipItems.Insert(asi.GetClassName(),asi.rweight);
+                console.printf("  ActiveSlotItem - %s (%d)",asi.GetClassName(),asi.rweight);
             }
         }
 

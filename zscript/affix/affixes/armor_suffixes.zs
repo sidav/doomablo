@@ -421,7 +421,7 @@ class ASuffRefillFlaskOnHit : RwArmorSuffix {
         return "Bloodcycle";
     }
     override string getDescription() {
-        return String.Format("%d%% chance to gain flask charge on being hit",
+        return String.Format("%d%% chance to gain item charge on being hit",
             (modifierLevel));
     }
     override bool IsCompatibleWithRArmor(RwArmor arm) {
@@ -432,9 +432,9 @@ class ASuffRefillFlaskOnHit : RwArmorSuffix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 10, 0.05) + remapQualityToRange(quality, 0, 5);
     }
     override void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {
-        if (RWPlayer(armorOwner) && RWPlayer(armorOwner).CurrentEquippedFlask != null) {
+        if (RWPlayer(armorOwner) && RWPlayer(armorOwner).EquippedActiveSlotItem != null) {
             if (rnd.PercentChance(modifierLevel)) {
-                RWPlayer(armorOwner).CurrentEquippedFlask.Refill(1);
+                RWPlayer(armorOwner).EquippedActiveSlotItem.Refill(1);
             }
         }
     }

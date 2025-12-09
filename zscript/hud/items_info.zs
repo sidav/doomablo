@@ -29,9 +29,9 @@ extend class MyCustomHUD {
         } else if (RwBackpack(itemUnderCrosshair)) {
             DimScreenForStats();
             DrawPickupableBackpackInfo(RwBackpack(itemUnderCrosshair), plr);
-        } else if (RwFlask(itemUnderCrosshair)) {
+        } else if (RwActiveSlotItem(itemUnderCrosshair)) {
             DimScreenForStats();
-            DrawPickupableFlaskInfo(RwFlask(itemUnderCrosshair), plr);
+            DrawPickupableASIInfo(RwActiveSlotItem(itemUnderCrosshair), plr);
         } else {
             debug.panic("Unknown item to draw pickupable stats for: "..itemUnderCrosshair.GetClassName());
         }
@@ -92,12 +92,12 @@ extend class MyCustomHUD {
         }
         PrintEmptyLine(itemStatsFont);
 
-        let fsk = RwFlask(plr.CurrentEquippedFlask);
-        PrintLineAt("===  CURRENT EQUIPPED FLASK:  ===", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_WHITE);
-        if (fsk) {
-            printFlaskStatsTableAt(fsk, null, statsX, 0, fullScreenStatusFlags);
+        let asi = RwActiveSlotItem(plr.EquippedActiveSlotItem);
+        PrintLineAt("===  CURRENT EQUIPPED ACTIVE ITEM:  ===", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_WHITE);
+        if (asi) {
+            printASIStatsTableAt(asi, null, statsX, 0, fullScreenStatusFlags);
         } else {
-            PrintLineAt("No flask equipped", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
+            PrintLineAt("No active slot item equipped", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
 
     }
