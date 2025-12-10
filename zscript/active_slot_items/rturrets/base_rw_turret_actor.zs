@@ -1,7 +1,11 @@
 class BaseRwTurretActor : Actor
 {
+    int minDmg, maxDmg;
+    int lifetimeTics;
+
     Default {
         obituary "%o was ventilated by an auto-sentry.";
+        DamageFunction RwGetDamage();
         health 60;
         radius 20;
         height 56;
@@ -45,6 +49,17 @@ class BaseRwTurretActor : Actor
         FadeOut:
             SENT C 2 A_FadeOut (0.1);
             loop;
+    }
+
+    override void Tick() {
+        super.Tick();
+        if (GetAge() > lifetimeTics) {
+            A_DamageSelf(1000000);
+        }
+    }
+
+    int rwGetDamage() {
+        return rnd.Rand(minDmg, maxDmg);
     }
 }
 

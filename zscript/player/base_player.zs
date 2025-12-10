@@ -57,6 +57,8 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
             if (EquippedActiveSlotItem != null) {
                 if (RwFlask(EquippedActiveSlotItem)) {
                     RwFlask(EquippedActiveSlotItem).RwUse();
+                } else if (RwTurretItem(EquippedActiveSlotItem)) {
+                    RwTurretItem(EquippedActiveSlotItem).RwUse();
                 } else {
                     debug.panic("Crash: trying to use unimplemented RwUse for "..EquippedActiveSlotItem.GetClassName());
                 }

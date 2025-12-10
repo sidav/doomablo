@@ -1,0 +1,88 @@
+class RwTurretItem : RwActiveSlotItem {
+    RwTurretItemStats stats;
+
+    Default {
+        Height 26;
+        RwActiveSlotItem.Weight 10;
+    }
+    States {
+        Spawn:
+          SENB A -1;
+          Stop;
+    }
+
+    override string GetRandomFluffName() {
+      static const string Brand[] =
+      {
+        "Automated",
+        "Robotic",
+        "Smart"
+      };
+      return Brand[rnd.randn(Brand.Size())].." "..rwbaseName;
+    }
+
+    ////////////////
+    // Affix effects
+
+    override bool HandlePickup(Inventory pickedUp) {
+      Affix aff;
+      foreach (aff : appliedAffixes) {
+          aff.onHandlePickup(pickedUp);
+      }
+      return false;
+    }
+
+    // USAGE
+
+    action void RwUse() {
+      if (invoker.cooldownTicksRemaining > 0) return;
+      if (invoker.currentCharges < invoker.stats.chargeConsumption) return;
+
+      foreach (aff : invoker.appliedAffixes) {
+        aff.onBeingUsed(invoker.owner, invoker);
+      }
+
+      invoker.currentCharges -= invoker.stats.chargeConsumption;
+      invoker.cooldownTicksRemaining = invoker.stats.usageCooldownTicks;
+
+      // Spawn the turret
+      bool unused; // Required by zscript syntax for multiple returned values; is indeed unused
+      Actor spawnedTurret;
+      [unused, spawnedTurret] = invoker.owner.A_SpawnItem("BaseRwTurretActor", 48, 48);
+      let trt = BaseRwTurretActor(spawnedTurret);
+
+      // Apply the stats to the turret
+      trt.SetTag("LVL "..invoker.generatedQuality.." Turret");      
+      trt.starthealth = invoker.stats.turretHealth;
+      trt.A_SetHealth(invoker.stats.turretHealth);
+      trt.minDmg = invoker.stats.minDmg;
+      trt.maxDmg = invoker.stats.maxDmg;
+      trt.lifetimeTics = gametime.secondsToTicks(invoker.stats.turretLifeSeconds);
+
+      invoker.owner.A_StartSound("Flasks/Quaff", CHAN_AUTO);
+      invoker.owner.Player.bonusCount += 1;
+    }
+
+    override int GetMaxCharges() {
+      return stats.maxCharges;
+    }
+
+    override int GetChargesConsumptionPerUse() {
+      return stats.chargeConsumption;
+    }
+
+    // METHODS FOR AFFIXABLE:
+    override void setBaseStats() {
+      rwbaseName = "Turret";
+      stats = New('RwTurretItemStats');
+
+      stats.TurretHealth = 100;
+      stats.minDmg = 3;
+      stats.maxDmg = 5;
+      stats.TurretLifeSeconds = 10;
+
+      stats.chargeConsumption = 1;
+      stats.maxCharges = 100;
+      stats.usageCooldownTicks = 1 * TICRATE;
+    }
+}

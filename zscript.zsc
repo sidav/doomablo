@@ -7,6 +7,7 @@ version "4.10.0"
 #include "zscript/hud/stats_collector/armor_collect.zs"
 #include "zscript/hud/stats_collector/backpack_collect.zs"
 #include "zscript/hud/stats_collector/flask_collect.zs"
+#include "zscript/hud/stats_collector/turret_collect.zs"
 #include "zscript/hud/stats_collector/weapon_collect.zs"
 #include "zscript/hud/stats_collector/stat_line.zs"
 #include "zscript/hud/hud.zs"
@@ -123,6 +124,8 @@ version "4.10.0"
 #include "zscript/active_slot_items/rflasks/rw_flask_stats.zs"
 
 #include "zscript/active_slot_items/rturrets/base_rw_turret_actor.zs"
+#include "zscript/active_slot_items/rturrets/rw_turret_item.zs"
+#include "zscript/active_slot_items/rturrets/rw_turret_item_stats.zs"
 
 // MONSTER AFFIXATOR AND RELATED STUFF
 #include "zscript/rmonsters/monster_affixing_handler.zs"
