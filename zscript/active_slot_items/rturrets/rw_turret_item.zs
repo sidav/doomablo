@@ -21,6 +21,10 @@ class RwTurretItem : RwActiveSlotItem {
       return Brand[rnd.randn(Brand.Size())].." "..rwbaseName;
     }
 
+    override RwActiveSlotItemStats GetStats() {
+      return stats;
+    }
+
     ////////////////
     // Affix effects
 

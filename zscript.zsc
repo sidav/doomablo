@@ -47,6 +47,7 @@ version "4.10.0"
 #include "zscript/affix/affixes/weapon_bfg_affixes.zs"
 #include "zscript/affix/affixes/weapon_prefixes.zs"
 #include "zscript/affix/affixes/weapon_suffixes.zs"
+#include "zscript/affix/affixes/active_slot_items/active_slot_items_affixes.zs"
 #include "zscript/affix/affixes/active_slot_items/flask_prefixes.zs"
 #include "zscript/affix/affixes/active_slot_items/flask_suffixes.zs"
 

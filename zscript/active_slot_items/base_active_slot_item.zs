@@ -58,6 +58,12 @@ class RwActiveSlotItem : Inventory abstract {
       AttachToOwner(toucher);
     }
 
+    // Needed to use polymorphism for the stats
+    virtual clearscope RwActiveSlotItemStats GetStats() {
+      debug.panicUnimplemented(self);
+      return null;
+    }
+
     // USAGE
 
     override void DoEffect() {
