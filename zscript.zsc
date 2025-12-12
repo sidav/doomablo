@@ -35,7 +35,7 @@ version "4.10.0"
 #include "zscript/misc/tests_handler.zs"
 
 #include "zscript/affix/affix.zs"
-#include "zscript/affix/affix_effect_methods.zs"
+#include "zscript/affix/affix_effect_callbacks.zs"
 #include "zscript/affix/affix_instantiator.zs"
 
 #include "zscript/affix/affixes/armor_prefixes.zs"
@@ -50,6 +50,8 @@ version "4.10.0"
 #include "zscript/affix/affixes/active_slot_items/active_slot_items_affixes.zs"
 #include "zscript/affix/affixes/active_slot_items/flask_prefixes.zs"
 #include "zscript/affix/affixes/active_slot_items/flask_suffixes.zs"
+#include "zscript/affix/affixes/active_slot_items/turret_item_prefixes.zs"
+#include "zscript/affix/affixes/active_slot_items/turret_item_suffixes.zs"
 
 #include "zscript/affixable/affixable.zs"
 #include "zscript/affixable/affixable_detector.zs"

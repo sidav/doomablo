@@ -20,6 +20,7 @@ class BaseRwTurretActor : Actor
         +LOOKALLAROUND;
         +NEVERRESPAWN;
         +STANDSTILL;
+        -COUNTKILL;
     }
 
     States {

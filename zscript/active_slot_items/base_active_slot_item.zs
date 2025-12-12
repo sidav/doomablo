@@ -28,7 +28,7 @@ class RwActiveSlotItem : Inventory abstract {
     }
 
     // Needs to be called before generation
-    private void prepareForGeneration() {
+    private virtual void prepareForGeneration() {
     }
 
     // Needs to be called after generation

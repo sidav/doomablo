@@ -25,6 +25,13 @@ class RwTurretItem : RwActiveSlotItem {
       return stats;
     }
 
+    override void prepareForGeneration() {
+        // let initialMaxDamage = stats.maxDamage;
+        stats.minDmg = StatsScaler.ScaleIntValueByLevelRandomized(stats.minDmg, generatedQuality);
+        stats.maxDmg = StatsScaler.ScaleIntValueByLevelRandomized(stats.maxDmg, generatedQuality);
+        stats.turretHealth = StatsScaler.ScaleIntValueByLevelRandomized(stats.turretHealth, generatedQuality);
+    }
+
     ////////////////
     // Affix effects
 
@@ -62,7 +69,12 @@ class RwTurretItem : RwActiveSlotItem {
       trt.minDmg = invoker.stats.minDmg;
       trt.maxDmg = invoker.stats.maxDmg;
       trt.lifetimeTics = gametime.secondsToTicks(invoker.stats.turretLifeSeconds);
+      // apply this item's affixes for spawned turred (minion)
+      foreach (aff : invoker.appliedAffixes) {
+        aff.onPlayerMinionSpawned(invoker.owner, invoker, trt);
+      }
 
+      // Usage flash
       invoker.owner.A_StartSound("Flasks/Quaff", CHAN_AUTO);
       invoker.owner.Player.bonusCount += 1;
     }

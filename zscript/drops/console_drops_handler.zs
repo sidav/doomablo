@@ -89,6 +89,11 @@ class ConsoleDropsHandler : EventHandler
             case 32:
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwBigFlask', xofs: xofs, zvel: zvel);
                 break;
+            
+            // Turret spawner
+            case 40:
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwTurretItem', xofs: xofs, zvel: zvel);
+                break;
 
             // Progression items. "Rarity" holds the amount of them to spawn
             case 100:

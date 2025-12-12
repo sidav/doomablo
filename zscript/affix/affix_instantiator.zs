@@ -98,11 +98,12 @@ extend class Affix {
 
     private static Affix GetRandomTurretItemAffixInstance() {
         let handler = AffixClassesCacheHandler(StaticEventHandler.Find('AffixClassesCacheHandler'));
-        let index = rnd.randn(handler.totalFlaskAffixesClasses + handler.totalUniversalAffixesClasses);
+        let index = rnd.randn(handler.totalActiveSlotItemAffixesClasses + handler.totalTurretItemAffixesClasses + handler.totalUniversalAffixesClasses);
 
         Affix affToReturn;
         foreach (affClass : handler.applicableAffixClasses) {
-            if (affClass is 'RwActiveSlotItemAffix' || affClass is 'RwUniversalAffix') {
+            if (affClass is 'RwTurretItemPrefix' || affClass is 'RwTurretItemSuffix' || 
+                affClass is 'RwAnyActiveSlotItemAffix' || affClass is 'RwUniversalAffix') {
                 if (index > 0) {
                     index--;
                 } else {
@@ -246,7 +247,7 @@ class AffixClassesCacheHandler : StaticEventHandler
     }
 
     static bool isAffixForTurretItem(class<Affix> cls) {
-        return false; // (cls is 'RwActiveSlotItemAffix');
+        return (cls is 'RwTurretItemPrefix') || (cls is 'RwTurretItemSuffix');
     }
 
     static bool isAffixUniversal(class<Affix> cls) {
