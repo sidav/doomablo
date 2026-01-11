@@ -478,6 +478,9 @@ class WSuffReloadSpeedSelfUpgrade : RwWeaponSuffix {
     override int selectionProbabilityPercentage() {
         return 75;
     }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.clipSize > 2;
+    }
     override string getDescription() {
         if (Gametime.GetPhase(3*TICRATE/2)) {
             return "Gain +1% reload speed (max +"..modifierLevel.."%) for each rare+ kill";
