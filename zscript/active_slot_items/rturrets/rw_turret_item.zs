@@ -3,7 +3,7 @@ class RwTurretItem : RwActiveSlotItem {
 
     Default {
         Height 26;
-        RwActiveSlotItem.Weight 10;
+        RwActiveSlotItem.Weight 25;
     }
     States {
         Spawn:
