@@ -44,7 +44,7 @@ class BSuffNoisy : RwBackpackSuffix {
             let ti = ThinkerIterator.Create('Actor');
             Actor mo;
             while (mo = Actor(ti.next())) {
-                if (mo && mo.bIsMonster && mo.target == null && mo.CheckSight(owner, SF_IGNOREWATERBOUNDARY)) {
+                if (mo && mo.bIsMonster && mo.Health > 0 && mo.target == null && mo.CheckSight(owner, SF_IGNOREWATERBOUNDARY)) {
                     mo.target = owner;
                     // Rotation 3 times 45 degrees each
                     for (let i = 0; i < 3; i++) {

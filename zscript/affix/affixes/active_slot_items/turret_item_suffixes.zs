@@ -37,12 +37,13 @@ class TurrSuffAggroesMonsters : RwTurretItemSuffix {
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {}
     override void onDoEffect(Actor turret) {
+        if (!(turret is 'BaseRwTurretActor')) return; // Applied only for turrets
         if (turret.GetAge() % TICRATE == 0) {
             // Iterate through all monsters
             let ti = ThinkerIterator.Create('Actor');
             Actor mo;
             while (mo = Actor(ti.next())) {
-                if (mo && mo.bIsMonster && BaseRwTurretActor(mo.target) == null && mo.CheckSight(turret, SF_IGNOREWATERBOUNDARY)) {
+                if (mo && mo.bIsMonster && mo.Health > 0 && BaseRwTurretActor(mo.target) == null && mo.CheckSight(turret, SF_IGNOREWATERBOUNDARY)) {
                     mo.target = turret;
                     // Rotation 3 times 45 degrees each
                     for (let i = 0; i < 3; i++) {
@@ -56,7 +57,7 @@ class TurrSuffAggroesMonsters : RwTurretItemSuffix {
 
 class TurrSuffMonstersWontAttackTurret : RwTurretItemSuffix {
     override string getName() {
-        return "Imperception";
+        return "Misperception";
     }
     override int getAlignment() {
         return 0;
@@ -69,12 +70,13 @@ class TurrSuffMonstersWontAttackTurret : RwTurretItemSuffix {
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {}
     override void onDoEffect(Actor turret) {
+        if (!(turret is 'BaseRwTurretActor')) return; // Applied only for turrets
         if (turret.GetAge() % TICRATE == 0) {
             // Iterate through all monsters
             let ti = ThinkerIterator.Create('Actor');
             Actor mo;
             while (mo = Actor(ti.next())) {
-                if (mo && mo.bIsMonster && mo.target == turret && mo.CheckSight(turret, SF_IGNOREWATERBOUNDARY)) {
+                if (mo && mo.bIsMonster && mo.Health > 0 && mo.target == turret && mo.CheckSight(turret, SF_IGNOREWATERBOUNDARY)) {
                     if (BaseRwTurretActor(turret) && BaseRwTurretActor(turret).Creator) {
                         mo.target = BaseRwTurretActor(turret).Creator;
                     }
