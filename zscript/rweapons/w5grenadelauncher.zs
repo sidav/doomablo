@@ -31,12 +31,12 @@ class RwGrenadeLauncher : RwWeapon
 			A_StartSound("40mm/grenfire", CHAN_WEAPON);
 			A_GunFlash();
 		}
-		RGLF B 4 {
+		RGLF B 3 {
 			RWA_ApplyRateOfFire();
 			RWA_DoFire();
 		}
-		RGLF C 4 RWA_ApplyRateOfFire();
-		RGLG ABCDA 5 RWA_ApplyRateOfFire();
+		RGLF C 3 RWA_ApplyRateOfFire();
+		RGLG ABCDA 4 RWA_ApplyRateOfFire();
 		RGLG A 1 RWA_ReFire;
 		Goto Ready;
 	Reload:
@@ -90,8 +90,8 @@ class RwGrenadeLauncher : RwWeapon
 			minDmg: 72, maxDmg: 96,
 			pell: 1,
 			ammousg: 1,
-			hSpr: 3.5,
-			vSpr: 2.0
+			hSpr: 2.5,
+			vSpr: 1.0
 		);
 		stats.fireType = stats.FTArcingProjectile;
 
