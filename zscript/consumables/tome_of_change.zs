@@ -6,7 +6,7 @@ class TomeOfChange : Inventory {
 		+FLOATBOB
 		-COUNTITEM
 		Inventory.Amount 1;
-		Inventory.MaxAmount 1;
+		Inventory.MaxAmount 2;
 		Inventory.InterHubAmount 1;
 		Inventory.Icon "FSTIN";
 		-Inventory.AUTOACTIVATE

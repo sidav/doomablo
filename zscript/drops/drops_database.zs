@@ -23,7 +23,7 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
         Consumables.insert("MegaSphere",3);
         Consumables.insert("InvulnerabilitySphere",1);
         Consumables.insert("RwActiveItemRefill",200);
-        Consumables.insert("TomeOfChange", 5);
+        Consumables.insert("TomeOfChange", 15);
         Consumables.insert("StatScroll",5);
         // Also, ammo items.
         // No plans to add new ammo, AFAIK.
