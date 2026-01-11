@@ -10,7 +10,7 @@ class rwAutoShotgun : RwWeapon
 		Inventory.PickupMessage "$GOTAUTOSHOTGUN";
 		Obituary "$OB_MPAUTOSHOTGUN";
 		Tag "$TAG_AUTOSHOTGUN";
-		RwWeapon.Weight 7;
+		RwWeapon.Weight 12;
 	}
 	States
 	{
@@ -102,7 +102,7 @@ class rwAutoShotgun : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			minDmg: 4, maxDmg: 8,
+			minDmg: 5, maxDmg: 8,
 			pell: 6,
 			ammousg: 1,
 			hSpr: 12.5,
