@@ -456,14 +456,14 @@ class WPrefSmallerMag : RwWeaponPrefix {
         return String.format("-%d%% magazine size", (modifierLevel) );
     }
     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.stats.clipSize > 2;
+        return wpn.stats.clipSize > 3;
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefBiggerMag' && a2.GetClass() != 'WPrefMoreAmmoConsumed';
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let minPerc = math.minimumMeaningIntPercent(wpn.stats.clipSize/max(wpn.stats.ammoUsage, 1));
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 50, 0.05);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 40, 0.05);
         if (modifierLevel < minPerc) {
             modifierLevel = minPerc;
         }
@@ -498,7 +498,7 @@ class WPrefBiggerMag : RwWeaponPrefix {
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let minPerc = math.minimumMeaningIntPercent(wpn.stats.clipSize / max(wpn.stats.ammoUsage, 1));
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 125, 0.01) + remapQualityToRange(quality, 0, 75);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(minPerc, 250, 0.01) + remapQualityToRange(quality, 0, 100);
         if (modifierLevel < minPerc) {
             modifierLevel = minPerc;
         }
