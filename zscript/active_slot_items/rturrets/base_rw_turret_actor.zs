@@ -41,7 +41,7 @@ class BaseRwTurretActor : Actor
             SENT B 3 bright {
                 A_CustomBulletAttack(horizSpread, 0.75, 1, RWRollDamage(), "BulletPuff", 0, CBAF_NORANDOM);
             }
-            SENT A 2 A_CposRefire;
+            SENT A 3 A_CposRefire;
             goto Missile+1;
         Death:
             SENT A 15 {

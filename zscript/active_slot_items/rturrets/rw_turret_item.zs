@@ -104,14 +104,14 @@ class RwTurretItem : RwActiveSlotItem {
       rwbaseName = "Turret";
       stats = New('RwTurretItemStats');
 
-      stats.TurretHealth = 100;
+      stats.TurretHealth = 75;
       stats.minDmg = 3;
       stats.maxDmg = 5;
       stats.turretHSpread = 12.5;
       stats.turretLifeTicks = 10 * TICRATE;
 
-      stats.chargeConsumption = 1;
+      stats.chargeConsumption = 60;
       stats.maxCharges = 100;
-      stats.usageCooldownTicks = 1 * TICRATE;
+      stats.usageCooldownTicks = 10 * TICRATE;
     }
 }
