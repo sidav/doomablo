@@ -1,9 +1,10 @@
-class RwFlaskRefill : Inventory {
+class RwActiveItemRefill : Inventory {
 
 	Default
 	{
+		Scale 0.75;
 		Inventory.Amount 5;
-		Inventory.Pickupmessage "You pour the liquid in your flask.";
+		Inventory.Pickupmessage "You consume the energy crystal.";
 		+FLOATBOB
 		-COUNTITEM
 		// +INVENTORY.ALWAYSPICKUP - should be false
@@ -12,7 +13,12 @@ class RwFlaskRefill : Inventory {
 	States
 	{
 	Spawn:
-		FKCG A 1;
+		TBCY A 35;
+		TBCY B 3;
+		TBCY C 3;
+		TBCY D 3;
+		TBCY E 3;
+		TBCY F 3;
 		loop;
 	}
 

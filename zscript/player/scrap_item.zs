@@ -78,7 +78,7 @@ extend class RwPlayer {
                 Actor drop;
                 let whatToDrop = rnd.weightedRand(1, 2);
                 if (whatToDrop == 0) {
-                    drop = DropsSpawner.createDropByClass(itm, 'RwFlaskRefill');
+                    drop = DropsSpawner.createDropByClass(itm, 'RwActiveItemRefill');
                 } else {
                     drop = DropsSpawner.createDropByClass(itm, 'HealthBonus');
                 }
@@ -88,7 +88,7 @@ extend class RwPlayer {
             int chgPerRefill = 8;
             dropAmount = (RwFlask(itm).currentCharges + chgPerRefill / 2) / chgPerRefill;
             for (let i = 0; i < dropAmount; i++) {
-                Actor drop = DropsSpawner.createDropByClass(itm, 'RwFlaskRefill');
+                Actor drop = DropsSpawner.createDropByClass(itm, 'RwActiveItemRefill');
                 Inventory(drop).Amount = chgPerRefill;
                 AssignVeryMinorSpreadVelocityTo(drop);
             }
@@ -100,7 +100,7 @@ extend class RwPlayer {
                 Actor drop;
                 let whatToDrop = rnd.weightedRand(1, 2);
                 if (whatToDrop == 0) {
-                    drop = DropsSpawner.createDropByClass(itm, 'RwFlaskRefill');
+                    drop = DropsSpawner.createDropByClass(itm, 'RwActiveItemRefill');
                 } else {
                     drop = DropsSpawner.createDropByClass(itm, 'Clip');
                 }
@@ -110,7 +110,7 @@ extend class RwPlayer {
             int chgPerRefill = 8;
             dropAmount = (RwTurretItem(itm).currentCharges + chgPerRefill / 2) / chgPerRefill;
             for (let i = 0; i < dropAmount; i++) {
-                Actor drop = DropsSpawner.createDropByClass(itm, 'RwFlaskRefill');
+                Actor drop = DropsSpawner.createDropByClass(itm, 'RwActiveItemRefill');
                 Inventory(drop).Amount = chgPerRefill;
                 AssignVeryMinorSpreadVelocityTo(drop);
             }
