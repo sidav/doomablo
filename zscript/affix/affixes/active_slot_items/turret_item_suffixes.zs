@@ -36,8 +36,10 @@ class TurrSuffAggroesMonsters : RwTurretItemSuffix {
         return String.format("Enemies prefer attacking the turret", (modifierLevel) );
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {}
+    
     override void onDoEffect(Actor turret) {
         if (!(turret is 'BaseRwTurretActor')) return; // Applied only for turrets
+
         if (turret.GetAge() % TICRATE == 0) {
             // Iterate through all monsters
             let ti = ThinkerIterator.Create('Actor');
@@ -69,17 +71,20 @@ class TurrSuffMonstersWontAttackTurret : RwTurretItemSuffix {
         return String.format("The turret aggroes monsters on you", (modifierLevel) );
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {}
+
     override void onDoEffect(Actor turret) {
         if (!(turret is 'BaseRwTurretActor')) return; // Applied only for turrets
+
         if (turret.GetAge() % TICRATE == 0) {
+            let turretOwner = BaseRwTurretActor(turret).Creator;
+            if (turretOwner == null) return;
+
             // Iterate through all monsters
             let ti = ThinkerIterator.Create('Actor');
             Actor mo;
             while (mo = Actor(ti.next())) {
-                if (mo && mo.bIsMonster && mo.Health > 0 && mo.target == turret && mo.CheckSight(turret, SF_IGNOREWATERBOUNDARY)) {
-                    if (BaseRwTurretActor(turret) && BaseRwTurretActor(turret).Creator) {
-                        mo.target = BaseRwTurretActor(turret).Creator;
-                    }
+                if (mo && mo.bIsMonster && mo.Health > 0 && mo.target == turret && mo.CheckSight(turretOwner, SF_IGNOREWATERBOUNDARY)) {
+                    mo.target = turretOwner;
                 }
             }
         }
