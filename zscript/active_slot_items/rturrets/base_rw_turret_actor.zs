@@ -2,6 +2,7 @@ class BaseRwTurretActor : Actor
 {
     int minDmg, maxDmg;
     int lifetimeTics;
+    string BaseName;
 
     Default {
         obituary "%o was ventilated by an auto-sentry.";
@@ -54,9 +55,12 @@ class BaseRwTurretActor : Actor
 
     override void Tick() {
         super.Tick();
-        if (GetAge() > lifetimeTics) {
+        if (lifetimeTics <= 0) {
             A_DamageSelf(1000000);
         }
+        if (level.maptime % 3 == 0)
+            SetTag(String.format("[%.1f]  ", (gametime.TicksToSeconds(lifetimeTics)))..BaseName);
+        lifetimeTics--;
     }
 
     int rwGetDamage() {

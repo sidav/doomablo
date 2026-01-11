@@ -42,3 +42,49 @@ class TurrSuffArmorRepair : RwTurretItemSuffix {
         }
     }
 }
+
+class TurrSuffVampiric : RwTurretItemSuffix {
+    override string getName() {
+        return "Vampiric";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return String.format("Regains %d%% health on kill", (modifierLevel) );
+    }
+    override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.1) + remapQualityToRange(quality, 1, 5);
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (!(owner is 'BaseRwTurretActor')) return; // Applied only for turrets
+        if (!passive && source && source != owner) {
+            if (source.health <= damage) {
+                owner.GiveBody(math.getIntPercentage(owner.StartHealth, modifierLevel));
+            }
+        }
+    }
+}
+
+
+class TurrSuffProlonged : RwTurretItemSuffix {
+    override string getName() {
+        return "Feeding";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return String.format("+%d seconds of lifetime on kill", (modifierLevel) );
+    }
+    override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.1) + remapQualityToRange(quality, 0, 5);
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (!(owner is 'BaseRwTurretActor')) return; // Applied only for turrets
+        if (!passive && source && source != owner) {
+            if (source.health <= damage)
+                BaseRwTurretActor(owner).lifetimeTics += modifierLevel * TICRATE;
+        }
+    }
+}

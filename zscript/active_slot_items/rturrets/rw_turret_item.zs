@@ -53,17 +53,22 @@ class RwTurretItem : RwActiveSlotItem {
         aff.onBeingUsed(invoker.owner, invoker);
       }
 
-      invoker.currentCharges -= invoker.stats.chargeConsumption;
-      invoker.cooldownTicksRemaining = invoker.stats.usageCooldownTicks;
-
       // Spawn the turret
-      bool unused; // Required by zscript syntax for multiple returned values; is indeed unused
+      bool isSpawned;
       Actor spawnedTurret;
-      [unused, spawnedTurret] = invoker.owner.A_SpawnItem("BaseRwTurretActor", 48, 48);
+      for (let addHeight = 48; addHeight >= 0; addHeight -= 16) {
+        [isSpawned, spawnedTurret] = invoker.owner.A_SpawnItem("BaseRwTurretActor", 48, addHeight);
+        if (isSpawned) break;
+      }
+      if (!isSpawned) {
+        invoker.owner.A_PrintBold("No room for sentry placement");
+        return;
+      }
+      
       let trt = BaseRwTurretActor(spawnedTurret);
 
       // Apply the stats to the turret
-      trt.SetTag("LVL "..invoker.generatedQuality.." Turret");      
+      trt.BaseName = "LVL "..invoker.generatedQuality.." Sentry";      
       trt.starthealth = invoker.stats.turretHealth;
       trt.A_SetHealth(invoker.stats.turretHealth);
       trt.minDmg = invoker.stats.minDmg;
@@ -73,7 +78,11 @@ class RwTurretItem : RwActiveSlotItem {
       foreach (aff : invoker.appliedAffixes) {
         aff.onPlayerMinionSpawned(invoker.owner, invoker, trt);
       }
+      RwTurretAffixCaller.AffixateTurretWithItem(trt, invoker);
 
+      // Spend charges
+      invoker.currentCharges -= invoker.stats.chargeConsumption;
+      invoker.cooldownTicksRemaining = invoker.stats.usageCooldownTicks;
       // Usage flash
       invoker.owner.A_StartSound("Flasks/Quaff", CHAN_AUTO);
       invoker.owner.Player.bonusCount += 1;
