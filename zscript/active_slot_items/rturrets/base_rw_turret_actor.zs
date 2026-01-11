@@ -2,6 +2,7 @@ class BaseRwTurretActor : Actor
 {
     int minDmg, maxDmg;
     int additionalDamagePromille; // 153 means "+15.3% damage". Made as a separate stat so that damage values like 4.1 are properly accounted
+    float horizSpread;
     int lifetimeTics;
     string BaseName;
 
@@ -38,7 +39,7 @@ class BaseRwTurretActor : Actor
                 A_StartSound ("Sentry/Active");
             }
             SENT B 3 bright {
-                A_CustomBulletAttack(12.5, 0, 1, RWRollDamage(), "BulletPuff", 0, CBAF_NORANDOM);
+                A_CustomBulletAttack(horizSpread, 0.75, 1, RWRollDamage(), "BulletPuff", 0, CBAF_NORANDOM);
             }
             SENT A 2 A_CposRefire;
             goto Missile+1;

@@ -95,6 +95,50 @@ class TurrPrefMoreDmg : RwTurretItemPrefix {
     }
 }
 
+class TurrPrefLessAccuracy: RwTurretItemPrefix {
+    override string getName() {
+        return "Unprecise";
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return String.format("+%d%% sentry fire spread", (modifierLevel) );
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'TurrPrefMoreAccuracy';
+    }
+    float initialSpread;
+    override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 10, 0.1) + remapQualityToRange(quality, 0, 10);
+        initialSpread = turr.stats.turretHSpread;
+        turr.stats.turretHSpread *= (1. + float(modifierLevel)/100.);
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwTurretItem(item).stats.turretHSpread = initialSpread;
+        return true;
+    }
+}
+
+class TurrPrefMoreAccuracy: RwTurretItemPrefix {
+    override string getName() {
+        return "Precise";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return String.format("-%d%% sentry fire spread", (modifierLevel) );
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'TurrPrefLessAccuracy';
+    }
+    override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + remapQualityToRange(quality, 0, 15);
+        turr.stats.turretHSpread *= (1. - float(modifierLevel)/100.);
+    }
+}
+
 class TurrPrefLessLifetime: RwTurretItemPrefix {
     override string getName() {
         return "Disposable";
@@ -121,7 +165,7 @@ class TurrPrefLessLifetime: RwTurretItemPrefix {
 
 class TurrPrefMoreLifetime : RwTurretItemPrefix {
     override string getName() {
-        return "Strong";
+        return "Lasting";
     }
     override int getAlignment() {
         return 1;
