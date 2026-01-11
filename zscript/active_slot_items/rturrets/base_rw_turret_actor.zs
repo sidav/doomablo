@@ -1,12 +1,12 @@
 class BaseRwTurretActor : Actor
 {
     int minDmg, maxDmg;
+    int additionalDamagePromille; // 153 means "+15.3% damage". Made as a separate stat so that damage values like 4.1 are properly accounted
     int lifetimeTics;
     string BaseName;
 
     Default {
         obituary "%o was ventilated by an auto-sentry.";
-        DamageFunction RwGetDamage();
         health 60;
         radius 20;
         height 56;
@@ -26,18 +26,20 @@ class BaseRwTurretActor : Actor
 
     States {
         Spawn:
-            SENT AAAAAAAAAAAAAAAA 4 A_Look;
+            SENT AAAAAAAAAAAAAAAA 2 A_Look;
             // SENT A 0 A_StartSound ("Sentry/Active");
             loop;
         See:
-            SENT AAAAAAAAAAAAAAAA 4 A_Chase;
+            SENT AAAAAAAAAAAAAAAA 2 A_Chase;
             loop;
         Missile:
             SENT A 16 {
                 A_FaceTarget();
                 A_StartSound ("Sentry/Active");
             }
-            SENT B 2 bright A_CPosAttack;
+            SENT B 3 bright {
+                A_CustomBulletAttack(12.5, 0, 1, RWRollDamage(), "BulletPuff", 0, CBAF_NORANDOM);
+            }
             SENT A 2 A_CposRefire;
             goto Missile+1;
         Death:
@@ -63,8 +65,11 @@ class BaseRwTurretActor : Actor
         lifetimeTics--;
     }
 
-    int rwGetDamage() {
-        return rnd.Rand(minDmg, maxDmg);
+    int damageFractionAccumulator; // needed so that damage values like 4.1 are properly accounted
+    int RWRollDamage() {
+        let dmg = Random[sentryDamageRoll](minDmg, maxDmg);
+        dmg = math.AccumulatedFixedPointMultiply(dmg, 1000+additionalDamagePromille, 1000, damageFractionAccumulator);
+        return dmg;
     }
 }
 

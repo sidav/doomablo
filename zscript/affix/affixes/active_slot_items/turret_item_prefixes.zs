@@ -61,20 +61,17 @@ class TurrPrefLessDmg : RwTurretItemPrefix {
         return -1;
     }
     override string getDescription() {
-        return String.format("-%d%% sentry damage", (modifierLevel) );
+        return String.format("-%.1f%% sentry damage", (double(modifierLevel) / 10) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'TurrPrefMoreDmg';
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 60, 0.1) + remapQualityToRange(quality, 0, 40);
-    }
-    override void onPlayerMinionSpawned(Actor owner, Inventory affixedItem, Actor minion) {
-        BaseRwTurretActor(minion).minDmg = math.getIntPercentage(BaseRwTurretActor(minion).minDmg, 100 - modifierLevel);
-        BaseRwTurretActor(minion).maxDmg = math.getIntPercentage(BaseRwTurretActor(minion).maxDmg, 100 - modifierLevel);
-        
+        turr.stats.additionalDamagePromille -= modifierLevel;
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwTurretItem(item).stats.additionalDamagePromille += modifierLevel;
         return true;
     }
 }
@@ -87,17 +84,14 @@ class TurrPrefMoreDmg : RwTurretItemPrefix {
         return 1;
     }
     override string getDescription() {
-        return String.format("+%d%% sentry damage", (modifierLevel) );
+        return String.format("+%.1f%% sentry damage", (double(modifierLevel) / 10) );
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'TurrPrefLessDmg';
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(50, 200, 0.05) + remapQualityToRange(quality, 0, 50);
-    }
-    override void onPlayerMinionSpawned(Actor owner, Inventory affixedItem, Actor minion) {
-        BaseRwTurretActor(minion).minDmg = math.getIntPercentage(BaseRwTurretActor(minion).minDmg, 100 + modifierLevel);
-        BaseRwTurretActor(minion).maxDmg = math.getIntPercentage(BaseRwTurretActor(minion).maxDmg, 100 + modifierLevel);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(50, 200, 0.05) + remapQualityToRange(quality, 0, 100);
+        turr.stats.additionalDamagePromille += modifierLevel;
     }
 }
 
