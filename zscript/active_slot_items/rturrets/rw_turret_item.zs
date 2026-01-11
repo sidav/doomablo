@@ -68,7 +68,8 @@ class RwTurretItem : RwActiveSlotItem {
       let trt = BaseRwTurretActor(spawnedTurret);
 
       // Apply the stats to the turret
-      trt.BaseName = "LVL "..invoker.generatedQuality.." Sentry";      
+      trt.BaseName = "LVL "..invoker.generatedQuality.." Sentry";
+      trt.Creator = invoker.owner;
       trt.starthealth = invoker.stats.turretHealth;
       trt.A_SetHealth(invoker.stats.turretHealth);
       trt.minDmg = invoker.stats.minDmg;

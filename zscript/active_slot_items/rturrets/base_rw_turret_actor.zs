@@ -5,6 +5,7 @@ class BaseRwTurretActor : Actor
     float horizSpread;
     int lifetimeTics;
     string BaseName;
+    Actor Creator;
 
     Default {
         obituary "%o was ventilated by an auto-sentry.";
@@ -44,7 +45,7 @@ class BaseRwTurretActor : Actor
             SENT A 2 A_CposRefire;
             goto Missile+1;
         Death:
-            SENT A 35 {
+            SENT A 15 {
                 A_StartSound ("Sentry/Death");
             }
             SENT C 1 {

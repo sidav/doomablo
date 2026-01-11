@@ -29,7 +29,7 @@ extend class RwHudArtifactStatsCollector {
         addTwoLabelsLine("Damage:", String.Format("%.1f-%.1f", (trt1dmgmin, trt1dmgmax))..compareStr,
                 Font.CR_White, compareClr);
 
-
+        // LIFE TIME
         if (trtCmp && trt.stats.turretLifeSeconds != trtCmp.stats.turretLifeSeconds) {
             compareStr = " ("..floatToSignedStr(Gametime.ticksToSeconds(trt.stats.turretLifeSeconds) - Gametime.ticksToSeconds(trtCmp.stats.turretLifeSeconds))..")";
             compareClr = GetDifferenceColor(trt.stats.turretLifeSeconds - trtCmp.stats.turretLifeSeconds, true);
@@ -40,6 +40,7 @@ extend class RwHudArtifactStatsCollector {
         addTwoLabelsLine("Turret life time:", String.Format("%.1f s", Gametime.ticksToSeconds(trt.stats.turretLifeSeconds))..compareStr,
                                 Font.CR_White, compareClr);
 
+        // CHARGES
         if (trtCmp && trt.stats.maxCharges != trtCmp.stats.maxCharges) {
             compareStr = " ("..intToSignedStr(trt.stats.maxCharges - trtCmp.stats.maxCharges)..")";
             compareClr = GetDifferenceColor(trt.stats.maxCharges - trtCmp.stats.maxCharges);

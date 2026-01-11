@@ -42,6 +42,9 @@ class RwTurretAffixCaller : Inventory {
         if (owner.Health <= 0) {
             return;
         }
+        if (source == BaseRwTurretActor(owner).Creator) {
+            damage = 0;
+        }
         // Passive is True if the attack is being received by the owner. False if the attack is being dealt by the owner.
         newdamage = damage;
         Affix aff;

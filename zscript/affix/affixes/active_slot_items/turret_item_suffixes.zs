@@ -45,7 +45,7 @@ class TurrSuffArmorRepair : RwTurretItemSuffix {
 
 class TurrSuffVampiric : RwTurretItemSuffix {
     override string getName() {
-        return "Vampiric";
+        return "Vampire";
     }
     override int getAlignment() {
         return 1;
@@ -69,7 +69,7 @@ class TurrSuffVampiric : RwTurretItemSuffix {
 
 class TurrSuffProlonged : RwTurretItemSuffix {
     override string getName() {
-        return "Feeding";
+        return "Feed";
     }
     override int getAlignment() {
         return 1;
@@ -85,6 +85,31 @@ class TurrSuffProlonged : RwTurretItemSuffix {
         if (!passive && source && source != owner) {
             if (source.health <= damage)
                 BaseRwTurretActor(owner).lifetimeTics += modifierLevel * TICRATE;
+        }
+    }
+}
+
+class TurrSuffHealPlayerOnKill : RwTurretItemSuffix {
+    override string getName() {
+        return "Lifelink";
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return String.format("Heals you %.1f HP on kill", (float(modifierLevel)/10) );
+    }
+    override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + remapQualityToRange(quality, 0, 10);
+    }
+    int fractionAccumulator;
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (!(owner is 'BaseRwTurretActor')) return; // Applied only for turrets
+        if (!passive && source && source != owner) {
+            if (source.health <= damage)
+                BaseRwTurretActor(owner).Creator.GiveBody(
+                    math.AccumulatedFixedPointAdd(0, modifierLevel, 10, fractionAccumulator)
+                );
         }
     }
 }
