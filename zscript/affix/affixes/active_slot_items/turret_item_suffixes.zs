@@ -22,6 +22,68 @@ class RwTurretItemSuffix : RwBaseActiveSlotItemAffix abstract {
     }
 }
 
+class TurrSuffAggroesMonsters : RwTurretItemSuffix {
+    override string getName() {
+        return "Hatred";
+    }
+    override int getAlignment() {
+        return 0;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'TurrSuffMonstersWontAttackTurret';
+    }
+    override string getDescription() {
+        return String.format("Enemies prefer attacking the turret", (modifierLevel) );
+    }
+    override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {}
+    override void onDoEffect(Actor turret) {
+        if (turret.GetAge() % TICRATE == 0) {
+            // Iterate through all monsters
+            let ti = ThinkerIterator.Create('Actor');
+            Actor mo;
+            while (mo = Actor(ti.next())) {
+                if (mo && mo.bIsMonster && BaseRwTurretActor(mo.target) == null && mo.CheckSight(turret, SF_IGNOREWATERBOUNDARY)) {
+                    mo.target = turret;
+                    // Rotation 3 times 45 degrees each
+                    for (let i = 0; i < 3; i++) {
+                        mo.A_Chase();
+                    }
+                }
+            }
+        }
+    }
+}
+
+class TurrSuffMonstersWontAttackTurret : RwTurretItemSuffix {
+    override string getName() {
+        return "Imperception";
+    }
+    override int getAlignment() {
+        return 0;
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'TurrSuffAggroesMonsters';
+    }
+    override string getDescription() {
+        return String.format("The turret aggroes monsters on you", (modifierLevel) );
+    }
+    override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {}
+    override void onDoEffect(Actor turret) {
+        if (turret.GetAge() % TICRATE == 0) {
+            // Iterate through all monsters
+            let ti = ThinkerIterator.Create('Actor');
+            Actor mo;
+            while (mo = Actor(ti.next())) {
+                if (mo && mo.bIsMonster && mo.target == turret && mo.CheckSight(turret, SF_IGNOREWATERBOUNDARY)) {
+                    if (BaseRwTurretActor(turret) && BaseRwTurretActor(turret).Creator) {
+                        mo.target = BaseRwTurretActor(turret).Creator;
+                    }
+                }
+            }
+        }
+    }
+}
+
 class TurrSuffArmorRepair : RwTurretItemSuffix {
     override string getName() {
         return "Emergency";

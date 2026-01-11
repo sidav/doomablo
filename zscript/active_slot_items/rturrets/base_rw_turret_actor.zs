@@ -29,10 +29,9 @@ class BaseRwTurretActor : Actor
     States {
         Spawn:
             SENT AAAAAAAAAAAAAAAA 2 A_Look;
-            // SENT A 0 A_StartSound ("Sentry/Active");
             loop;
         See:
-            SENT AAAAAAAAAAAAAAAA 2 A_Chase;
+            SENT AAAAAAAAAAAAAAAA 3 A_Chase;
             loop;
         Missile:
             SENT A 16 {
