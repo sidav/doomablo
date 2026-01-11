@@ -93,6 +93,28 @@ extend class RwPlayer {
                 AssignVeryMinorSpreadVelocityTo(drop);
             }
 
+        } else if (itm is 'RwTurretItem') {
+
+            let dropAmount = RwTurretItem(itm).GetRarity() + 1;
+            for (let i = 0; i < dropAmount; i++) {
+                Actor drop;
+                let whatToDrop = rnd.weightedRand(1, 2);
+                if (whatToDrop == 0) {
+                    drop = DropsSpawner.createDropByClass(itm, 'RwFlaskRefill');
+                } else {
+                    drop = DropsSpawner.createDropByClass(itm, 'Clip');
+                }
+                AssignVeryMinorSpreadVelocityTo(drop);
+            }
+            // Drop guaranteed refills if scrapped flask has charges
+            int chgPerRefill = 8;
+            dropAmount = (RwTurretItem(itm).currentCharges + chgPerRefill / 2) / chgPerRefill;
+            for (let i = 0; i < dropAmount; i++) {
+                Actor drop = DropsSpawner.createDropByClass(itm, 'RwFlaskRefill');
+                Inventory(drop).Amount = chgPerRefill;
+                AssignVeryMinorSpreadVelocityTo(drop);
+            }
+
         } else {
             debug.print("Unhandled scrapped item class (report this): "..itm.GetClassName());
         }
