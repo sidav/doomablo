@@ -76,7 +76,7 @@ class RwTurretItem : RwActiveSlotItem {
       trt.maxDmg = invoker.stats.maxDmg;
       trt.additionalDamagePromille = invoker.stats.additionalDamagePromille;
       trt.horizSpread = invoker.stats.turretHSpread;
-      trt.lifetimeTics = gametime.secondsToTicks(invoker.stats.turretLifeSeconds);
+      trt.lifetimeTics = invoker.stats.turretLifeTicks;
       // apply this item's affixes for spawned turred (minion)
       foreach (aff : invoker.appliedAffixes) {
         aff.onPlayerMinionSpawned(invoker.owner, invoker, trt);
@@ -108,7 +108,7 @@ class RwTurretItem : RwActiveSlotItem {
       stats.minDmg = 3;
       stats.maxDmg = 5;
       stats.turretHSpread = 12.5;
-      stats.TurretLifeSeconds = 10;
+      stats.turretLifeTicks = 10 * TICRATE;
 
       stats.chargeConsumption = 1;
       stats.maxCharges = 100;

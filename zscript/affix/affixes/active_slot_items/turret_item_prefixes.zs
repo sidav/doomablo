@@ -154,11 +154,11 @@ class TurrPrefLessLifetime: RwTurretItemPrefix {
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 10, 0.1) + remapQualityToRange(quality, 0, 10);
-        stat2 = turr.stats.turretLifeSeconds;
-        turr.stats.turretLifeSeconds = math.getIntPercentage(turr.stats.turretLifeSeconds, 100 - modifierLevel);
+        stat2 = turr.stats.turretLifeTicks;
+        turr.stats.turretLifeTicks = math.getIntPercentage(turr.stats.turretLifeTicks, 100 - modifierLevel);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
-        RwTurretItem(item).stats.turretLifeSeconds = stat2;
+        RwTurretItem(item).stats.turretLifeTicks = stat2;
         return true;
     }
 }
@@ -177,8 +177,8 @@ class TurrPrefMoreLifetime : RwTurretItemPrefix {
         return a2.GetClass() != 'TurrPrefLessLifetime';
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 10, 0.1) + remapQualityToRange(quality, 0, 10);
-        stat2 = turr.stats.turretLifeSeconds;
-        turr.stats.turretLifeSeconds = math.getIntPercentage(turr.stats.turretLifeSeconds, 100 + modifierLevel);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 60, 0.1) + remapQualityToRange(quality, 0, 40);
+        stat2 = turr.stats.turretLifeTicks;
+        turr.stats.turretLifeTicks = math.getIntPercentage(turr.stats.turretLifeTicks, 100 + modifierLevel);
     }
 }

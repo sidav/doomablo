@@ -75,16 +75,16 @@ class TurrSuffProlonged : RwTurretItemSuffix {
         return 1;
     }
     override string getDescription() {
-        return String.format("+%d seconds of lifetime on kill", (modifierLevel) );
+        return String.format("+%.1f seconds of lifetime on kill", (gametime.ticksToSeconds(modifierLevel)) );
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.1) + remapQualityToRange(quality, 0, 5);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(TICRATE/2, TICRATE*2, 0.1) + remapQualityToRange(quality, 0, TICRATE);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!(owner is 'BaseRwTurretActor')) return; // Applied only for turrets
         if (!passive && source && source != owner) {
             if (source.health <= damage)
-                BaseRwTurretActor(owner).lifetimeTics += modifierLevel * TICRATE;
+                BaseRwTurretActor(owner).lifetimeTics += modifierLevel;
         }
     }
 }

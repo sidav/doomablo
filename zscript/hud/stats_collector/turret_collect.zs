@@ -30,14 +30,14 @@ extend class RwHudArtifactStatsCollector {
                 Font.CR_White, compareClr);
 
         // LIFE TIME
-        if (trtCmp && trt.stats.turretLifeSeconds != trtCmp.stats.turretLifeSeconds) {
-            compareStr = " ("..floatToSignedStr(Gametime.ticksToSeconds(trt.stats.turretLifeSeconds) - Gametime.ticksToSeconds(trtCmp.stats.turretLifeSeconds))..")";
-            compareClr = GetDifferenceColor(trt.stats.turretLifeSeconds - trtCmp.stats.turretLifeSeconds, true);
+        if (trtCmp && trt.stats.turretLifeTicks != trtCmp.stats.turretLifeTicks) {
+            compareStr = " ("..floatToSignedStr(Gametime.ticksToSeconds(trt.stats.turretLifeTicks) - Gametime.ticksToSeconds(trtCmp.stats.turretLifeTicks))..")";
+            compareClr = GetDifferenceColor(trt.stats.turretLifeTicks - trtCmp.stats.turretLifeTicks);
         } else {
             compareStr = "";
             compareClr = Font.CR_White;
         }
-        addTwoLabelsLine("Turret life time:", String.Format("%.1f s", Gametime.ticksToSeconds(trt.stats.turretLifeSeconds))..compareStr,
+        addTwoLabelsLine("Turret life time:", String.Format("%.1f s", Gametime.ticksToSeconds(trt.stats.turretLifeTicks))..compareStr,
                                 Font.CR_White, compareClr);
 
         // CHARGES

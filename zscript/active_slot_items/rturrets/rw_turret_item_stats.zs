@@ -1,6 +1,6 @@
 class RwTurretItemStats : RwActiveSlotItemStats {
     int turretHealth;
-    int turretLifeSeconds;
+    int turretLifeTicks;
     int minDmg, maxDmg;
     float turretHSpread;
     int additionalDamagePromille; // 153 means "+15.3% damage". Made as a separate stat so that damage values like 4.1 are properly accounted
