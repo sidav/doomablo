@@ -77,7 +77,7 @@ class RwPlasmaRifle : RwWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			5, 35,
+			10, 35,
 			1,
 			1,
 			5.0,

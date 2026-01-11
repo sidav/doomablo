@@ -1,11 +1,12 @@
 extend class MyCustomHUD {
+    // ASI means "active slot item" there
 
-    void DrawPickupableFlaskInfo(RwFlask fsk, RwPlayer plr) {
-        if (plr.CurrentEquippedFlask == fsk) return;
+    void DrawPickupableASIInfo(RwActiveSlotItem asi, RwPlayer plr) {
+        if (plr.EquippedActiveSlotItem == asi) return;
 
         currentLineHeight = 0;
         
-        if (plr.CurrentEquippedFlask) {
+        if (plr.EquippedActiveSlotItem) {
             PrintLineAt(BuildDefaultPickUpHintStr("switch to"),
             defaultLeftStatsPosX, defaultLeftStatsPosY, itemStatsFont,
             DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT, Font.CR_Black);
@@ -16,11 +17,11 @@ extend class MyCustomHUD {
         }
     
         currentLineHeight += 1;
-        printFlaskStatsTableAt(fsk, plr.CurrentEquippedFlask, defaultLeftStatsPosX, defaultLeftStatsPosY, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT);
+        printASIStatsTableAt(asi, plr.EquippedActiveSlotItem, defaultLeftStatsPosX, defaultLeftStatsPosY, DI_SCREEN_LEFT_CENTER|DI_TEXT_ALIGN_LEFT);
     }
 
-    void printFlaskStatsTableAt(RwFlask fsk, RwFlask fskCmp, int x, int y, int textFlags) {
-        statsCollector.CollectStatsFromAffixableItem(fsk, fskCmp, 1);
+    void printASIStatsTableAt(RwActiveSlotItem asi, RwActiveSlotItem fskCmp, int x, int y, int textFlags) {
+        statsCollector.CollectStatsFromAffixableItem(asi, fskCmp, 1);
         printAllCollectorLines(x, y, pickupableStatsTableWidth, textFlags);
     }
 }

@@ -44,7 +44,7 @@ class BSuffNoisy : RwBackpackSuffix {
             let ti = ThinkerIterator.Create('Actor');
             Actor mo;
             while (mo = Actor(ti.next())) {
-                if (mo && mo.bIsMonster && mo.target == null && mo.CheckSight(owner, SF_IGNOREWATERBOUNDARY)) {
+                if (mo && mo.bIsMonster && mo.Health > 0 && mo.target == null && mo.CheckSight(owner, SF_IGNOREWATERBOUNDARY)) {
                     mo.target = owner;
                     // Rotation 3 times 45 degrees each
                     for (let i = 0; i < 3; i++) {
@@ -126,7 +126,7 @@ class BSuffRestoreFlaskCharges : RwBackpackSuffix {
         return "Distilling";
     }
     override string getDescription() {
-        return String.Format("Gives %.2f flask charges per second", (double(modifierLevel) * TICRATE / 1000 ));
+        return String.Format("Gives %.2f item charges per second", (double(modifierLevel) * TICRATE / 1000 ));
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
         // ModifierLevel is "charges per tick * 1000"
@@ -134,10 +134,10 @@ class BSuffRestoreFlaskCharges : RwBackpackSuffix {
     }
     int fractionAccumulator;
     override void onDoEffect(Actor owner, Inventory affixedItem) {
-        if (RWPlayer(owner) && RWPlayer(owner).CurrentEquippedFlask != null) {
+        if (RWPlayer(owner) && RWPlayer(owner).EquippedActiveSlotItem != null) {
             let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, fractionAccumulator);
             if (addAmount > 0) {
-                RWPlayer(owner).CurrentEquippedFlask.Refill(addAmount);
+                RWPlayer(owner).EquippedActiveSlotItem.Refill(addAmount);
             }
         }
     }

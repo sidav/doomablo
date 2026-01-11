@@ -13,6 +13,8 @@ TAG_AUTOSHOTGUN = "Autoflinte";
 GOTAUTOSHOTGUN = "Autoflinte genommen.";
 TAG_GRENADELAUNCHER = "Granatenwerfer";
 GOTGRENADELAUNCHER = "Granatenwerfer genommen.";
+TAG_RAILGUN = "Schienengewehr";
+GOTRAILGUN = "Schienengewehr genommen.";
 
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo anpassen";

@@ -2,7 +2,7 @@
 class AffixableDetector {
 
     static bool IsAffixableItem(Actor a) {
-        return (a is 'RwWeapon') || (a is 'RwArmor') || (a is 'RwBackpack') || (a is 'RwFlask');
+        return (a is 'RwWeapon') || (a is 'RwArmor') || (a is 'RwBackpack') || (a is 'RwActiveSlotItem');
     }
 
     static string GetNameOfAffixableItem(Actor a) {
@@ -15,8 +15,8 @@ class AffixableDetector {
 		if (a is "RwBackpack") {
 			return RwBackpack(a).nameWithAppliedAffixes;
 		}
-		if (a is "RwFlask") {
-			return RwFlask(a).nameWithAppliedAffixes;
+		if (a is "RwActiveSlotItem") {
+			return RwActiveSlotItem(a).nameWithAppliedAffixes;
 		}
         return "<ERROR DETECTING NAME>";
     }

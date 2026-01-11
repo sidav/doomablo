@@ -51,7 +51,7 @@ class BPrefMoreBull : RwBackpackPrefix {
         return a2.GetClass() != 'BPrefLessBull';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + modifierLevel/10;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 35, 0.1) + modifierLevel/7;
         bpk.stats.maxBull = math.getIntPercentage(bpk.stats.maxBull, 100 + modifierLevel);
     }
 }
@@ -93,7 +93,7 @@ class BPrefMoreShel : RwBackpackPrefix {
         return a2.GetClass() != 'BPrefLessShel';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + modifierLevel/10;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 35, 0.1) + modifierLevel/7;
         bpk.stats.maxShel = math.getIntPercentage(bpk.stats.maxShel, 100 + modifierLevel);
     }
 }
@@ -135,7 +135,7 @@ class BPrefMoreRckt : RwBackpackPrefix {
         return a2.GetClass() != 'BPrefLessRckt';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + modifierLevel/10;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 35, 0.1) + modifierLevel/7;
         bpk.stats.maxRckt = math.getIntPercentage(bpk.stats.maxRckt, 100 + modifierLevel);
     }
 }
@@ -177,7 +177,7 @@ class BPrefMoreCell : RwBackpackPrefix {
         return a2.GetClass() != 'BPrefLessCell';
     }
     override void initAndapplyEffectToRBackpack(RWBackpack bpk, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + modifierLevel/10;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 35, 0.1) + modifierLevel/7;
         bpk.stats.maxCell = math.getIntPercentage(bpk.stats.maxCell, 100 + modifierLevel);
     }
 }

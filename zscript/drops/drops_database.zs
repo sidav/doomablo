@@ -22,8 +22,8 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
         Consumables.insert("Berserk",5);
         Consumables.insert("MegaSphere",3);
         Consumables.insert("InvulnerabilitySphere",1);
-        Consumables.insert("RwFlaskRefill",200);
-        Consumables.insert("TomeOfChange", 5);
+        Consumables.insert("RwActiveItemRefill",200);
+        Consumables.insert("TomeOfChange", 15);
         Consumables.insert("StatScroll",5);
         // Also, ammo items.
         // No plans to add new ammo, AFAIK.
@@ -64,11 +64,11 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
                 EquipItems.Insert(bp.GetClassName(),bp.rweight);
                 console.printf("  Backpack - %s (%d)",bp.GetClassName(),bp.rweight);
             }
-            if (c is "RwFlask") {
-                Class<Actor> flc = c.GetClassName();
-                let fl = RwFlask(GetDefaultByType(flc));
-                EquipItems.Insert(fl.GetClassName(),fl.rweight);
-                console.printf("  Flask - %s (%d)",fl.GetClassName(),fl.rweight);
+            if (c is "RwActiveSlotItem") {
+                Class<Actor> asiClass = c.GetClassName();
+                let asi = RwActiveSlotItem(GetDefaultByType(asiClass));
+                EquipItems.Insert(asi.GetClassName(),asi.rweight);
+                console.printf("  ActiveSlotItem - %s (%d)",asi.GetClassName(),asi.rweight);
             }
         }
 

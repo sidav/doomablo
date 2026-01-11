@@ -44,14 +44,14 @@ extend class RwPlayer {
         CurrentEquippedBackpack = bkpk;        
     }
 
-    void PickUpFlask(RwFlask fsk) {
-        let hasEmptySlot = CurrentEquippedFlask == null;
+    void PickUpActiveSlotItem(RwActiveSlotItem itm) {
+        let hasEmptySlot = EquippedActiveSlotItem == null;
         if (!hasEmptySlot) {
-            CurrentEquippedFlask.DetachFromOwner();
-            DropInventory(CurrentEquippedFlask);
+            EquippedActiveSlotItem.DetachFromOwner();
+            DropInventory(EquippedActiveSlotItem);
         }
-        AddInventory(fsk);
-        CurrentEquippedFlask = fsk;
+        AddInventory(itm);
+        EquippedActiveSlotItem = itm;
     }
 
     // OLD CODE

@@ -65,7 +65,7 @@ class MyCustomHUD : BaseStatusBar
 	protected void DrawFullScreenStuff()
 	{
 		let plr = RwPlayer(CPlayer.mo);
-        let fsk = RwFlask(plr.CurrentEquippedFlask);
+        let asi = RwActiveSlotItem(plr.EquippedActiveSlotItem);
         let armr = RwArmor(plr.CurrentEquippedArmor);
 
 		Vector2 iconbox = (40, 20);
@@ -75,19 +75,19 @@ class MyCustomHUD : BaseStatusBar
 		DrawString(mHUDFont, FormatNumber(CPlayer.health, 3), (44, -20));
 
 		int invY = -40;
-		// FLASK
-		if (fsk) {
-			DrawInventoryIcon(fsk, (20, invY + 17));
-			if (fsk.cooldownTicksRemaining > 0) {
-				DrawString(mHUDFont, FormatNumber((fsk.cooldownTicksRemaining + TICRATE - 1)/TICRATE, 3), (44, invY), translation: Font.CR_DARKGRAY);
+		// ACTIVE SLOT ITEM
+		if (asi) {
+			DrawInventoryIcon(asi, (20, invY + 17));
+			if (asi.cooldownTicksRemaining > 0) {
+				DrawString(mHUDFont, FormatNumber((asi.cooldownTicksRemaining + TICRATE - 1)/TICRATE, 3), (44, invY), translation: Font.CR_DARKGRAY);
 			} else {
 				let clr = Font.CR_GREEN;
-				if (fsk.currentCharges < fsk.stats.chargeConsumption) {
+				if (asi.currentCharges < asi.GetChargesConsumptionPerUse()) {
 					clr = Font.CR_RED;
-				} else if (fsk.currentCharges == fsk.stats.maxCharges) {
+				} else if (asi.currentCharges == asi.GetMaxCharges()) {
 					clr = Font.CR_BLUE;
 				}
-				let shownPercentage = math.getIntFractionInPercent(fsk.currentCharges, fsk.stats.chargeConsumption);
+				let shownPercentage = math.getIntFractionInPercent(asi.currentCharges, asi.GetChargesConsumptionPerUse());
 				DrawString(mHUDFont, FormatNumber(shownPercentage, 3).."%", (44, -40), translation: clr);
 			}
 			invY -= 20;

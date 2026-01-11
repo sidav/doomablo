@@ -10,7 +10,6 @@ extend class Affix {
     virtual play void onDoEffect(Actor owner, Inventory affixedItem = null) {}
     virtual play void onOwnerDied(Actor owner) {}
     virtual play void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {}
-    virtual play void onBeingUsed(Actor owner, Inventory affixedItem) {}
 
     // Weapons
     virtual play void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {}
@@ -19,6 +18,10 @@ extend class Affix {
 
     // Armor
     virtual play void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {}
+
+    // Active slot items
+    virtual play void onBeingUsed(Actor owner, Inventory affixedItem) {}
+    virtual play void onPlayerMinionSpawned(Actor owner, Inventory affixedItem, Actor minion) {}
 
     // Player-beneficial or player-related
     virtual play void onPlayerStatsRecalc(RwPlayer owner) {}

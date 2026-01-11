@@ -28,6 +28,8 @@ class RwHudArtifactStatsCollector {
             collectRWBackpackStats(RwBackpack(itm), RwBackpack(itemToCompareWith));
         } else if (RwFlask(itm)) {
             collectRWFlaskStats(RwFlask(itm), RwFlask(itemToCompareWith));
+        } else if (RwTurretItem(itm)) {
+            collectRWTurretStats(RwTurretItem(itm), RwTurretItem(itemToCompareWith));
         }
         lastCollectedItem = itm;
         lastCollectedComparisonItem = itemToCompareWith;

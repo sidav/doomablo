@@ -13,6 +13,9 @@ extend class Affix {
         if (item is 'RwFlask') {
             return GetRandomFlaskAffixInstance();
         }
+        if (item is 'RwTurretItem') {
+            return GetRandomTurretItemAffixInstance();
+        }
         if (item is 'RwMonsterAffixator') {
             return GetRandomMonsterAffixInstance();
         }
@@ -76,11 +79,31 @@ extend class Affix {
 
     private static Affix GetRandomFlaskAffixInstance() {
         let handler = AffixClassesCacheHandler(StaticEventHandler.Find('AffixClassesCacheHandler'));
-        let index = rnd.randn(handler.totalFlaskAffixesClasses + handler.totalUniversalAffixesClasses);
+        let index = rnd.randn(handler.totalActiveSlotItemAffixesClasses + handler.totalFlaskAffixesClasses + handler.totalUniversalAffixesClasses);
 
         Affix affToReturn;
         foreach (affClass : handler.applicableAffixClasses) {
-            if (affClass is 'RwFlaskPrefix' || affClass is 'RwFlaskSuffix' || affClass is 'RwUniversalAffix') {
+            if (affClass is 'RwFlaskPrefix' || affClass is 'RwFlaskSuffix' || 
+            affClass is 'RwAnyActiveSlotItemAffix' || affClass is 'RwUniversalAffix') {
+                if (index > 0) {
+                    index--;
+                } else {
+                    affToReturn = Affix(New(affClass));
+                    break;
+                }
+            }
+        }
+        return affToReturn;
+    }
+
+    private static Affix GetRandomTurretItemAffixInstance() {
+        let handler = AffixClassesCacheHandler(StaticEventHandler.Find('AffixClassesCacheHandler'));
+        let index = rnd.randn(handler.totalActiveSlotItemAffixesClasses + handler.totalTurretItemAffixesClasses + handler.totalUniversalAffixesClasses);
+
+        Affix affToReturn;
+        foreach (affClass : handler.applicableAffixClasses) {
+            if (affClass is 'RwTurretItemPrefix' || affClass is 'RwTurretItemSuffix' || 
+                affClass is 'RwAnyActiveSlotItemAffix' || affClass is 'RwUniversalAffix') {
                 if (index > 0) {
                     index--;
                 } else {
@@ -122,7 +145,9 @@ class AffixClassesCacheHandler : StaticEventHandler
     int totalWeaponAffixesClasses;
     int totalArmorAffixesClasses;
     int totalBackpackAffixesClasses;
+    int totalActiveSlotItemAffixesClasses;
     int totalFlaskAffixesClasses;
+    int totalTurretItemAffixesClasses;
     int totalUniversalAffixesClasses;
     int totalMonsterAffixesClasses;
 
@@ -157,9 +182,15 @@ class AffixClassesCacheHandler : StaticEventHandler
                 } else if (isAffixForBackpack(affClass)) {
                     specifyStr = "(backpack affix)";
                     totalBackpackAffixesClasses++;
+                } else if (isAffixForActiveSlotItem(affClass)) {
+                    specifyStr = "(Active Slot Item affix)";
+                    totalActiveSlotItemAffixesClasses++;
                 } else if (isAffixForFlask(affClass)) {
                     specifyStr = "(flask affix)";
                     totalFlaskAffixesClasses++;
+                } else if (isAffixForTurretItem(affClass)) {
+                    specifyStr = "(turret affix)";
+                    totalTurretItemAffixesClasses++;
                 } else if (isAffixForMonster(affClass)) {
                     specifyStr = "(monster affix)";
                     totalMonsterAffixesClasses++;
@@ -183,7 +214,9 @@ class AffixClassesCacheHandler : StaticEventHandler
         debug.print("             "..totalWeaponAffixesClasses.." for weapons");
         debug.print("             "..totalArmorAffixesClasses.." for armor");
         debug.print("             "..totalBackpackAffixesClasses.." for backpacks");
+        debug.print("             "..totalActiveSlotItemAffixesClasses.." for any active slot items");
         debug.print("             "..totalFlaskAffixesClasses.." for flasks");
+        debug.print("             "..totalTurretItemAffixesClasses.." for turrets");
         debug.print("             "..totalMonsterAffixesClasses.." for monsters");
         debug.print("             "..totalUnknownAffixesClasses.." unknown");
 
@@ -205,8 +238,16 @@ class AffixClassesCacheHandler : StaticEventHandler
         return (cls is 'RwBackpackPrefix') || (cls is 'RwBackpackSuffix');
     }
 
+    static bool isAffixForActiveSlotItem(class<Affix> cls) {
+        return (cls is 'RwAnyActiveSlotItemAffix');
+    }
+
     static bool isAffixForFlask(class<Affix> cls) {
         return (cls is 'RwFlaskPrefix') || (cls is 'RwFlaskSuffix');
+    }
+
+    static bool isAffixForTurretItem(class<Affix> cls) {
+        return (cls is 'RwTurretItemPrefix') || (cls is 'RwTurretItemSuffix');
     }
 
     static bool isAffixUniversal(class<Affix> cls) {

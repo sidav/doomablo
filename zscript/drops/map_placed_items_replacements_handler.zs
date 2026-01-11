@@ -97,7 +97,7 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 
 		// Consumables:
         case 'HealthBonus':
-			if (startOfLevel && rnd.OneChanceFrom(4)) e.Replacement = 'RwFlaskRefill';
+			if (startOfLevel && rnd.OneChanceFrom(4)) e.Replacement = 'RwActiveItemRefill';
             break;
         case 'Soulsphere':
 			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';

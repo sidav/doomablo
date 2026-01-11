@@ -95,7 +95,7 @@ class RwRailgun : RwWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			minDmg: 75, maxDmg: 125,
+			minDmg: 100, maxDmg: 150,
 			pell: 1,
 			ammousg: 10,
 			hSpr: 0.5,
