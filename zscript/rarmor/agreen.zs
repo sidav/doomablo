@@ -21,7 +21,7 @@ class RwGreenArmor : RwArmor
 		stats.currDurability = 150;
 		stats.maxDurability = 150;
 		stats.AbsorbsPercentage = 35;
-		stats.RepairFromBonusx1000 = 5000;
+		stats.RepairFromBonusx1000 = 4000;
     }
 
 	override string GetRandomFluffName() {
