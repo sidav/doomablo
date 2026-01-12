@@ -103,7 +103,7 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
             break;
         case 'Blursphere':
-			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
+			if (startOfLevel && rnd.OneChanceFrom(3)) e.Replacement = 'TomeOfChange';
             break;
         case 'Megasphere':
 			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
