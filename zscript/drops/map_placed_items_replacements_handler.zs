@@ -103,7 +103,14 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
             break;
         case 'Blursphere':
-			if (startOfLevel && rnd.OneChanceFrom(3)) e.Replacement = 'TomeOfChange';
+			if (startOfLevel) {
+                let itemType = Random(0, 2);
+                if (itemType == 1) {
+                    e.Replacement = 'TomeOfChange';
+                } else if (itemType == 2) {
+                    e.Replacement = 'RwTurretItem';
+                }
+            }
             break;
         case 'Megasphere':
 			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';

@@ -105,8 +105,8 @@ class RwTurretItem : RwActiveSlotItem {
       stats = New('RwTurretItemStats');
 
       stats.TurretHealth = 75;
-      stats.minDmg = 3;
-      stats.maxDmg = 5;
+      stats.minDmg = 4;
+      stats.maxDmg = 6;
       stats.turretHSpread = 12.5;
       stats.turretLifeTicks = 10 * TICRATE;
 
