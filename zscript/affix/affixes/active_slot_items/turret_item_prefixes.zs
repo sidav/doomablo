@@ -48,7 +48,7 @@ class TurrPrefMoreHealth : RwTurretItemPrefix {
         return a2.GetClass() != 'TurrPrefLessHealth';
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 200, 0.1) + remapQualityToRange(quality, 0, 50);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(15, 200, 0.1) + remapQualityToRange(quality, 0, 50);
         turr.stats.turretHealth = math.getIntPercentage(turr.stats.turretHealth, 100 + modifierLevel);
     }
 }
@@ -90,7 +90,7 @@ class TurrPrefMoreDmg : RwTurretItemPrefix {
         return a2.GetClass() != 'TurrPrefLessDmg';
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(50, 200, 0.05) + remapQualityToRange(quality, 0, 100);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(100, 800, 0.05) + remapQualityToRange(quality, 0, 200);
         turr.stats.additionalDamagePromille += modifierLevel;
     }
 }
@@ -134,7 +134,7 @@ class TurrPrefMoreAccuracy: RwTurretItemPrefix {
         return a2.GetClass() != 'TurrPrefLessAccuracy';
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + remapQualityToRange(quality, 0, 15);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 45, 0.1) + remapQualityToRange(quality, 0, 15);
         turr.stats.turretHSpread *= (1. - float(modifierLevel)/100.);
     }
 }
@@ -177,7 +177,7 @@ class TurrPrefMoreLifetime : RwTurretItemPrefix {
         return a2.GetClass() != 'TurrPrefLessLifetime';
     }
     override void initAndapplyEffectToRTurretItm(RwTurretItem turr, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 60, 0.1) + remapQualityToRange(quality, 0, 40);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(15, 100, 0.1) + remapQualityToRange(quality, 0, 50);
         stat2 = turr.stats.turretLifeTicks;
         turr.stats.turretLifeTicks = math.getIntPercentage(turr.stats.turretLifeTicks, 100 + modifierLevel);
     }

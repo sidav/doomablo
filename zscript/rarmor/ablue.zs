@@ -16,8 +16,8 @@ class RwBlueArmor : RwArmor
 	override void setBaseStats() {
 		rwbaseName = "Blue Armor";
 		stats = New('RwArmorStats');
-		stats.currDurability = 100;
-		stats.maxDurability = 100;
+		stats.currDurability = 125;
+		stats.maxDurability = 125;
 		stats.AbsorbsPercentage = 50;
 		stats.RepairFromBonusx1000 = 3500;
     }

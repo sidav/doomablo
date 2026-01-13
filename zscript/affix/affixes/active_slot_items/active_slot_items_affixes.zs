@@ -54,7 +54,7 @@ class AsiPrefMoreCharges : RwAnyActiveSlotItemAffix {
     }
     override void initAndapplyEffectToASI(RwActiveSlotItem asi, int quality) {
         let stats = asi.GetStats();
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, stats.maxCharges/2, 0.1);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, stats.maxCharges, 0.1);
         stats.maxCharges += modifierLevel;
     }
 }
@@ -100,7 +100,7 @@ class AsiPrefSmallerConsumption : RwAnyActiveSlotItemAffix {
     }
     override void initAndapplyEffectToASI(RwActiveSlotItem asi, int quality) {
         let stats = asi.GetStats();
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 6, 0.1);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, stats.chargeConsumption/2, 0.1);
         stats.chargeConsumption -= modifierLevel;
     }
 }
@@ -145,7 +145,7 @@ class AsiPrefShorterCooldown : RwAnyActiveSlotItemAffix {
     }
     override void initAndapplyEffectToASI(RwActiveSlotItem asi, int quality) {
         let stats = asi.GetStats();
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + quality/10;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + quality/15;
         stats.usageCooldownTicks = math.getIntPercentage(stats.usageCooldownTicks, 100 - modifierLevel);
     }
 }

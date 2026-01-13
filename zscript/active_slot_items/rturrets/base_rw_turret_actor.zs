@@ -10,11 +10,12 @@ class BaseRwTurretActor : Actor
     Default {
         obituary "%o was ventilated by an auto-sentry.";
         health 60;
-        radius 20;
-        height 56;
+        radius 15;
+        height 48;
         mass 10000;
         speed 0;
         MaxTargetRange 2048;
+        MinMissileChance 10;
         attacksound "weapons/pistol";
         MONSTER;
         +FLOORCLIP;
