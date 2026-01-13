@@ -27,35 +27,48 @@ class rwPistol : RwWeapon
 		Loop;
 	Fire:
 		PISG A 4 RWA_ApplyRateOfFire();
-		PISG B 6 {
+		PISG B 5 {
+			RWA_ApplyRateOfFire();
+			RWA_DoFire();
+			A_StartSound("weapons/pistol", CHAN_WEAPON);
+			A_GunFlash();
+			if (invoker.currentClipAmmo < invoker.stats.AmmoUsage) {
+				return ResolveState('EndOfFire');
+			}
+			return ResolveState(null);
+		}
+		// Burst-fire
+		PISG C 2 RWA_ApplyRateOfFire();
+		PISG B 5 {
 			RWA_ApplyRateOfFire();
 			RWA_DoFire();
 			A_StartSound("weapons/pistol", CHAN_WEAPON);
 			A_GunFlash();
 		}
-		PISG C 4 RWA_ApplyRateOfFire();
+		Goto EndOfFire;
+	EndOfFire:
+		PISG C 5 RWA_ApplyRateOfFire();
 		PISG B 5 {
 			RWA_Refire();
 			RWA_ApplyRateOfFire();
 		}
 		Goto Ready;
 	Reload:
-		PISG CCCCCCCCCC 1 A_WeaponOffset(-2, 4, WOF_ADD | WOF_INTERPOLATE);
-		PISG C 15 RWA_ApplyReloadSpeed();
-		PISG A 15 {
+		PISG CCCGGGGHHH 1 A_WeaponOffset(-2, 5, WOF_ADD | WOF_INTERPOLATE);
+		PISG H 15 {
+			A_WeaponOffset(0, 16, WOF_ADD | WOF_INTERPOLATE);
+			RWA_ApplyReloadSpeed();
+		}
+		PISG H 15 {
+			A_WeaponOffset(0, -16, WOF_ADD | WOF_INTERPOLATE);
 			RWA_ApplyReloadSpeed();
             A_StartSound("misc/w_pkup"); // plays Doom's "weapon pickup" sound
             A_MagazineReload(); //do the reload
 		}
-		PISG AAAAAAAAAA 1 A_WeaponOffset(2, -4, WOF_ADD | WOF_INTERPOLATE);
+		PISG HHHHGGGCCC 1 A_WeaponOffset(2, -5, WOF_ADD | WOF_INTERPOLATE);
 		Goto Ready;
 	Flash:
-		PISF A 7 Bright {
-			RWA_ApplyRateOfFireToFlash();
-			A_Light1();
-		}
-		Goto LightDone;
-		PISF A 7 Bright {
+		PISF A 5 Bright {
 			RWA_ApplyRateOfFireToFlash();
 			A_Light1();
 		}
@@ -70,7 +83,7 @@ class rwPistol : RwWeapon
 			8, 13,
 			1,
 			1,
-			2.0,
+			4.0,
 			0.5
 		);
 		stats.clipSize = 12;
