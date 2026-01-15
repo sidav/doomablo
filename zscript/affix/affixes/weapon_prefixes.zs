@@ -309,7 +309,7 @@ class WPrefTargetKnockback : RwWeaponPrefix { // There is no bad counterpart, I 
     }
 }
 
-class WPrefBiggerShooterKickback : RwWeaponPrefix {
+class WPrefBiggerShooterKickback : RwWeaponPrefix { // Good counterpart removed, I don't think it's needed
     override string getName() {
         return "kicking";
     }
@@ -320,49 +320,53 @@ class WPrefBiggerShooterKickback : RwWeaponPrefix {
         return -1;
     }
     override string getDescription() {
-        return "+"..modifierLevel.."% shooter kickback";
+        return String.format("x%.1f shooter kickback", double(modifierLevel)/10.);
     }
     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.stats.fireType != RWStatsClass.FTMelee && wpn.stats.fireType != RWStatsClass.FTRailgun;
+        return wpn.stats.fireType != RWStatsClass.FTMelee; // && wpn.stats.fireType != RWStatsClass.FTRailgun;
     }
     override bool IsCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WPrefSmallerShooterKickback';
+        return true;
+        // return a2.GetClass() != 'WPrefSmallerShooterKickback';
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 25, 200);
-
-        wpn.stats.ShooterKickback *= double(100+modifierLevel)/100;
+        if (wpn is 'RwRailgun') {
+            modifierLevel = rnd.multipliedWeightedRandByEndWeight(15, 20, 0.1) + remapQualityToRange(quality, 0, 20);
+        } else {
+            modifierLevel = rnd.multipliedWeightedRandByEndWeight(20, 50, 0.1) + remapQualityToRange(quality, 0, 30);
+        }
+        wpn.stats.ShooterKickback *= double(modifierLevel)/10;
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
-        RwWeapon(item).stats.ShooterKickback /= double(100 + modifierLevel)/100;
+        RwWeapon(item).stats.ShooterKickback /= double(modifierLevel)/10;
         return true;
     }
 }
 
-class WPrefSmallerShooterKickback : RwWeaponPrefix {
-    override string getName() {
-        return "balanced";
-    }
-    override string getNameAsSuffix() {
-        return "balance";
-    }
-    override int getAlignment() {
-        return 1;
-    }
-    override string getDescription() {
-        return "-"..modifierLevel.."% shooter kickback";
-    }
-    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.stats.fireType != RWStatsClass.FTMelee && wpn.stats.fireType != RWStatsClass.FTRailgun;
-    }
-    override bool IsCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WPrefBiggerShooterKickback';
-    }
-    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 95);
-        wpn.stats.ShooterKickback *= double(100-modifierLevel)/100;
-    }
-}
+// class WPrefSmallerShooterKickback : RwWeaponPrefix {
+//     override string getName() {
+//         return "balanced";
+//     }
+//     override string getNameAsSuffix() {
+//         return "balance";
+//     }
+//     override int getAlignment() {
+//         return 1;
+//     }
+//     override string getDescription() {
+//         return "-"..modifierLevel.."% shooter kickback";
+//     }
+//     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+//         return wpn.stats.fireType != RWStatsClass.FTMelee && wpn.stats.fireType != RWStatsClass.FTRailgun;
+//     }
+//     override bool IsCompatibleWithAffClass(Affix a2) {
+//         return a2.GetClass() != 'WPrefBiggerShooterKickback';
+//     }
+//     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+//         modifierLevel = remapQualityToRange(quality, 1, 95);
+//         wpn.stats.ShooterKickback *= double(100-modifierLevel)/100;
+//     }
+// }
 
 class WPrefBiggerRecoil : RwWeaponPrefix {
     override string getName() {
@@ -384,7 +388,7 @@ class WPrefBiggerRecoil : RwWeaponPrefix {
         return a2.GetClass() != 'WPrefSmallerRecoil';
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 100, 0.1) + remapQualityToRange(quality, 1, 50);
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(10, 150, 0.1) + remapQualityToRange(quality, 5, 50);
         wpn.stats.Recoil *= double(100+modifierLevel)/100;
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
