@@ -27,28 +27,55 @@ class rwPistol : RwWeapon
 		Loop;
 	Fire:
 		PISG A 4 RWA_ApplyRateOfFire();
+		PISG B 6 {
+			RWA_ApplyRateOfFire();
+			RWA_DoFire();
+			A_StartSound("weapons/pistol", CHAN_WEAPON);
+			A_GunFlash();
+		}
+		PISG C 6 RWA_ApplyRateOfFire();
+		PISG B 5 {
+			RWA_Refire();
+			RWA_ApplyRateOfFire();
+		}
+		Goto Ready;
+	AltFire:
+		PISG A 4 RWA_ApplyRateOfFire();
+		// Burst-fire: shot 1
 		PISG B 5 {
 			RWA_ApplyRateOfFire();
 			RWA_DoFire();
 			A_StartSound("weapons/pistol", CHAN_WEAPON);
 			A_GunFlash();
 			if (invoker.currentClipAmmo < invoker.stats.AmmoUsage) {
-				return ResolveState('EndOfFire');
+				return ResolveState('EndOfAltFire');
 			}
 			return ResolveState(null);
 		}
-		// Burst-fire
 		PISG C 2 RWA_ApplyRateOfFire();
+		// Burst-fire: shot 2
+		PISG B 5 {
+			RWA_ApplyRateOfFire();
+			RWA_DoFire();
+			A_StartSound("weapons/pistol", CHAN_WEAPON);
+			A_GunFlash();
+			if (invoker.currentClipAmmo < invoker.stats.AmmoUsage) {
+				return ResolveState('EndOfAltFire');
+			}
+			return ResolveState(null);
+		}
+		PISG C 2 RWA_ApplyRateOfFire();
+		// Burst-fire: shot 3
 		PISG B 5 {
 			RWA_ApplyRateOfFire();
 			RWA_DoFire();
 			A_StartSound("weapons/pistol", CHAN_WEAPON);
 			A_GunFlash();
 		}
-		Goto EndOfFire;
-	EndOfFire:
-		PISG C 5 RWA_ApplyRateOfFire();
-		PISG B 5 {
+		Goto EndOfAltFire;
+	EndOfAltFire:
+		PISG C 6 RWA_ApplyRateOfFire();
+		PISG B 6 {
 			RWA_Refire();
 			RWA_ApplyRateOfFire();
 		}
@@ -80,7 +107,7 @@ class rwPistol : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			8, 13,
+			6, 10,
 			1,
 			1,
 			4.0,
