@@ -40,7 +40,7 @@ class StartingItemsHandler : EventHandler
 		if (rwCount == 0) {
 			pmo.GiveInventory('RwFist', 1);
 			let given = RwWeapon(pmo.GiveInventoryType('RwPistol'));
-			given.Generate(3, 1);
+			given.Generate(0, 1);
 			if (rw_start_with_shotgun) {
 				let shg = RwWeapon(pmo.GiveInventoryType('RwShotgun'));
 				shg.Generate(0, 1);
