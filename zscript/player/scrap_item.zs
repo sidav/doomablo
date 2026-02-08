@@ -45,14 +45,17 @@ extend class RwPlayer {
             }
 
         } else if (itm is 'RwArmor') {
-
+            let armr = RwArmor(itm);
             let dropAmount = RwArmor(itm).GetRarity() + 1;
             for (let i = 0; i < dropAmount; i++) {
                 Actor drop;
-                if (RwArmor(itm).stats.IsEnergyArmor() && rnd.OneChanceFrom(2)) {
+                if (armr.stats.IsEnergyArmor() && rnd.OneChanceFrom(2)) {
                     drop = DropsSpawner.createDropByClass(itm, 'Cell');
                 } else {
-                    drop = DropsSpawner.createDropByClass(itm, 'RwArmorBonus');
+                    if (rnd.OneChanceFrom(10))
+                        drop = DropsSpawner.createDropByClass(itm, 'ArmorRepairKit');
+                    else
+                        drop = DropsSpawner.createDropByClass(itm, 'RwArmorBonus');
                 }
                 AssignVeryMinorSpreadVelocityTo(drop);
             }

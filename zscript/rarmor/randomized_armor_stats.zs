@@ -5,6 +5,7 @@ class RwArmorStats {
 
     int maxDurability;
     int AbsorbsPercentage; // this many percents of damage will be directed to armor amount.
+    int RepairFromKitx1000; // How many armor points it gets from repair kit, x1000 for fraction. If 0, can't be repaired.
     int RepairFromBonusx1000; // How many armor points it gets from armor bonus, x1000 for fraction. If 0, can't be repaired.
 
     int delayUntilRecharge; // Ticks. Only for energy armor

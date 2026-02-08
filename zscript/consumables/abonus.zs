@@ -1,4 +1,4 @@
-class RwArmorBonus : Inventory replaces ArmorBonus
+class RwArmorBonus : Inventory
 
 {
 	Default

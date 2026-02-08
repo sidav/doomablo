@@ -24,7 +24,7 @@ class DropsDecider {
     }
 
     static int whatToDrop(int dropperHealth, int dropperRarity) {
-        // 0 - consumable item (armor bonus or health)
+        // 0 - consumable item (armor bonus or health or whatever)
         // 1 - ammo
         // 2 - Randomizable artifact (weapon/armor/backpack/flask)
         if (dropperHealth > 1000) {

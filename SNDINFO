@@ -23,3 +23,5 @@ $RANDOM 40mm/grenexplode { explode1 explode2 explode3 explode4 }
 
 Sentry/Active	    DSSENTID
 Sentry/Death	    DSSENTDI
+
+FieldKit/Use        FKITUSE

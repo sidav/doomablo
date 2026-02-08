@@ -19,7 +19,8 @@ class RwBlueArmor : RwArmor
 		stats.currDurability = 125;
 		stats.maxDurability = 125;
 		stats.AbsorbsPercentage = 50;
-		stats.RepairFromBonusx1000 = 3500;
+		stats.RepairFromKitx1000 = 40000;
+		stats.RepairFromBonusx1000 = 1000;
     }
 
 	override string GetRandomFluffName() {

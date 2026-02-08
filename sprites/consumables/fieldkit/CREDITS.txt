@@ -1,0 +1,6 @@
+Submitted: Ghastly_dragon
+Decorate: Ghastly_dragon
+Sounds: Id Software
+Sprites: Id Software
+Sprite Edit: Ghastly_dragon
+Idea Base: Strife's health pickups

@@ -96,6 +96,14 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             break;
 
 		// Consumables:
+        case 'ArmorBonus':
+            if (rnd.OneChanceFrom(7)) {
+                e.replacement = 'ArmorRepairKit';
+            } else {
+                e.replacement = 'RwArmorBonus';
+            }
+            // if (!startOfLevel) debug.print("BUG: vanilla armor bonus spawned? What?");
+            break;
         case 'HealthBonus':
 			if (startOfLevel && rnd.OneChanceFrom(4)) e.Replacement = 'RwActiveItemRefill';
             break;
