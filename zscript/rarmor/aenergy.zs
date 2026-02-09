@@ -33,17 +33,17 @@ class RwEnergyArmor : RwArmor
 		rwbaseName = "Energy Armor";
 		stats = New('RwArmorStats');
 		stats.currDurability = 0;
-		stats.maxDurability = 25;
+		stats.maxDurability = 30;
 		stats.AbsorbsPercentage = 75;
 		
-		stats.energyRestoreSpeedX1000 = math.divideIntWithRounding(1000, TICRATE); // 1 per second
+		stats.energyRestoreSpeedX1000 = math.divideIntWithRounding(1250, TICRATE); // 1.25 per second
 		stats.delayUntilRecharge = 75*TICRATE/10; // 7.5 seconds base
     }
 
 	// Needs to be called before generation, after generatedQuality is set.
 	override void prepareForGeneration() {
-		stats.maxDurability += generatedQuality / 3;
-		stats.delayUntilRecharge = math.getIntPercentage(stats.delayUntilRecharge, 100 - (60 * generatedQuality/100));
+		stats.maxDurability += math.getIntPercentage(generatedQuality, 33);
+		stats.delayUntilRecharge = math.getIntPercentage(stats.delayUntilRecharge, 100 - math.getIntPercentage(generatedQuality, 50));
 	}
 
 	override string GetRandomFluffName() {

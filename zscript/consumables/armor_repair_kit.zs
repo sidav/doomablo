@@ -28,12 +28,15 @@ class ArmorRepairKit : Inventory {
         let plr = RwPlayer(owner);
 		if (plr && plr.CurrentEquippedArmor) {
             let arm = plr.CurrentEquippedArmor;
-			// if (arm.stats.IsEnergyArmor()) {
-			// TODO: add instant recharge
-			// }
+			if (arm.stats.IsEnergyArmor() && arm.ticksUntilRecharge() > TICRATE) {
+				arm.forceRechargeAsap();
+				arm.RepairFor(math.getIntPercentage(arm.stats.maxDurability, 25), self);
+				owner.A_StartSound("FieldKit/Use", CHAN_AUTO);
+				return true;
+			}
 			if (arm.stats.RepairFromKitx1000 > 0 && arm.stats.currDurability < arm.stats.maxDurability) {
 				let repairAmount = math.AccumulatedFixedPointAdd(0, arm.stats.RepairFromKitx1000, 1000, arm.stats.currRepairFraction);
-				arm.RepairFor(repairAmount);
+				arm.RepairFor(repairAmount, self);
 				owner.A_StartSound("FieldKit/Use", CHAN_AUTO);
 				return true;
 			}
