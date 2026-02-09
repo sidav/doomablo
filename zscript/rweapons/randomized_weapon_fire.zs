@@ -46,7 +46,7 @@ extend class RwWeapon {
 				-1, // Number of pellets -1 fires one bullet, but the spread is always applied, even if it's the first bullet. 
 				dmg,
 				'BulletPuff',
-				FBF_NORANDOM, // FBF_NORANDOM is required to inhibit default randomization logic. FBF_USEAMMO is disabled on purpose.
+				FBF_NORANDOM, // FBF_NORANDOM is required to inhibit default damage randomization logic. FBF_USEAMMO is disabled on purpose.
 				0, // Range,
 				null // Missile (e.g. 'PlasmaBall')
 				// double Spawnheight
@@ -72,14 +72,16 @@ extend class RwWeapon {
         for (let pellet = 0; pellet < invoker.stats.Pellets; pellet++) {
             Actor actuallyFired, msl;
 
-            let rndPitch = rnd.randf(-invoker.stats.VertSpread, invoker.stats.VertSpread);
+            let rndAngle = invoker.stats.HorizSpread * Random2[cabullet]() / 255.; // UZDoom logic;
+            let rndPitch = invoker.stats.VertSpread * Random2[cabullet]() / 255.; // UZDoom logic
+            
             if (invoker.stats.fireType == RwStatsClass.FTArcingProjectile) {
                 rndPitch -= 6.0; // Arc-firing projectiles always shoot this many degrees up from center
             }
 
             [actuallyFired, msl] = A_FireProjectile(
                 invoker.stats.projClass,
-                angle: rnd.randf(-invoker.stats.HorizSpread, invoker.stats.HorizSpread),
+                angle: rndAngle,
                 useammo: false,
                 flags: flags,
                 pitch: rndPitch
