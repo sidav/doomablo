@@ -27,9 +27,9 @@ class RwTurretItem : RwActiveSlotItem {
 
     override void prepareForGeneration() {
         // let initialMaxDamage = stats.maxDamage;
-        stats.minDmg = StatsScaler.ScaleIntValueByLevelRandomized(stats.minDmg, generatedQuality);
-        stats.maxDmg = StatsScaler.ScaleIntValueByLevelRandomized(stats.maxDmg, generatedQuality);
-        stats.turretHealth = StatsScaler.ScaleIntValueByLevelRandomized(stats.turretHealth, generatedQuality);
+        stats.minDmg = PlayerStatsScaler.ScaleIntValueByLevelRandomized(stats.minDmg, generatedQuality);
+        stats.maxDmg = PlayerStatsScaler.ScaleIntValueByLevelRandomized(stats.maxDmg, generatedQuality);
+        stats.turretHealth = PlayerStatsScaler.ScaleIntValueByLevelRandomized(stats.turretHealth, generatedQuality);
     }
 
     ////////////////

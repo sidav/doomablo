@@ -61,16 +61,28 @@ class RwTestsHandler : StaticEventHandler
         // debug.panic("Tests passed. Balances results is "..debug.intArrToString(balances));
 	}
 
-    void showScalingsFor(string name, int baseValue) {
+    void showPlayerScalingsFor(string name, int baseValue) {
         debug.print("Scaling for "..name.." (base val is "..baseValue.."):");
         let valsStr = "";
         for (let i = 1; i <= 100; i++) {
             if (i % 10 != 0 && i != 1) continue;
-            valsStr = valsStr.."[LVL "..i..": "..StatsScaler.ScaleIntValueByLevelRandomized(baseValue, i).."]  ";
+            valsStr = valsStr.."[LVL "..i..": "..PlayerStatsScaler.ScaleIntValueByLevelRandomized(baseValue, i).."]  ";
         }
         debug.print("  VALS: "..valsStr);
-        debug.print("  On max level the multiplier is: "..StatsScaler.ScaleIntValueByLevel(1, 100)
-            .."; mean max is "..StatsScaler.ScaleIntValueByLevel(baseValue, 100));
+        debug.print("  On max level the multiplier is: "..PlayerStatsScaler.ScaleIntValueByLevel(1, 100)
+            .."; mean max is "..PlayerStatsScaler.ScaleIntValueByLevel(baseValue, 100));
+    }
+
+    void showMonsterScalingsFor(string name, int baseValue) {
+        debug.print("Scaling for "..name.." (base val is "..baseValue.."):");
+        let valsStr = "";
+        for (let i = 1; i <= 100; i++) {
+            if (i % 10 != 0 && i != 1) continue;
+            valsStr = valsStr.."[LVL "..i..": "..MonsterStatsScaler.ScaleIntValueByLevelRandomized(baseValue, i).."]  ";
+        }
+        debug.print("  VALS: "..valsStr);
+        debug.print("  On max level the multiplier is: "..MonsterStatsScaler.ScaleIntValueByLevel(1, 100)
+            .."; mean max is "..MonsterStatsScaler.ScaleIntValueByLevel(baseValue, 100));
     }
 
     void testRemapping() {

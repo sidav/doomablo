@@ -41,8 +41,8 @@ class RWRadiationToken : RwStatusEffectToken {
                 if (mo && owner != mo && owner.Distance2D(mo) <= reqDistance) {
                     // "Source" of the damage is this actor. This causes infighting (on purpose, hehe). Maybe this makes this affix too OP.
                     let moLvl = RwMonsterAffixator.GetMonsterLevel(mo);
-                    let minDmg = StatsScaler.ScaleIntValueByLevel(1, moLvl);
-                    let maxDmg = StatsScaler.ScaleIntValueByLevel(5, moLvl);
+                    let minDmg = MonsterStatsScaler.ScaleIntValueByLevel(1, moLvl);
+                    let maxDmg = MonsterStatsScaler.ScaleIntValueByLevel(5, moLvl);
                     mo.damageMobj(self, owner, Random(minDmg, maxDmg), 'Normal', DMG_NO_PROTECT);
                 }
             }

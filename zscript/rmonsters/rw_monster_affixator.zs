@@ -43,7 +43,7 @@ class RwMonsterAffixator : Inventory {
         if (passive && source != owner && RwPlayer(source) == null) {
             let afx = GetMonsterAffixator(source);
             if (afx != null) {
-                let damageDiff = StatsScaler.ScaleIntValueByLevelRandomized(damage, afx.generatedQuality) - damage;
+                let damageDiff = MonsterStatsScaler.ScaleIntValueByLevelRandomized(damage, afx.generatedQuality) - damage;
                 owner.damageMobj(null, null, max(0, damageDiff), 'Normal', DMG_NO_PROTECT|DMG_NO_ARMOR);
             }
         }

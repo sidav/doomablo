@@ -92,7 +92,7 @@ class MAffInflictsPoison : RwMonsterAffix {
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive && source && source != owner) {
-            RWPoisonToken.ApplyToActor(source, StatsScaler.ScaleIntValueByLevelRandomized(1, stat2), 10);
+            RWPoisonToken.ApplyToActor(source, MonsterStatsScaler.ScaleIntValueByLevelRandomized(1, stat2), 10);
         }
     }
 }

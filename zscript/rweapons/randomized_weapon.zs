@@ -33,8 +33,8 @@ class RwWeapon : DoomWeapon abstract {
     // Needs to be called before generation
     virtual void prepareForGeneration() {
         let initialMaxDamage = stats.maxDamage;
-        stats.minDamage = StatsScaler.ScaleIntValueByLevelRandomized(stats.minDamage, generatedQuality);
-        stats.maxDamage = StatsScaler.ScaleIntValueByLevelRandomized(stats.maxDamage, generatedQuality);
+        stats.minDamage = PlayerStatsScaler.ScaleIntValueByLevelRandomized(stats.minDamage, generatedQuality);
+        stats.maxDamage = PlayerStatsScaler.ScaleIntValueByLevelRandomized(stats.maxDamage, generatedQuality);
 
         // First, compensate for the damage scaling (the target knockback is damage-dependent in DOOM).
         if (stats.TargetKnockback > 0)
@@ -66,7 +66,7 @@ class RwWeapon : DoomWeapon abstract {
             return;
         }
         if (owner == source && !passive) {
-            newdamage = StatsScaler.UnscaleIntValueByLevel(damage, generatedQuality);
+            newdamage = PlayerStatsScaler.UnscaleIntValueByLevel(damage, generatedQuality);
         }
     }
 

@@ -159,7 +159,7 @@ class WSuffPoison : RwWeaponSuffix {
         }
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxPercentage, 0.05) + quality/25;
         let baseDmg = rnd.multipliedWeightedRandByEndWeight(1, 3, 0.1) + remapQualityToRange(quality, 0, 2);
-        stat2 = StatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
+        stat2 = PlayerStatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
     }
     override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (rnd.PercentChance(modifierLevel)) {
@@ -334,7 +334,7 @@ class WSuffTargetExplode : RwWeaponSuffix {
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 10);
         int baseDmg = rnd.multipliedWeightedRandByEndWeight(10, 30, 0.1);
-        stat2 = StatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
+        stat2 = PlayerStatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
     }
     override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (rnd.PercentChance(modifierLevel)) {

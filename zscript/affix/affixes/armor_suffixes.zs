@@ -559,7 +559,7 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         // Damage
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 45, 0.01) + remapQualityToRange(quality, 0, 15);
-        modifierLevel = StatsScaler.ScaleIntValueByLevelRandomized(modifierLevel, quality);
+        modifierLevel = PlayerStatsScaler.ScaleIntValueByLevelRandomized(modifierLevel, quality);
         // Radius (x10)
         stat2 = rnd.multipliedWeightedRandByEndWeight(75, 200, 0.05);
     }
