@@ -17,3 +17,6 @@ Resources:
 
 Other sprites:
     Realm667 - per-resource credits are inside credits folder
+
+Models:
+    Bullet tracer taken from Brutal Doom; I don't know what's the license and where was the model taken from if it was. Contact me if I did anything wrong regarding this.

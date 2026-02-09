@@ -352,6 +352,28 @@ class WSuffTargetExplode : RwWeaponSuffix {
 
 ////////////////////////////
 // Hitscan only
+class WSuffHeavyBullets : RwWeaponSuffix {
+    override string getName() {
+        return "High caliber";
+    }
+    override string getDescription() {
+        return String.Format("Fires heavy bullets. Damage x%.1f", (double(modifierLevel)/10.));
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WSuffFlechettes' && a2.GetClass() != 'WSuffMinirockets';
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.fireType == RWStatsClass.FTHitscan;
+    }
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(8, 13, 0.1) + remapQualityToRange(quality, 0, 2);
+        wpn.stats.fireType = RWStatsClass.FTProjectile;
+        wpn.stats.projClass = 'RwHeavyBullet';
+        wpn.stats.minDamage = math.divideIntWithRounding(wpn.stats.minDamage * modifierLevel, 10);
+        wpn.stats.maxDamage = math.divideIntWithRounding(wpn.stats.maxDamage * modifierLevel, 10);
+    }
+}
+
 class WSuffMinirockets : RwWeaponSuffix {
     override string getName() {
         return "Minimissiles";
@@ -360,7 +382,7 @@ class WSuffMinirockets : RwWeaponSuffix {
         return "Fires exploding mini-rockets. Damage x"..(modifierLevel/10).."."..(modifierLevel%10);
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WSuffFlechettes' && a2.GetClass() != 'WSuffSlugshotShotgun';
+        return a2.GetClass() != 'WSuffFlechettes' && a2.GetClass() != 'WSuffHeavyBullets' && a2.GetClass() != 'WSuffSlugshotShotgun';
     }
     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.stats.fireType == RWStatsClass.FTHitscan;
@@ -384,7 +406,7 @@ class WSuffFlechettes : RwWeaponSuffix {
         return String.Format("Fires slow homing bullets. Damage x%.1f", (double(modifierLevel)/10.));
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WSuffSlugshotShotgun' && a2.GetClass() != 'WSuffMinirockets';
+        return a2.GetClass() != 'WSuffSlugshotShotgun' && a2.GetClass() != 'WSuffMinirockets' && a2.GetClass() != 'WSuffHeavyBullets';
     }
     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.stats.fireType == RWStatsClass.FTHitscan;
@@ -396,6 +418,8 @@ class WSuffFlechettes : RwWeaponSuffix {
         wpn.stats.levelOfSeekerProjectile = 1; // Level itself is unused; just needs to be non-zero for RWA_FireProjectile() to use correct flags
         wpn.stats.minDamage = math.divideIntWithRounding(wpn.stats.minDamage * modifierLevel, 10);
         wpn.stats.maxDamage = math.divideIntWithRounding(wpn.stats.maxDamage * modifierLevel, 10);
+        // wpn.stats.HorizSpread *= 1.5;
+        // wpn.stats.VertSpread *= 1.5;
     }
 }
 
