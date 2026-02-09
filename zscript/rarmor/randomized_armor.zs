@@ -71,6 +71,9 @@ class RwArmor : Armor abstract {
     }
 
     void RepairFor(int repairAmount, Actor repairSource = null) {
+        foreach (aff : appliedAffixes) {
+            aff.onBeingRepaired(owner, repairSource);
+        }
         let before = stats.currDurability;
         stats.currDurability = min(stats.currDurability + repairAmount, stats.maxDurability);
         cumulativeRepair += stats.currDurability - before;

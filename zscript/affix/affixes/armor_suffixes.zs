@@ -187,6 +187,25 @@ class ASuffHoly : RwArmorSuffix {
     }
 }
 
+class ASuffHealOnRepair : RwArmorSuffix {
+    override string getName() {
+        return "Biotech";
+    }
+    override string getDescription() {
+        return String.Format("Heals %d HP when repair kit is used", (modifierLevel));
+    }
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
+        return true;
+    }
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(3, 15, 0.1) + remapQualityToRange(quality, 0, 5);
+    }
+    override void onBeingRepaired(Actor owner, Actor repairSource) {
+        if (repairSource is 'ArmorRepairKit')
+            owner.GiveBody(modifierLevel);
+    }
+}
+
 // Non-energy only
 
 class ASuffDegrading : RwArmorSuffix {
@@ -358,6 +377,29 @@ class ASuffMedikitsRepairArmor : RwArmorSuffix {
         RwArmor arm = RwArmor(affixedItem);
         if (RwPlayer(owner) && RwPlayer(owner).lastHealedBy >= 10) {
             arm.RepairFor(modifierLevel);
+        }
+    }
+}
+
+class ASuffArmorBonusesHeal : RwArmorSuffix {
+    override string getName() {
+        return "Biosupport";
+    }
+    override string getDescription() {
+        return String.Format("Armor bonuses also heal for %.1f HP", (float(modifierLevel)/100.));
+    }
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
+        return !(arm.stats.IsEnergyArmor());
+    }
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(20, 100, 0.1) + remapQualityToRange(quality, 0, 80);
+    }
+    int fractionAccum;
+    override void onBeingRepaired(Actor owner, Actor repairSource) {
+        if (repairSource is 'RwArmorBonus') {
+            let healFor = math.AccumulatedFixedPointAdd(0, modifierLevel, 100, fractionAccum);
+            if (healFor > 0)
+                owner.GiveBody(healFor);
         }
     }
 }

@@ -18,6 +18,7 @@ extend class Affix {
 
     // Armor
     virtual play void onAbsorbDamage(int damage, Name damageType, out int newdamage, Actor inflictor, Actor source, Actor armorOwner, int flags) {}
+    virtual play void onBeingRepaired(Actor owner, Actor repairSource) {}
 
     // Active slot items
     virtual play void onBeingUsed(Actor owner, Inventory affixedItem) {}
