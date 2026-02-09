@@ -357,7 +357,7 @@ class WSuffHeavyBullets : RwWeaponSuffix {
         return "High caliber";
     }
     override string getDescription() {
-        return String.Format("Fires slower heavy bullets. +%d%% damage", (modifierLevel - 100));
+        return String.Format("Fires slower heavy bullets. +%d%% damage, x2 recoil", (modifierLevel - 100));
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WSuffFlechettes' && a2.GetClass() != 'WSuffMinirockets';
@@ -371,6 +371,7 @@ class WSuffHeavyBullets : RwWeaponSuffix {
         wpn.stats.projClass = 'RwHeavyBullet';
         wpn.stats.minDamage = math.getIntPercentage(wpn.stats.minDamage, modifierLevel);
         wpn.stats.maxDamage = math.divideIntWithRounding(wpn.stats.maxDamage, modifierLevel);
+        wpn.stats.recoil *= 2;
     }
 }
 

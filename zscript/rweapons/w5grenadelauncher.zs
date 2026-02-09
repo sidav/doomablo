@@ -95,7 +95,7 @@ class RwGrenadeLauncher : RwWeapon
 		);
 		stats.fireType = stats.FTArcingProjectile;
 
-		stats.recoil = 0.5;
+		stats.recoil = 1.2;
 		stats.ShooterKickback = 0.8;
 		stats.clipSize = 5;
 		stats.projClass = 'RwGlGrenade';

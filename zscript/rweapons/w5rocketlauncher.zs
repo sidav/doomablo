@@ -91,7 +91,6 @@ class RwRocketLauncher : RwWeapon
 		);
 		stats.fireType = stats.FTProjectile;
 
-		stats.recoil = 0.5;
 		stats.ShooterKickback = 0.8;
 		stats.clipSize = 3;
 		stats.projClass = 'RwRocket';
