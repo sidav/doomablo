@@ -200,7 +200,7 @@ class ASuffHealOnRepair : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(3, 15, 0.1) + remapQualityToRange(quality, 0, 5);
     }
-    override void onBeingRepaired(Actor owner, Actor repairSource) {
+    override void onBeingRepaired(Actor owner, int repairAmount, Actor repairSource) {
         if (repairSource is 'ArmorRepairKit')
             owner.GiveBody(modifierLevel);
     }
@@ -271,12 +271,16 @@ class ASuffAbsImprove : RwArmorSuffix {
         modifierLevel = remapQualityToRange(quality, 5*arm.stats.AbsorbsPercentage/4, min(5*arm.stats.AbsorbsPercentage/2, 100));
         stat2 = 60 - rnd.multipliedWeightedRandByEndWeight(0, 30, 0.05); // Upgrade each this much repaired
     }
+    int cumulativeRepair;
+    override void onBeingRepaired(Actor owner, int repairAmount, Actor repairSource) {
+        cumulativeRepair += repairAmount;
+    }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RwArmor arm = RwArmor(affixedItem);
-        if (arm.cumulativeRepair >= stat2 && modifierLevel > arm.stats.AbsorbsPercentage) {
+        if (cumulativeRepair >= stat2 && modifierLevel > arm.stats.AbsorbsPercentage) {
             owner.A_PrintBold("Affix level up: +1% max ABS for your armor");
             arm.stats.AbsorbsPercentage += 1;
-            arm.cumulativeRepair = 0;
+            cumulativeRepair = 0;
         }
         if (modifierLevel <= arm.stats.AbsorbsPercentage) {
             maxEffectReached = true;
@@ -305,13 +309,17 @@ class ASuffDrbImprove : RwArmorSuffix {
         modifierLevel = math.getIntPercentage(arm.stats.maxDurability, percentage);
         stat2 = 50 - rnd.multipliedWeightedRandByEndWeight(0, 35, 0.05); // Upgrade each this much repaired
     }
+    int cumulativeRepair;
+    override void onBeingRepaired(Actor owner, int repairAmount, Actor repairSource) {
+        cumulativeRepair += repairAmount;
+    }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RwArmor arm = RwArmor(affixedItem);
-        if (arm.cumulativeRepair >= stat2 && modifierLevel > arm.stats.maxDurability) {
+        if (cumulativeRepair >= stat2 && modifierLevel > arm.stats.maxDurability) {
             owner.A_PrintBold("Affix level up: +1 max DRB for your armor");
             arm.stats.maxDurability += 1;
             arm.stats.currDurability += 1;
-            arm.cumulativeRepair = 0;
+            cumulativeRepair = 0;
         }
         if (modifierLevel <= arm.stats.maxDurability) {
             maxEffectReached = true;
@@ -395,7 +403,7 @@ class ASuffArmorBonusesHeal : RwArmorSuffix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(20, 100, 0.1) + remapQualityToRange(quality, 0, 80);
     }
     int fractionAccum;
-    override void onBeingRepaired(Actor owner, Actor repairSource) {
+    override void onBeingRepaired(Actor owner, int repairAmount, Actor repairSource) {
         if (repairSource is 'RwArmorBonus') {
             let healFor = math.AccumulatedFixedPointAdd(0, modifierLevel, 100, fractionAccum);
             if (healFor > 0)
