@@ -288,7 +288,11 @@ class FSuffStrongSummoning : RwFlaskSuffix {
         int choice = Random(0, 3);
         switch(choice) {
             case 0: minion = 'ShotgunGuy'; break;
-            case 1: minion = 'ChaingunGuy'; break;
+            case 1: 
+                if (GameDetector.notDoom1()) {
+                    minion = 'ChaingunGuy';
+                    break;
+                } // else - fallthrough
             case 2: minion = 'Demon'; break;
             case 3: minion = 'LostSoul'; break;
         }
