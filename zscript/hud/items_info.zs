@@ -115,31 +115,36 @@ extend class MyCustomHUD {
                     FormatNumber(wpn.currentClipAmmo, 3),
                     (-73, -40), DI_SCREEN_RIGHT_BOTTOM);
             }
-            DrawString(itemNameFont, 
-                "Weapon: "..wpn.nameWithAppliedAffixes,
-                (0, -30), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(wpn));
         }
 
-		if (armr) {
-            DrawString(itemNameFont, 
-                "Armor: "..armr.nameWithAppliedAffixes,
-                (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(armr));
-        } else {
-            DrawString(itemNameFont, 
-                "NO ARMOR",
-                (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, Font.CR_RED);
-        }
+        if (RwSettingsShowEquippedItemsShortInfo) {
+            if (wpn) {
+                DrawString(itemNameFont, 
+                    "Weapon: "..wpn.nameWithAppliedAffixes,
+                    (0, -30), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(wpn));
+            }
 
-        let bkpk = RwBackpack(plr.CurrentEquippedBackpack);
-        if (bkpk) {
-            // DrawInventoryIcon(bkpk, (-12, -1));
-            DrawString(itemNameFont, 
-                "Backpack: "..bkpk.nameWithAppliedAffixes,
-                (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(bkpk));
-        } else {
-            DrawString(itemNameFont, 
-                "NO BACKPACK",
-                (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, Font.CR_RED);
+            if (armr) {
+                DrawString(itemNameFont,
+                    "Armor: "..armr.nameWithAppliedAffixes,
+                    (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(armr));
+            } else {
+                DrawString(itemNameFont, 
+                    "NO ARMOR",
+                    (0, -20), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, Font.CR_RED);
+            }
+
+            let bkpk = RwBackpack(plr.CurrentEquippedBackpack);
+            if (bkpk) {
+                // DrawInventoryIcon(bkpk, (-12, -1));
+                DrawString(itemNameFont, 
+                    "Backpack: "..bkpk.nameWithAppliedAffixes,
+                    (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, PickColorForAffixableItem(bkpk));
+            } else {
+                DrawString(itemNameFont, 
+                    "NO BACKPACK",
+                    (0, -10), DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER, Font.CR_RED);
+            }
         }
     }
 }

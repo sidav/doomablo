@@ -22,6 +22,7 @@ OptionMenu "RW_Options"
 
     StaticText "$RWMENU_INTERFACEOPTIONS_HEADER", 1
     Option "$RWSETTINGS_AFFIXNAMES", "RwSettingsShowAffixNamesInTables", "RwOptionsYesNo"
+	Option "$RWSETTINGS_SHOW_EQUIPPED_ITEMS", "RwSettingsShowEquippedItemsShortInfo", "RwOptionsYesNo"
 
 	StaticText "$RWMENU_MONHPBAROPTIONS_HEADER", 1
     Slider "$RWSETTINGS_MINWIDTH", "rwhud_hpbar_min_width", 50, 720, 1

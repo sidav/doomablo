@@ -22,6 +22,7 @@ RWMENU_CUSTOMIZEDOOMABLO = "Customize DOOMablo";
 
 RWMENU_INTERFACEOPTIONS_HEADER = "Interface options";
 RWSETTINGS_AFFIXNAMES = "Show affixes' names in stats";
+RWSETTINGS_SHOW_EQUIPPED_ITEMS = "Always show equipped items short info";
 
 RWMENU_MONHPBAROPTIONS_HEADER = "Monster HP Bar options";
 RWSETTINGS_MINWIDTH = "Minimum width";

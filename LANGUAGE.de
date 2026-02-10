@@ -22,6 +22,8 @@ RWMENU_CUSTOMIZEDOOMABLO = "DOOMablo Einstellungen";
 
 RWMENU_INTERFACEOPTIONS_HEADER = "Interfaceeinstellungen";
 RWSETTINGS_AFFIXNAMES = "Affix Namen anzeigen";
+RWSETTINGS_SHOW_EQUIPPED_ITEMS = "Namen ausgerüsteter Artefakten immer anzeigen";
+
 RWMENU_MONHPBAROPTIONS_HEADER = "GP-Bar Optionen";
 RWSETTINGS_MINWIDTH = "Mindestbreite";
 RWSETTINGS_HEIGHT = "Mindesthöhe";
