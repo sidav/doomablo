@@ -46,7 +46,7 @@ class MonstersAffixingHandler : EventHandler
 
     static int, int rollRarityAndQuality(int rarMod, int qtyMod) {
         // Roll rarity
-        let rar = rnd.weightedRand(600, 200, 80, 20, 7, 1);
+        let rar = rnd.weightedRand(650, 220, 92, 30, 7, 1);
         rar = min(rar+rarMod, 5);
 
         // Roll quality
