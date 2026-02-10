@@ -6,7 +6,7 @@ class RwHeavyBullet : RwProjectile
 		// Scale 0.4;
 		Radius 5;
 		Height 3;
-		Speed 44;
+		Speed 50;
 		Projectile;
 		RenderStyle "Add";
 		alpha 0.9;

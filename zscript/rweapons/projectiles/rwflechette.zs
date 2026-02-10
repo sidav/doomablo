@@ -6,7 +6,7 @@ class RwFlechette : RwProjectile
 		// Scale 0.4;
 		Radius 5;
 		Height 3;
-		Speed 14;
+		Speed 16;
 		Projectile;
 		MaxTargetRange 20;
 		+RANDOMIZE

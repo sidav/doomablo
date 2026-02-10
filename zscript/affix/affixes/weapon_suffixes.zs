@@ -370,7 +370,7 @@ class WSuffHeavyBullets : RwWeaponSuffix {
         wpn.stats.fireType = RWStatsClass.FTProjectile;
         wpn.stats.projClass = 'RwHeavyBullet';
         wpn.stats.minDamage = math.getIntPercentage(wpn.stats.minDamage, modifierLevel);
-        wpn.stats.maxDamage = math.divideIntWithRounding(wpn.stats.maxDamage, modifierLevel);
+        wpn.stats.maxDamage = math.getIntPercentage(wpn.stats.maxDamage, modifierLevel);
         wpn.stats.recoil *= 2;
     }
 }
