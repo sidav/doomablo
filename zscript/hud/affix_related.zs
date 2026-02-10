@@ -43,7 +43,7 @@ extend class MyCustomHUD {
         switch (rarity) {
             case 0: return Font.CR_WHITE;
             case 1: return Font.CR_GREEN;
-            case 2: return Font.CR_BLUE;
+            case 2: return Font.CR_SAPPHIRE;
             case 3: return Font.CR_PURPLE;
             case 4: return Font.CR_ORANGE;
             case 5: return Font.CR_CYAN;
