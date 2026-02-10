@@ -20,10 +20,6 @@ class rnd {
         return min + (max-min) * r;
     }
 
-    // static int randTicksFromSeconds(double minSeconds, double maxSeconds) {
-    //     return TICRATE * randf(minSeconds, maxSeconds);
-    // }
-
     static bool PercentChance(int percent) {
         return randn(100) < percent;
     }

@@ -131,3 +131,23 @@ class Math {
         return whole;
     }
 }
+
+// For readability. Use this instead of AccumulatedFixedPointAdd where it's more convenient.
+class IntFraction {
+    int fraction;
+    int precision;
+
+    static IntFraction create(int precision) {
+        IntFraction f = new("IntFraction");
+        f.fraction = 0;
+        f.precision = precision;
+        return f;
+    }
+
+    int add(int addition) {
+        fraction += addition;
+        let whole = fraction / precision;
+        fraction = fraction % precision;
+        return whole;
+    }
+}

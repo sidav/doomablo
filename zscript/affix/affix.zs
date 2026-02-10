@@ -1,5 +1,6 @@
 class Affix abstract {
 
+    // BOTH OF THOSE STATS ARE DEPRECATED. Need to name variables correctly and define them in-affix.
     int modifierLevel;
     int stat2; // Not neccessarily used. Needed for two-stat affixes. Btw, TODO: rename modifierLevel to stat1. 
 
@@ -63,6 +64,11 @@ class Affix abstract {
             debug.panic("Negative quality in range mapping");
         }
         return math.remapIntRange(qty, 1, 100, rmin, rmax, true);
+    }
+
+    // Helper method for code readability. Quality minimum always maps to zero.
+    protected static int multRandomPlusQualityRemap(int min, int max, double endWeight, int qty, int rmax) {
+        return rnd.multipliedWeightedRandByEndWeight(min, max, endWeight) + remapQualityToRange(qty, 0, rmax);
     }
 
     // Helper method for code readability.
