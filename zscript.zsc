@@ -31,6 +31,7 @@ version "4.10.0"
 #include "zscript/misc/math.zs"
 #include "zscript/misc/random_monster_helper.zs"
 #include "zscript/misc/rnd.zs"
+#include "zscript/misc/rarities_helper.zs"
 #include "zscript/misc/strings_helper.zs"
 #include "zscript/misc/tests_handler.zs"
 

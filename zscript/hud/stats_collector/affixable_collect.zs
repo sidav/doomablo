@@ -38,37 +38,14 @@ extend class RwHudArtifactStatsCollector {
         }
 
         if (lines == 2) {
-            addTitleLine(itemFullAffixedName, pickColorForRarity(itemRarity));
-            addSimpleLine("Level "..itemLvl.." "..getRarityName(itemRarity).." "..itemBaseName,
-                pickColorForRarity(itemRarity));
+            addTitleLine(itemFullAffixedName, 
+                RaritiesHelper.getRarityFontColor(itemRarity));
+            addSimpleLine("Level "..itemLvl.." "..RaritiesHelper.getRarityName(itemRarity).." "..itemBaseName,
+                RaritiesHelper.getRarityFontColor(itemRarity));
             return;
         }
-        addTitleLine("LVL "..itemLvl.." "..itemFullAffixedName.." ("..getRarityName(itemRarity)..")", pickColorForRarity(itemRarity));
-    }
-
-    static int pickColorForRarity(int rarity) {
-        switch (rarity) {
-            case 0: return Font.CR_WHITE;
-            case 1: return Font.CR_GREEN;
-            case 2: return Font.CR_SAPPHIRE;
-            case 3: return Font.CR_PURPLE;
-            case 4: return Font.CR_ORANGE;
-            case 5: return Font.CR_CYAN;
-            default: return Font.CR_Black;
-        }
-    }
-
-    static string getRarityName(int rarity) {
-        switch (rarity) {
-            case 0: return "Common";
-            case 1: return "Uncommon";
-            case 2: return "Rare";
-            case 3: return "Epic";
-            case 4: return "Legendary";
-            case 5: return "Mythic";
-        }
-        debug.panic("Rarity "..rarity.." not found");
-        return "";
+        addTitleLine("LVL "..itemLvl.." "..itemFullAffixedName.." ("..RaritiesHelper.getRarityName(itemRarity)..")", 
+            RaritiesHelper.getRarityFontColor(itemRarity));
     }
 
     void addAffixDescriptionLine(Affix aff) {
