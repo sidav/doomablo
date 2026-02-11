@@ -4,6 +4,7 @@ extend class MyCustomHUD {
 	HUDFont itemNameFont;
 	HUDFont monsterNameFont;
 	HUDFont monsterStatsFont;
+	HUDFont ammoTotalsFont;
 
     void initFonts() {
         // Font fnt = "BIGFONT";
@@ -14,6 +15,8 @@ extend class MyCustomHUD {
 		monsterNameFont = HUDFont.Create(fnt, 0, false, 1, 2);
 		monsterStatsFont = HUDFont.Create(fnt, 0, false);
 		
+		fnt = "CONFONT";
+		ammoTotalsFont = HUDFont.Create(fnt, 0, false);
 		// Create the font used for the fullscreen HUD
 		fnt = "HUDFONT_DOOM";
 		mHUDFont = HUDFont.Create(fnt, fnt.GetCharWidth("0"), Mono_CellLeft, 1, 1);
