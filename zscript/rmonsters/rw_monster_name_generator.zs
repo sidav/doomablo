@@ -3,28 +3,29 @@ extend class RwMonsterAffixator {
 
         switch (GetRarity()) {
             case 0: 
-                owner.SetTag(levelString().." "..owner.GetTag());
-                return;
-            case 1: 
-                owner.SetTag(levelString()..appliedAffixes[0].GetName().." "..owner.GetTag());
-                return;
+                assignedName = owner.GetTag();
+                break;
+            case 1:
+                assignedName = appliedAffixes[0].GetName().." "..owner.GetTag();
+                break;
             case 2:
-                owner.SetTag(levelString()..owner.GetTag().." "..getRandomNameSuffix());
-                return;
+                assignedName = owner.GetTag().." "..getRandomNameSuffix();
+                break;
             case 3:
-                owner.SetTag(levelString()..getRandomAdjective().." "..getRandomNameSuffix());
-                return;
+                assignedName = getRandomAdjective().." "..getRandomNameSuffix();
+                break;
             case 4:
-                owner.SetTag(levelString()..generateRandomAlias().." the "..getRandomAdjective());
-                return;
+                assignedName = generateRandomAlias().." the "..getRandomAdjective();
+                break;
             case 5:
-                owner.SetTag(levelString()..getRandomAdjective().." "..generateRandomName()..", the "..generateRandomDignity());
-                return;
+                assignedName = getRandomAdjective().." "..generateRandomName()..", the "..generateRandomDignity();
+                break;
         }
+        owner.SetTag(levelString().." "..assignedName);
     }
 
     string levelString() {
-        return "Lv "..generatedQuality.." ";
+        return "Lv "..generatedQuality;
     }
 
     static string getRandomNameSuffix() {

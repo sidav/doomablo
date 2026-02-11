@@ -1,7 +1,12 @@
 [default] //language code header
 
 // Gameplay
-RAREMONSTERSPAWNED = "You feel a powerful presence in this place.";
+RAREMONSTERSPAWNED0 = "%1sYou feel a dreaded presence of %2s";
+RAREMONSTERSPAWNED1 = "%1sThe forbidden scriptures foretold %2s";
+RAREMONSTERSPAWNED2 = "%1sSeven omens burn for %2s";
+RAREMONSTERSPAWNED3 = "%1sHope withers in the shadow of %2s";
+RAREMONSTERSPAWNED4 = "%1sThe blind abyss gazes upon %2s";
+RAREMONSTERSPAWNED5 = "%1sThe ancient seals are broken by %2s.";
 
 // Weapons
 TAG_SMG = "Sub-Machine Gun";

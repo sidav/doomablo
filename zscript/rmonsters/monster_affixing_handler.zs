@@ -2,7 +2,7 @@
 class MonstersAffixingHandler : EventHandler
 {
 
-    bool warningPrinted;
+    bool maxRarityWarningPrinted;
 
 	override void WorldThingSpawned(worldEvent e) {
 		let mo = e.thing;
@@ -22,9 +22,9 @@ class MonstersAffixingHandler : EventHandler
         // debug.print("Giving the affixator to "..mo.GetClassName());
         // debug.print(String.format("       Rar %d qty %d;", rar, qty));
         RwMonsterAffixator.AffixateMonster(mo, rar, qty);
-        if (rar > 4 && !warningPrinted) {
-            warningPrinted = true;
-            mo.A_PrintBold("$RAREMONSTERSPAWNED");
+        if (rar > 3 && !maxRarityWarningPrinted) {
+            if (rar == 5) maxRarityWarningPrinted = true;
+            warnPlayerOfRareMonster(mo, rar);
         }
 	}
 
@@ -62,5 +62,19 @@ class MonstersAffixingHandler : EventHandler
 
         // debug.print("Rolling rarity (+"..rarMod..") and quality (+"..qtyMod.."): "..rar..", "..qty);
         return rar, qty;
+    }
+
+    void warnPlayerOfRareMonster(Actor mo, int rarity) {
+        let affixator = RwMonsterAffixator.GetMonsterAffixator(mo);
+        let messageIndex = Random(0, 5);
+        mo.A_PrintBold(
+            String.Format(
+                Stringtable.Localize("$RAREMONSTERSPAWNED"..messageIndex),
+                "\ca",
+                "\n"..RaritiesHelper.getRarityColorCode(rarity)..affixator.assignedName.."\n"
+            ),
+            5.0,
+            "SMALLFONT");
+            // "CONFONT");
     }
 }

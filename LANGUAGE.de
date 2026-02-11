@@ -1,7 +1,12 @@
 [de] //language code header
 
 // Gameplay
-RAREMONSTERSPAWNED = "Du spürst eine starke Präsenz an diesem Ort.";
+RAREMONSTERSPAWNED0 = "%1sDie Siegel der Finsternis zerbrechen für %2s";
+RAREMONSTERSPAWNED1 = "%1sDas schwarze Omen kündet von %2s";
+RAREMONSTERSPAWNED2 = "%1sEin uralter Fluch nimmt Gestalt an als %2s";
+RAREMONSTERSPAWNED3 = "%1sDie vergessene Wahrheit trägt den Namen %2s";
+RAREMONSTERSPAWNED4 = "%1sIhr hört euren Namen aus der Dunkelheit von %2s";
+RAREMONSTERSPAWNED5 = "%1sEure Furcht nimmt Gestalt an als %2s";
 
 // Weapons
 TAG_SMG = "Machinenpistole";
