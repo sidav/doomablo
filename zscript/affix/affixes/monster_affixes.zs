@@ -109,7 +109,7 @@ class MAffInflictsPain : RwMonsterAffix {
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive && source && source != owner && rnd.percentChance(modifierLevel)) {
-            source.GiveInventory('RWPainToken', modifierLevel);
+            source.GiveInventory('RWPainToken', 10);
         }
     }
 }

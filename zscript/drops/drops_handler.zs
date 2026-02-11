@@ -47,7 +47,7 @@ class DropsHandler : EventHandler
                 [rarmod, qtymod] = DropsDecider.rollRarQtyModifiers(GetDropperUnscaledHealth(dropper), dropperRarity);
                 int rar, qty;
                 [rar, qty] = DropsDecider.rollRarityAndQuality(rarmod, qtymod);
-                // Make the drop level equal to the droppers' level
+                // Make the drop level equal to the droppers' level (THIS IGNORES qtyMod, it's intended, but maybe need to rewrite then?)
                 if (dropper.FindInventory('RwMonsterAffixator') != null) {
                     qty = GetDropperGeneratedLevel(dropper);
                 }

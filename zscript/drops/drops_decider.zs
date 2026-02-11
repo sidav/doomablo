@@ -65,7 +65,7 @@ class DropsDecider {
 
     static int, int rollRarityAndQuality(int rarMod, int qtyMod) {
         // Roll rarity
-        let rar = rnd.weightedRand(60, 100, 40, 25, 10, 1);
+        let rar = rnd.weightedRand(422, 362, 160, 50, 5, 1);
         rar = min(rar+rarMod, 5);
 
         // Roll quality

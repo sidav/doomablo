@@ -149,7 +149,7 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 				// let's generate (and give it better rarity and/or quality)
 				int rar, qty;
             	[rar, qty] = DropsDecider.rollRarityAndQuality(
-                    rnd.weightedRand(0, 100, 25, 1),
+                    rnd.weightedRand(0, 10, 1),
                     0
                 );
 
