@@ -21,6 +21,7 @@ extend class RwMonsterAffixator {
                 assignedName = getRandomAdjective().." "..generateRandomName()..", the "..generateRandomDignity();
                 break;
         }
+        ownerOriginalTag = owner.getTag();
         owner.SetTag(levelString().." "..assignedName);
     }
 

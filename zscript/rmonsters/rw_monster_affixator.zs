@@ -3,6 +3,7 @@
 class RwMonsterAffixator : Inventory {
     mixin Affixable;
 
+    string ownerOriginalTag; // What the owner was named prior to name generation.
     string assignedName; // Holds the name without "LV.%d" substring. May be useful for messages.
     string lightId;
     int ownerDiedTick; // needed for onOwnerDiedPreviousTick() affix call.

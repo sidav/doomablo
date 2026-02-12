@@ -66,7 +66,8 @@ class MonstersAffixingHandler : EventHandler
             String.Format(
                 Stringtable.Localize("$RAREMONSTERSPAWNED"..messageIndex),
                 "\ca",
-                "\n"..RaritiesHelper.getRarityColorCode(rarity)..affixator.assignedName.."\n"
+                "\n"..RaritiesHelper.getRarityColorCode(rarity)..affixator.assignedName..",\n"..
+                "\cathe "..RaritiesHelper.GetRarityName(rarity).." "..affixator.ownerOriginalTag
             ),
             5.0,
             "SMALLFONT");
