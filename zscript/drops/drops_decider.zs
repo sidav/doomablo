@@ -28,59 +28,76 @@ class DropsDecider {
         // 1 - ammo
         // 2 - Randomizable artifact (weapon/armor/backpack/flask)
         if (dropperHealth > 1000) {
-            return rnd.weightedRand(1, 1, 1+2*dropperRarity); // drop artifacts mostly.
+            return rnd.weightedRand(
+                1, // Consumable item weight
+                1, // Ammo weight
+                3+2*dropperRarity // Artifact weight
+            ); // drop artifacts mostly.
         } else if (dropperHealth >= 500) {
-            return rnd.weightedRand(10, 5, 1+2*dropperRarity);
+            return rnd.weightedRand(
+                5, // Consumable item weight
+                1, // Ammo weight
+                1+2*dropperRarity // Artifact weight
+            );
         } else if (dropperHealth >= 250) {
-            return rnd.weightedRand(10, 5, 1+2*dropperRarity);
+            return rnd.weightedRand(
+                10, // Consumable item weight
+                5, // Ammo weight
+                1+2*dropperRarity // Artifact weight
+            );
         } else {
-            return rnd.weightedRand(10, 15, 1+2*dropperRarity);
+            return rnd.weightedRand(
+                10, // Consumable item weight
+                15, // Ammo weight
+                1+2*dropperRarity // Artifact weight
+            );
         }
         return 0;
     }
 
-    static int, int rollRarQtyModifiers(int dropperHealth, int dropperRarity) {
-        int rarmod, qtymod;
-        if (dropperHealth > 1000) {
-            rarmod = rnd.weightedRand(0, 0, 5, 2, 1);
-            qtymod = rnd.rand(1, 5);
+    static int rollRarityModifierForMonsterDrop(int dropperHealth, int dropperRarity) {
+        int rarmod;
+        // First, dropper rarity influences minimum rarity of dropped stuff.
+        switch (dropperRarity) {
+            case 0:
+                rarmod = 0;
+                break;
+            case 1:
+                rarmod = rnd.weightedRand(100, 1);
+                break;
+            case 2:
+                rarmod = rnd.weightedRand(50, 1);
+                break;
+            case 3:
+                rarmod = rnd.weightedRand(20, 1);
+                break;
+            case 4:
+                rarmod = rnd.weightedRand(0, 20, 1);
+                break;
+            case 5:
+                rarmod = rnd.weightedRand(0, 5, 1);
+                break;
+            default:
+                rarmod = 0;
+                debug.warning(String.format("Unknown loot dropper rarity: %d, falling back to 0", dropperRarity));
+                break;
+        }
+        // Second, dropper health also influences min rarity of dropped stuff.
+        if (dropperHealth >= 1000) {
+            rarmod += rnd.weightedRand(0, 10, 5);
         } else if (dropperHealth >= 500) {
-            rarmod = rnd.weightedRand(1, 3, 1);
-            qtymod = rnd.rand(1, 3);
+            rarmod += rnd.weightedRand(10, 3, 1);
         } else if (dropperHealth >= 250) {
-            rarmod = rnd.weightedRand(10, 1);
-            qtymod = rnd.rand(0, 5);
+            rarmod += rnd.weightedRand(10, 1);
         }
 
-        if (dropperRarity > 0) {
-            qtyMod += rnd.rand(1, dropperRarity);
-        }
-
-        if (dropperRarity > 2) {
-            rarmod += 1;
-        }
-
-        return rarmod, qtymod;
+        return rarmod;
     }
 
-    static int, int rollRarityAndQuality(int rarMod, int qtyMod) {
+    static int rollRarityForMonsterDrop(int rarMod) {
         // Roll rarity
         let rar = rnd.weightedRand(422, 362, 160, 50, 5, 1);
-        rar = min(rar+rarMod, 5);
-
-        // Roll quality
-        int qty = 1;
-        let plr = RwPlayer(Players[0].mo);
-        if (plr) {
-            rar = plr.stats.rollForIncreasedRarity(rar);
-            qty = plr.rollForDropLevel();
-        } else {
-            debug.warning("Non-player quality roll, report this please!");
-            qty = 1;
-        }
-        qty = min(qty+qtyMod, 100);
-
-        // debug.print("Rolling rarity (+"..rarMod..") and quality (+"..qtyMod.."): "..rar..", "..qty);
-        return rar, qty;
+        rar = clamp(rar+rarMod, 0, RaritiesHelper.MAX_RARITY);
+        return rar;
     }
 }

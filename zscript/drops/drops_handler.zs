@@ -36,20 +36,23 @@ class DropsHandler : EventHandler
                 spawnedItem = DropsSpawner.SpawnRandomRWArtifactItemDrop(dropper);
                 break;
             default:
-                debug.panic("I don't know what drop type it is: "..whatToDrop);
+                debug.warning("I don't know what drop type it is: "..whatToDrop);
+                return;
         }
 
         if (spawnedItem) {            
             // Generate stats/affixes for the spawned item.
             if (AffixableDetector.IsAffixableItem(spawnedItem)) {
 
-                int rarmod, qtymod;
-                [rarmod, qtymod] = DropsDecider.rollRarQtyModifiers(GetDropperUnscaledHealth(dropper), dropperRarity);
-                int rar, qty;
-                [rar, qty] = DropsDecider.rollRarityAndQuality(rarmod, qtymod);
-                // Make the drop level equal to the droppers' level (THIS IGNORES qtyMod, it's intended, but maybe need to rewrite then?)
+                int rarmod;
+                rarmod = DropsDecider.rollRarityModifierForMonsterDrop(GetDropperUnscaledHealth(dropper), dropperRarity);
+                int rar = DropsDecider.rollRarityForMonsterDrop(rarmod);
+                int qty = 1;
+                // Make the drop level equal to the droppers' level
                 if (dropper.FindInventory('RwMonsterAffixator') != null) {
                     qty = GetDropperGeneratedLevel(dropper);
+                } else {
+                    debug.warning("Drop from non-affixed monster detected!");
                 }
 
                 GenerateAffixableItem(spawnedItem, rar, qty);

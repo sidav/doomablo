@@ -148,10 +148,7 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 
 				// let's generate (and give it better rarity and/or quality)
 				int rar, qty;
-            	[rar, qty] = DropsDecider.rollRarityAndQuality(
-                    rnd.weightedRand(0, 10, 1),
-                    0
-                );
+            	[rar, qty] = rollRarityAndQualityForMapPlacedItem(rnd.weightedRand(0, 10, 1));
 
 				GenerateAffixableItem(itm, rar, qty);
 			}
@@ -174,5 +171,20 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             }
         }
         return false;
+    }
+
+    static int, int rollRarityAndQualityForMapPlacedItem(int rarmod) {
+        int rar = DropsDecider.rollRarityForMonsterDrop(rarmod);
+
+        int qty = 1;
+        let plr = RwPlayer(Players[0].mo);
+        if (plr) {
+            qty = plr.rollForDropLevel();
+        } else {
+            debug.warning("Non-player quality roll!");
+            qty = rnd.linearWeightedRand(1, 100, 100, 1);
+        }
+        qty = clamp(qty, 1, 100);
+        return rar, qty;
     }
 }

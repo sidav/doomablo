@@ -121,15 +121,15 @@ class ConsoleDropsHandler : EventHandler
             
 
             default:
-                debug.print("Unknown drop code "..itemID);
+                debug.warning("Unknown drop code "..itemID);
         }
 
         if (spawnedItem) {
 
             if (rarity == -1) {
-                [rarity, quality] = DropsDecider.rollRarityAndQuality(0, 0);
+                rarity = DropsDecider.rollRarityForMonsterDrop(0);
             } else if (quality == 0) {
-                quality = rnd.Rand(1, 100);
+                quality = RwPlayer(Players[0].mo).rollForDropLevel();
             }
 
             GenerateAffixableItem(spawnedItem, rarity, quality);

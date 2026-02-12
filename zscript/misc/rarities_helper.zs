@@ -1,5 +1,5 @@
 class RaritiesHelper {
-    
+    const MAX_RARITY = 5;
     static string getRarityName(int rarity) {
         switch (rarity) {
             case 0: return "Common";
