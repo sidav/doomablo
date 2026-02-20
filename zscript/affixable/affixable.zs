@@ -140,7 +140,7 @@ mixin class Affixable {
         let maxSuffixesCheck = !newAffix.isSuffix() || appliedSuffixesCount < maxSuffixes;
 
         return
-            // (newAffix.GetClass() == 'WSuffMaxDamageSelfUpgrade' || (rnd.randn(10) == 0)) &&  // Uncomment for specific affix testing
+            // debugSpecificAffix(newAffix, 'BSuffMeleeStealsAmmo') &&  // Uncomment for specific affix testing
             newAffix.isEnabled() && // Dev option for affixes disabling
             newAffix.IsCompatibleWithItem(self) &&
             newAffix.IsCompatibleWithListOfAffixes(appliedAffixes) && 
@@ -333,5 +333,23 @@ mixin class Affixable {
     override void onDrop(Actor dropper) {
         super.onDrop(dropper);
         attachRarityIndicatorIfNone();
+    }
+
+    // This is used to enforce applying some affix whenever possible. Safe to outcomment from anywhere.
+    // Returns true if the newAffix is affClassToDebug 
+    // OR if affClassToDebug is already applied
+    // OR if affClassToDebug is incompatible with the affixable item.
+    private bool debugSpecificAffix(Affix newAffix, class<Affix> affClassToDebug) {
+        if (rnd.OneChanceFrom(100)) debug.warning("debugSpecificAffix() invoked! Don't forget to remove this call!"); // just a reminder to remove this from release versions 
+        if (newAffix.GetClass() != affClassToDebug) {
+            // Extremely unoptimal, but it's a debug method after all
+            Affix debuggedAffixExample = Affix(new(affClassToDebug));
+            return !(
+                debuggedAffixExample.IsCompatibleWithListOfAffixes(appliedAffixes) &&
+                debuggedAffixExample.IsCompatibleWithItem(self) && 
+                debuggedAffixExample.minRequiredRarity() <= generatedRarity
+            );
+        }
+        return true;
     }
 }

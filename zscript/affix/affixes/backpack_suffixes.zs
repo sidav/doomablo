@@ -265,3 +265,25 @@ class BSuffBetterEarmorDelay : RwBackpackSuffix {
         }
     }
 }
+
+class BSuffMeleeStealsAmmo : RwBackpackSuffix {
+    mixin DropSpreadable;
+    override string getName() {
+        return "Steal";
+    }
+    override string getDescription() {
+        return String.Format("Melee attacks steal ammo (%d%% chance)", (modifierLevel));
+    }
+    override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
+        modifierLevel = multRandomPlusQualityRemap(5, 30, 0.05, quality, 20);
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (passive) return;
+        if (!(owner.player.readyWeapon is 'RwFist')) return;
+        if (!rnd.percentChance(modifierLevel)) return;
+        DropDatabaseHandler db = DropDatabaseHandler.Get();
+        String spawnedClass = db.PickAmmo();
+        let ammoDrop = DropsSpawner.createDropByClass(source, spawnedClass);
+        AssignSpreadVelocityTo(ammoDrop);
+    }
+}

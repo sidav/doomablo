@@ -162,7 +162,7 @@ class MAffHigherDamage : RwMonsterAffix {
         return "DMG +"..modifierLevel.."%";
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = multRandomPlusQualityRemap(25, 75, 0.1, quality, 25);
+        modifierLevel = multRandomPlusQualityRemap(25, 50, 0.1, quality, 25);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive) {

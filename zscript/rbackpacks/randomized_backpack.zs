@@ -104,4 +104,13 @@ class RwBackpack : Inventory {
         }
 		return false;
     }
+
+    override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags) {
+        newdamage = damage;
+        Affix aff;
+        foreach (aff : appliedAffixes) {
+            aff.onModifyDamage(damage, newdamage, passive, inflictor, source, owner, flags);
+            damage = newdamage;
+        }
+    }
 }
