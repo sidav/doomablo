@@ -18,10 +18,6 @@ class ArmorRepairKit : RwStoredConsumable {
 		loop;
 	}
 
-	override bool CanPickup(Actor toucher) {
-		return RwPlayer(toucher) != null;
-	}
-
 	override bool Use(bool pickup) {
         let plr = RwPlayer(owner);
 		if (plr && plr.CurrentEquippedArmor) {

@@ -22,10 +22,6 @@ class TomeOfChange : RwStoredConsumable {
 	const USAGE_CONFIRMATION_SECONDS = 3;
 	int lastTickUsed;
 
-	override bool CanPickup(Actor toucher) {
-		return RwPlayer(toucher) != null;
-	}
-
 	override bool Use(bool pickup) {
 		let plr = RwPlayer(owner);
 		if (!plr) {
