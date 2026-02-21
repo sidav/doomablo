@@ -1,5 +1,6 @@
 # INPUT: desired percentages
-percentages = [65.0, 22.0, 9.2, 3.0, 0.7, 0.1]
+percentages = [70.0, 19.0, 8.2, 2.0, 0.7, 0.1]
+SCALE = 10000
 
 total_percent = sum(percentages)
 
@@ -13,8 +14,6 @@ if total_percent != 100.0:
     percentages = [p * scale for p in percentages]
 else:
     print("Percentage is OK")    
-
-SCALE = 1000
 
 weights = [round(p / 100.0 * SCALE) for p in percentages]
 

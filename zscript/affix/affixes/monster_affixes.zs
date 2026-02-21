@@ -73,6 +73,30 @@ class MAffKnockback : RwMonsterAffix {
     }
 }
 
+class MAffPulling : RwMonsterAffix {
+    override string getName() {
+        return "Pulling";
+    }
+    override string getDescription() {
+        return "PULL "..modifierLevel;
+    }
+    override int selectionProbabilityPercentage() {
+        return 50;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = multRandomPlusQualityRemap(3, 10, 0.1, quality, 5);
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (!passive && source && source != owner) {
+            let angle = owner.angle;
+            if (inflictor && !(flags & DMG_INFLICTOR_IS_PUFF)) {
+                angle = inflictor.angle;
+            }
+            source.Thrust(double(-modifierLevel), angle);
+        }
+    }
+}
+
 class MAffInflictsPoison : RwMonsterAffix {
     override string getName() {
         return "Poisonous";
