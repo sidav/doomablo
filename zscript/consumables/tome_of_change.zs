@@ -1,13 +1,11 @@
-class TomeOfChange : Inventory {
+class TomeOfChange : RwStoredConsumable {
 	Default
 	{
 		Inventory.Pickupmessage "Tome of change!";
 		// +INVENTORY.ALWAYSPICKUP - should be false
 		+FLOATBOB
 		-COUNTITEM
-		Inventory.Amount 1;
-		Inventory.MaxAmount 2;
-		Inventory.InterHubAmount 1;
+		RwStoredConsumable.RwBaseMaxAmount 2;
 		Inventory.Icon "FTINA0";
 		-Inventory.AUTOACTIVATE
 		+INVENTORY.INVBAR

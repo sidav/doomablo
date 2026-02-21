@@ -8,6 +8,20 @@ class ConsoleDropsHandler : EventHandler
         if (e.Name == "spawn") {
             spawnItem(players[e.Player].mo, e.args[0], e.args[1], e.args[2]);
         }
+        if (e.Name == "levelup") {
+            int howMuch = e.args[0];
+            if (howMuch <= 0) howMuch = 1;
+            for (let i = 0; i < howMuch; i++) {
+                RwPlayer(players[e.Player].mo)
+                    .receiveExperience(RwPlayer(players[e.Player].mo).stats.getRequiredXPForNextLevel());
+            }
+        }
+        if (e.Name == "infernoup") {
+            int howMuch = e.args[0];
+            if (howMuch <= 0) howMuch = 1;
+            RwPlayer(players[e.Player].mo)
+                .infernoLevel += howMuch;
+        }
     }
 
     const xofs = 50.0;
@@ -105,20 +119,7 @@ class ConsoleDropsHandler : EventHandler
                 for (let i = 0; i < rarity; i++) {
                     [unused, spawnedItem] = player.A_SpawnItemEx('InfernoSigil', xofs: xofs, zvel: zvel);
                 }
-                return; // We don't need to generate it
-            // Give exp
-            case 200:
-                if (rarity == 0) {
-                    rarity = 1;
-                }
-                for (let i = 0; i < rarity; i++) {
-                    RwPlayer(player).receiveExperience(RwPlayer(player).stats.getRequiredXPForNextLevel());
-                }
-                return;
-            case 201:
-                RwPlayer(player).infernoLevel += rarity;
-                return;
-            
+                return; // We don't need to generate it        
 
             default:
                 debug.warning("Unknown drop code "..itemID);

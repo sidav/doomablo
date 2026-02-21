@@ -24,7 +24,6 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
 
     override void BeginPlay() {
         super.BeginPlay();
-        ResetMaxAmmoToDefault();
         infernoLevel = 1;
         reapplyPlayerStats();
     }
@@ -81,10 +80,10 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
     }
 
     void ResetMaxAmmoToDefault() {
-        SetAmmoCapacity('Clip', 100);
-        SetAmmoCapacity('Shell', 40);
-        SetAmmoCapacity('Rocketammo', 30);
-        SetAmmoCapacity('Cell', 100);
+        SetAmmoCapacity('Clip', stats.getMaxAmmoAmount(100));
+        SetAmmoCapacity('Shell', stats.getMaxAmmoAmount(40));
+        SetAmmoCapacity('Rocketammo', stats.getMaxAmmoAmount(30));
+        SetAmmoCapacity('Cell', stats.getMaxAmmoAmount(100));
     }
 
     void GetAmmoByCapPercentage(class<Ammo> type, int percentage) {
@@ -102,6 +101,9 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         if (stats == null) {
             stats = RwPlayerStats.Create();
         }
+        ResetMaxAmmoToDefault();
+        if (CurrentEquippedBackpack != null)
+            CurrentEquippedBackpack.increasePlayerMaxAmmo();
 
         if (!(stats.baseStatsChanged || didEquippedItemsChange())) return;
         stats.baseStatsChanged = false;

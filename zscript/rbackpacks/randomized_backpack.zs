@@ -32,10 +32,10 @@ class RwBackpack : Inventory {
     virtual void setBaseStats() {
 		rwbaseName = "Backpack";
 		stats = New('RwBackpackStats');
-		stats.maxBull = 250;
-		stats.maxShel = 60;
-		stats.maxRckt = 50;
-		stats.maxCell = 300;
+		stats.maxBull = 150;
+		stats.maxShel = 20;
+		stats.maxRckt = 20;
+		stats.maxCell = 200;
     }
 
     // Needs to be called before generation

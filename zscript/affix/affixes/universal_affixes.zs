@@ -155,7 +155,7 @@ class UPrefMeleeDmgDecrease : RwUniversalAffix {
         return "Weakening";
     }
     override string getDescription() {
-        return "Fist dmg stat -"..modifierLevel;
+        return "Strength stat -"..modifierLevel;
     }
     override int getAlignment() {
         return -1;
@@ -173,7 +173,7 @@ class UPrefMeleeDmgDecrease : RwUniversalAffix {
         return true;
     }
     override void onPlayerStatsRecalc(RwPlayer owner) {
-        owner.stats.modifyCurrentStat(RwPlayerStats.StatMeleeDmg, -modifierLevel);
+        owner.stats.modifyCurrentStat(RwPlayerStats.StatStrength, -modifierLevel);
     }
 }
 
@@ -182,7 +182,7 @@ class UPrefMeleeDmgIncrease : RwUniversalAffix {
         return "Enraging";
     }
     override string getDescription() {
-        return "Fist dmg stat +"..modifierLevel;
+        return "Strength stat +"..modifierLevel;
     }
     override bool IsCompatibleWithItem(Inventory item) {
         return !(item is 'RwMonsterAffixator' || item is 'RwWeapon');
@@ -194,7 +194,7 @@ class UPrefMeleeDmgIncrease : RwUniversalAffix {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, 5, 0.05) + remapQualityToRange(quality, 1, 10);
     }
     override void onPlayerStatsRecalc(RwPlayer owner) {
-        owner.stats.modifyCurrentStat(RwPlayerStats.StatMeleeDmg, modifierLevel);
+        owner.stats.modifyCurrentStat(RwPlayerStats.StatStrength, modifierLevel);
     }
 }
 

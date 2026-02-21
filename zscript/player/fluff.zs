@@ -37,7 +37,7 @@ extend class RwPlayer {
             "Inevitable Doom"
         };
         if (stats.currentExpLevel > 100) {
-            return "The Doom Slayer";
+            return "Doom Slayer";
         }
         return fluff[math.remapIntRange(stats.currentExpLevel, 1, 100, 1, fluff.Size()-1)];
     }

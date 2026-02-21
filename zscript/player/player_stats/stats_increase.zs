@@ -8,7 +8,7 @@ extend class RwPlayerStats {
                 return getCritChancePromille() < 1000;
             case StatCritDmg: 
                 return getCritDmgPromille() < 5000;
-            case StatMeleeDmg: 
+            case StatStrength: 
                 return baseStats[id] < 100;
             case StatRareFind:
                 return baseStats[id] < 100;

@@ -3,7 +3,7 @@ class RwPlayerStats {
 		StatVitality,
 		StatCritChance,
 		StatCritDmg,
-		StatMeleeDmg,
+		StatStrength,
         StatRareFind,
 
         // HIDDEN STATS (not in any menus, given only by items):
@@ -26,7 +26,7 @@ class RwPlayerStats {
         newStats.baseStats[StatVitality] = 0;
         newStats.baseStats[StatCritChance] = 0;
         newStats.baseStats[StatCritDmg] = 0;
-        newStats.baseStats[StatMeleeDmg] = 0;
+        newStats.baseStats[StatStrength] = 0;
         newStats.baseStats[StatRareFind] = 0;
         newStats.baseStats[StatReloadSpeedBonus] = 0;
         newStats.baseStats[StatRateOfFireBonus] = 0;

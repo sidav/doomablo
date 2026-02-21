@@ -1,11 +1,9 @@
-class ArmorRepairKit : Inventory {
+class ArmorRepairKit : RwStoredConsumable {
 	Default
 	{
 		Height 16;
 		Inventory.Pickupmessage "Armor repair kit!";
-		Inventory.Amount 1;
-		Inventory.MaxAmount 5;
-		Inventory.InterHubAmount 5;
+		RwStoredConsumable.RwBaseMaxAmount 4;
 		Inventory.Icon "FKITC0";
         // +INVENTORY.ALWAYSPICKUP - should be false
 		-Inventory.AUTOACTIVATE
