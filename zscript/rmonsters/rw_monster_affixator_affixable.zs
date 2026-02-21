@@ -28,24 +28,24 @@ extend class RwMonsterAffixator {
                     maxPerc = 110;
                     break;
                 case 1: // Uncommon
-                    minPerc = 125;
+                    minPerc = 135;
                     maxPerc = 150;
                     break;
                 case 2: // Rare
-                    minPerc = 150;
-                    maxPerc = 200;
+                    minPerc = 175;
+                    maxPerc = 225;
                     break;
                 case 3: // Epic
                     minPerc = 200;
                     maxPerc = 300;
                     break;
                 case 4: // Legendary
-                    minPerc = 275;
-                    maxPerc = 325;
+                    minPerc = 300;
+                    maxPerc = 350;
                     break;
                 case 5: // Mythic
-                    minPerc = 300;
-                    maxPerc = 400;
+                    minPerc = 350;
+                    maxPerc = 500;
                     break;
                 default:
                     debug.panic("HP scaling: unhandled monster rarity "..getRarity());

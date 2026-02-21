@@ -96,7 +96,7 @@ class LootResolver {
 
     static int rollRarityForMonsterDrop(int rarMod) {
         // Roll rarity
-        let rar = rnd.weightedRand(422, 362, 160, 50, 5, 1);
+        let rar = rnd.weightedRand(4300, 4420, 1000, 200, 25, 1);
         rar = clamp(rar+rarMod, 0, RaritiesHelper.MAX_RARITY);
         return rar;
     }
