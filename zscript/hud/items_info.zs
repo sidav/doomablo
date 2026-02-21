@@ -116,7 +116,7 @@ extend class MyCustomHUD {
                     (-73, -40), DI_SCREEN_RIGHT_BOTTOM);
             }
         }
-        drawAmmoTotals(-75);
+        drawAmmoTotals(-80);
 
         if (RwSettingsShowEquippedItemsShortInfo) {
             if (wpn) {
