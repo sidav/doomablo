@@ -34,6 +34,7 @@ version "4.10.0"
 #include "zscript/misc/rarities_helper.zs"
 #include "zscript/misc/strings_helper.zs"
 #include "zscript/misc/tests_handler.zs"
+#include "zscript/misc/third_party/lightning_effect.zs"
 
 #include "zscript/affix/affix.zs"
 #include "zscript/affix/affix_effect_callbacks.zs"

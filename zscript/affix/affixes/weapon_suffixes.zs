@@ -324,6 +324,47 @@ class WSuffSpawnBarrelOnKill : RwWeaponSuffix {
     }
 }
 
+class WSuffTesla : RwWeaponSuffix {
+    int maxTargets;
+    int zapDamage;
+    override string getName() {
+        return "Tesla";
+    }
+    override string getDescription() {
+        return String.Format("Zaps up to %d nearby enemies on kill (%d DMG)", maxTargets, zapDamage);
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.getClass() == 'RwPlasmaRifle' || wpn.getClass() == 'RwRailgun';
+    }
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        zapDamage = rnd.multipliedWeightedRandByEndWeight(25, 75, 0.1);
+        zapDamage = PlayerStatsScaler.ScaleIntValueByLevelRandomized(zapDamage, quality);
+        maxTargets = multRandomPlusQualityRemap(1, 5, 0.1, quality, 5);
+    }
+    override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        int targets = 0;
+        let ti = ThinkerIterator.Create('Actor');
+        Actor mo;
+        while (mo = Actor(ti.next())) {
+            if (
+                (mo.bISMONSTER || mo is 'ExplosiveBarrel') &&
+                mo.Health > 0 &&
+                mo.player == null &&
+                target.Distance2D(mo) <= 256 &&
+                mo.CheckSight(target, SF_IGNOREWATERBOUNDARY)
+            ) {
+                // debug.print(String.format("From %s to %s", target.GetClassName(), mo.GetClassName()));
+                Vector3 beamstart = ArcSplitController.GetBeamAttachPos(target, 0, 0);
+                Vector3 beamEnd = ArcSplitController.GetBeamAttachPos(mo);
+                ArcSplitController.DrawLightning(beamstart, beamend, spawnSpark: true, null);
+                mo.damageMobj(null, null, zapDamage, 'Normal', DMG_FORCED);
+                targets++;
+                if (targets >= maxTargets) return;
+            }
+        }
+    }
+}
+
 class WSuffTargetExplode : RwWeaponSuffix {
     override string getName() {
         return "Overloading";
