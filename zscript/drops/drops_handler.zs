@@ -15,14 +15,14 @@ class DropsHandler : EventHandler
             dropperRarity = RwMonsterAffixator(e.Thing.FindInventory('RwMonsterAffixator')).GetRarity();
         }
         MaybeDropProgressionItem(e.Thing, dropperRarity);
-        let dropsCount = DropsDecider.decideDropsCount(GetDropperUnscaledHealth(e.Thing), dropperRarity);
+        let dropsCount = LootResolver.decideDropsCount(GetDropperUnscaledHealth(e.Thing), dropperRarity);
         for (let i = 0; i < dropsCount; i++) {
             createDrop(e.Thing, dropperRarity);
         }
     }
 
     private void createDrop(Actor dropper, int dropperRarity) {
-        let whatToDrop = DropsDecider.whatToDrop(GetDropperUnscaledHealth(dropper), dropperRarity);
+        let whatToDrop = LootResolver.whatToDrop(GetDropperUnscaledHealth(dropper), dropperRarity);
 
         Actor spawnedItem;
         switch (whatToDrop) {
@@ -45,8 +45,8 @@ class DropsHandler : EventHandler
             if (AffixableDetector.IsAffixableItem(spawnedItem)) {
 
                 int rarmod;
-                rarmod = DropsDecider.rollRarityModifierForMonsterDrop(GetDropperUnscaledHealth(dropper), dropperRarity);
-                int rar = DropsDecider.rollRarityForMonsterDrop(rarmod);
+                rarmod = LootResolver.rollRarityModifierForMonsterDrop(GetDropperUnscaledHealth(dropper), dropperRarity);
+                int rar = LootResolver.rollRarityForMonsterDrop(rarmod);
                 int qty = 1;
                 // Make the drop level equal to the droppers' level
                 if (dropper.FindInventory('RwMonsterAffixator') != null) {

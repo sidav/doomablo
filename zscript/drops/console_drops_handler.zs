@@ -128,7 +128,7 @@ class ConsoleDropsHandler : EventHandler
         if (spawnedItem) {
 
             if (rarity == -1) {
-                rarity = DropsDecider.rollRarityForMonsterDrop(0);
+                rarity = LootResolver.rollRarityForMonsterDrop(0);
             } else if (quality == 0) {
                 quality = RwPlayer(Players[0].mo).rollForDropLevel();
             }

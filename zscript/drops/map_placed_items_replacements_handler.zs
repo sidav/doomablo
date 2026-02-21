@@ -102,7 +102,6 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             } else {
                 e.replacement = 'RwArmorBonus';
             }
-            // if (!startOfLevel) debug.print("BUG: vanilla armor bonus spawned? What?");
             break;
         case 'HealthBonus':
 			if (startOfLevel && rnd.OneChanceFrom(4)) e.Replacement = 'RwActiveItemRefill';
@@ -141,14 +140,14 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 
 			// The item is map-placed by map design.
 			// Owner check is needed so that we know it's not in the inventory
-			if (itm.owner == null && level.maptime < TICRATE) {
+			if (itm.owner == null && level.maptime < TICRATE/5) {
                 if (tryOverrideDeadSimpleBackpackPlacement(RwBackpack(itm))) {
                     return;
                 }
 
 				// let's generate (and give it better rarity and/or quality)
 				int rar, qty;
-            	[rar, qty] = rollRarityAndQualityForMapPlacedItem(rnd.weightedRand(0, 10, 1));
+            	[rar, qty] = LootResolver.rollRarityAndQualityForMapPlacedItem();
 
 				GenerateAffixableItem(itm, rar, qty);
 			}
@@ -171,20 +170,5 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             }
         }
         return false;
-    }
-
-    static int, int rollRarityAndQualityForMapPlacedItem(int rarmod) {
-        int rar = DropsDecider.rollRarityForMonsterDrop(rarmod);
-
-        int qty = 1;
-        let plr = RwPlayer(Players[0].mo);
-        if (plr) {
-            qty = plr.rollForDropLevel();
-        } else {
-            debug.warning("Non-player quality roll!");
-            qty = rnd.linearWeightedRand(1, 100, 100, 1);
-        }
-        qty = clamp(qty, 1, 100);
-        return rar, qty;
     }
 }

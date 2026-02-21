@@ -1,4 +1,4 @@
-class DropsDecider {
+class LootResolver {
 
     static int decideDropsCount(int dropperHealth, int dropperRarity) {
         let count = -1;
@@ -99,5 +99,19 @@ class DropsDecider {
         let rar = rnd.weightedRand(422, 362, 160, 50, 5, 1);
         rar = clamp(rar+rarMod, 0, RaritiesHelper.MAX_RARITY);
         return rar;
+    }
+
+    static int, int rollRarityAndQualityForMapPlacedItem() {
+        int rar = rollRarityForMonsterDrop(rnd.weightedRand(0, 20, 1));
+
+        int qty = 1;
+        let plr = RwPlayer(Players[0].mo);
+        if (plr) {
+            qty = plr.rollForDropLevel();
+        } else {
+            debug.warning("Non-player quality roll!");
+        }
+        qty = clamp(qty, 1, 100);
+        return rar, qty;
     }
 }
