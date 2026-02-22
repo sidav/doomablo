@@ -63,35 +63,6 @@ class DropsSpawner {
         return spawnedItem;
     }
 
-    // private static play Actor SpawnRBackpackDrop(Actor dropper) {
-    //     return createDropByClass(dropper, RwBackpack.GetRandomVariantClass());
-    // }
-        // TODO: GetRandomVariantClass is no longer necessary
-        // because subclasses of RwBackpack are added to the equipment pool
-        // and have the same weights as normal backpacks.
-        // It should probably be removed, maybe replaced with a more generic
-        // 'item skins' system that can also be used for weapons and the like.
-
-    // private static play Actor SpawnRFlaskDrop(Actor dropper) {
-    //     let dropType = rnd.weightedRand(10, 10, 10);
-    //     bool unused;
-    //     Actor spawnedItem;
-    //     switch (dropType) {
-    //         case 0: 
-    //             [unused, spawnedItem] = dropper.A_SpawnItemEx('RwSmallFlask');
-    //             break;
-    //         case 1: 
-    //             [unused, spawnedItem] = dropper.A_SpawnItemEx('RwMediumFlask');
-    //             break;
-    //         case 2:
-    //             [unused, spawnedItem] = dropper.A_SpawnItemEx('RwBigFlask');
-    //             break;
-    //         default:
-    //             debug.panic("Drop spawner crashed");
-    //     }
-    //     return spawnedItem;
-    // }
-
     private static play Actor SpawnREquipDrop(Actor dropper) {
         Actor spawnedItem;
         DropDatabaseHandler db = DropDatabaseHandler.Get();
