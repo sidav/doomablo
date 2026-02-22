@@ -15,7 +15,7 @@ extend class RwMonsterAffixator {
                 assignedName = getRandomAdjective().." "..getRandomNameSuffix();
                 break;
             case 4:
-                assignedName = generateRandomAlias().." the "..getRandomAdjective();
+                assignedName = generateRandomAlias()..", the "..getRandomAdjective();
                 break;
             case 5:
                 assignedName = getRandomAdjective().." "..generateRandomName()..", the "..generateRandomDignity();

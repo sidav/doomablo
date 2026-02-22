@@ -382,6 +382,39 @@ class MAffRegen : RwMonsterAffix {
     }
 }
 
+class MAffRegenAura : RwMonsterAffix {
+    override string getName() {
+        return "Healing";
+    }
+    override string getDescription() {
+        return "HEAL "..StringsHelper.fixedPointIntAsString(regenPerSecondx1000, 1000);
+    }
+    override int minRequiredRarity() {
+        return 3;
+    }
+
+    int regenPerSecondx1000;
+    IntFraction regenFraction;
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        regenFraction = IntFraction.create(1000);
+        regenPerSecondx1000 = multRandomPlusQualityRemap(1000, 2500, 0.05, quality, 500);
+        regenPerSecondx1000 = MonsterStatsScaler.ScaleIntValueByLevelRandomized(regenPerSecondx1000, quality);
+    }
+
+    override void onDoEffect(Actor owner) {
+        if (level.mapTime % 7 != 0) return; // This affix is costly computation-wise, so we do it only 5 times per second
+        let regenThisTick = regenFraction.add(7 * regenPerSecondx1000 / TICRATE);
+        if (regenThisTick == 0) return;
+        let ti = ThinkerIterator.Create('Actor');
+        Actor mo;
+        while (mo = Actor(ti.next())) {
+            if (mo && owner != mo && !mo.bFriendly && owner.Distance2D(mo) <= 512 && owner.CheckSight(mo)) {
+                mo.GiveBody(regenThisTick);
+            }
+        }
+    }
+}
+
 class MAffBlinking : RwMonsterAffix {
     override string getName() {
         return "Blinking";
@@ -421,10 +454,10 @@ class MAffAmbushing : RwMonsterAffix {
         return rw_enable_monster_blink_affix;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 15, 5);
+        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 5);
     }
     override void onDoEffect(Actor owner) {
-        if (owner && owner.target && (owner.GetAge() % modifierLevel == 0) && rnd.OneChanceFrom(2) &&
+        if (owner && owner.target && (owner.GetAge() % modifierLevel == 0) &&
             (rnd.OneChanceFrom(20) || owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)) )
         {
 
