@@ -58,8 +58,9 @@ mixin class Affixable {
             case 3: return 2;
             case 4: return 2;
             case 5: return 3;
+            case 6: return 4;
         }
-        debug.panic("Rarity "..rarity.." not found");
+        debug.panic("Affixable: rarity "..rarity.." not found");
         return 0;
     }
 
@@ -72,8 +73,9 @@ mixin class Affixable {
             case 3: return 1;
             case 4: return 1;
             case 5: return 2;
+            case 6: return 3;
         }
-        debug.panic("Rarity "..rarity.." not found");
+        debug.panic("Affixable: rarity "..rarity.." not found");
         return 0;
     }
 
@@ -85,8 +87,9 @@ mixin class Affixable {
             case 3: return 1;
             case 4: return 2;
             case 5: return 3;
+            case 6: return 4;
         }
-        debug.panic("Rarity "..rarity.." not found");
+        debug.panic("Affixable: rarity "..rarity.." not found");
         return 0;
     }
 

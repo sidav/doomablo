@@ -22,7 +22,7 @@ class RarityIndicator : Actor
     if (ri) {
       ri.attachItem = item;
       ri.rarity = itmRarity;
-      ri.SetShade(colorForRarity(ri.rarity));
+      ri.SetShade(RaritiesHelper.indicatorColorForRarity(ri.rarity));
       ri.Alpha = ri.alpha + 4 * (ri.fillcolor.b / 255.0); // Thanks Agent_Ash for the idea
       ri.A_ChangeLinkFlags(sector: true); // Hide by default
     }
@@ -47,18 +47,6 @@ class RarityIndicator : Actor
     }
   }
 
-  static Color colorForRarity(int rarity) {
-    switch (rarity) {
-        case 0: return 0xFFFFFF;
-        case 1: return 0x00FF00;
-        case 2: return 0x1111FF;
-        case 3: return 0xCC00FF;
-        case 4: return 0xFFFF00;
-        case 5: return 0x00FFFF;
-    }
-    return 0xff00ff;
-  }
-
   void attachLight() {
     if (lightId == "") {
       lightId = ""..rnd.randn(10000);
@@ -67,7 +55,7 @@ class RarityIndicator : Actor
       lightId,
       // DynamicLight.PointLight,
       DynamicLight.PulseLight,
-      colorForRarity(rarity),
+      RaritiesHelper.indicatorColorForRarity(rarity),
       1,
       15,
       param: 3.0
