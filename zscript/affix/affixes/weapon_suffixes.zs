@@ -325,24 +325,44 @@ class WSuffSpawnBarrelOnKill : RwWeaponSuffix {
 }
 
 class WSuffTesla : RwWeaponSuffix {
-    int maxTargets;
-    int zapDamage;
     override string getName() {
         return "Tesla";
     }
     override string getDescription() {
-        return String.Format("Zaps up to %d nearby enemies on kill (%d DMG)", maxTargets, zapDamage);
+        return String.Format("%d%% chance to zap %d nearby enemies on kill (%d DMG)", chance, maxTargets, zapDamage);
     }
     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.getClass() == 'RwPlasmaRifle' || wpn.getClass() == 'RwRailgun';
     }
+    int chance;
+    int maxTargets;
+    int zapDamage;
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
-        zapDamage = rnd.multipliedWeightedRandByEndWeight(25, 75, 0.1);
+        chance = multRandomPlusQualityRemap(10, 40, 0.1, quality, 20);
+        zapDamage = rnd.multipliedWeightedRandByEndWeight(35, 75, 0.1);
         zapDamage = PlayerStatsScaler.ScaleIntValueByLevelRandomized(zapDamage, quality);
         maxTargets = multRandomPlusQualityRemap(1, 5, 0.1, quality, 5);
     }
+
+    Vector3 beamStart;
+    array<Actor> beamEndActors;
+    int zapTicksRemaining;
+    // Draw the lightning itself
+    override void onDoEffect(Actor owner) {
+        if (zapTicksRemaining == 0) return;
+        zapTicksRemaining--;
+        foreach (zapped : beamEndActors)
+            ArcSplitController.DrawLightning(beamstart, ArcSplitController.GetBeamAttachPos(zapped), spawnSpark: true, null);
+    }
+
+    const ZAP_RANGE = 512.;
+    const ZAP_DURATION = TICRATE/2;
     override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
-        int targets = 0;
+        if (!rnd.percentChance(chance)) return;
+        zapTicksRemaining = ZAP_DURATION;
+        beamEndActors.clear();
+
+        beamstart = ArcSplitController.GetBeamAttachPos(target, 0, 0);
         let ti = ThinkerIterator.Create('Actor');
         Actor mo;
         while (mo = Actor(ti.next())) {
@@ -350,16 +370,12 @@ class WSuffTesla : RwWeaponSuffix {
                 (mo.bISMONSTER || mo is 'ExplosiveBarrel') &&
                 mo.Health > 0 &&
                 mo.player == null &&
-                target.Distance2D(mo) <= 256 &&
+                target.Distance2D(mo) <= ZAP_RANGE &&
                 mo.CheckSight(target, SF_IGNOREWATERBOUNDARY)
             ) {
-                // debug.print(String.format("From %s to %s", target.GetClassName(), mo.GetClassName()));
-                Vector3 beamstart = ArcSplitController.GetBeamAttachPos(target, 0, 0);
-                Vector3 beamEnd = ArcSplitController.GetBeamAttachPos(mo);
-                ArcSplitController.DrawLightning(beamstart, beamend, spawnSpark: true, null);
-                mo.damageMobj(null, null, zapDamage, 'Normal', DMG_FORCED);
-                targets++;
-                if (targets >= maxTargets) return;
+                beamEndActors.push(mo);
+                mo.damageMobj(null, null, zapDamage, 'Extreme', DMG_FORCED);
+                if (beamEndActors.Size() >= maxTargets) return;
             }
         }
     }
@@ -529,7 +545,7 @@ class WSuffRofSelfUpgrade : RwWeaponSuffix {
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 2) return;
 
-        plr.A_PrintBold("Affix level up: +1% rate of fire for this weapon");
+        plr.A_PrintBold("\cyAffix level up: +1% rate of fire for this weapon");
         rWeap.stats.rofModifier++;
         stat2++;
         if (stat2 >= modifierLevel) maxEffectReached = true;
@@ -567,7 +583,7 @@ class WSuffReloadSpeedSelfUpgrade : RwWeaponSuffix {
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 2) return;
 
-        plr.A_PrintBold("Affix level up: +1% reload speed for this weapon");
+        plr.A_PrintBold("\cyAffix level up: +1% reload speed for this weapon");
         rWeap.stats.reloadSpeedModifier++;
         stat2++;
         if (stat2 >= modifierLevel) maxEffectReached = true;
@@ -604,7 +620,7 @@ class WSuffMaxDamageSelfUpgrade : RwWeaponSuffix {
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 3) return;
     
-        plr.A_PrintBold("Affix level up: +"..modifierLevel.." max damage for this weapon");
+        plr.A_PrintBold("\cyAffix level up: +"..modifierLevel.." max damage for this weapon");
         rWeap.stats.maxDamage += modifierLevel;
         cumulativeDmgIncrease += modifierLevel;
         stat2--;
@@ -644,7 +660,7 @@ class WSuffPelletsSelfUpgrade : RwWeaponSuffix {
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 3) return;
     
-        plr.A_PrintBold("Affix level up: +1 pellet for this weapon");
+        plr.A_PrintBold("\cyAffix level up: +1 pellet for this weapon");
         rWeap.stats.pellets += modifierLevel;
         cumulativePelletsIncrease += modifierLevel;
         stat2--;

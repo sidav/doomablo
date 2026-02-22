@@ -70,4 +70,11 @@ class RwWeapon : DoomWeapon abstract {
         }
     }
 
+    override void DoEffect() {
+        Affix aff;
+        foreach (aff : appliedAffixes) {
+            aff.onDoEffect(owner, self);
+        }
+    }
+
 }
