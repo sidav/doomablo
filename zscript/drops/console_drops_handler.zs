@@ -76,7 +76,12 @@ class ConsoleDropsHandler : EventHandler
             case 77:
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwBfg2704', xofs: xofs, zvel: zvel);
                 break;
+            // Unique
+            case 106:
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwuRailMinigun', xofs: xofs, zvel: zvel);
+                break;
             
+            // --------------------------------------
             // Armors
             case 10: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwGreenArmor', xofs: xofs, zvel: zvel);

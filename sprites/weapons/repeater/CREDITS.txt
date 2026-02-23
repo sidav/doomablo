@@ -1,0 +1,5 @@
+Submitted: Ghastly_dragon
+Decorate: Eriance
+GLDefs: Ghastly_dragon
+Sprites: Eriance
+Sounds: Eriance, Raven Software

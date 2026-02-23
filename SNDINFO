@@ -13,6 +13,11 @@ Revolver/Coltinsr   COLTINSR
 Revolver/Coltclos   COLTCLOS
 Smasher/Smshfire    DSSMASHF
 
+Repeater/Fire		REPGFIRE
+Repeater/Hit		REPGHIT
+Repeater/Spinup		REPGSPIN
+Repeater/Spindown	REPGSTOP
+
 40mm/grenfire       GFIRE
 40mm/grenbounce     BOUNCE
 explode1            explode1

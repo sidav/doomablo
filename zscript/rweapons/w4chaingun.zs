@@ -147,7 +147,6 @@ class RwChaingun : RwWeapon
 			"Perforator",
             "Penetrator",
 			"Persuader",
-			"Reason",
             "Terminator"
         };
         return specialNames[rnd.randn(specialNames.Size())];
