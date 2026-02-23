@@ -4,6 +4,7 @@ class StatScroll : Inventory {
 		Height 16;
 		Inventory.Pickupmessage "Stat scroll! Stat point acquired!";
 		// +INVENTORY.ALWAYSPICKUP - should be false
+		+FLOATBOB
 		+Inventory.AUTOACTIVATE
 		+BRIGHT
 	}

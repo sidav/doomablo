@@ -36,6 +36,10 @@ class Affix abstract {
         return 0;
     }
 
+    virtual bool isUnique() {
+        return false;
+    }
+
     virtual int minRequiredRarity() {
         return 0;
     }

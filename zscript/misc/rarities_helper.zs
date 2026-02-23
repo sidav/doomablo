@@ -54,4 +54,61 @@ class RaritiesHelper {
             default: return "\cm";
         }
     }
+
+    static int totalAffixesForRarity(int rarity) {
+        switch (rarity) {
+            case 0: return 0;
+            case 1: return 1;
+            case 2: return 2;
+            case 3: return 3;
+            case 4: return 4;
+            case 5: return 5;
+            case 6: return 5;
+        }
+        debug.panic("Affixable: rarity "..rarity.." not found");
+        return 0;
+    }
+
+    static int minGoodAffixesForRarity(int rarity) {
+        switch (rarity) {
+            case 0: return 0;
+            case 1: return 1;
+            case 2: return 1;
+            case 3: return 2;
+            case 4: return 2;
+            case 5: return 3;
+            case 6: return 5;
+        }
+        debug.panic("Affixable: rarity "..rarity.." not found");
+        return 0;
+    }
+
+    // Be careful modifying this: it may cause generation failures
+    static int minSuffixesForRarity(int rarity) {
+        switch (rarity) {
+            case 0: return 0;
+            case 1: return 0;
+            case 2: return 0;
+            case 3: return 1;
+            case 4: return 1;
+            case 5: return 2;
+            case 6: return 0;
+        }
+        debug.panic("Affixable: rarity "..rarity.." not found");
+        return 0;
+    }
+
+    static int maxSuffixesForRarity(int rarity) {
+        switch (rarity) {
+            case 0: return 0;
+            case 1: return 0;
+            case 2: return 0;
+            case 3: return 1;
+            case 4: return 2;
+            case 5: return 3;
+            case 6: return 3;
+        }
+        debug.panic("Affixable: rarity "..rarity.." not found");
+        return 0;
+    }
 }

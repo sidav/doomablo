@@ -42,7 +42,7 @@ class MonstersAffixingHandler : EventHandler
     static int, int rollRarityAndQuality(int rarMod) {
         // Roll rarity
         let rar = rnd.weightedRand(6900, 2000, 820, 200, 70, 10);
-        rar = clamp(rar+rarMod, 0, RaritiesHelper.MAX_RARITY);
+        rar = clamp(rar+rarMod, 0, RaritiesHelper.MAX_NON_UNIQUE_RARITY);
 
         // Get quality (= monster level) from inferno level
         int qty = 1;

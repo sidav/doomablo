@@ -64,6 +64,8 @@ extend class RwHudArtifactStatsCollector {
                 clr = Font.CR_RED;
             }
         }
+        if (aff.isUnique())
+            clr = Font.CR_FIRE;
 
         string label = "* ";
         if (RwSettingsShowAffixNamesInTables) {

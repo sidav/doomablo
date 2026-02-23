@@ -1,0 +1,3 @@
+class RwUniqueWeaponBase: RwWeapon abstract {
+
+}

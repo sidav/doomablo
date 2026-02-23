@@ -24,7 +24,10 @@ mixin class Affixable {
         rnd.fillArrWithRandsInTwoRanges(affQualities, 
             qgoodmin, qgoodmax,
             qbadmin, qbadmax,
-            rarity, minGoodAffixesForRarity(rarity), 0);
+            RaritiesHelper.totalAffixesForRarity(rarity), 
+            RaritiesHelper.minGoodAffixesForRarity(rarity), 
+            0
+        );
         // debug.print(
         //     "Generated qualities for "..GetClassName()
         //     .." at rarity "..rarity.." and quality "..affixQuality..": "
@@ -50,53 +53,18 @@ mixin class Affixable {
         return min(-quality, -2), min(-(quality - badAffixLevelSpread), -1);
     }
 
-    private static int minGoodAffixesForRarity(int rarity) {
-        switch (rarity) {
-            case 0: return 0;
-            case 1: return 1;
-            case 2: return 1;
-            case 3: return 2;
-            case 4: return 2;
-            case 5: return 3;
-            case 6: return 4;
-        }
-        debug.panic("Affixable: rarity "..rarity.." not found");
-        return 0;
-    }
-
-    // Be careful modifying this: it may cause generation failures
-    private static int minSuffixesForRarity(int rarity) {
-        switch (rarity) {
-            case 0: return 0;
-            case 1: return 0;
-            case 2: return 0;
-            case 3: return 1;
-            case 4: return 1;
-            case 5: return 2;
-            case 6: return 3;
-        }
-        debug.panic("Affixable: rarity "..rarity.." not found");
-        return 0;
-    }
-
-    private static int maxSuffixesForRarity(int rarity) {
-        switch (rarity) {
-            case 0: return 0;
-            case 1: return 0;
-            case 2: return 0;
-            case 3: return 1;
-            case 4: return 2;
-            case 5: return 3;
-            case 6: return 4;
-        }
-        debug.panic("Affixable: rarity "..rarity.." not found");
-        return 0;
-    }
-
     const ASSIGN_TRIES = 1000;
     private void AssignRandomAffixesByAffQualityArr(array <int> affQualities) {
+        // Unique items may have their own affixes. Don't let them break the affix limit.
+        int preGeneratedAffixes = appliedAffixes.Size();
+
         int appliedSuffixesCount = 0;
-        for (int i = 0; i < affQualities.Size(); i++) {
+        // We need to count for already-applied affixes - unique weapons may have them before generation
+        foreach (aff: appliedAffixes) {
+            if (aff.isSuffix()) appliedSuffixesCount++;
+        }
+
+        for (int i = 0; i < affQualities.Size() - preGeneratedAffixes; i++) {
             Affix newAffix;
             let try = 0;
             do {
@@ -127,7 +95,7 @@ mixin class Affixable {
 
     private bool isNewAffixApplicable(Affix newAffix, int currentExpectedQuality, int appliedSuffixesCount) {
         // Suffix constraint: force selecting a suffix if there are not enough
-        let minSuffixes = minSuffixesForRarity(generatedRarity);
+        let minSuffixes = RaritiesHelper.minSuffixesForRarity(generatedRarity);
         let minSuffixesCheck = newAffix.isSuffix() || appliedSuffixesCount >= minSuffixes;
         // Additional higher rarity for suffixes, but only if the min count is already satisfied
         // TODO: maybe it's a bad place for this?! Side effects and stuff.
@@ -139,11 +107,11 @@ mixin class Affixable {
         if (self is 'RwMonsterAffixator') minSuffixesCheck = true;
 
         // Suffix constraint: check if we applied too much suffixes
-        let maxSuffixes = maxSuffixesForRarity(generatedRarity);
+        let maxSuffixes = RaritiesHelper.maxSuffixesForRarity(generatedRarity);
         let maxSuffixesCheck = !newAffix.isSuffix() || appliedSuffixesCount < maxSuffixes;
 
         return
-            // debugSpecificAffix(newAffix, 'BSuffMeleeStealsAmmo') &&  // Uncomment for specific affix testing
+            // debugSpecificAffix(newAffix, 'WSuffTesla') &&  // Uncomment for specific affix testing
             newAffix.isEnabled() && // Dev option for affixes disabling
             newAffix.IsCompatibleWithItem(self) &&
             newAffix.IsCompatibleWithListOfAffixes(appliedAffixes) && 
@@ -265,7 +233,7 @@ mixin class Affixable {
     ///  NAME GENERATION  ///
     /////////////////////////
     void setNameAfterGeneration() {
-        switch (appliedAffixes.Size()) {
+        switch (generatedRarity) {
             case 0: // fallthrough
             case 1: // fallthrough
             case 2:
@@ -287,6 +255,8 @@ mixin class Affixable {
                 } else {
                     nameWithAppliedAffixes = NameGenerator.generateRandomCursedName(getRandomFluffName());
                 }
+                break;
+            case RaritiesHelper.UNIQUE_RARITY:
                 break;
         }
         if (nameWithAppliedAffixes.Length() == 0) {

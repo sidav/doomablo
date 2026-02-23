@@ -22,6 +22,11 @@ class DropsHandler : EventHandler
     }
 
     private void createDrop(Actor dropper, int dropperRarity) {
+        // Generate rarity before the item itself, because unique rarity (be it selected) requires different logic
+        int rar = LootResolver.rollRarityForMonsterDrop(
+            LootResolver.rollRarityModifierForMonsterDrop(GetDropperUnscaledHealth(dropper), dropperRarity)
+        );
+
         let whatToDrop = LootResolver.whatToDrop(GetDropperUnscaledHealth(dropper), dropperRarity);
 
         Actor spawnedItem;
@@ -33,7 +38,7 @@ class DropsHandler : EventHandler
                 spawnedItem = DropsSpawner.SpawnRandomAmmoDrop(dropper);
                 break;
             case 2:
-                spawnedItem = DropsSpawner.SpawnRandomRWArtifactItemDrop(dropper);
+                spawnedItem = DropsSpawner.SpawnRandomRWArtifactItemDrop(dropper, rar == RaritiesHelper.UNIQUE_RARITY);
                 break;
             default:
                 debug.warning("I don't know what drop type it is: "..whatToDrop);
@@ -43,10 +48,10 @@ class DropsHandler : EventHandler
         if (spawnedItem) {            
             // Generate stats/affixes for the spawned item.
             if (AffixableDetector.IsAffixableItem(spawnedItem)) {
+                // If non-unique item was created for unique rarity, lower the applied rarity.
+                if (rar == RaritiesHelper.UNIQUE_RARITY && !RwItemsHelper.isUniqueItem(spawnedItem))
+                    rar--;
 
-                int rarmod;
-                rarmod = LootResolver.rollRarityModifierForMonsterDrop(GetDropperUnscaledHealth(dropper), dropperRarity);
-                int rar = LootResolver.rollRarityForMonsterDrop(rarmod);
                 int qty = 1;
                 // Make the drop level equal to the droppers' level
                 if (dropper.FindInventory('RwMonsterAffixator') != null) {

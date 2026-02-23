@@ -29,15 +29,15 @@ class DropsSpawner {
         return invItem;
     }
 
-    static play Actor SpawnRandomRWArtifactItemDrop(Actor dropper) {
+    static play Actor SpawnRandomRWArtifactItemDrop(Actor dropper, bool preferUnique) {
         int dropType = rnd.weightedRand(6, 4, 3);
         switch (dropType) {
             case 0: 
-                return SpawnRWeaponDrop(dropper);
+                return SpawnRWeaponDrop(dropper, preferUnique);
             case 1: 
-                return SpawnRArmorDrop(dropper);
+                return SpawnRArmorDrop(dropper, preferUnique);
             case 2:
-                return SpawnREquipDrop(dropper); 
+                return SpawnREquipDrop(dropper, preferUnique); 
                 // Backpacks and Flasks are currently merged into the same drop pool,
                 // which doesn't matter for now because they have equal weights.
                 // May become an issue if new equip slots are added.
@@ -47,26 +47,26 @@ class DropsSpawner {
         return null;
     }
 
-    private static play Actor SpawnRWeaponDrop(Actor dropper) {
+    private static play Actor SpawnRWeaponDrop(Actor dropper, bool preferUnique) {
         Actor spawnedItem;
         DropDatabaseHandler db = DropDatabaseHandler.Get();
-        String spawnedClass = db.PickWeapon();
+        String spawnedClass = db.PickWeapon(preferUnique);
         spawnedItem = createDropByClass(dropper,spawnedClass);
         return spawnedItem;
     }
 
-    private static play Actor SpawnRArmorDrop(Actor dropper) {
+    private static play Actor SpawnRArmorDrop(Actor dropper, bool preferUnique) {
         Actor spawnedItem;
         DropDatabaseHandler db = DropDatabaseHandler.Get();
-        String spawnedClass = db.PickArmor();
+        String spawnedClass = db.PickArmor(preferUnique);
         spawnedItem = createDropByClass(dropper,spawnedClass);
         return spawnedItem;
     }
 
-    private static play Actor SpawnREquipDrop(Actor dropper) {
+    private static play Actor SpawnREquipDrop(Actor dropper, bool preferUnique) {
         Actor spawnedItem;
         DropDatabaseHandler db = DropDatabaseHandler.Get();
-        String spawnedClass = db.PickEquip();
+        String spawnedClass = db.PickEquip(preferUnique);
         spawnedItem = createDropByClass(dropper,spawnedClass);
         return spawnedItem;
     }

@@ -103,7 +103,7 @@ class LootResolver {
 
     static int, int rollRarityAndQualityForMapPlacedItem() {
         int rar = rollRarityForMonsterDrop(rnd.weightedRand(0, 20, 1));
-
+        if (rar == RaritiesHelper.UNIQUE_RARITY) rar--; // Unique items are never map-placed (and I don't know how to implement this lol)
         int qty = 1;
         let plr = RwPlayer(Players[0].mo);
         if (plr) {

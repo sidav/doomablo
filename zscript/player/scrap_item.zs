@@ -30,6 +30,16 @@ extend class RwPlayer {
         if (itm == null || !AffixableDetector.IsAffixableItem(itm) || itm.owner) {
             return;
         }
+        
+        // If the item is unique, scrapping it gives a tome of change or a stat scroll in addition to other stuff.
+        if (RwItemsHelper.isUniqueItem(itm)) {
+            Actor drop;
+            if (rnd.OneChanceFrom(2))
+                drop = DropsSpawner.createDropByClass(itm, 'TomeOfChange');
+            else
+                drop = DropsSpawner.createDropByClass(itm, 'StatScroll');
+            AssignVeryMinorSpreadVelocityTo(itm);
+        }
 
         if (itm is 'RwWeapon') {
 
