@@ -13,8 +13,7 @@ class Affix abstract {
         return true;
     }
 
-    // For disable-able affixes
-    // TODO: I forgot why this method is there at all. Remove?
+    // For disable-able (via mod settings) affixes
     virtual bool IsEnabled() {
         return true;
     }
@@ -34,10 +33,6 @@ class Affix abstract {
     virtual int getAlignment() {
         debug.panicUnimplemented(self);
         return 0;
-    }
-
-    virtual bool isUnique() {
-        return false;
     }
 
     virtual int minRequiredRarity() {

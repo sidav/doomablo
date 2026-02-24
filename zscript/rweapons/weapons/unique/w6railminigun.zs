@@ -132,12 +132,8 @@ class RwuRailMinigun : RwUniqueWeaponBase
 
 	override void prepareForGeneration() {
 		super.prepareForGeneration();
-		let aff = new('UWSuffReason1');
-		aff.InitAndApplyEffectToItem(self, 1);
-		appliedAffixes.push(aff);
-		let aff2 = new('UWSuffReason2');
-		aff2.InitAndApplyEffectToItem(self, 1);
-		appliedAffixes.push(aff2);
+		appliedAffixes.push(RwFluffAffix.Create("I assure you... They will listen to the Reason."));
+		appliedAffixes.push(RwFluffAffix.Create("UAC PROTOTYPE: NOT FOR TESTING IN POPULATED AREAS"));
 	}
 
 	override void setBaseStats() {
@@ -158,32 +154,4 @@ class RwuRailMinigun : RwUniqueWeaponBase
 		stats.TargetKnockback = 0;
 		rwBaseName = "The Reason";
     }
-}
-
-class UWSuffReason1 : RwWeaponSuffix {
-	override bool isUnique() { return true; }
-    override string getName() {
-        return "";
-    }
-    override string getDescription() {
-        return "I assure you... They will listen to the Reason.";
-    }
-    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn is 'RwuRailMinigun';
-    }
-    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {}
-}
-
-class UWSuffReason2 : RwWeaponSuffix {
-	override bool isUnique() { return true; }
-    override string getName() {
-        return "";
-    }
-    override string getDescription() {
-        return "UAC PROTOTYPE: NOT FOR TESTING IN POPULATED AREAS";
-    }
-    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn is 'RwuRailMinigun';
-    }
-    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {}
 }

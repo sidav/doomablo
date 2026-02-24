@@ -146,11 +146,16 @@ mixin class Affixable {
         }
     }
 
+    // Func used for sorting
     private int affixOrderScore(Affix aff) {
+        if (aff is 'RwFluffAffix')
+            return 1000; // Fluff affixes always go first
+
+        let score = aff.getAlignment();
         if (aff.isSuffix()) {
-            return 100 + aff.getAlignment();
+            return 100 + score;
         }
-        return aff.getAlignment();
+        return score;
     }
 
     Affix findAppliedAffix(class <Affix> affcls) {
