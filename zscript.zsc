@@ -168,7 +168,8 @@ version "4.10.0"
 #include "zscript/rweapons/w7bfg2704.zs"
 
 #include "zscript/rweapons/weapons/unique/base_unique_weapon.zs"
-#include "zscript/rweapons/weapons/unique/w6railminigun.zs"
+#include "zscript/rweapons/weapons/unique/w6thereason.zs"
+
 #include "zscript/rweapons/on_damage_dealt_handler.zs"
 #include "zscript/rweapons/projectiles/rw_base_projectile.zs"
 #include "zscript/rweapons/projectiles/rwbfgball.zs"

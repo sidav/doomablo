@@ -24,6 +24,11 @@ GOTGRENADELAUNCHER = "Got a Grenade launcher";
 TAG_RAILGUN = "Railgun";
 GOTRAILGUN = "Got a Railgun!";
 
+// Unique weapons
+TAG_THEREASON = "The Reason";
+GOT_THEREASON = "ULTIMA RATIO REGNUM: UAC Prototype Hypervelocity gatling railgun";
+OB_THEREASON = "%o listened to %k's reason.";
+
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo settings";
 RWMENU_CUSTOMIZEDOOMABLO = "Customize DOOMablo";

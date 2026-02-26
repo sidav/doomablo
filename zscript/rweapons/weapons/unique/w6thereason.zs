@@ -1,4 +1,4 @@
-class RwuRailMinigun : RwUniqueWeaponBase
+class RwuTheReason : RwUniqueWeaponBase
 {
 	Default
 	{
@@ -6,9 +6,9 @@ class RwuRailMinigun : RwUniqueWeaponBase
 
 		Weapon.SelectionOrder 1500;
 		Weapon.AmmoType "Cell";
-		Inventory.PickupMessage "ULTIMA RATIO REGNUM: UAC Prototype Hypervelocity gatling railgun"; // TODO: Localization
-		Obituary "Listened to the Reason";
-		Tag "The Reason"; // TODO: Localization
+		Tag "$TAG_THEREASON";
+		Inventory.PickupMessage "$GOT_THEREASON";
+		Obituary "$OB_THEREASON";
 		RwWeapon.Weight 10;
 	}
 	States
