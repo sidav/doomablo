@@ -330,4 +330,8 @@ mixin class Affixable {
         }
         return true;
     }
+
+    override string PickupMessage() {
+	    return nameWithAppliedAffixes..".";
+    }
 }
