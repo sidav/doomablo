@@ -28,6 +28,8 @@ GOTRAILGUN = "Got a Railgun!";
 TAG_THEREASON = "The Reason";
 GOT_THEREASON = "ULTIMA RATIO REGNUM: UAC Prototype Hypervelocity gatling railgun";
 OB_THEREASON = "%o listened to %k's reason.";
+TAG_BFG10K = "B.F.G. 10000";
+GOT_BFG10K = "WARNING: THE SLAYER IS IN CONTROL OF THE BFG!";
 
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo settings";

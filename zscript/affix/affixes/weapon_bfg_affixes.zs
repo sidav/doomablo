@@ -104,6 +104,9 @@ class WAffWorseBFGRayDamage : RwBFGPrefix {
     override string getDescription() {
         return String.format("Ray DMG -%d.%d%%", (modifierLevel / 10, modifierLevel % 10) );
     }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.GetClass() == 'RwBfg' || wpn.GetClass() == 'RwuBFG10k';
+    }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffBetterBFGRayDamage' && a2.GetClass() != 'WSuffBFGNoRays';
     }
@@ -126,6 +129,9 @@ class WAffBetterBFGRayDamage : RwBFGPrefix {
     }
     override string getDescription() {
         return String.format("Ray DMG +%d.%d%%", (modifierLevel / 10, modifierLevel % 10) );
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.GetClass() == 'RwBfg' || wpn.GetClass() == 'RwuBFG10k';
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffWorseBFGRayDamage' && a2.GetClass() != 'WSuffBFGNoRays';

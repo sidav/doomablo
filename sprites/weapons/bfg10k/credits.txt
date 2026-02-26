@@ -1,0 +1,6 @@
+Code: Skulltag, Ghastly (ZScript conversion)
+GLDefs: Skulltag
+Sounds: Skulltag
+Sprites: SoniK.O.Fan
+Sprite Edit: Gothic
+Idea Base: Quake 3's BFG10k

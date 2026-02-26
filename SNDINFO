@@ -22,6 +22,11 @@ Repeater/Hit		REPGHIT
 Repeater/Spinup		REPGSPIN
 Repeater/Spindown	REPGSTOP
 
+Weapons/BFG10KF     DSBFG10K
+Weapons/BFG10KX     DSBAREXP
+Weapons/BFG10KCool  DS10KCDN
+Weapons/BFG10KIdle  DS10KIDL
+
 40mm/grenfire       GFIRE
 40mm/grenbounce     BOUNCE
 explode1            explode1

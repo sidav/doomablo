@@ -78,7 +78,10 @@ class ConsoleDropsHandler : EventHandler
                 break;
             // Unique
             case 106:
-                [unused, spawnedItem] = player.A_SpawnItemEx('RwuRailMinigun', xofs: xofs, zvel: zvel);
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwuTheReason', xofs: xofs, zvel: zvel);
+                break;
+            case 107:
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwuBFG10k', xofs: xofs, zvel: zvel);
                 break;
             
             // --------------------------------------

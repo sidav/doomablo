@@ -169,10 +169,12 @@ version "4.10.0"
 
 #include "zscript/rweapons/weapons/unique/base_unique_weapon.zs"
 #include "zscript/rweapons/weapons/unique/w6thereason.zs"
+#include "zscript/rweapons/weapons/unique/w7bfg10k.zs"
 
 #include "zscript/rweapons/on_damage_dealt_handler.zs"
 #include "zscript/rweapons/projectiles/rw_base_projectile.zs"
 #include "zscript/rweapons/projectiles/rwbfgball.zs"
+#include "zscript/rweapons/projectiles/rwbfg10kball.zs"
 #include "zscript/rweapons/projectiles/rwflechette.zs"
 #include "zscript/rweapons/projectiles/rwglgrenade.zs"
 #include "zscript/rweapons/projectiles/rwplasmaball.zs"

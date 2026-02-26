@@ -139,6 +139,29 @@ extend class RwHudArtifactStatsCollector {
                     Font.CR_White, compareClr);
         }
 
+        if (wpn.GetClass() == "RwuBFG10k") {
+            // Rays dmg
+            wpn1dmgmin = float(wpn.stats.RayDmgMin * (1000 + wpn.stats.additionalBfgRayDamagePromille)) / 1000.;
+            wpn1dmgmax = float(wpn.stats.RayDmgMax * (1000 + wpn.stats.additionalBfgRayDamagePromille)) / 1000.;
+            if (wpnComp) {
+                wpn2dmgmin = double(wpnComp.stats.RayDmgMin * (1000 + wpnComp.stats.additionalBfgRayDamagePromille)) / 1000.;
+                wpn2dmgmax = double(wpnComp.stats.RayDmgMax * (1000 + wpnComp.stats.additionalBfgRayDamagePromille)) / 1000.;
+            }
+            if (wpnComp && wpnComp.stats.NumberOfRays > 0) {
+                if (wpnComp) {
+                    compareStr = makeDamageDifferenceString(wpn1dmgmin, wpn1dmgmax, wpn2dmgmin, wpn2dmgmax);
+                    compareClr = GetTwoFloatDifferencesColor(wpn1dmgmin - wpn2dmgmin, wpn1dmgmax - wpn2dmgmax);
+                } else {
+                    compareStr = "";
+                }
+            } else {
+                compareStr = "";
+                compareClr = Font.CR_White;
+            }
+            addTwoLabelsLine("Ray Damage/sec:", String.Format("%.1f-%.1f", (wpn1dmgmin, wpn1dmgmax))..compareStr,
+                    Font.CR_White, compareClr);
+        }
+
         addSeparatorLine();
 
         foreach (aff : wpn.appliedAffixes) {

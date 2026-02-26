@@ -28,6 +28,8 @@ GOTRAILGUN = "Schienengewehr genommen.";
 TAG_THEREASON = "Der Beweis";
 GOT_THEREASON = "ULTIMA RATIO REGNUM: UAC extremschnelles Gatlingschienengewehr";
 OB_THEREASON = "%o hat auf %ks Beweis geachtet.";
+TAG_BFG10K = "B.F.G. 10000";
+GOT_BFG10K = "ACHTUNG: DER SLAYER HAT DIE KONTROLLE ÜBER DAS BFG!";
 
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo anpassen";

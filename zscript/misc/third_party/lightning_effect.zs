@@ -165,7 +165,7 @@ class ArcSplitController : Inventory
 	// then calls DrawLightningSegment() between each of those points to create
 	// a jagged particle-based lightning.
 	// Arguments are the same as in DrawLightningSegment(), just passed to it.
-	static void DrawLightning(Vector3 from, Vector3 to, bool spawnSpark = true, PlayerInfo playersource = null)
+	static void DrawLightning(Vector3 from, Vector3 to, bool spawnSpark = true, PlayerInfo playersource = null, int color = 0xFFCCCCFF)
 	{
 		let diff = Level.Vec3Diff(from, to);
 		let dir = diff.Unit();
@@ -200,7 +200,7 @@ class ArcSplitController : Inventory
 			node.x = litPosX[i];
 			node.y = litPosY[i];
 			node.z = litPosZ[i];
-			ArcSplitController.DrawLightningSegment(from, node, density: 1, size: 4, posOfs: 0, spawnSpark: (spawnSpark && i == steps - 1), playersource: playersource);
+			ArcSplitController.DrawLightningSegment(from, node, density: 1, size: 4, posOfs: 0, spawnSpark: (spawnSpark && i == steps - 1), playersource: playersource, color);
 			from = node;
 		}
 	}
@@ -218,7 +218,7 @@ class ArcSplitController : Inventory
 	// playerSource	: pass a PlayerInfo pointer here if this is being fired by the player.
 	// (If playerSouce is non-null, PlayerPawn's velocity will be added to particles for
 	// interpolatin purposes.)
-	static void DrawLightningSegment(Vector3 from, Vector3 to, double density = 8, double size = 10, double posOfs = 2, bool spawnSpark = true, PlayerInfo playerSource = null)
+	static void DrawLightningSegment(Vector3 from, Vector3 to, double density = 8, double size = 10, double posOfs = 2, bool spawnSpark = true, PlayerInfo playerSource = null, int color = 0xFFCCCCFF)
 	{
 		let diff = Level.Vec3Diff(from, to); // difference between two points
 		let dir = diff.Unit(); // direction from point 1 to point 2
@@ -227,7 +227,7 @@ class ArcSplitController : Inventory
 		// Generic particle properties:
 		posOfs = abs(posOfs);
 		FSpawnParticleParams pp;
-		pp.color1 = 0xFFCCCCFF;
+		pp.color1 = color;
 		pp.flags = SPF_FULLBRIGHT|SPF_REPLACE;
 		pp.lifetime = 1;
 		pp.size = size; // size
