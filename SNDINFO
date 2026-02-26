@@ -13,6 +13,10 @@ Revolver/Coltinsr   COLTINSR
 Revolver/Coltclos   COLTCLOS
 Smasher/Smshfire    DSSMASHF
 
+AssaultRifle/fire       UACBR
+AssaultRifle/clipout    UACMO
+AssaultRifle/clipin     UACMI
+
 Repeater/Fire		REPGFIRE
 Repeater/Hit		REPGHIT
 Repeater/Spinup		REPGSPIN

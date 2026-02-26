@@ -47,7 +47,7 @@ class StartingItemsHandler : EventHandler
 				pmo.GiveInventory('Shell', shg.stats.clipSize);
 			}
 			if (rw_start_with_smg) {
-				let shg = RwWeapon(pmo.GiveInventoryType('RwSmg'));
+				let shg = RwWeapon(pmo.GiveInventoryType('RwAssaultRifle'));
 				shg.Generate(0, 1);
 			}
 		}

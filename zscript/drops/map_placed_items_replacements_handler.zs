@@ -39,7 +39,7 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             if (rnd.OneChanceFrom(2)) {
                 e.Replacement = 'rwChaingun';
             } else {
-                e.Replacement = 'rwSmg';
+                e.Replacement = 'RwAssaultRifle';
             }
             break;
 		case 'Rocketlauncher':
