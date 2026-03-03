@@ -12,6 +12,7 @@ class RwWeapon : DoomWeapon abstract {
         Weapon.AmmoUse 1; // We use custom ammo usage routine anyway
         Weapon.AmmoGive 0; // Ammo is dropped separately so that the player doesn't have to "press use to pick it up"
         RwWeapon.Weight 20; // A sane default--about as common as the Chaingun and SMG.
+        +WEAPON.NOAUTOAIM
     }
 
     virtual void setBaseStats() {
