@@ -80,7 +80,7 @@ class MAffPulling : RwMonsterAffix {
     override string getDescription() {
         return "PULL "..modifierLevel;
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 50;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
@@ -483,8 +483,10 @@ class MAffSummoner : RwMonsterAffix {
         return 3;
     }
     int spawnChance;
+    int summonedLevel;
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
         spawnChance = multRandomPlusQualityRemap(0, 10, 0.1, quality, 5);
+        summonedLevel = quality;
     }
     const TRY_SUMMON_EACH = TICRATE;
     override void onDoEffect(Actor owner) {
@@ -497,6 +499,7 @@ class MAffSummoner : RwMonsterAffix {
                 newMo.destroy();
                 return;
             }
+            RwMonsterAffixator.AffixateMonster(newMo, Random[summon](0, 1), summonedLevel);
             owner.A_SpawnItemEx('TeleportFog');
             newMo.A_SpawnItemEx('TeleportFog');
             newMo.target = owner.target;
@@ -598,24 +601,28 @@ class MAffSpawnHordeOnDeath : RwMonsterAffix {
         return "Engorged";
     }
     override string getDescription() {
-        return "Horde "..modifierLevel;
+        return "Horde "..summonedAmount;
     }
     override int minRequiredRarity() {
         return 3;
     }
+    int summonedAmount;
+    int summonedLevel;
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = multRandomPlusQualityRemap(3, 7, 0.1, quality, 3);
+        summonedAmount = multRandomPlusQualityRemap(3, 7, 0.1, quality, 3);
+        summonedLevel = quality;
     }
     mixin DropSpreadable;
     override void onOwnerDied(Actor owner) {
         if (owner) {
             owner.A_SpawnItemEx('TeleportFog');
-            for (let i = 0; i < modifierLevel; i++) {
+            for (let i = 0; i < summonedAmount; i++) {
                 let newMo = owner.Spawn(RandomMonsterHelper.GetRandomWeakMonsterClass(true), owner.Pos, ALLOW_REPLACE);
                 if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, 0, 6 * owner.radius, owner.Pos)) {
                     newMo.destroy();
                     continue;
                 }
+                RwMonsterAffixator.AffixateMonster(newMo, Random[horde](0, 1), summonedLevel);
                 newMo.bNOINFIGHTING = true;
                 newMo.bNOTARGET = true;
                 newMo.A_ChangeCountFlags(false, FLAG_NO_CHANGE, FLAG_NO_CHANGE); // Don't count as kill, don't drop loot

@@ -14,7 +14,7 @@ class RwWeaponSuffix : Affix abstract {
     override int minRequiredRarity() {
         return 3; // Most suffixes require at least "rare"
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 55;
     }
     override bool IsCompatibleWithItem(Inventory item) {
@@ -515,6 +515,68 @@ class WSuffSlugshotShotgun : RwWeaponSuffix {
     }
 }
 
+class WSuffIncreasedLastAmmoDamage : RwWeaponSuffix {
+    override string getName() {
+        return "Goodbye";
+    }
+    override string getDescription() {
+        return String.Format("Last bullet in the clip deals %d damage", (lastBulletDmg));
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.fireType == RWStatsClass.FTHitscan && wpn.stats.clipSize > 5;
+    }
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
+        if (appliedOn is 'RwPistol' || appliedOn is 'RwRevolver')
+            return 100;
+        return 25;
+    }
+    int lastBulletDmg;
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        int factorx100 = multRandomPlusQualityRemap(250, 400, 0.1, quality, 100);
+        lastBulletDmg = (factorx100 * wpn.stats.maxDamage) / 100;
+
+    }
+    override int modifyRolledDamage(int damage, RwPlayer plr) {
+        if (RwWeapon(plr.Player.ReadyWeapon).currentClipAmmo == 0)
+            return lastBulletDmg;
+        return damage;
+    }
+}
+
+class WSuffRepeatedShotsIncreaseDmg : RwWeaponSuffix {
+    override string getName() {
+        return "Stuffing";
+    }
+    override string getDescription() {
+        return String.Format("Repeated hits on same target increase DMG by %d%% (max %d%%)", (dmgIncreasePerc, maxDmgIncreasePerc));
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.fireType == RWStatsClass.FTHitscan && wpn.stats.pellets < 2;
+    }
+    int dmgIncreasePerc;
+    int maxDmgIncreasePerc;
+    int currDmgIncreasePerc;
+    Actor lastActorHit;
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        dmgIncreasePerc = multRandomPlusQualityRemap(3, 10, 0.1, quality, 5);
+        maxDmgIncreasePerc = multRandomPlusQualityRemap(15, 50, 0.1, quality, 25);
+        currDmgIncreasePerc = 0;
+    }
+    override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        // TODO: handle misses somehow
+        if (target != lastActorHit) {
+            lastActorHit = target;
+            currDmgIncreasePerc = 0;
+            return;
+        }
+        currDmgIncreasePerc += dmgIncreasePerc;
+        currDmgIncreasePerc = min(currDmgIncreasePerc, maxDmgIncreasePerc);
+    }
+    override int modifyRolledDamage(int damage, RwPlayer plr) {
+        return math.getIntPercentage(damage, 100 + currDmgIncreasePerc);
+    }
+}
+
 ////////////////////////////
 // Self-upgrade affixes
 class WSuffRofSelfUpgrade : RwWeaponSuffix {
@@ -522,7 +584,7 @@ class WSuffRofSelfUpgrade : RwWeaponSuffix {
     override string getName() {
         return "Consecration";
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 75;
     }
     override string getDescription() {
@@ -557,7 +619,7 @@ class WSuffReloadSpeedSelfUpgrade : RwWeaponSuffix {
     override string getName() {
         return "Servant";
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 75;
     }
     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
@@ -596,7 +658,7 @@ class WSuffMaxDamageSelfUpgrade : RwWeaponSuffix {
     override string getName() {
         return "Justicar";
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 75;
     }
     override string getDescription() {
@@ -634,7 +696,7 @@ class WSuffPelletsSelfUpgrade : RwWeaponSuffix {
     override string getName() {
         return "Leadstorm";
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 75;
     }
     override string getDescription() {

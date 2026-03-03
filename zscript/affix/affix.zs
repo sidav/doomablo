@@ -19,7 +19,9 @@ class Affix abstract {
     }
 
     // This method should be used to make some affixes more rare than the others.
-    virtual int selectionProbabilityPercentage() {
+    // If it's less than 100, this affix will randomly count as not eligible for application.
+    // appliedOn is here to make affixes more probable for some weapon types
+    virtual int selectionProbabilityPercentage(Inventory appliedOn) {
         return 100;
     }
 

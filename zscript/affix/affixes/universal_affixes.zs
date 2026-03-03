@@ -9,7 +9,7 @@ class RwUniversalAffix : Affix abstract {
     override int getAlignment() {
         return 1;
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 25;
     }
 }

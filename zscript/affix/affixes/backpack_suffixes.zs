@@ -17,7 +17,7 @@ class RwBackpackSuffix : Affix abstract {
     override int minRequiredRarity() {
         return 3; // Most suffixes require at least "rare"
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 50;
     }
 }

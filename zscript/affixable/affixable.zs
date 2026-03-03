@@ -118,7 +118,7 @@ mixin class Affixable {
             newAffix.minRequiredRarity() <= generatedRarity &&
             ((newAffix.getAlignment() == 0) || (newAffix.getAlignment() == math.sign(currentExpectedQuality))) &&
             minSuffixesCheck && maxSuffixesCheck &&
-            rnd.PercentChance(newAffix.selectionProbabilityPercentage());
+            rnd.PercentChance(newAffix.selectionProbabilityPercentage(self));
     }
 
     private void handleGenerationFailure(array <int> affQualities, int currentQtyIndex) {
