@@ -72,6 +72,8 @@ class RwuBFG10K : RwUniqueWeaponBase
 		stats.fireType = stats.FTProjectile;
 
 		stats.recoil = 1.5;
+		stats.BaseExplosionRadius = 96;
+		stats.ExplosionRadius = 96;
 		stats.ShooterKickback = 5.0;
 		stats.clipSize = 0;
 		stats.projClass = 'RwBFG10KBall';
