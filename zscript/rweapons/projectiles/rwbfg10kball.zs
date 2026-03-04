@@ -3,7 +3,7 @@ class RwBFG10KBall : RwProjectile
 	Default
 	{
 		Radius 13;
-		Height 8;
+		Height 32;
 		Speed 10;
 		Projectile;
 		+RANDOMIZE

@@ -172,11 +172,14 @@ class WPrefInaccurate : RwWeaponPrefix {
     override int getAlignment() {
         return -1;
     }
-    override string getDescription() {
-        return String.format("Shot spread +%d%%", (modifierLevel) );
-    }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefPrecise';
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.HorizSpread > 0.0;
+    }
+    override string getDescription() {
+        return String.format("Shot spread +%d%%", (modifierLevel) );
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 75, 0.1) + remapQualityToRange(quality, 1, 25);
@@ -198,11 +201,14 @@ class WPrefPrecise : RwWeaponPrefix {
     override int getAlignment() {
         return 1;
     }
-    override string getDescription() {
-        return String.format("Shot spread -%d%%", (modifierLevel) );
-    }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WPrefInaccurate';
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.HorizSpread > 0.0;
+    }
+    override string getDescription() {
+        return String.format("Shot spread -%d%%", (modifierLevel) );
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.1) + remapQualityToRange(quality, 1, 25);
