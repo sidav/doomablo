@@ -4,7 +4,7 @@ class ArmorRepairKit : RwStoredConsumable {
 		Height 16;
 		Inventory.Pickupmessage "Armor repair kit!";
 		RwStoredConsumable.RwBaseMaxAmount 4;
-		Inventory.Icon "FKITC0";
+		Inventory.Icon "ACONB0";
         // +INVENTORY.ALWAYSPICKUP - should be false
 		-Inventory.AUTOACTIVATE
         +INVENTORY.INVBAR
@@ -13,8 +13,7 @@ class ArmorRepairKit : RwStoredConsumable {
 	States
 	{
 	Spawn:
-		FKIT A 15;
-        FKIT B 15;
+		ACON ABCDEDCB 5;
 		loop;
 	}
 
