@@ -16,7 +16,10 @@ class RwBFG10KBall : RwProjectile
 	States
 	{
 	Spawn:
-		BFS1 AAABBB 1 Bright FireBFG10kRays();
+		BFS1 AAABBB 1 Bright {
+			RWA_SeekerMissile();
+			FireBFG10kRays();
+		}
 		Loop;
 	Death:
 		BFE1 AB 8 Bright {
@@ -57,7 +60,7 @@ class RwBFG10KBall : RwProjectile
             ) {
 				let dmg = Random[bfgray](invoker.RayDmgMin, invoker.RayDmgMax);
 				dmg = invoker.dmgFrac.multiply(dmg, (1000+invoker.additionalBfgRayDamagePromille)/TICRATE);
-                mo.damageMobj(null, null, dmg, 'Extreme', DMG_FORCED);
+                mo.damageMobj(null, null, dmg, 'Extreme');
                 ArcSplitController.DrawLightning(beamstart, ArcSplitController.GetBeamAttachPos(mo), spawnSpark: false, color: 0x0000FF11);
             }
         }
