@@ -101,6 +101,14 @@ class RwActiveSlotItem : Inventory abstract {
       }
     }
 
+    clearscope virtual int isOnCooldown() {
+      return cooldownTicksRemaining > 0;
+    }
+
+    clearscope virtual int isFullyCharged() {
+      return currentCharges >= GetMaxCharges();
+    }
+
     clearscope virtual int GetMaxCharges() {
       debug.panicUnimplemented(self);
       return 0;

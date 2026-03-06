@@ -104,7 +104,14 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             }
             break;
         case 'HealthBonus':
-			if (startOfLevel && rnd.OneChanceFrom(4)) e.Replacement = 'RwActiveItemRefill';
+            if (startOfLevel) {
+                let itemType = rnd.weightedRand(50, 15, 1);
+                if (itemType == 1) {
+                    e.Replacement = 'RwActiveItemRefill';
+                } else if (itemType == 2) {
+                    e.Replacement = 'ActiveItemRecharger';
+                }
+            }
             break;
         case 'Soulsphere':
 			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';

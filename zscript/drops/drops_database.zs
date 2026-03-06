@@ -23,6 +23,7 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
         Consumables.insert("RwArmorBonus",400);
         Consumables.insert("HealthBonus",400);
         Consumables.insert("ArmorRepairKit",150);
+        Consumables.insert("ActiveItemRecharger",50);
         Consumables.insert("Stimpack",100);
         Consumables.insert("Blursphere",10);
         Consumables.insert("Soulsphere",7);
