@@ -38,14 +38,16 @@ extend class MyCustomHUD {
 
 
         // Draw frame background
-        Screen.Dim(0x000000, 0.7, rectX, rectY, rectMaxW, rectHeight, STYLE_Translucent);
+        let tex = TexMan.CheckForTexture("HPBAR1BG");
+        double texW, texH;
+        [texW, texH] = TexMan.GetSize(tex);
+        Screen.DrawTexture(tex, false, frameX, frameY, DTA_DestWidth, frameW, DTA_DestHeight, frameH);
 
         // Draw the HP rect itself
         drawTargetHpRectangle(rectX, rectY, rectMaxW, rectHeight, currentTargetMonster);
 
         // Draw the frame
-        let tex = TexMan.CheckForTexture("HPBAR1");
-        double texW, texH;
+        tex = TexMan.CheckForTexture("HPBAR1");
         [texW, texH] = TexMan.GetSize(tex);
         Screen.DrawTexture(tex, false, frameX, frameY, DTA_DestWidth, frameW, DTA_DestHeight, frameH);
 
