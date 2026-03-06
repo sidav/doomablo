@@ -97,7 +97,7 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 
 		// Consumables:
         case 'ArmorBonus':
-            if (rnd.OneChanceFrom(10)) {
+            if (rnd.OneChanceFrom(15)) {
                 e.replacement = 'ArmorRepairKit';
             } else {
                 e.replacement = 'RwArmorBonus';
