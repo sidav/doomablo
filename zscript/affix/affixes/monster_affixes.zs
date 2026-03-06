@@ -35,13 +35,14 @@ class MAffMoreHealth : RwMonsterAffix { // It WILL synergize with the affixator-
         return "Unyelding";
     }
     override string getDescription() {
-        return "HLTH +"..(modifierLevel-100).."%";
+        return "HLTH +"..(healthBonusPerc).."%";
     }
+    int healthBonusPerc;
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = 100 + multRandomPlusQualityRemap(50, 100, 0.1, quality, 50);
+        healthBonusPerc = multRandomPlusQualityRemap(50, 200, 0.1, quality, 100);
     }
     override void onPutIntoMonsterInventory(Actor owner) {
-        owner.starthealth = math.getIntPercentage(owner.health, modifierLevel);
+        owner.starthealth = math.getIntPercentage(owner.health, 100+healthBonusPerc);
         owner.A_SetHealth(owner.starthealth);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
@@ -149,7 +150,7 @@ class MAffInflictsCorrosion : RwMonsterAffix {
         return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = multRandomPlusQualityRemap(3, 7, 0.1, quality, 3);
+        modifierLevel = multRandomPlusQualityRemap(3, 10, 0.1, quality, 5);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive && source && source != owner) {
@@ -163,17 +164,18 @@ class MAffInflictsVulnerability : RwMonsterAffix {
         return "Foul";
     }
     override string getDescription() {
-        return "VULN "..modifierLevel;
+        return "VULN "..vulnTokensGiven;
     }
     override int minRequiredRarity() {
         return 2;
     }
+    int vulnTokensGiven;
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = multRandomPlusQualityRemap(10, 30, 0.1, quality, 10);
+        vulnTokensGiven = multRandomPlusQualityRemap(5, 10, 0.1, quality, 10);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
-        if (!passive && source && source != owner && rnd.percentChance(modifierLevel)) {
-            source.GiveInventory('RWVulnerabilityToken', 5);
+        if (!passive && source && source != owner && rnd.percentChance(50)) {
+            source.GiveInventory('RWVulnerabilityToken', vulnTokensGiven);
         }
     }
 }
@@ -230,7 +232,7 @@ class MAffThorns : RwMonsterAffix {
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (passive && source && source != owner && !occuredThisTick()) {
-            source.damageMobj(null, null, Random(0, modifierLevel), 'Normal');
+            source.damageMobj(null, null, Random[Thorns](1, modifierLevel), 'Normal');
             updateLastEffectTick();
         }
     }
@@ -244,7 +246,7 @@ class MAffArmored : RwMonsterAffix {
         return "ARMR "..modifierLevel;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        let baseLevel = multRandomPlusQualityRemap(1, 7, 0.2, quality, 3);
+        let baseLevel = multRandomPlusQualityRemap(2, 7, 0.2, quality, 3);
         modifierLevel = MonsterStatsScaler.ScaleIntValueByLevelRandomized(baseLevel, quality);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {

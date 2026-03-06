@@ -2,10 +2,11 @@ class RWCorrosionToken : RwStatusEffectToken {
 
     Default {
         Inventory.Amount 10;
+        Inventory.MaxAmount 30;
         RwStatusEffectToken.ReductionPeriodTicks TICRATE;
     }
 
-    const DamageEach = TICRATE / 2;
+    const DamageEach = TICRATE / 4;
 
     override int GetAlignment() {
         return -1;
