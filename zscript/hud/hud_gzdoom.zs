@@ -1,6 +1,6 @@
 // This contains methods from DoomStatusBar which are NOT changed in this mod.
 // It's needed because:
-// We need to call Super.Draw() whithout causing base Doom HUD being drawn
+// We need to call Super.Draw() without causing base Doom HUD being drawn
 // and therefore we inherit our class from BaseStatusBar and not from DoomStatusBar
 // But BaseStatusBar doesn't have all the stuff from DoomStatusBar, so I just copy-pasted them from gzdoom source here
 extend class MyCustomHUD {
@@ -110,7 +110,14 @@ extend class MyCustomHUD {
 	{
 		// Draw the keys. This does not use a special draw function like SBARINFO because the specifics will be different for each mod
 		// so it's easier to copy or reimplement the following piece of code instead of trying to write a complicated all-encompassing solution.
-		Vector2 keypos = (-10, 2);
+
+		// modified code: make a correction for exp/level lines
+		let fontHeight = itemNameFont.mFont.GetHeight();
+		let plr = RwPlayer(CPlayer.mo);
+		let y = 2*(fontHeight+1);
+		if (plr.stats.statPointsAvailable > 0) y += fontHeight+1;
+		Vector2 keypos = (-10, y);
+		// my code ended
 		int rowc = 0;
 		double roww = 0;
 		for(let i = CPlayer.mo.Inv; i != null; i = i.Inv)

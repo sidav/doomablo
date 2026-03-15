@@ -1,11 +1,9 @@
-class InfernoBook : Inventory {
+class InfernoBook : RwStoredConsumable {
 	Default
 	{
 		Inventory.Pickupmessage "Tome of knowledge!";
 		// +INVENTORY.ALWAYSPICKUP - should be false
-		Inventory.Amount 1;
-		Inventory.MaxAmount 5;
-		Inventory.InterHubAmount 5;
+		RwStoredConsumable.RwBaseMaxAmount 3;
 		Inventory.Icon "TOMEG0";
 		-Inventory.AUTOACTIVATE
 		+INVENTORY.INVBAR
@@ -16,10 +14,6 @@ class InfernoBook : Inventory {
 	Spawn:
 		TOME ABCDEFGH 5;
 		loop;
-	}
-
-	override bool CanPickup(Actor toucher) {
-		return RwPlayer(toucher) != null;
 	}
 
 	override bool Use(bool pickup) {

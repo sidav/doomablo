@@ -6,7 +6,7 @@ class RwFlechette : RwProjectile
 		// Scale 0.4;
 		Radius 5;
 		Height 3;
-		Speed 14;
+		Speed 16;
 		Projectile;
 		MaxTargetRange 20;
 		+RANDOMIZE
@@ -33,7 +33,14 @@ class RwFlechette : RwProjectile
 		}
 		TNT0 A 1 Bright RWA_SpawnTrailParticles(); // Empty state, so that those ticks won't be homing
 		Loop;
+	Crash:
+		TNT0 A 0;
+		Stop;
+	XDeath:
+		TNT0 A 0;
+		Stop;
 	Death:
+		TNT0 A 0 A_SpawnItem("BulletPuff");
 		Stop;
 	}
 

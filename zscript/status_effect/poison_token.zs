@@ -4,6 +4,7 @@ class RWPoisonToken : RwStatusEffectToken {
 
     Default {
         Inventory.Amount 10;
+        Inventory.MaxAmount 30;
         RwStatusEffectToken.ReductionPeriodTicks TICRATE;
     }
 
@@ -28,12 +29,12 @@ class RWPoisonToken : RwStatusEffectToken {
     }
 
     override void doEffectOnRwPlayer() {
-        if (amount > 30) {
-            amount = 30;
-        }
-        if (GetAge() % TICRATE == 0) {
+        if (GetAge() % TICRATE/2 == 0) {
+            let flags = DMG_NO_ARMOR;
+            if (!rnd.oneChanceFrom(5))
+                flags = flags | DMG_NO_PAIN;
             // debug.print("Damaging: amount "..amount..", damage "..damage());
-            owner.damageMobj(self, null, 1, 'Normal', DMG_NO_ARMOR);
+            owner.damageMobj(self, null, 1, 'Normal', flags);
         }
     }
 

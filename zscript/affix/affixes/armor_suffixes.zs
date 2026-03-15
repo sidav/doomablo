@@ -14,7 +14,7 @@ class RwArmorSuffix : Affix abstract {
     override int minRequiredRarity() {
         return 3; // Most suffixes require at least "rare"
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 50;
     }
     override bool IsCompatibleWithItem(Inventory item) {
@@ -187,6 +187,25 @@ class ASuffHoly : RwArmorSuffix {
     }
 }
 
+class ASuffHealOnRepair : RwArmorSuffix {
+    override string getName() {
+        return "Biotech";
+    }
+    override string getDescription() {
+        return String.Format("Heals %d HP when repair kit is used", (modifierLevel));
+    }
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
+        return true;
+    }
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(3, 15, 0.1) + remapQualityToRange(quality, 0, 5);
+    }
+    override void onBeingRepaired(Actor owner, int repairAmount, Actor repairSource) {
+        if (repairSource is 'ArmorRepairKit')
+            owner.GiveBody(modifierLevel);
+    }
+}
+
 // Non-energy only
 
 class ASuffDegrading : RwArmorSuffix {
@@ -252,12 +271,16 @@ class ASuffAbsImprove : RwArmorSuffix {
         modifierLevel = remapQualityToRange(quality, 5*arm.stats.AbsorbsPercentage/4, min(5*arm.stats.AbsorbsPercentage/2, 100));
         stat2 = 60 - rnd.multipliedWeightedRandByEndWeight(0, 30, 0.05); // Upgrade each this much repaired
     }
+    int cumulativeRepair;
+    override void onBeingRepaired(Actor owner, int repairAmount, Actor repairSource) {
+        cumulativeRepair += repairAmount;
+    }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RwArmor arm = RwArmor(affixedItem);
-        if (arm.cumulativeRepair >= stat2 && modifierLevel > arm.stats.AbsorbsPercentage) {
+        if (cumulativeRepair >= stat2 && modifierLevel > arm.stats.AbsorbsPercentage) {
             owner.A_PrintBold("Affix level up: +1% max ABS for your armor");
             arm.stats.AbsorbsPercentage += 1;
-            arm.cumulativeRepair = 0;
+            cumulativeRepair = 0;
         }
         if (modifierLevel <= arm.stats.AbsorbsPercentage) {
             maxEffectReached = true;
@@ -286,13 +309,17 @@ class ASuffDrbImprove : RwArmorSuffix {
         modifierLevel = math.getIntPercentage(arm.stats.maxDurability, percentage);
         stat2 = 50 - rnd.multipliedWeightedRandByEndWeight(0, 35, 0.05); // Upgrade each this much repaired
     }
+    int cumulativeRepair;
+    override void onBeingRepaired(Actor owner, int repairAmount, Actor repairSource) {
+        cumulativeRepair += repairAmount;
+    }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RwArmor arm = RwArmor(affixedItem);
-        if (arm.cumulativeRepair >= stat2 && modifierLevel > arm.stats.maxDurability) {
+        if (cumulativeRepair >= stat2 && modifierLevel > arm.stats.maxDurability) {
             owner.A_PrintBold("Affix level up: +1 max DRB for your armor");
             arm.stats.maxDurability += 1;
             arm.stats.currDurability += 1;
-            arm.cumulativeRepair = 0;
+            cumulativeRepair = 0;
         }
         if (modifierLevel <= arm.stats.maxDurability) {
             maxEffectReached = true;
@@ -358,6 +385,29 @@ class ASuffMedikitsRepairArmor : RwArmorSuffix {
         RwArmor arm = RwArmor(affixedItem);
         if (RwPlayer(owner) && RwPlayer(owner).lastHealedBy >= 10) {
             arm.RepairFor(modifierLevel);
+        }
+    }
+}
+
+class ASuffArmorBonusesHeal : RwArmorSuffix {
+    override string getName() {
+        return "Biosupport";
+    }
+    override string getDescription() {
+        return String.Format("Armor bonuses also heal for %.1f HP", (float(modifierLevel)/100.));
+    }
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
+        return !(arm.stats.IsEnergyArmor());
+    }
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(20, 100, 0.1) + remapQualityToRange(quality, 0, 80);
+    }
+    int fractionAccum;
+    override void onBeingRepaired(Actor owner, int repairAmount, Actor repairSource) {
+        if (repairSource is 'RwArmorBonus') {
+            let healFor = math.AccumulatedFixedPointAdd(0, modifierLevel, 100, fractionAccum);
+            if (healFor > 0)
+                owner.GiveBody(healFor);
         }
     }
 }
@@ -509,7 +559,7 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         // Damage
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 45, 0.01) + remapQualityToRange(quality, 0, 15);
-        modifierLevel = StatsScaler.ScaleIntValueByLevelRandomized(modifierLevel, quality);
+        modifierLevel = PlayerStatsScaler.ScaleIntValueByLevelRandomized(modifierLevel, quality);
         // Radius (x10)
         stat2 = rnd.multipliedWeightedRandByEndWeight(75, 200, 0.05);
     }

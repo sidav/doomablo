@@ -115,6 +115,57 @@ class APrefBetterAbsorption : RwArmorPrefix {
     }
 }
 
+class APrefWorseBonusRepair : RwArmorPrefix {
+    override string getName() {
+        return "Nondismantable"; // TODO: think of a name :(
+    }
+    override int getAlignment() {
+        return -1;
+    }
+    override string getDescription() {
+        return "Armor bonuses give only "..StringsHelper.FixedPointIntAsString(stat2, 1000).." armor";
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'APrefBetterBonusRepair';
+    }
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
+        return !(arm.stats.IsEnergyArmor());
+    }
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(200, arm.stats.RepairFromBonusx1000/2, 0.05) + remapQualityToRange(quality, 100, arm.stats.RepairFromBonusx1000/2);
+        arm.stats.RepairFromBonusx1000 -= modifierLevel;
+        stat2 = arm.stats.RepairFromBonusx1000;
+    }
+    override bool TryUnapplyingSelfFrom(Inventory item) {
+        RwArmor(item).stats.RepairFromBonusx1000 += modifierLevel;
+        return true;
+    }
+}
+
+
+class APrefBetterBonusRepair : RwArmorPrefix {
+    override string getName() {
+        return "Modular"; // TODO: think of a name :(
+    }
+    override int getAlignment() {
+        return 1;
+    }
+    override string getDescription() {
+        return "Armor bonuses give "..StringsHelper.FixedPointIntAsString(stat2, 1000).." armor";
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'APrefWorseBonusRepair';
+    }
+    override bool IsCompatibleWithRArmor(RwArmor arm) {
+        return !(arm.stats.IsEnergyArmor());
+    }
+    override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(300, 3000, 0.1) + remapQualityToRange(quality, 0, 2000);
+        arm.stats.RepairFromBonusx1000 += modifierLevel;
+        stat2 = arm.stats.RepairFromBonusx1000;
+    }
+}
+
 class APrefWorseRepair : RwArmorPrefix {
     override string getName() {
         return "Nondismantable";
@@ -132,11 +183,11 @@ class APrefWorseRepair : RwArmorPrefix {
         return !(arm.stats.IsEnergyArmor());
     }
     override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(200, arm.stats.RepairFromBonusx1000/2, 0.05) + remapQualityToRange(quality, 100, arm.stats.RepairFromBonusx1000/2);
-        arm.stats.RepairFromBonusx1000 -= modifierLevel;
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(200, arm.stats.RepairFromKitx1000/2, 0.05) + remapQualityToRange(quality, 100, arm.stats.RepairFromKitx1000/2);
+        arm.stats.RepairFromKitx1000 -= modifierLevel;
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
-        RwArmor(item).stats.RepairFromBonusx1000 += modifierLevel;
+        RwArmor(item).stats.RepairFromKitx1000 += modifierLevel;
         return true;
     }
 }
@@ -160,7 +211,7 @@ class APrefBetterRepair : RwArmorPrefix {
     }
     override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(300, 3000, 0.1) + remapQualityToRange(quality, 0, 2000);
-        arm.stats.RepairFromBonusx1000 += modifierLevel;
+        arm.stats.RepairFromKitx1000 += modifierLevel;
     }
 }
 

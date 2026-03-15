@@ -44,7 +44,8 @@ extend class RwPlayerStats {
     }
 
     ///////////////////
-    // Melee damage
+    // Strength. 
+    // Effect 1: Melee damage
     int RollBaseMeleeDamage() {
         int mindmg;
         int maxdmg;
@@ -57,12 +58,26 @@ extend class RwPlayerStats {
     int, int GetMinAndMaxMeleeDamage() {
         // OG Doom melee damage is 2-20.
         // baseMeleeDamageLevel increases base min damage for 1 each 6 levels
-        int minDamage = 2 + (currentStats[StatMeleeDmg]-1)/2;
+        int minDamage = 2 + (currentStats[StatStrength]-1)/2;
         // baseMeleeDamageLevel also increases base max damage for 1 each 5 levels
-        int maxDamage = 20 + currentStats[StatMeleeDmg]/2;
+        int maxDamage = 20 + currentStats[StatStrength]/2;
         return 
             int(double(minDamage) * exponentBase ** (double(currentExpLevel) / multipliesEachLevels)),
             int(double(maxDamage) * exponentBase ** (double(currentExpLevel) / multipliesEachLevels));
+    }
+
+    // Effect 2: Max items
+    int getMaxInvItemAmount(int baseAmount) {
+        // Each 40 points give you +100% max amount
+        let percentage = 100 + (100 * currentStats[StatStrength] / 40);
+        return math.getIntPercentage(baseAmount, percentage);
+    }
+
+    // Effect 3: Max base ammo
+    int getMaxAmmoAmount(int baseAmount) {
+        // Each 50 points give you +100% max base amount
+        let percentage = 100 + currentStats[StatStrength] * 2;
+        return math.getIntPercentage(baseAmount, percentage);
     }
 
     ///////////////////////

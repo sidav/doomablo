@@ -13,6 +13,20 @@ Revolver/Coltinsr   COLTINSR
 Revolver/Coltclos   COLTCLOS
 Smasher/Smshfire    DSSMASHF
 
+AssaultRifle/fire       UACBR
+AssaultRifle/clipout    UACMO
+AssaultRifle/clipin     UACMI
+
+Repeater/Fire		REPGFIRE
+Repeater/Hit		REPGHIT
+Repeater/Spinup		REPGSPIN
+Repeater/Spindown	REPGSTOP
+
+Weapons/BFG10KF     DSBFG10K
+Weapons/BFG10KX     DSBAREXP
+Weapons/BFG10KCool  DS10KCDN
+Weapons/BFG10KIdle  DS10KIDL
+
 40mm/grenfire       GFIRE
 40mm/grenbounce     BOUNCE
 explode1            explode1
@@ -23,3 +37,5 @@ $RANDOM 40mm/grenexplode { explode1 explode2 explode3 explode4 }
 
 Sentry/Active	    DSSENTID
 Sentry/Death	    DSSENTDI
+
+FieldKit/Use        FKITUSE

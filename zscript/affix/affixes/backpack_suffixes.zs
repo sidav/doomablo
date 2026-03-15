@@ -17,7 +17,7 @@ class RwBackpackSuffix : Affix abstract {
     override int minRequiredRarity() {
         return 3; // Most suffixes require at least "rare"
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 50;
     }
 }
@@ -263,5 +263,27 @@ class BSuffBetterEarmorDelay : RwBackpackSuffix {
                 arm.lastDamageTick -= diffTicks;
             }
         }
+    }
+}
+
+class BSuffMeleeStealsAmmo : RwBackpackSuffix {
+    mixin DropSpreadable;
+    override string getName() {
+        return "Steal";
+    }
+    override string getDescription() {
+        return String.Format("Melee attacks steal ammo (%d%% chance)", (modifierLevel));
+    }
+    override void initAndapplyEffectToRBackpack(RWBackpack bkpk, int quality) {
+        modifierLevel = multRandomPlusQualityRemap(5, 30, 0.05, quality, 20);
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (passive) return;
+        if (!(owner.player.readyWeapon is 'RwFist')) return;
+        if (!rnd.percentChance(modifierLevel)) return;
+        DropDatabaseHandler db = DropDatabaseHandler.Get();
+        String spawnedClass = db.PickAmmo();
+        let ammoDrop = DropsSpawner.createDropByClass(source, spawnedClass);
+        AssignSpreadVelocityTo(ammoDrop);
     }
 }

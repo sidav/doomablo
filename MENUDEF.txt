@@ -22,18 +22,8 @@ OptionMenu "RW_Options"
 
     StaticText "$RWMENU_INTERFACEOPTIONS_HEADER", 1
     Option "$RWSETTINGS_AFFIXNAMES", "RwSettingsShowAffixNamesInTables", "RwOptionsYesNo"
-
-	StaticText "$RWMENU_MONHPBAROPTIONS_HEADER", 1
-    Slider "$RWSETTINGS_MINWIDTH", "rwhud_hpbar_min_width", 50, 720, 1
-	Slider "$RWSETTINGS_HEIGHT", "rwhud_hpbar_height", 3, 50, 1
-	Slider "$RWSETTINGS_VERTICAL_POSITION", "rwhud_hpbar_y_position", 0, 1000, 1
-	Slider "$RWSETTINGS_BORDER_THICKNESS", "rwhud_hpbar_border_thickness", 0, 10, 1
-	Slider "$RWSETTINGS_MONSTER_NAME_YOFFSET", "rwhud_monster_name_y_offset", -100, 100, 1
-	Slider "$RWSETTINGS_MONSTER_AFFIXES_YOFFSET", "rwhud_monster_affixes_y_offset", -100, 100, 1
-	ColorPicker "$RWSETTINGS_MONHPBARBORDER_COLOR", "rwhud_monster_hpbar_border_color"
-	ColorPicker "$RWSETTINGS_MONHPBAR_COLOR_ENEMY", "rwhud_monster_hpbar_color"
-	ColorPicker "$RWSETTINGS_MONHPBAR_COLOR_FRIEND", "rwhud_friendly_monster_hpbar_color"
-	ColorPicker "$RWSETTINGS_MONAFFIXESTEXT_COLOR", "rwhud_monster_affixes_text_color"
+	Option "$RWSETTINGS_SHOW_EQUIPPED_ITEMS", "RwSettingsShowEquippedItemsShortInfo", "RwOptionsYesNo"
+	Option "$RWSETTINGS_MONHPBAR_SHOW", "RwSettingsShowMonsterHpBar", "RwOptionsYesNo"
 
 	StaticText ""
 	StaticText "$RWMENU_GAMEPLAYOPTIONS_HEADER", 1
@@ -46,7 +36,6 @@ OptionMenu "RW_Options"
 	Option "$RWSETTINGS_START_WITH_SMG", "rw_start_with_smg", "RwOptionsYesNo"
 	Option "$RWSETTINGS_ENABLE_MBLINK", "rw_enable_monster_blink_affix", "RwOptionsYesNo"
 	Option "$RWSETTINGS_ENABLE_MREVENGE", "rw_enable_monster_revenge_affix", "RwOptionsYesNo"
-	Slider "$RWSETTINGS_HP_SCALING_SPEED", "rw_monster_hp_scaling_exponent_mod", -0.5, 0.0, 0.01, 2
 
 	StaticText ""
 	StaticText "$RWMENU_CONTROLS_HEADER", 1

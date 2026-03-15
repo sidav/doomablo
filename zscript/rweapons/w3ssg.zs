@@ -109,7 +109,7 @@ class RwSuperShotgun : RwWeapon
 			15.0,
 			4.0
 		);
-		stats.recoil = 1.5;
+		stats.recoil = 3.5;
 		stats.TargetKnockback = 192;
 		stats.ShooterKickback = 0.5;
         rwBaseName = "Super Shotgun";

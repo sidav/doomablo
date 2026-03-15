@@ -75,7 +75,7 @@ class rwShotgun : RwWeapon
 			10.5,
 			2.5
 		);
-		stats.recoil = 1.5;
+		stats.recoil = 2.0;
 		stats.clipSize = 5;
 		stats.ShooterKickback = 0.3;
         rwBaseName = "Shotgun";

@@ -6,7 +6,7 @@ class Debug {
 
     // Use this for stuff that should be printed even in release version
     static void warning(string msg) {
-        console.printf("[WARN]: "..msg);
+        console.printf("\cx[WARN]: "..msg);
     }
 
     static void tprint(string msg) {

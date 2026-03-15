@@ -31,7 +31,8 @@ class MyCustomHUD : BaseStatusBar
         {
             BeginStatusBar();
             DrawMainBar(TicFrac);
-			// DrawString(itemStatsFont, "Don't use this HUD size please", (0, 0), DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER);
+			if (screenblocks < 11)
+				DrawString(itemStatsFont, "Please increase HUD size (press \"=\" button)", (0, 0), DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER);
 			// DrawWeaponInHandsInfo();
 			// DrawPickupableWeaponInfo();
         }
@@ -46,7 +47,8 @@ class MyCustomHUD : BaseStatusBar
 				DrawShortCurrentItemsInfo();
 			}
 			DrawPlayerStatusEffects();
-			DrawCurrentTargetHPBar();
+			if (RwSettingsShowMonsterHpBar)
+				DrawCurrentTargetHPBar();
 			DrawPlayerExperienceInfo();
         }
     }

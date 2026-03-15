@@ -35,16 +35,14 @@ class MAffMoreHealth : RwMonsterAffix { // It WILL synergize with the affixator-
         return "Unyelding";
     }
     override string getDescription() {
-        return "HLTH +"..(modifierLevel-100).."%";
+        return "HLTH +"..(healthBonusPerc).."%";
     }
-    override int minRequiredRarity() {
-        return 2;
-    }
+    int healthBonusPerc;
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 125, 500);
+        healthBonusPerc = multRandomPlusQualityRemap(50, 200, 0.1, quality, 100);
     }
     override void onPutIntoMonsterInventory(Actor owner) {
-        owner.starthealth = math.getIntPercentage(owner.health, modifierLevel);
+        owner.starthealth = math.getIntPercentage(owner.health, 100+healthBonusPerc);
         owner.A_SetHealth(owner.starthealth);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
@@ -62,7 +60,7 @@ class MAffKnockback : RwMonsterAffix {
         return "KNBCK "..modifierLevel;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 20);
+        modifierLevel = multRandomPlusQualityRemap(3, 15, 0.1, quality, 5);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive && source && source != owner) {
@@ -72,6 +70,30 @@ class MAffKnockback : RwMonsterAffix {
             }
             source.Thrust(double(modifierLevel), angle);
             // debug.panic("SOURCE IS "..source.GetClassName().." inflictor is "..inflictor.GetClassName().." angle is "..inflictor.angle.." INF IS PUFF ="..(flags & DMG_INFLICTOR_IS_PUFF));
+        }
+    }
+}
+
+class MAffPulling : RwMonsterAffix {
+    override string getName() {
+        return "Pulling";
+    }
+    override string getDescription() {
+        return "PULL "..modifierLevel;
+    }
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
+        return 50;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = multRandomPlusQualityRemap(3, 10, 0.1, quality, 5);
+    }
+    override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
+        if (!passive && source && source != owner) {
+            let angle = owner.angle;
+            if (inflictor && !(flags & DMG_INFLICTOR_IS_PUFF)) {
+                angle = inflictor.angle;
+            }
+            source.Thrust(double(-modifierLevel), angle);
         }
     }
 }
@@ -87,12 +109,12 @@ class MAffInflictsPoison : RwMonsterAffix {
         return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 20);
+        modifierLevel = multRandomPlusQualityRemap(5, 10, 0.1, quality, 5);
         stat2 = quality;
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive && source && source != owner) {
-            RWPoisonToken.ApplyToActor(source, StatsScaler.ScaleIntValueByLevelRandomized(1, stat2), 10);
+            RWPoisonToken.ApplyToActor(source, MonsterStatsScaler.ScaleIntValueByLevelRandomized(1, stat2), 10);
         }
     }
 }
@@ -108,11 +130,11 @@ class MAffInflictsPain : RwMonsterAffix {
         return 0;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 85);
+        modifierLevel = multRandomPlusQualityRemap(20, 55, 0.1, quality, 20);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive && source && source != owner && rnd.percentChance(modifierLevel)) {
-            source.GiveInventory('RWPainToken', modifierLevel);
+            source.GiveInventory('RWPainToken', 10);
         }
     }
 }
@@ -128,7 +150,7 @@ class MAffInflictsCorrosion : RwMonsterAffix {
         return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 10);
+        modifierLevel = multRandomPlusQualityRemap(3, 10, 0.1, quality, 5);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive && source && source != owner) {
@@ -142,17 +164,18 @@ class MAffInflictsVulnerability : RwMonsterAffix {
         return "Foul";
     }
     override string getDescription() {
-        return "VULN "..modifierLevel;
+        return "VULN "..vulnTokensGiven;
     }
     override int minRequiredRarity() {
         return 2;
     }
+    int vulnTokensGiven;
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 5, 50);
+        vulnTokensGiven = multRandomPlusQualityRemap(5, 10, 0.1, quality, 10);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
-        if (!passive && source && source != owner && rnd.percentChance(modifierLevel)) {
-            source.GiveInventory('RWVulnerabilityToken', 5);
+        if (!passive && source && source != owner && rnd.percentChance(50)) {
+            source.GiveInventory('RWVulnerabilityToken', vulnTokensGiven);
         }
     }
 }
@@ -165,7 +188,7 @@ class MAffHigherDamage : RwMonsterAffix {
         return "DMG +"..modifierLevel.."%";
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 25, 200);
+        modifierLevel = multRandomPlusQualityRemap(25, 50, 0.1, quality, 25);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive) {
@@ -182,7 +205,8 @@ class MAffVampiric : RwMonsterAffix {
         return "Vamp "..modifierLevel;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 50);
+        let baseHealOnHit = multRandomPlusQualityRemap(10, 30, 0.1, quality, 10);
+        modifierLevel = MonsterStatsScaler.ScaleIntValueByLevelRandomized(baseHealOnHit, quality);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (!passive) {
@@ -204,11 +228,11 @@ class MAffThorns : RwMonsterAffix {
         return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 5);
+        modifierLevel = multRandomPlusQualityRemap(1, 3, 0.1, quality, 5);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (passive && source && source != owner && !occuredThisTick()) {
-            source.damageMobj(null, null, Random(0, modifierLevel), 'Normal');
+            source.damageMobj(null, null, Random[Thorns](1, modifierLevel), 'Normal');
             updateLastEffectTick();
         }
     }
@@ -222,7 +246,8 @@ class MAffArmored : RwMonsterAffix {
         return "ARMR "..modifierLevel;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 10);
+        let baseLevel = multRandomPlusQualityRemap(2, 7, 0.2, quality, 3);
+        modifierLevel = MonsterStatsScaler.ScaleIntValueByLevelRandomized(baseLevel, quality);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
         if (passive && source && source != owner && !(flags & DMG_NO_ARMOR)) {
@@ -242,7 +267,8 @@ class MAffFastOnBeingDamaged : RwMonsterAffix { // Monster becomes fast and feel
         return 2;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 3, 15);
+        let baseSecs = Gametime.secondsToTicks(rnd.multipliedWeightedRandByEndWeight(3, 5, 0.2));
+        modifierLevel = baseSecs + remapQualityToTicksFromSecondsRange(quality, 0, 15);
     }
 
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
@@ -297,16 +323,16 @@ class MAffMagnet : RwMonsterAffix {
         return a2.GetClass() != 'MAffRepulsive';
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 50);
+        modifierLevel = multRandomPlusQualityRemap(1, 20, 0.1, quality, 10);
     }
     override void onDoEffect(Actor owner) {
         if (
             owner.target && 
-            (owner.Distance3DSquared(owner.target) < (owner.radius * 10) ** 2) && // pull only at some distance
+            (owner.Distance3DSquared(owner.target) < (owner.radius * 15) ** 2) && // pull only at some distance
             owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)
         ) {
             let pullAngle = owner.target.AngleTo(owner);
-            owner.target.Thrust(double(modifierLevel+40)/600, pullAngle);
+            owner.target.Thrust(double(modifierLevel+70)/600, pullAngle);
         }
     }
 }
@@ -322,7 +348,7 @@ class MAffRepulsive : RwMonsterAffix {
         return a2.GetClass() != 'MAffMagnet';
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 50);
+        modifierLevel = multRandomPlusQualityRemap(1, 20, 0.1, quality, 10);
     }
     override void onDoEffect(Actor owner) {
         if (
@@ -331,24 +357,62 @@ class MAffRepulsive : RwMonsterAffix {
             owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)
         ) {
             let pullAngle = owner.target.AngleTo(owner);
-            owner.target.Thrust(-double(modifierLevel+50)/600, pullAngle);
+            owner.target.Thrust(-double(modifierLevel+70)/600, pullAngle);
         }
     }
 }
 
 class MAffRegen : RwMonsterAffix {
     override string getName() {
-        return "Fear-feeding";
+        return "Regenerating";
     }
     override string getDescription() {
-        return "Regen "..modifierLevel;
+        return "Regen "..StringsHelper.fixedPointIntAsString(regenPerSecondx1000, 1000);
     }
+    int regenPerSecondx1000;
+    IntFraction regenFraction;
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 10);
+        regenFraction = IntFraction.create(1000);
+        regenPerSecondx1000 = multRandomPlusQualityRemap(1000, 3000, 0.05, quality, 1000);
+        regenPerSecondx1000 = MonsterStatsScaler.ScaleIntValueByLevelRandomized(regenPerSecondx1000, quality);
     }
     override void onDoEffect(Actor owner) {
-        if (owner.GetAge() % (2*TICRATE/3) == 0) {
-            owner.GiveBody(modifierLevel);
+        let regenThisTick = regenFraction.add(regenPerSecondx1000 / TICRATE);
+        if (regenThisTick > 0) {
+            owner.GiveBody(regenThisTick);
+        }
+    }
+}
+
+class MAffRegenAura : RwMonsterAffix {
+    override string getName() {
+        return "Healing";
+    }
+    override string getDescription() {
+        return "HEAL "..StringsHelper.fixedPointIntAsString(regenPerSecondx1000, 1000);
+    }
+    override int minRequiredRarity() {
+        return 3;
+    }
+
+    int regenPerSecondx1000;
+    IntFraction regenFraction;
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        regenFraction = IntFraction.create(1000);
+        regenPerSecondx1000 = multRandomPlusQualityRemap(1000, 2500, 0.05, quality, 500);
+        regenPerSecondx1000 = MonsterStatsScaler.ScaleIntValueByLevelRandomized(regenPerSecondx1000, quality);
+    }
+
+    override void onDoEffect(Actor owner) {
+        if (level.mapTime % 7 != 0) return; // This affix is costly computation-wise, so we do it only 5 times per second
+        let regenThisTick = regenFraction.add(7 * regenPerSecondx1000 / TICRATE);
+        if (regenThisTick == 0) return;
+        let ti = ThinkerIterator.Create('Actor');
+        Actor mo;
+        while (mo = Actor(ti.next())) {
+            if (mo && owner != mo && !mo.bFriendly && owner.Distance2D(mo) <= 512 && owner.CheckSight(mo)) {
+                mo.GiveBody(regenThisTick);
+            }
         }
     }
 }
@@ -364,10 +428,38 @@ class MAffBlinking : RwMonsterAffix {
         return rw_enable_monster_blink_affix;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 15, 5);
+        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 3);
     }
     override void onDoEffect(Actor owner) {
         if (owner && owner.target && (owner.GetAge() % modifierLevel == 0) && rnd.OneChanceFrom(2) &&
+            (rnd.OneChanceFrom(20) || owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)) )
+        {
+            let originalPos = owner.Pos;
+            if (LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(owner, 3*owner.radius, 10*owner.radius, owner.Pos)) {
+                let tfog = owner.Spawn('TeleportFog');
+                tfog.SetOrigin(originalPos, false);
+                owner.A_SpawnItemEx('TeleportFog');
+            }
+        }
+    }
+}
+
+// Difference from "blink": the actor tries to teleport to target
+class MAffAmbushing : RwMonsterAffix {
+    override string getName() {
+        return "Ambushing";
+    }
+    override string getDescription() {
+        return String.Format("AMBSH %.1f", Gametime.ticksToSeconds(modifierLevel));
+    }
+    override bool IsEnabled() {
+        return rw_enable_monster_blink_affix;
+    }
+    override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
+        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 5);
+    }
+    override void onDoEffect(Actor owner) {
+        if (owner && owner.target && (owner.GetAge() % modifierLevel == 0) &&
             (rnd.OneChanceFrom(20) || owner.CheckSight(owner.target, SF_IGNOREWATERBOUNDARY)) )
         {
 
@@ -392,14 +484,16 @@ class MAffSummoner : RwMonsterAffix {
     override int minRequiredRarity() {
         return 3;
     }
+    int spawnChance;
+    int summonedLevel;
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 40);
+        spawnChance = multRandomPlusQualityRemap(0, 10, 0.1, quality, 5);
+        summonedLevel = quality;
     }
     const TRY_SUMMON_EACH = TICRATE;
     override void onDoEffect(Actor owner) {
         if (level.maptime % TRY_SUMMON_EACH == 0 && owner.target != null) {
-            let maxChance = (50 - modifierLevel);
-            if (!rnd.OneChanceFrom(maxChance)) {
+            if (!rnd.percentChance(spawnChance)) {
                 return;
             }
             let newMo = owner.Spawn(RandomMonsterHelper.GetRandomWeakMonsterClass(false), owner.Pos, ALLOW_REPLACE);
@@ -407,6 +501,7 @@ class MAffSummoner : RwMonsterAffix {
                 newMo.destroy();
                 return;
             }
+            RwMonsterAffixator.AffixateMonster(newMo, Random[summon](0, 1), summonedLevel);
             owner.A_SpawnItemEx('TeleportFog');
             newMo.A_SpawnItemEx('TeleportFog');
             newMo.target = owner.target;
@@ -420,15 +515,16 @@ class MAffPeriodicallyInvulnerable : RwMonsterAffix {
         return "Phasing";
     }
     override string getDescription() {
-        return String.Format("INVL %.1f", gametime.ticksToSeconds(modifierLevel));
+        return String.Format("INVL %.1f/%.1f", gametime.ticksToSeconds(modifierLevel), gametime.ticksToSeconds(invulDuration));
     }
     override int minRequiredRarity() {
         return 2;
     }
+    int invulDuration;
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 15, 5);
+        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 20, 10) - rnd.multipliedWeightedRandByEndWeight(0, 5, 0.2);
+        invulDuration = rnd.multipliedWeightedRandByEndWeight(TICRATE * 2, TICRATE * 5, 0.1);
     }
-    const InvulDuration = 3 * TICRATE;
     override void onDoEffect(Actor owner) {
         if (owner.bINVULNERABLE && occuredMoreThanTicksAgo(InvulDuration)) {
             owner.bINVULNERABLE = false;
@@ -454,10 +550,11 @@ class MAffPeriodicallyInvisible : RwMonsterAffix {
     override int minRequiredRarity() {
         return 2;
     }
+    int InvisDuration;
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 15, 5);
+        modifierLevel = remapQualityToTicksFromSecondsRange(quality, 10, 5);
+        InvisDuration = rnd.multipliedWeightedRandByEndWeight(TICRATE * 2, TICRATE * 6, 0.1);
     }
-    const InvisDuration = 4 * TICRATE;
     override void onDoEffect(Actor owner) {
         if (owner.bSTEALTH && occuredMoreThanTicksAgo(InvisDuration)) {
             owner.A_SetRenderStyle(1, STYLE_Normal);
@@ -486,7 +583,7 @@ class MAffDamagingAura : RwMonsterAffix {
         return 3;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 30);
+        modifierLevel = multRandomPlusQualityRemap(1, 20, 0.1, quality, 10);
     }
     override void onDoEffect(Actor owner) {
         if (
@@ -506,24 +603,28 @@ class MAffSpawnHordeOnDeath : RwMonsterAffix {
         return "Engorged";
     }
     override string getDescription() {
-        return "Horde "..modifierLevel;
+        return "Horde "..summonedAmount;
     }
     override int minRequiredRarity() {
         return 3;
     }
+    int summonedAmount;
+    int summonedLevel;
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 3, 10);
+        summonedAmount = multRandomPlusQualityRemap(3, 7, 0.1, quality, 3);
+        summonedLevel = quality;
     }
     mixin DropSpreadable;
     override void onOwnerDied(Actor owner) {
         if (owner) {
             owner.A_SpawnItemEx('TeleportFog');
-            for (let i = 0; i < modifierLevel; i++) {
+            for (let i = 0; i < summonedAmount; i++) {
                 let newMo = owner.Spawn(RandomMonsterHelper.GetRandomWeakMonsterClass(true), owner.Pos, ALLOW_REPLACE);
                 if (!LevelHelper.TryMoveActorToRandomCoordsInRangeFrom(newMo, 0, 6 * owner.radius, owner.Pos)) {
                     newMo.destroy();
                     continue;
                 }
+                RwMonsterAffixator.AffixateMonster(newMo, Random[horde](0, 1), summonedLevel);
                 newMo.bNOINFIGHTING = true;
                 newMo.bNOTARGET = true;
                 newMo.A_ChangeCountFlags(false, FLAG_NO_CHANGE, FLAG_NO_CHANGE); // Don't count as kill, don't drop loot
@@ -549,7 +650,7 @@ class MAffFireballRevenge : RwMonsterAffix {
         return rw_enable_monster_revenge_affix;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 5);
+        modifierLevel = multRandomPlusQualityRemap(1, 4, 0.1, quality, 3);
     }
     const missileHSpread = 5.0; // Degrees
     const missileVSpread = 0.25; // Abs value for code simplification
@@ -584,7 +685,7 @@ class MAffRespawnsOnDeath : RwMonsterAffix { // Ohhhh this whole affix was horri
         return 3;
     }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = remapQualityToRange(quality, 1, 3);
+        modifierLevel = multRandomPlusQualityRemap(1, 3, 0.1, quality, 2);
     }
     override void onOwnerDied(Actor owner) {
         if (modifierLevel <= 0) return;

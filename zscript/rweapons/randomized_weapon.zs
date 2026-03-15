@@ -12,6 +12,7 @@ class RwWeapon : DoomWeapon abstract {
         Weapon.AmmoUse 1; // We use custom ammo usage routine anyway
         Weapon.AmmoGive 0; // Ammo is dropped separately so that the player doesn't have to "press use to pick it up"
         RwWeapon.Weight 20; // A sane default--about as common as the Chaingun and SMG.
+        +WEAPON.NOAUTOAIM
     }
 
     virtual void setBaseStats() {
@@ -33,8 +34,8 @@ class RwWeapon : DoomWeapon abstract {
     // Needs to be called before generation
     virtual void prepareForGeneration() {
         let initialMaxDamage = stats.maxDamage;
-        stats.minDamage = StatsScaler.ScaleIntValueByLevelRandomized(stats.minDamage, generatedQuality);
-        stats.maxDamage = StatsScaler.ScaleIntValueByLevelRandomized(stats.maxDamage, generatedQuality);
+        stats.minDamage = PlayerStatsScaler.ScaleIntValueByLevelRandomized(stats.minDamage, generatedQuality);
+        stats.maxDamage = PlayerStatsScaler.ScaleIntValueByLevelRandomized(stats.maxDamage, generatedQuality);
 
         // First, compensate for the damage scaling (the target knockback is damage-dependent in DOOM).
         if (stats.TargetKnockback > 0)
@@ -66,7 +67,14 @@ class RwWeapon : DoomWeapon abstract {
             return;
         }
         if (owner == source && !passive) {
-            newdamage = StatsScaler.UnscaleIntValueByLevel(damage, generatedQuality);
+            newdamage = PlayerStatsScaler.UnscaleIntValueByLevel(damage, generatedQuality);
+        }
+    }
+
+    override void DoEffect() {
+        Affix aff;
+        foreach (aff : appliedAffixes) {
+            aff.onDoEffect(owner, self);
         }
     }
 

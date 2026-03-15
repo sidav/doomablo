@@ -1,12 +1,20 @@
 [de] //language code header
 
 // Gameplay
-RAREMONSTERSPAWNED = "Du spürst eine starke Präsenz an diesem Ort.";
+RAREMONSTERSPAWNED0 = "%1sDie Siegel der Finsternis zerbrechen für %2s";
+RAREMONSTERSPAWNED1 = "%1sDas schwarze Omen kündet von %2s";
+RAREMONSTERSPAWNED2 = "%1sEin uralter Fluch nimmt Gestalt an als %2s";
+RAREMONSTERSPAWNED3 = "%1sDie vergessene Wahrheit trägt den Namen %2s";
+RAREMONSTERSPAWNED4 = "%1sIhr hört euren Namen aus der Dunkelheit von %2s";
+RAREMONSTERSPAWNED5 = "%1sEure Furcht nimmt Gestalt an als %2s";
 
 // Weapons
 TAG_SMG = "Machinenpistole";
 GOTSMG = "Machinenpistole genommen.";
 OB_MPSMG = "%o wurde mit Blei aus %ks Machinenpistole vollgepumpt.";
+TAG_ASSAULT_RIFLE = "UAC Sturmgewehr";
+GOT_ASSAULT_RIFLE = "UAC Sturmgewehr genommen";
+OB_MPAR = "%o wurde mit Blei aus %ks Sturmgewehr vollgepumpt.";
 TAG_REVOLVER = "Revolver";
 GOTREVOLVER = "Revolver genommen. Bist du ein Clint-Eastwood-Anbeter auch?";
 TAG_AUTOSHOTGUN = "Autoflinte";
@@ -16,13 +24,23 @@ GOTGRENADELAUNCHER = "Granatenwerfer genommen.";
 TAG_RAILGUN = "Schienengewehr";
 GOTRAILGUN = "Schienengewehr genommen.";
 
+// Unique weapons
+TAG_THEREASON = "Der Beweis";
+GOT_THEREASON = "ULTIMA RATIO REGNUM: UAC extremschnelles Gatlingschienengewehr";
+OB_THEREASON = "%o hat auf %ks Beweis geachtet.";
+TAG_BFG10K = "B.F.G. 10000";
+GOT_BFG10K = "ACHTUNG: DER SLAYER HAT DIE KONTROLLE ÜBER DAS BFG!";
+
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo anpassen";
 RWMENU_CUSTOMIZEDOOMABLO = "DOOMablo Einstellungen";
 
 RWMENU_INTERFACEOPTIONS_HEADER = "Interfaceeinstellungen";
 RWSETTINGS_AFFIXNAMES = "Affix Namen anzeigen";
+RWSETTINGS_SHOW_EQUIPPED_ITEMS = "Namen ausgerüsteter Artefakten immer anzeigen";
+
 RWMENU_MONHPBAROPTIONS_HEADER = "GP-Bar Optionen";
+RWSETTINGS_MONHPBAR_SHOW = "Feind-GP-Bar zeigen";
 RWSETTINGS_MINWIDTH = "Mindestbreite";
 RWSETTINGS_HEIGHT = "Mindesthöhe";
 RWSETTINGS_VERTICAL_POSITION = "Vertikale Position";

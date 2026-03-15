@@ -1,6 +1,17 @@
 // BFG-specific affixes. BFG is so unique mechanically that its affixes require a separate file lol
+class RwBFGPrefix : RwWeaponPrefix abstract {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.GetClass() == 'RwBfg';
+    }
+}
 
-class WAffLessBFGRays : RwWeaponPrefix {
+class RwBFGSuffix : RwWeaponSuffix abstract {
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.GetClass() == 'RwBfg';
+    }
+}
+
+class WAffLessBFGRays : RwBFGPrefix {
     override string getName() {
         return "Undercharged";
     }
@@ -9,9 +20,6 @@ class WAffLessBFGRays : RwWeaponPrefix {
     }
     override int getAlignment() {
         return -1;
-    }
-    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.GetClass() == 'RwBfg';
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffMoreBFGRays' && a2.GetClass() != 'WSuffBFGNoRays';
@@ -23,7 +31,7 @@ class WAffLessBFGRays : RwWeaponPrefix {
     }
 }
 
-class WAffMoreBFGRays : RwWeaponPrefix {
+class WAffMoreBFGRays : RwBFGPrefix {
     override string getName() {
         return "Overcharged";
     }
@@ -32,9 +40,6 @@ class WAffMoreBFGRays : RwWeaponPrefix {
     }
     override int getAlignment() {
         return 1;
-    }
-    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.GetClass() == 'RwBfg';
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffLessBFGRays' && a2.GetClass() != 'WSuffBFGNoRays';
@@ -46,7 +51,7 @@ class WAffMoreBFGRays : RwWeaponPrefix {
     }
 }
 
-class WAffNarrowerBFGAngle : RwWeaponPrefix {
+class WAffNarrowerBFGAngle : RwBFGPrefix {
     override string getName() {
         return "Concentrated";
     }
@@ -56,11 +61,8 @@ class WAffNarrowerBFGAngle : RwWeaponPrefix {
     override int getAlignment() {
         return -1;
     }
-    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.GetClass() == 'RwBfg';
-    }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WAffWiderBFGAngle' && a2.GetClass() != 'WSuffBFGNoRays' && a2.GetClass() != 'WSuffBFG10K';
+        return a2.GetClass() != 'WAffWiderBFGAngle' && a2.GetClass() != 'WSuffBFGNoRays' && a2.GetClass() != 'WSuffRaysFromTarget';
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = (wpn.stats.RaysConeAngle / 2)*10;
@@ -69,7 +71,7 @@ class WAffNarrowerBFGAngle : RwWeaponPrefix {
     }
 }
 
-class WAffWiderBFGAngle : RwWeaponPrefix {
+class WAffWiderBFGAngle : RwBFGPrefix {
     override string getName() {
         return "Dissipated";
     }
@@ -79,11 +81,8 @@ class WAffWiderBFGAngle : RwWeaponPrefix {
     override int getAlignment() {
         return 1;
     }
-    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.GetClass() == 'RwBfg';
-    }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WAffNarrowerBFGAngle' && a2.GetClass() != 'WSuffBFGNoRays' && a2.GetClass() != 'WSuffBFG10K';
+        return a2.GetClass() != 'WAffNarrowerBFGAngle' && a2.GetClass() != 'WSuffBFGNoRays' && a2.GetClass() != 'WSuffRaysFromTarget';
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = wpn.stats.RaysConeAngle*10;
@@ -92,7 +91,7 @@ class WAffWiderBFGAngle : RwWeaponPrefix {
     }
 }
 
-class WAffWorseBFGRayDamage : RwWeaponPrefix {
+class WAffWorseBFGRayDamage : RwBFGPrefix {
     override string getName() {
         return "Dim";
     }
@@ -105,11 +104,11 @@ class WAffWorseBFGRayDamage : RwWeaponPrefix {
     override string getDescription() {
         return String.format("Ray DMG -%d.%d%%", (modifierLevel / 10, modifierLevel % 10) );
     }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.GetClass() == 'RwBfg' || wpn.GetClass() == 'RwuBFG10k';
+    }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffBetterBFGRayDamage' && a2.GetClass() != 'WSuffBFGNoRays';
-    }
-    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.GetClass() == 'RwBfg';
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = 200;
@@ -118,7 +117,7 @@ class WAffWorseBFGRayDamage : RwWeaponPrefix {
     }
 }
 
-class WAffBetterBFGRayDamage : RwWeaponPrefix {
+class WAffBetterBFGRayDamage : RwBFGPrefix {
     override string getName() {
         return "Bright";
     }
@@ -131,11 +130,11 @@ class WAffBetterBFGRayDamage : RwWeaponPrefix {
     override string getDescription() {
         return String.format("Ray DMG +%d.%d%%", (modifierLevel / 10, modifierLevel % 10) );
     }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.GetClass() == 'RwBfg' || wpn.GetClass() == 'RwuBFG10k';
+    }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'WAffWorseBFGRayDamage' && a2.GetClass() != 'WSuffBFGNoRays';
-    }
-    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.GetClass() == 'RwBfg';
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = 200;
@@ -146,16 +145,14 @@ class WAffBetterBFGRayDamage : RwWeaponPrefix {
 
 // Suffixes
 
-class WSuffBFG10K : RwWeaponSuffix {
+class WSuffRaysFromTarget : RwBFGSuffix {
     override string getName() {
-        return "10k Type";
+        return "Radiation Burst";
     }
     override string getDescription() {
         return String.format("x%d.%d rays. Rays are fired from the target", (modifierLevel/10, modifierLevel%10) );
     }
-    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.GetClass() == 'RwBfg';
-    }
+    
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = 40;
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(15, maxChange/2, 0.1) + remapQualityToRange(quality, 0, maxChange/2);
@@ -165,15 +162,12 @@ class WSuffBFG10K : RwWeaponSuffix {
     }
 }
 
-class WSuffBFGNoRays : RwWeaponSuffix {
+class WSuffBFGNoRays : RwBFGSuffix {
     override string getName() {
         return "HI-EX Edition";
     }
     override string getDescription() {
         return String.format("x%d.%d damage. Projectile explodes on hit. No rays are fired", (modifierLevel/10, modifierLevel%10) );
-    }
-    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
-        return wpn.GetClass() == 'RwBfg';
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxChange = 100;

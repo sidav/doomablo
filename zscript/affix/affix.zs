@@ -1,5 +1,6 @@
 class Affix abstract {
 
+    // BOTH OF THOSE STATS ARE DEPRECATED. Need to name variables correctly and define them in-affix.
     int modifierLevel;
     int stat2; // Not neccessarily used. Needed for two-stat affixes. Btw, TODO: rename modifierLevel to stat1. 
 
@@ -12,14 +13,15 @@ class Affix abstract {
         return true;
     }
 
-    // For disable-able affixes
-    // TODO: I forgot why this method is there at all. Remove?
+    // For disable-able (via mod settings) affixes
     virtual bool IsEnabled() {
         return true;
     }
 
     // This method should be used to make some affixes more rare than the others.
-    virtual int selectionProbabilityPercentage() {
+    // If it's less than 100, this affix will randomly count as not eligible for application.
+    // appliedOn is here to make affixes more probable for some weapon types
+    virtual int selectionProbabilityPercentage(Inventory appliedOn) {
         return 100;
     }
 
@@ -63,6 +65,11 @@ class Affix abstract {
             debug.panic("Negative quality in range mapping");
         }
         return math.remapIntRange(qty, 1, 100, rmin, rmax, true);
+    }
+
+    // Helper method for code readability. Quality minimum always maps to zero.
+    protected static int multRandomPlusQualityRemap(int min, int max, double endWeight, int qty, int rmax) {
+        return rnd.multipliedWeightedRandByEndWeight(min, max, endWeight) + remapQualityToRange(qty, 0, rmax);
     }
 
     // Helper method for code readability.

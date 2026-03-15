@@ -8,7 +8,7 @@ extend class RwPlayerStats {
                 return String.Format("Crit chance");
             case StatCritDmg: 
                 return String.Format("Crit dmg");
-            case StatMeleeDmg: 
+            case StatStrength: 
                 return String.Format("Strength lvl");
             case StatRareFind:
                 return String.Format("Rare find");
@@ -27,8 +27,8 @@ extend class RwPlayerStats {
                 return String.Format("Crit chance lvl: %d"..nonBaseStatStr, baseStats[StatCritChance]);
             case StatCritDmg: 
                 return String.Format("Crit dmg lvl: %d"..nonBaseStatStr, baseStats[StatCritDmg]);
-            case StatMeleeDmg: 
-                return String.Format("Strength lvl: %d"..nonBaseStatStr, baseStats[StatMeleeDmg]);
+            case StatStrength: 
+                return String.Format("Strength lvl: %d"..nonBaseStatStr, baseStats[StatStrength]);
             case StatRareFind:
                 return String.Format("Rare find chance lvl: %d"..nonBaseStatStr, baseStats[StatRareFind]);
         }
@@ -56,16 +56,21 @@ extend class RwPlayerStats {
                     ..newLineString
                     ..String.Format("Your current crit damage: %.1f%%", double(getCritDmgPromille())/10);
 
-            case StatMeleeDmg: 
+            case StatStrength: 
                 int mindmg;
                 int maxdmg;
                 [mindmg, maxdmg] = GetMinAndMaxMeleeDamage();
+                int maxItemPercentage = getMaxInvItemAmount(100);
+                int maxAmmoPercentage = getMaxAmmoAmount(100);
                 return "This stat increases your min and max base fist damage."
                         .." It also scales with your experience level, so the more points you put there,"
                         .." the bigger damage yield you get.\n"
                         .." Berserk packs synergize with it, dealing further 10x damage.\n"
+                        .." This stat also marginally increases your consumables and ammo capacity.\n"
                         ..newLineString
-                        .."Your current fist damage: "..mindmg.."-"..maxdmg;
+                        .."Your current fist damage: "..mindmg.."-"..maxdmg.."\n"
+                        .."Max consumables capacity: "..maxItemPercentage.."%\n"
+                        .."Base ammo capacity: "..maxAmmoPercentage.."%";
 
             case StatRareFind:
                 return "Rare Find stat determines your chance to receive an artifact drop of increased rarity.\n"

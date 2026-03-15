@@ -5,9 +5,8 @@ class RwArmor : Armor abstract {
     RwArmorStats stats;
     string rwbaseName;
 
-    // needed by affixes:
+    // Needed for recharge calc:
     int lastDamageTick;
-    int cumulativeRepair; 
 
     int rweight; // Random drop weight.
     Property Weight : rweight;
@@ -70,10 +69,12 @@ class RwArmor : Armor abstract {
         }
     }
 
-    void RepairFor(int repairAmount) {
+    void RepairFor(int repairAmount, Actor repairSource = null) {
         let before = stats.currDurability;
         stats.currDurability = min(stats.currDurability + repairAmount, stats.maxDurability);
-        cumulativeRepair += stats.currDurability - before;
+        foreach (aff : appliedAffixes) {
+            aff.onBeingRepaired(owner, stats.currDurability - before, repairSource);
+        }
     }
 
     virtual string GetRandomFluffName() {
@@ -84,4 +85,13 @@ class RwArmor : Armor abstract {
         return GetAge() - lastDamageTick;
     }
 
+    int ticksUntilRecharge() {
+        return stats.delayUntilRecharge - ticksSinceDamage();
+    }
+
+    // For using with some effects which force recharge start.
+    void forceRechargeAsap() {
+        // -2 so that "on recharge start" effects will run properly.
+        lastDamageTick = getAge() - (stats.delayUntilRecharge - 2);
+    }
 }

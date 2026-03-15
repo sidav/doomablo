@@ -8,6 +8,20 @@ class ConsoleDropsHandler : EventHandler
         if (e.Name == "spawn") {
             spawnItem(players[e.Player].mo, e.args[0], e.args[1], e.args[2]);
         }
+        if (e.Name == "levelup") {
+            int howMuch = e.args[0];
+            if (howMuch <= 0) howMuch = 1;
+            for (let i = 0; i < howMuch; i++) {
+                RwPlayer(players[e.Player].mo)
+                    .receiveExperience(RwPlayer(players[e.Player].mo).stats.getRequiredXPForNextLevel());
+            }
+        }
+        if (e.Name == "infernoup") {
+            int howMuch = e.args[0];
+            if (howMuch <= 0) howMuch = 1;
+            RwPlayer(players[e.Player].mo)
+                .infernoLevel += howMuch;
+        }
     }
 
     const xofs = 50.0;
@@ -42,7 +56,7 @@ class ConsoleDropsHandler : EventHandler
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwChaingun', xofs: xofs, zvel: zvel);
                 break;
             case 44:
-                [unused, spawnedItem] = player.A_SpawnItemEx('RwSmg', xofs: xofs, zvel: zvel);
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwAssaultRifle', xofs: xofs, zvel: zvel);
                 break;
             case 5: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwRocketLauncher', xofs: xofs, zvel: zvel);
@@ -62,7 +76,15 @@ class ConsoleDropsHandler : EventHandler
             case 77:
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwBfg2704', xofs: xofs, zvel: zvel);
                 break;
+            // Unique
+            case 106:
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwuTheReason', xofs: xofs, zvel: zvel);
+                break;
+            case 107:
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwuBFG10k', xofs: xofs, zvel: zvel);
+                break;
             
+            // --------------------------------------
             // Armors
             case 10: 
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwGreenArmor', xofs: xofs, zvel: zvel);
@@ -105,31 +127,18 @@ class ConsoleDropsHandler : EventHandler
                 for (let i = 0; i < rarity; i++) {
                     [unused, spawnedItem] = player.A_SpawnItemEx('InfernoSigil', xofs: xofs, zvel: zvel);
                 }
-                return; // We don't need to generate it
-            // Give exp
-            case 200:
-                if (rarity == 0) {
-                    rarity = 1;
-                }
-                for (let i = 0; i < rarity; i++) {
-                    RwPlayer(player).receiveExperience(RwPlayer(player).stats.getRequiredXPForNextLevel());
-                }
-                return;
-            case 201:
-                RwPlayer(player).infernoLevel += rarity;
-                return;
-            
+                return; // We don't need to generate it        
 
             default:
-                debug.print("Unknown drop code "..itemID);
+                debug.warning("Unknown drop code "..itemID);
         }
 
         if (spawnedItem) {
 
             if (rarity == -1) {
-                [rarity, quality] = DropsDecider.rollRarityAndQuality(0, 0);
+                rarity = LootResolver.rollRarityForMonsterDrop(0);
             } else if (quality == 0) {
-                quality = rnd.Rand(1, 100);
+                quality = RwPlayer(Players[0].mo).rollForDropLevel();
             }
 
             GenerateAffixableItem(spawnedItem, rarity, quality);

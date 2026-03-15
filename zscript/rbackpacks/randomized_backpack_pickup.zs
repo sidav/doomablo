@@ -21,10 +21,7 @@ extend class RwBackpack {
     void OnPickup(in out Actor toucher) {
         DoPickupSpecial(toucher);
         AttachToOwner(toucher);
-		toucher.SetAmmoCapacity('Clip', stats.maxBull);
-        toucher.SetAmmoCapacity('Shell', stats.maxShel);
-        toucher.SetAmmoCapacity('Rocketammo', stats.maxRckt);
-        toucher.SetAmmoCapacity('Cell', stats.maxCell);
+		increasePlayerMaxAmmo();
 
         // Drop excessive ammo:
         bool unused;
@@ -48,6 +45,13 @@ extend class RwBackpack {
             invlist=invlist.Inv;
         }
 	}
+
+    void increasePlayerMaxAmmo() {
+        owner.SetAmmoCapacity('Clip', owner.GetAmmoCapacity('Clip') + stats.maxBull);
+        owner.SetAmmoCapacity('Shell', owner.GetAmmoCapacity('Shell') + stats.maxShel);
+        owner.SetAmmoCapacity('Rocketammo', owner.GetAmmoCapacity('Rocketammo') + stats.maxRckt);
+        owner.SetAmmoCapacity('Cell', owner.GetAmmoCapacity('Cell') + stats.maxCell);
+    }
 
     override void DetachFromOwner ()
 	{

@@ -2,7 +2,7 @@ class RWPainToken : RwStatusEffectToken {
 
     Default {
         Inventory.Amount 5;
-        Inventory.MaxAmount 30;
+        Inventory.MaxAmount 15;
         RwStatusEffectToken.ReductionPeriodTicks TICRATE;
     }
 

@@ -33,17 +33,17 @@ class RWLevelupMenu : RwBaseMenu {
 
         let ExpLevelLabel = ZFLabel.Create( (35, 95), (menuW - menuW/10, smallFont.GetHeight() * 2),
             text: "You are of level "..plr.stats.currentExpLevel..", the "..plr.GetFluffNameForPlayerLevel(),
-            fnt: smallFont, Alignment: 2, wrap: true, autoSize: true, textScale: 2., textColor: Font.CR_BLUE);
+            fnt: smallFont, Alignment: 2, wrap: true, autoSize: true, textScale: 2., textColor: Font.CR_SAPPHIRE);
         ExpLevelLabel.Pack(mainFrame);
 
         ExpPointsLabel = ZFLabel.Create( (35, 115), (menuW - menuW/10, smallFont.GetHeight() * 2),
             text: "", // will be overwritten
-            fnt: smallFont, Alignment: 2, wrap: true, autoSize: true, textScale: 2., textColor: Font.CR_BLUE);
+            fnt: smallFont, Alignment: 2, wrap: true, autoSize: true, textScale: 2., textColor: Font.CR_SAPPHIRE);
         ExpPointsLabel.Pack(mainFrame);
 
         AvailableStatPointsLabel = ZFLabel.Create( (20, 150), (4*menuW/6, smallFont.GetHeight() * 2),
             text: "", // will be overwritten
-            fnt: smallFont, Alignment: AlignType_Left, wrap: false, autoSize: false, textScale: 2., textColor: Font.CR_SAPPHIRE);
+            fnt: smallFont, Alignment: AlignType_Left, wrap: false, autoSize: false, textScale: 2., textColor: Font.CR_GREEN);
         AvailableStatPointsLabel.Pack(mainFrame);
 
         DescriptionLabel = ZFLabel.Create( (535, 160), (370, 360),

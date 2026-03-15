@@ -39,7 +39,7 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             if (rnd.OneChanceFrom(2)) {
                 e.Replacement = 'rwChaingun';
             } else {
-                e.Replacement = 'rwSmg';
+                e.Replacement = 'RwAssaultRifle';
             }
             break;
 		case 'Rocketlauncher':
@@ -96,8 +96,22 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             break;
 
 		// Consumables:
+        case 'ArmorBonus':
+            if (rnd.OneChanceFrom(15)) {
+                e.replacement = 'ArmorRepairKit';
+            } else {
+                e.replacement = 'RwArmorBonus';
+            }
+            break;
         case 'HealthBonus':
-			if (startOfLevel && rnd.OneChanceFrom(4)) e.Replacement = 'RwActiveItemRefill';
+            if (startOfLevel) {
+                let itemType = rnd.weightedRand(50, 15, 1);
+                if (itemType == 1) {
+                    e.Replacement = 'RwActiveItemRefill';
+                } else if (itemType == 2) {
+                    e.Replacement = 'ActiveItemRecharger';
+                }
+            }
             break;
         case 'Soulsphere':
 			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
@@ -133,17 +147,14 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 
 			// The item is map-placed by map design.
 			// Owner check is needed so that we know it's not in the inventory
-			if (itm.owner == null && level.maptime < TICRATE) {
+			if (itm.owner == null && level.maptime < TICRATE/5) {
                 if (tryOverrideDeadSimpleBackpackPlacement(RwBackpack(itm))) {
                     return;
                 }
 
 				// let's generate (and give it better rarity and/or quality)
 				int rar, qty;
-            	[rar, qty] = DropsDecider.rollRarityAndQuality(
-                    rnd.weightedRand(0, 100, 25, 1),
-                    0
-                );
+            	[rar, qty] = LootResolver.rollRarityAndQualityForMapPlacedItem();
 
 				GenerateAffixableItem(itm, rar, qty);
 			}

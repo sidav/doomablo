@@ -169,6 +169,8 @@ class AffixClassesCacheHandler : StaticEventHandler
             let affClass = (class<Affix>)(cls);
 
             if (affClass && !affClass.isAbstract()) {
+                if (affClass is 'RwFluffAffix')
+                    continue; // Don't count fluff affix
 
                 if (isAffixForWeapon(affClass)) {
                     specifyStr = "(weapon affix)";

@@ -1,0 +1,15 @@
+To add new unique (max rarity) artifact (as a subtype of existing type), do the following.
+
+If it's a whole new type of items, first see adding_new_items.txt.
+
+If the type of items exists already, do the following:
+1. Create a base class for unique stuff in this type of items. 
+    Inherit it from the base class for that item type.
+    For example, for weapons it's RwUniqueWeaponBase, inherited from RwWeapon.
+    - If such class exists, skip this section and go to "add variant" below.
+2. Account for it in RwItemsHelper, in isClassOfUniqueItem() method.
+3. Account for it in drops_database.zs, so that the new type will be accounted as unique for loot table purposes.
+
+Adding a variant for existing type:
+1. Inherit the new unique item class from the base one for appropriate type (e.g. RwuMegaweapon is inherited from RwUniqueWeaponBase).
+2. That's all.

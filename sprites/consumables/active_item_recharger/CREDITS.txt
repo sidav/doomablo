@@ -1,0 +1,6 @@
+Submitted: PillowBlaster
+Code: PillowBlaster, MartinHowe426 (ZScript Conversion)
+Sounds: Blizzard Entertainment
+Sprites: Captain Toenail
+GLDEFs: RichardDS90
+Idea Base: DoomedArchvileDemon's idea.

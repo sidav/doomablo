@@ -30,6 +30,16 @@ extend class RwPlayer {
         if (itm == null || !AffixableDetector.IsAffixableItem(itm) || itm.owner) {
             return;
         }
+        
+        // If the item is unique, scrapping it gives a tome of change or a stat scroll in addition to other stuff.
+        if (RwItemsHelper.isUniqueItem(itm)) {
+            Actor drop;
+            if (rnd.OneChanceFrom(2))
+                drop = DropsSpawner.createDropByClass(itm, 'TomeOfChange');
+            else
+                drop = DropsSpawner.createDropByClass(itm, 'StatScroll');
+            AssignVeryMinorSpreadVelocityTo(itm);
+        }
 
         if (itm is 'RwWeapon') {
 
@@ -45,14 +55,17 @@ extend class RwPlayer {
             }
 
         } else if (itm is 'RwArmor') {
-
+            let armr = RwArmor(itm);
             let dropAmount = RwArmor(itm).GetRarity() + 1;
             for (let i = 0; i < dropAmount; i++) {
                 Actor drop;
-                if (RwArmor(itm).stats.IsEnergyArmor() && rnd.OneChanceFrom(2)) {
+                if (armr.stats.IsEnergyArmor() && rnd.OneChanceFrom(2)) {
                     drop = DropsSpawner.createDropByClass(itm, 'Cell');
                 } else {
-                    drop = DropsSpawner.createDropByClass(itm, 'RwArmorBonus');
+                    if (rnd.OneChanceFrom(10))
+                        drop = DropsSpawner.createDropByClass(itm, 'ArmorRepairKit');
+                    else
+                        drop = DropsSpawner.createDropByClass(itm, 'RwArmorBonus');
                 }
                 AssignVeryMinorSpreadVelocityTo(drop);
             }
@@ -76,9 +89,11 @@ extend class RwPlayer {
             let dropAmount = RwFlask(itm).GetRarity() + 2;
             for (let i = 0; i < dropAmount; i++) {
                 Actor drop;
-                let whatToDrop = rnd.weightedRand(1, 2);
+                let whatToDrop = rnd.weightedRand(20, 1, 40);
                 if (whatToDrop == 0) {
                     drop = DropsSpawner.createDropByClass(itm, 'RwActiveItemRefill');
+                } else if (whatToDrop == 1) {
+                    drop = DropsSpawner.createDropByClass(itm, 'ActiveItemRecharger');
                 } else {
                     drop = DropsSpawner.createDropByClass(itm, 'HealthBonus');
                 }
@@ -98,9 +113,11 @@ extend class RwPlayer {
             let dropAmount = RwTurretItem(itm).GetRarity() + 1;
             for (let i = 0; i < dropAmount; i++) {
                 Actor drop;
-                let whatToDrop = rnd.weightedRand(1, 2);
+                let whatToDrop = rnd.weightedRand(20, 1, 40);
                 if (whatToDrop == 0) {
                     drop = DropsSpawner.createDropByClass(itm, 'RwActiveItemRefill');
+                } else if (whatToDrop == 1) {
+                    drop = DropsSpawner.createDropByClass(itm, 'ActiveItemRecharger');
                 } else {
                     drop = DropsSpawner.createDropByClass(itm, 'Clip');
                 }

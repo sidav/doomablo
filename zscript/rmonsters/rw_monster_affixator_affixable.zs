@@ -17,15 +17,38 @@ extend class RwMonsterAffixator {
 
             // After affixes are applied
 
-            // Scale owner's health. It occurs for ALL affixed monsters, analogous to "More Health" affix and stacks with it.
+            // Scale owner's health. It occurs for ALL affixed monsters (including common ones), analogous to "More Health" affix and stacks with it.
             let newHealth = owner.health;
-            newHealth = StatsScaler.ScaleIntValueByLevelRandomized(newHealth, generatedQuality, rw_monster_hp_scaling_exponent_mod); // Level scaling
+            newHealth = MonsterStatsScaler.ScaleIntValueByLevelRandomized(newHealth, generatedQuality); // Level scaling
             // Scale owner's health by its rarity.
-            let minPerc = 100 - 10;
-            let maxPerc = 100 + 10;
-            if (getRarity() > 0) {
-                minPerc = 100+((GetRarity() - 1) * 25);
-                maxPerc = 100+(GetRarity() * 25);
+            int minPerc, maxPerc;
+            switch (getRarity()) {
+                case 0: // Common
+                    minPerc = 95;
+                    maxPerc = 110;
+                    break;
+                case 1: // Uncommon
+                    minPerc = 135;
+                    maxPerc = 150;
+                    break;
+                case 2: // Rare
+                    minPerc = 175;
+                    maxPerc = 225;
+                    break;
+                case 3: // Epic
+                    minPerc = 200;
+                    maxPerc = 300;
+                    break;
+                case 4: // Legendary
+                    minPerc = 300;
+                    maxPerc = 350;
+                    break;
+                case 5: // Mythic
+                    minPerc = 350;
+                    maxPerc = 500;
+                    break;
+                default:
+                    debug.panic("HP scaling: unhandled monster rarity "..getRarity());
             }
             newHealth = Random(math.getIntPercentage(newHealth, minPerc), math.getIntPercentage(newHealth, maxPerc));
             owner.starthealth = newHealth;

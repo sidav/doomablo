@@ -1,13 +1,11 @@
-class TomeOfChange : Inventory {
+class TomeOfChange : RwStoredConsumable {
 	Default
 	{
 		Inventory.Pickupmessage "Tome of change!";
 		// +INVENTORY.ALWAYSPICKUP - should be false
 		+FLOATBOB
 		-COUNTITEM
-		Inventory.Amount 1;
-		Inventory.MaxAmount 2;
-		Inventory.InterHubAmount 1;
+		RwStoredConsumable.RwBaseMaxAmount 2;
 		Inventory.Icon "FTINA0";
 		-Inventory.AUTOACTIVATE
 		+INVENTORY.INVBAR
@@ -23,10 +21,6 @@ class TomeOfChange : Inventory {
 	Inventory willBeUsedOn;
 	const USAGE_CONFIRMATION_SECONDS = 3;
 	int lastTickUsed;
-
-	override bool CanPickup(Actor toucher) {
-		return RwPlayer(toucher) != null;
-	}
 
 	override bool Use(bool pickup) {
 		let plr = RwPlayer(owner);
@@ -56,13 +50,14 @@ class TomeOfChange : Inventory {
 		// If used on another item (or timeout is passed)...
 		if (usedOn != willBeUsedOn) {
 			willBeUsedOn = usedOn;
+			let colorCode = RaritiesHelper.getRarityColorCode(AffixableDetector.getRarityOfAffixableItem(usedOn));
 			if (usedOnWeaponInHands) {
 				plr.A_Print("Use Tome of Change again to apply it to\n"
-					..AffixableDetector.GetNameOfAffixableItem(usedOn)
+					..colorCode..AffixableDetector.GetNameOfAffixableItem(usedOn)
 					.."\nin your hands", USAGE_CONFIRMATION_SECONDS);
 			} else {
 				plr.A_Print("Use Tome of Change again to apply it to\n"
-					..AffixableDetector.GetNameOfAffixableItem(usedOn)
+					..colorCode..AffixableDetector.GetNameOfAffixableItem(usedOn)
 					.."\nlying before you", USAGE_CONFIRMATION_SECONDS);
 			}
 			return false;
@@ -74,8 +69,7 @@ class TomeOfChange : Inventory {
 		if (usedOn is "RwWeapon") {
 			[affixToRemove, newAffix] = RwWeapon(usedOn).replaceRandomAffixWithRandomAffix();
 			if (affixToRemove) {
-				plr.A_Print("The armament that once was cursed with "..affixToRemove.getName().."\n"
-							.."now bears the burden of "..newAffix.getName().."ness", 5);
+				printUseResultMessage("weapon", affixToRemove, newAffix);
 				return true;
 			}
 			plr.A_Print("This weapon can't be altered");
@@ -84,8 +78,7 @@ class TomeOfChange : Inventory {
 		if (usedOn is "RwArmor") {
 			[affixToRemove, newAffix] = RwArmor(usedOn).replaceRandomAffixWithRandomAffix();
 			if (affixToRemove) {
-				plr.A_Print("The armor that was cursed with "..affixToRemove.getName().."\n"
-							.."now bears the burden of "..newAffix.getName().."ness", 5);
+				printUseResultMessage("armor", affixToRemove, newAffix);
 				return true;
 			}
 			plr.A_Print("This armor can't be altered");
@@ -94,8 +87,7 @@ class TomeOfChange : Inventory {
 		if (usedOn is "RwBackpack") {
 			[affixToRemove, newAffix] = RwBackpack(usedOn).replaceRandomAffixWithRandomAffix();
 			if (affixToRemove) {
-				plr.A_Print("The bag that once was cursed with "..affixToRemove.getName().."\n"
-							.."now bears the burden of "..newAffix.getName().."ness", 5);
+				printUseResultMessage("bag", affixToRemove, newAffix);
 				return true;
 			}
 			plr.A_Print("This backpack can't be altered");
@@ -104,8 +96,7 @@ class TomeOfChange : Inventory {
 		if (usedOn is "RwFlask") {
 			[affixToRemove, newAffix] = RwFlask(usedOn).replaceRandomAffixWithRandomAffix();
 			if (affixToRemove) {
-				plr.A_Print("The glass that once was cursed with "..affixToRemove.getName().."\n"
-							.."now bears the burden of "..newAffix.getName().."ness", 5);
+				printUseResultMessage("glass", affixToRemove, newAffix);
 				return true;
 			}
 			plr.A_Print("This flask can't be altered");
@@ -121,5 +112,35 @@ class TomeOfChange : Inventory {
             return itemUnderCrosshair;
         }
 		return null;
+	}
+
+	private void printUseResultMessage(string itemName, Affix oldAff, Affix newAff) {
+		string wholeLineColorCode;
+		string oldAffColorCode = "\ca";
+		string oldAffLine = oldAffColorCode..oldAff.getName();
+		string changeLine;
+		string newAffColorCode;
+		switch (newAff.getAlignment()) {
+			case -1:
+				wholeLineColorCode = "\cx";
+				changeLine = "now bears the burden of ";
+				newAffColorCode = "\cr";
+				break;
+			case 0:
+				wholeLineColorCode = "\cc";
+				changeLine = "is transmuted with ";
+				newAffColorCode = "\cf";
+				break;
+			case 1:
+				wholeLineColorCode = "\cv";
+				changeLine = "is now blessed with ";
+				newAffColorCode = "\cf";
+				break;
+		}
+		owner.A_Print(
+			wholeLineColorCode.."The "..itemName.." that once was cursed with "..oldAffLine.."\n"..
+			wholeLineColorCode..changeLine..newAffColorCode..newAff.getName().."ness",
+			5
+		);
 	}
 }

@@ -3,9 +3,15 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
     // 1. At startup, iterate the whole class list looking for categories of items.
     Map<String,int> Consumables; // Consumables such as Bonuses, Stimpacks, Scrolls, Spheres
     Map<String,int> AmmoItems; // Ammunition drops.
+
     Map<String,int> WeaponItems; // Types of weapons that can be dropped.
+    Map<String,int> UniqueWeaponItems;
+
     Map<String,int> ArmorItems; // As above, for armor.
+    Map<String,int> UniqueArmorItems;
+
     Map<String,int> EquipItems; // Non-armor equipment.
+    Map<String,int> UniqueEquipItems;
 
     static DropDatabaseHandler Get() {
         return DropDatabaseHandler(StaticEventHandler.Find("DropDatabaseHandler"));
@@ -17,6 +23,8 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
         Consumables.insert("RwArmorBonus",400);
         Consumables.insert("HealthBonus",400);
         Consumables.insert("Stimpack",100);
+        Consumables.insert("ArmorRepairKit", 50);
+        Consumables.insert("ActiveItemRecharger", 25);
         Consumables.insert("Blursphere",10);
         Consumables.insert("Soulsphere",7);
         Consumables.insert("Berserk",5);
@@ -45,30 +53,62 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
             if (c.isAbstract()) {
                 continue;
             }
-            // Sort items into their proper lists.
-            if (c is "RwWeapon") {
-                Class<Actor> rwc = c.GetClassName();
-                let rw = RwWeapon(GetDefaultByType(rwc));
-                WeaponItems.Insert(rw.GetClassName(),rw.rweight);
-                console.printf("  Weapon - %s (%d)",rw.GetClassName(),rw.rweight);
-            }
-            if (c is "RwArmor") {
-                Class<Actor> rac = c.GetClassName();
-                let ra = RwArmor(GetDefaultByType(rac));
-                ArmorItems.Insert(ra.GetClassName(),ra.rweight);
-                console.printf("  Armor - %s (%d)",ra.GetClassName(),ra.rweight);
-            }
-            if (c is "RwBackpack") {
-                Class<Actor> bpc = c.GetClassName();
-                let bp = RwBackpack(GetDefaultByType(bpc));
-                EquipItems.Insert(bp.GetClassName(),bp.rweight);
-                console.printf("  Backpack - %s (%d)",bp.GetClassName(),bp.rweight);
-            }
-            if (c is "RwActiveSlotItem") {
-                Class<Actor> asiClass = c.GetClassName();
-                let asi = RwActiveSlotItem(GetDefaultByType(asiClass));
-                EquipItems.Insert(asi.GetClassName(),asi.rweight);
-                console.printf("  ActiveSlotItem - %s (%d)",asi.GetClassName(),asi.rweight);
+            let isUnique = RwItemsHelper.isClassOfUniqueItem(c);
+            if (isUnique) {
+
+                // Sort unique items into their proper lists.
+                if (c is "RwWeapon") {
+                    Class<Actor> rwc = c.GetClassName();
+                    let rw = RwWeapon(GetDefaultByType(rwc));
+                    UniqueWeaponItems.Insert(rw.GetClassName(),rw.rweight);
+                    console.printf("  Unique Weapon - %s (%d)",rw.GetClassName(),rw.rweight);
+                }
+                if (c is "RwArmor") {
+                    Class<Actor> rac = c.GetClassName();
+                    let ra = RwArmor(GetDefaultByType(rac));
+                    UniqueArmorItems.Insert(ra.GetClassName(),ra.rweight);
+                    console.printf("  Unique Armor - %s (%d)",ra.GetClassName(),ra.rweight);
+                }
+                if (c is "RwBackpack") {
+                    Class<Actor> bpc = c.GetClassName();
+                    let bp = RwBackpack(GetDefaultByType(bpc));
+                    UniqueEquipItems.Insert(bp.GetClassName(),bp.rweight);
+                    console.printf("  Unique Backpack - %s (%d)",bp.GetClassName(),bp.rweight);
+                }
+                if (c is "RwActiveSlotItem") {
+                    Class<Actor> asiClass = c.GetClassName();
+                    let asi = RwActiveSlotItem(GetDefaultByType(asiClass));
+                    UniqueEquipItems.Insert(asi.GetClassName(),asi.rweight);
+                    console.printf("  Unique ActiveSlotItem - %s (%d)",asi.GetClassName(),asi.rweight);
+                }
+
+            } else {
+
+                // Sort non-unique items into their proper lists.
+                if (c is "RwWeapon") {
+                    Class<Actor> rwc = c.GetClassName();
+                    let rw = RwWeapon(GetDefaultByType(rwc));
+                    WeaponItems.Insert(rw.GetClassName(),rw.rweight);
+                    console.printf("  Weapon - %s (%d)",rw.GetClassName(),rw.rweight);
+                }
+                if (c is "RwArmor") {
+                    Class<Actor> rac = c.GetClassName();
+                    let ra = RwArmor(GetDefaultByType(rac));
+                    ArmorItems.Insert(ra.GetClassName(),ra.rweight);
+                    console.printf("  Armor - %s (%d)",ra.GetClassName(),ra.rweight);
+                }
+                if (c is "RwBackpack") {
+                    Class<Actor> bpc = c.GetClassName();
+                    let bp = RwBackpack(GetDefaultByType(bpc));
+                    EquipItems.Insert(bp.GetClassName(),bp.rweight);
+                    console.printf("  Backpack - %s (%d)",bp.GetClassName(),bp.rweight);
+                }
+                if (c is "RwActiveSlotItem") {
+                    Class<Actor> asiClass = c.GetClassName();
+                    let asi = RwActiveSlotItem(GetDefaultByType(asiClass));
+                    EquipItems.Insert(asi.GetClassName(),asi.rweight);
+                    console.printf("  ActiveSlotItem - %s (%d)",asi.GetClassName(),asi.rweight);
+                }
             }
         }
 
@@ -97,15 +137,21 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
         return result;
     }
 
-    String PickWeapon() {
+    String PickWeapon(bool unique) {
+        if (unique && UniqueWeaponItems.CountUsed() > 0)
+            return PickFromWeightList(UniqueWeaponItems);
         return PickFromWeightList(WeaponItems);
     }
 
-    String PickArmor() {
+    String PickArmor(bool unique) {
+        if (unique && UniqueArmorItems.CountUsed() > 0)
+            return PickFromWeightList(UniqueArmorItems);
         return PickFromWeightList(ArmorItems);
     }
 
-    String PickEquip() {
+    String PickEquip(bool unique) {
+        if (unique && UniqueEquipItems.CountUsed() > 0)
+            return PickFromWeightList(UniqueEquipItems);
         return PickFromWeightList(EquipItems);
     }
 

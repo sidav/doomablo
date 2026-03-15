@@ -20,7 +20,7 @@ class RandomMonsterHelper {
             case 0: return 'Zombieman';
             case 1: return 'DoomImp';
             case 2: return 'ShotgunGuy';
-            case 3: return 'ChaingunGuy';
+            case 3: if (GameDetector.notDoom1()) return 'ChaingunGuy'; // else - fallthrough
             case 4: return 'LostSoul';
         }
         return 'Zombieman';

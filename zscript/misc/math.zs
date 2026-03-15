@@ -124,10 +124,39 @@ class Math {
     // The same, but for repeated multiplication (percents, for example).
     // Example usage: to multiply 25 with 1.34, use AccumulatedFixedPointMultiply(25, 134, 100, fractionAccum)
     static int AccumulatedFixedPointMultiply(int whole, int factor, int precision, out int fractionAccum) {
-        whole *= factor; // We're working with promille here, so multiply
+        whole *= factor;
         fractionAccum += whole;
         whole = fractionAccum / precision;
         fractionAccum = fractionAccum % precision; // Store only the fraction in the accumulator
+        return whole;
+    }
+}
+
+// For readability. Use this instead of AccumulatedFixedPointAdd where it's more convenient.
+class IntFraction {
+    int fraction;
+    int precision;
+
+    static IntFraction create(int precision) {
+        IntFraction f = new("IntFraction");
+        f.fraction = 0;
+        f.precision = precision;
+        return f;
+    }
+
+    int add(int addition) {
+        fraction += addition;
+        let whole = fraction / precision;
+        fraction = fraction % precision;
+        return whole;
+    }
+
+    // whole is just integer, factorXprecision should already be multiplied by precision
+    int multiply(int whole, int factorXprecision) {
+        whole *= factorXprecision;
+        fraction += whole;
+        whole = fraction / precision;
+        fraction = fraction % precision; // Store only the fraction in the accumulator
         return whole;
     }
 }

@@ -20,6 +20,7 @@ extend class RwPlayer {
         }
         AddInventory(weap);
         player.PendingWeapon = weap;
+        weap.printPickupMessage(true, weap.pickupMessage());
     }
 
     void PickUpArmor(RwArmor armr) {
@@ -32,6 +33,7 @@ extend class RwPlayer {
         }
         AddInventory(armr);
         CurrentEquippedArmor = armr;
+        armr.printPickupMessage(true, armr.pickupMessage());
     }
 
     void PickUpBackpack(RwBackpack bkpk) {
@@ -41,7 +43,8 @@ extend class RwPlayer {
             DropInventory(CurrentEquippedBackpack);
         }
         AddInventory(bkpk);
-        CurrentEquippedBackpack = bkpk;        
+        CurrentEquippedBackpack = bkpk;
+        bkpk.printPickupMessage(true, bkpk.pickupMessage());
     }
 
     void PickUpActiveSlotItem(RwActiveSlotItem itm) {
@@ -52,51 +55,6 @@ extend class RwPlayer {
         }
         AddInventory(itm);
         EquippedActiveSlotItem = itm;
+        itm.printPickupMessage(true, itm.pickupMessage());
     }
-
-    // OLD CODE
-
-    // bool HasEmptyWeaponSlotFor(Weapon weap) {        
-    //     return (GetWeaponInstanceInSlot(weap.SlotNumber) == null) && HasEmptyWeaponSlot();
-    // }
-
-    // Weapon GetWeaponInstanceInSlot(int slot) {
-    //     let invlist = inv;
-    //     while(invlist != null) {
-    //         if ( Weapon(invlist) != null && Weapon(invlist).SlotNumber == slot) {
-    //             return Weapon(invlist);
-    //         }
-    //         invlist=invlist.Inv;
-    //     };
-    //     return null;
-    // }
-
-    // bool HasEmptyWeaponSlot() {
-    //     // let pinfo = player;
-    //     let totalWeapons = 0;
-    //     let invlist = inv;
-    //     while(invlist != null) {
-    //         if( Weapon(invlist) ) {
-    //             totalWeapons++;
-    //         }
-    //         invlist=invlist.Inv;
-    //     };
-    //     // console.printf("Total weapons counted: "..totalWeapons);
-    //     return totalWeapons < WEAPON_SLOTS;
-    // }
-
-    // void PickUpWeapon(Weapon weap) {
-    //     // First, check if we have empty slots
-    //     let hasEmptySlot = HasEmptyWeaponSlotFor(weap);
-    //     // Picking up the weapon.
-    //     if (!hasEmptySlot) {
-    //         Weapon currentWeapon = GetWeaponInstanceInSlot(weap.SlotNumber);
-    //         if (currentWeapon) {
-    //             currentWeapon.DetachFromOwner();
-    //             DropInventory(currentWeapon);
-    //         }
-    //     }
-    //     AddInventory(weap);
-    //     player.PendingWeapon = weap;
-    // }
 }

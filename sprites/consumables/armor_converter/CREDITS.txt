@@ -1,0 +1,5 @@
+Code: Cyantusk
+Sounds: Eclipse Software (ripped by Magma MK-II)
+Sprites: Eclipse Software (ripped by Magma MK-II)
+Sprite Edit: Cyantusk
+Idea Base: New idea from scratch

@@ -1,12 +1,20 @@
 [default] //language code header
 
 // Gameplay
-RAREMONSTERSPAWNED = "You feel a powerful presence in this place.";
+RAREMONSTERSPAWNED0 = "%1sYou feel a dreaded presence of %2s";
+RAREMONSTERSPAWNED1 = "%1sThe forbidden scriptures foretold %2s";
+RAREMONSTERSPAWNED2 = "%1sSeven omens burn for %2s";
+RAREMONSTERSPAWNED3 = "%1sHope withers in the shadow of %2s";
+RAREMONSTERSPAWNED4 = "%1sThe blind abyss gazes upon %2s";
+RAREMONSTERSPAWNED5 = "%1sThe ancient seals are broken by %2s.";
 
 // Weapons
 TAG_SMG = "Sub-Machine Gun";
 GOTSMG = "You got a Sub-Machine Gun!";
 OB_MPSMG = "%o was rattled by %k's little friend.";
+TAG_ASSAULT_RIFLE = "Assault Rifle";
+GOT_ASSAULT_RIFLE = "You got an Assault Rifle!";
+OB_MPAR = "%o was rattled by %k's little friend.";
 TAG_REVOLVER = "Revolver";
 GOTREVOLVER = "Got a Revolver. Colt Single Action Space Marine, caliber .45";
 TAG_AUTOSHOTGUN = "Auto-Shotgun";
@@ -16,14 +24,23 @@ GOTGRENADELAUNCHER = "Got a Grenade launcher";
 TAG_RAILGUN = "Railgun";
 GOTRAILGUN = "Got a Railgun!";
 
+// Unique weapons
+TAG_THEREASON = "The Reason";
+GOT_THEREASON = "ULTIMA RATIO REGNUM: UAC Prototype Hypervelocity gatling railgun";
+OB_THEREASON = "%o listened to %k's reason.";
+TAG_BFG10K = "B.F.G. 10000";
+GOT_BFG10K = "WARNING: THE SLAYER IS IN CONTROL OF THE BFG!";
+
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo settings";
 RWMENU_CUSTOMIZEDOOMABLO = "Customize DOOMablo";
 
 RWMENU_INTERFACEOPTIONS_HEADER = "Interface options";
 RWSETTINGS_AFFIXNAMES = "Show affixes' names in stats";
+RWSETTINGS_SHOW_EQUIPPED_ITEMS = "Always show equipped items short info";
 
 RWMENU_MONHPBAROPTIONS_HEADER = "Monster HP Bar options";
+RWSETTINGS_MONHPBAR_SHOW = "Show monster HP bar";
 RWSETTINGS_MINWIDTH = "Minimum width";
 RWSETTINGS_HEIGHT = "Height";
 RWSETTINGS_VERTICAL_POSITION = "Vertical position";

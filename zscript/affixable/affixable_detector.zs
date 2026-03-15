@@ -20,4 +20,20 @@ class AffixableDetector {
 		}
         return "<ERROR DETECTING NAME>";
     }
+
+	static int getRarityOfAffixableItem(Actor a) {
+        if (a is "RwWeapon") {
+			return RwWeapon(a).generatedRarity;
+		}
+		if (a is "RwArmor") {
+			return RwArmor(a).generatedRarity;
+		}
+		if (a is "RwBackpack") {
+			return RwBackpack(a).generatedRarity;
+		}
+		if (a is "RwActiveSlotItem") {
+			return RwActiveSlotItem(a).generatedRarity;
+		}
+        return 0;
+    }
 }

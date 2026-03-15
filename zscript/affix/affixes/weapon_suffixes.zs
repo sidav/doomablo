@@ -14,7 +14,7 @@ class RwWeaponSuffix : Affix abstract {
     override int minRequiredRarity() {
         return 3; // Most suffixes require at least "rare"
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 55;
     }
     override bool IsCompatibleWithItem(Inventory item) {
@@ -159,7 +159,7 @@ class WSuffPoison : RwWeaponSuffix {
         }
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, maxPercentage, 0.05) + quality/25;
         let baseDmg = rnd.multipliedWeightedRandByEndWeight(1, 3, 0.1) + remapQualityToRange(quality, 0, 2);
-        stat2 = StatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
+        stat2 = PlayerStatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
     }
     override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (rnd.PercentChance(modifierLevel)) {
@@ -324,6 +324,63 @@ class WSuffSpawnBarrelOnKill : RwWeaponSuffix {
     }
 }
 
+class WSuffTesla : RwWeaponSuffix {
+    override string getName() {
+        return "Tesla";
+    }
+    override string getDescription() {
+        return String.Format("%d%% chance to zap %d nearby enemies on kill (%d DMG)", chance, maxTargets, zapDamage);
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.getClass() == 'RwPlasmaRifle' || wpn.getClass() == 'RwRailgun';
+    }
+    int chance;
+    int maxTargets;
+    int zapDamage;
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        chance = multRandomPlusQualityRemap(10, 40, 0.1, quality, 20);
+        zapDamage = rnd.multipliedWeightedRandByEndWeight(35, 75, 0.1);
+        zapDamage = PlayerStatsScaler.ScaleIntValueByLevelRandomized(zapDamage, quality);
+        maxTargets = multRandomPlusQualityRemap(1, 5, 0.1, quality, 5);
+    }
+
+    Vector3 beamStart;
+    array<Actor> beamEndActors;
+    int zapTicksRemaining;
+    // Draw the lightning itself
+    override void onDoEffect(Actor owner) {
+        if (zapTicksRemaining == 0) return;
+        zapTicksRemaining--;
+        foreach (zapped : beamEndActors)
+            ArcSplitController.DrawLightning(beamstart, ArcSplitController.GetBeamAttachPos(zapped), spawnSpark: true, null);
+    }
+
+    const ZAP_RANGE = 512.;
+    const ZAP_DURATION = TICRATE/2;
+    override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        if (!rnd.percentChance(chance)) return;
+        zapTicksRemaining = ZAP_DURATION;
+        beamEndActors.clear();
+
+        beamstart = ArcSplitController.GetBeamAttachPos(target, 0, 0);
+        let ti = ThinkerIterator.Create('Actor');
+        Actor mo;
+        while (mo = Actor(ti.next())) {
+            if (
+                (mo.bISMONSTER || mo is 'ExplosiveBarrel') &&
+                mo.Health > 0 &&
+                mo.player == null &&
+                target.Distance2D(mo) <= ZAP_RANGE &&
+                mo.CheckSight(target, SF_IGNOREWATERBOUNDARY)
+            ) {
+                beamEndActors.push(mo);
+                mo.damageMobj(null, null, zapDamage, 'Extreme', DMG_FORCED);
+                if (beamEndActors.Size() >= maxTargets) return;
+            }
+        }
+    }
+}
+
 class WSuffTargetExplode : RwWeaponSuffix {
     override string getName() {
         return "Overloading";
@@ -334,7 +391,7 @@ class WSuffTargetExplode : RwWeaponSuffix {
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         modifierLevel = rnd.multipliedWeightedRandByEndWeight(5, 15, 0.1) + remapQualityToRange(quality, 0, 10);
         int baseDmg = rnd.multipliedWeightedRandByEndWeight(10, 30, 0.1);
-        stat2 = StatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
+        stat2 = PlayerStatsScaler.ScaleIntValueByLevelRandomized(baseDmg, quality);
     }
     override void onFatalDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
         if (rnd.PercentChance(modifierLevel)) {
@@ -352,6 +409,29 @@ class WSuffTargetExplode : RwWeaponSuffix {
 
 ////////////////////////////
 // Hitscan only
+class WSuffHeavyBullets : RwWeaponSuffix {
+    override string getName() {
+        return "High caliber";
+    }
+    override string getDescription() {
+        return String.Format("Fires slower heavy bullets. +%d%% damage, x2 recoil", (modifierLevel - 100));
+    }
+    override bool isCompatibleWithAffClass(Affix a2) {
+        return a2.GetClass() != 'WSuffFlechettes' && a2.GetClass() != 'WSuffMinirockets';
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.fireType == RWStatsClass.FTHitscan;
+    }
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(110, 125, 0.1) + remapQualityToRange(quality, 0, 25);
+        wpn.stats.fireType = RWStatsClass.FTProjectile;
+        wpn.stats.projClass = 'RwHeavyBullet';
+        wpn.stats.minDamage = math.getIntPercentage(wpn.stats.minDamage, modifierLevel);
+        wpn.stats.maxDamage = math.getIntPercentage(wpn.stats.maxDamage, modifierLevel);
+        wpn.stats.recoil *= 2;
+    }
+}
+
 class WSuffMinirockets : RwWeaponSuffix {
     override string getName() {
         return "Minimissiles";
@@ -360,7 +440,7 @@ class WSuffMinirockets : RwWeaponSuffix {
         return "Fires exploding mini-rockets. Damage x"..(modifierLevel/10).."."..(modifierLevel%10);
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WSuffFlechettes' && a2.GetClass() != 'WSuffSlugshotShotgun';
+        return a2.GetClass() != 'WSuffFlechettes' && a2.GetClass() != 'WSuffHeavyBullets' && a2.GetClass() != 'WSuffSlugshotShotgun';
     }
     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.stats.fireType == RWStatsClass.FTHitscan;
@@ -384,7 +464,7 @@ class WSuffFlechettes : RwWeaponSuffix {
         return String.Format("Fires slow homing bullets. Damage x%.1f", (double(modifierLevel)/10.));
     }
     override bool isCompatibleWithAffClass(Affix a2) {
-        return a2.GetClass() != 'WSuffSlugshotShotgun' && a2.GetClass() != 'WSuffMinirockets';
+        return a2.GetClass() != 'WSuffSlugshotShotgun' && a2.GetClass() != 'WSuffMinirockets' && a2.GetClass() != 'WSuffHeavyBullets';
     }
     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
         return wpn.stats.fireType == RWStatsClass.FTHitscan;
@@ -396,6 +476,8 @@ class WSuffFlechettes : RwWeaponSuffix {
         wpn.stats.levelOfSeekerProjectile = 1; // Level itself is unused; just needs to be non-zero for RWA_FireProjectile() to use correct flags
         wpn.stats.minDamage = math.divideIntWithRounding(wpn.stats.minDamage * modifierLevel, 10);
         wpn.stats.maxDamage = math.divideIntWithRounding(wpn.stats.maxDamage * modifierLevel, 10);
+        // wpn.stats.HorizSpread *= 1.5;
+        // wpn.stats.VertSpread *= 1.5;
     }
 }
 
@@ -433,6 +515,68 @@ class WSuffSlugshotShotgun : RwWeaponSuffix {
     }
 }
 
+class WSuffIncreasedLastAmmoDamage : RwWeaponSuffix {
+    override string getName() {
+        return "Goodbye";
+    }
+    override string getDescription() {
+        return String.Format("Last bullet in the clip deals %d damage", (lastBulletDmg));
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.fireType == RWStatsClass.FTHitscan && wpn.stats.clipSize > 5;
+    }
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
+        if (appliedOn is 'RwPistol' || appliedOn is 'RwRevolver')
+            return 100;
+        return 25;
+    }
+    int lastBulletDmg;
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        int factorx100 = multRandomPlusQualityRemap(250, 400, 0.1, quality, 100);
+        lastBulletDmg = (factorx100 * wpn.stats.maxDamage) / 100;
+
+    }
+    override int modifyRolledDamage(int damage, RwPlayer plr) {
+        if (RwWeapon(plr.Player.ReadyWeapon).currentClipAmmo == 0)
+            return lastBulletDmg;
+        return damage;
+    }
+}
+
+class WSuffRepeatedShotsIncreaseDmg : RwWeaponSuffix {
+    override string getName() {
+        return "Stuffing";
+    }
+    override string getDescription() {
+        return String.Format("Repeated hits on same target increase DMG by %d%% (max %d%%)", (dmgIncreasePerc, maxDmgIncreasePerc));
+    }
+    override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
+        return wpn.stats.fireType == RWStatsClass.FTHitscan && wpn.stats.pellets < 2;
+    }
+    int dmgIncreasePerc;
+    int maxDmgIncreasePerc;
+    int currDmgIncreasePerc;
+    Actor lastActorHit;
+    override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
+        dmgIncreasePerc = multRandomPlusQualityRemap(3, 10, 0.1, quality, 5);
+        maxDmgIncreasePerc = multRandomPlusQualityRemap(15, 50, 0.1, quality, 25);
+        currDmgIncreasePerc = 0;
+    }
+    override void onDamageDealtByPlayer(int damage, Actor target, RwPlayer plr) {
+        // TODO: handle misses somehow
+        if (target != lastActorHit) {
+            lastActorHit = target;
+            currDmgIncreasePerc = 0;
+            return;
+        }
+        currDmgIncreasePerc += dmgIncreasePerc;
+        currDmgIncreasePerc = min(currDmgIncreasePerc, maxDmgIncreasePerc);
+    }
+    override int modifyRolledDamage(int damage, RwPlayer plr) {
+        return math.getIntPercentage(damage, 100 + currDmgIncreasePerc);
+    }
+}
+
 ////////////////////////////
 // Self-upgrade affixes
 class WSuffRofSelfUpgrade : RwWeaponSuffix {
@@ -440,7 +584,7 @@ class WSuffRofSelfUpgrade : RwWeaponSuffix {
     override string getName() {
         return "Consecration";
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 75;
     }
     override string getDescription() {
@@ -463,7 +607,7 @@ class WSuffRofSelfUpgrade : RwWeaponSuffix {
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 2) return;
 
-        plr.A_PrintBold("Affix level up: +1% rate of fire for this weapon");
+        plr.A_PrintBold("\cyAffix level up: +1% rate of fire for this weapon");
         rWeap.stats.rofModifier++;
         stat2++;
         if (stat2 >= modifierLevel) maxEffectReached = true;
@@ -475,7 +619,7 @@ class WSuffReloadSpeedSelfUpgrade : RwWeaponSuffix {
     override string getName() {
         return "Servant";
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 75;
     }
     override bool IsCompatibleWithRWeapon(RwWeapon wpn) {
@@ -501,7 +645,7 @@ class WSuffReloadSpeedSelfUpgrade : RwWeaponSuffix {
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 2) return;
 
-        plr.A_PrintBold("Affix level up: +1% reload speed for this weapon");
+        plr.A_PrintBold("\cyAffix level up: +1% reload speed for this weapon");
         rWeap.stats.reloadSpeedModifier++;
         stat2++;
         if (stat2 >= modifierLevel) maxEffectReached = true;
@@ -514,7 +658,7 @@ class WSuffMaxDamageSelfUpgrade : RwWeaponSuffix {
     override string getName() {
         return "Justicar";
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 75;
     }
     override string getDescription() {
@@ -538,7 +682,7 @@ class WSuffMaxDamageSelfUpgrade : RwWeaponSuffix {
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 3) return;
     
-        plr.A_PrintBold("Affix level up: +"..modifierLevel.." max damage for this weapon");
+        plr.A_PrintBold("\cyAffix level up: +"..modifierLevel.." max damage for this weapon");
         rWeap.stats.maxDamage += modifierLevel;
         cumulativeDmgIncrease += modifierLevel;
         stat2--;
@@ -552,7 +696,7 @@ class WSuffPelletsSelfUpgrade : RwWeaponSuffix {
     override string getName() {
         return "Leadstorm";
     }
-    override int selectionProbabilityPercentage() {
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
         return 75;
     }
     override string getDescription() {
@@ -578,7 +722,7 @@ class WSuffPelletsSelfUpgrade : RwWeaponSuffix {
         let monAff = RwMonsterAffixator.GetMonsterAffixator(target);
         if (!monAff || monAff.GetRarity() < 3) return;
     
-        plr.A_PrintBold("Affix level up: +1 pellet for this weapon");
+        plr.A_PrintBold("\cyAffix level up: +1 pellet for this weapon");
         rWeap.stats.pellets += modifierLevel;
         cumulativePelletsIncrease += modifierLevel;
         stat2--;

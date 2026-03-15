@@ -32,10 +32,10 @@ class RwBackpack : Inventory {
     virtual void setBaseStats() {
 		rwbaseName = "Backpack";
 		stats = New('RwBackpackStats');
-		stats.maxBull = 250;
-		stats.maxShel = 60;
-		stats.maxRckt = 50;
-		stats.maxCell = 300;
+		stats.maxBull = 150;
+		stats.maxShel = 20;
+		stats.maxRckt = 20;
+		stats.maxCell = 200;
     }
 
     // Needs to be called before generation
@@ -103,5 +103,14 @@ class RwBackpack : Inventory {
             aff.onHandlePickup(pickedUp);
         }
 		return false;
+    }
+
+    override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags) {
+        newdamage = damage;
+        Affix aff;
+        foreach (aff : appliedAffixes) {
+            aff.onModifyDamage(damage, newdamage, passive, inflictor, source, owner, flags);
+            damage = newdamage;
+        }
     }
 }
