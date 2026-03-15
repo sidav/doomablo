@@ -1,6 +1,7 @@
 server bool RwSettingsShowAffixNamesInTables = false;
 server bool RwSettingsShowEquippedItemsShortInfo = false;
 server bool RwSettingsClumpedDropsJump = true;
+server bool RwSettingsShowMonsterHpBar = true;
 server bool rw_enable_monster_blink_affix = true;
 server bool rw_enable_monster_revenge_affix = true;
 server bool rw_start_with_shotgun = false;

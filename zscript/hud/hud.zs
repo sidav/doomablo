@@ -47,7 +47,8 @@ class MyCustomHUD : BaseStatusBar
 				DrawShortCurrentItemsInfo();
 			}
 			DrawPlayerStatusEffects();
-			DrawCurrentTargetHPBar();
+			if (RwSettingsShowMonsterHpBar)
+				DrawCurrentTargetHPBar();
 			DrawPlayerExperienceInfo();
         }
     }

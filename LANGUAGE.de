@@ -40,6 +40,7 @@ RWSETTINGS_AFFIXNAMES = "Affix Namen anzeigen";
 RWSETTINGS_SHOW_EQUIPPED_ITEMS = "Namen ausgerüsteter Artefakten immer anzeigen";
 
 RWMENU_MONHPBAROPTIONS_HEADER = "GP-Bar Optionen";
+RWSETTINGS_MONHPBAR_SHOW = "Feind-GP-Bar zeigen";
 RWSETTINGS_MINWIDTH = "Mindestbreite";
 RWSETTINGS_HEIGHT = "Mindesthöhe";
 RWSETTINGS_VERTICAL_POSITION = "Vertikale Position";

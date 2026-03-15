@@ -23,6 +23,7 @@ OptionMenu "RW_Options"
     StaticText "$RWMENU_INTERFACEOPTIONS_HEADER", 1
     Option "$RWSETTINGS_AFFIXNAMES", "RwSettingsShowAffixNamesInTables", "RwOptionsYesNo"
 	Option "$RWSETTINGS_SHOW_EQUIPPED_ITEMS", "RwSettingsShowEquippedItemsShortInfo", "RwOptionsYesNo"
+	Option "$RWSETTINGS_MONHPBAR_SHOW", "RwSettingsShowMonsterHpBar", "RwOptionsYesNo"
 
 	StaticText ""
 	StaticText "$RWMENU_GAMEPLAYOPTIONS_HEADER", 1

@@ -40,6 +40,7 @@ RWSETTINGS_AFFIXNAMES = "Show affixes' names in stats";
 RWSETTINGS_SHOW_EQUIPPED_ITEMS = "Always show equipped items short info";
 
 RWMENU_MONHPBAROPTIONS_HEADER = "Monster HP Bar options";
+RWSETTINGS_MONHPBAR_SHOW = "Show monster HP bar";
 RWSETTINGS_MINWIDTH = "Minimum width";
 RWSETTINGS_HEIGHT = "Height";
 RWSETTINGS_VERTICAL_POSITION = "Vertical position";

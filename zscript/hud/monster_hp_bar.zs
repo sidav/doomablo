@@ -21,8 +21,8 @@ extend class MyCustomHUD {
         let fontHeight = monsterNameFont.mFont.GetHeight();
         let frameXThickness = 8 * CleanXFac_1;
         let frameYThickness = 8 * CleanYFac_1;
-        let HpBarWidth = max(150, monsterNameFont.mFont.StringWidth(str) + 2*frameXThickness);
-        let HpBarYPosition = 80;
+        let HpBarWidth = max(150, monsterNameFont.mFont.StringWidth(str.."__") + 2*frameXThickness);
+        let HpBarYPosition = 60;
 
         // Frame coords
         let frameW = HPBarWidth * CleanXFac_1;
