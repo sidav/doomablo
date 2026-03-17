@@ -161,14 +161,17 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
                 aff.onPlayerStatsRecalc(self);
             }
         }
-        if (Player) {
-            let currWpn = RwWeapon(Player.ReadyWeapon);
-            if (currWpn != null) {
-                foreach (aff : currWpn.appliedAffixes) {
+        // Apply stats from all weapons (even unequipped)
+        let invlist = inv;
+        while(invlist != null) {
+            let wpn = RwWeapon(invlist);
+            if (wpn != null) {
+                foreach (aff : wpn.appliedAffixes) {
                     aff.onPlayerStatsRecalc(self);
                 }
             }
-        }
+            invlist=invlist.Inv;
+        };
     }
 
     void ReceiveExperience(double amount) {
