@@ -108,7 +108,7 @@ class RwTurretItem : RwActiveSlotItem {
       stats.minDmg = 4;
       stats.maxDmg = 8;
       stats.turretHSpread = 12.5;
-      stats.turretLifeTicks = 10 * TICRATE;
+      stats.turretLifeTicks = 15 * TICRATE;
 
       stats.chargeConsumption = 30;
       stats.maxCharges = 80;
