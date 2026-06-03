@@ -37,9 +37,12 @@ class MAffMoreHealth : RwMonsterAffix { // It WILL synergize with the affixator-
     override string getDescription() {
         return "HLTH +"..(healthBonusPerc).."%";
     }
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
+        return 75;
+    }
     int healthBonusPerc;
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        healthBonusPerc = multRandomPlusQualityRemap(50, 200, 0.1, quality, 100);
+        healthBonusPerc = multRandomPlusQualityRemap(75, 125, 0.1, quality, 100);
     }
     override void onPutIntoMonsterInventory(Actor owner) {
         owner.starthealth = math.getIntPercentage(owner.health, 100+healthBonusPerc);
@@ -245,8 +248,11 @@ class MAffArmored : RwMonsterAffix {
     override string getDescription() {
         return "ARMR "..modifierLevel;
     }
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
+        return 50;
+    }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        let baseLevel = multRandomPlusQualityRemap(2, 7, 0.2, quality, 3);
+        let baseLevel = multRandomPlusQualityRemap(2, 4, 0.2, quality, 3);
         modifierLevel = MonsterStatsScaler.ScaleIntValueByLevelRandomized(baseLevel, quality);
     }
     override void onModifyDamage(int damage, out int newdamage, bool passive, Actor inflictor, Actor source, Actor owner, int flags) {
@@ -684,8 +690,11 @@ class MAffRespawnsOnDeath : RwMonsterAffix { // Ohhhh this whole affix was horri
     override int minRequiredRarity() {
         return 3;
     }
+    override int selectionProbabilityPercentage(Inventory appliedOn) {
+        return 50;
+    }
     override void initAndApplyEffectToRwMonsterAffixator(RwMonsterAffixator affixator, int quality) {
-        modifierLevel = multRandomPlusQualityRemap(1, 3, 0.1, quality, 2);
+        modifierLevel = multRandomPlusQualityRemap(1, 2, 0.1, quality, 2);
     }
     override void onOwnerDied(Actor owner) {
         if (modifierLevel <= 0) return;
