@@ -11,6 +11,7 @@ class rwPistol : RwWeapon
 		Inventory.PickupMessage "$GOTPISTOL";
 		Tag "$TAG_PISTOL";
 		RwWeapon.Weight 25;
+		RwWeapon.FreeReload true;
 	}
 	States
 	{

@@ -6,7 +6,7 @@ extend class RwWeapon {
     override bool checkAmmo(int fireMode, bool autoSwitch, bool requireAmmo, int ammocount)
 	{
         // Uses clip
-        if (stats.reloadable() && currentClipAmmo >= stats.ammoUsage) {
+        if (stats.reloadable() && currentClipAmmo >= stats.ammoUsage || reloadIsFree) {
             return true;
         }
 
@@ -52,7 +52,7 @@ extend class RwWeapon {
 
     action state RWA_ReloadOrSwitchIfEmpty() {
         if (invoker.currentClipAmmo < invoker.stats.ammoUsage) {
-            if (invoker.ammo1.amount >= invoker.stats.ammoUsage) {
+            if (invoker.ammo1.amount >= invoker.stats.ammoUsage || invoker.reloadIsFree) {
                 return ResolveState("Reload");
             }
             RwPlayer(invoker.Owner).PickNewWeapon(null);
@@ -64,7 +64,10 @@ extend class RwWeapon {
     // Call this instead of A_WeaponReady()
     action void RWA_WeaponReadyReload(int flags = 0)
     {
-        if (invoker.currentClipAmmo < invoker.stats.clipSize && invoker.ammo1.amount >= invoker.stats.ammoUsage) {
+        if (
+            invoker.currentClipAmmo < invoker.stats.clipSize &&
+                (invoker.ammo1.amount >= invoker.stats.ammoUsage || invoker.reloadIsFree)
+        ) {
             flags |= WRF_ALLOWRELOAD;
         }
         A_WeaponReady(flags);
@@ -72,6 +75,10 @@ extend class RwWeapon {
 
     action void A_MagazineReload()
     {
+        if (RwWeapon(invoker).reloadIsFree) {
+            invoker.currentClipAmmo = invoker.stats.clipSize;
+            return;
+        }
         let remainsToFullMag = invoker.stats.clipSize - invoker.currentClipAmmo;
         let refill = min(invoker.ammo1.amount, remainsToFullMag);
         // Don't refill if the ammo is not enough for a shot:

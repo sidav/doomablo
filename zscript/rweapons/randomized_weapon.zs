@@ -8,6 +8,9 @@ class RwWeapon : DoomWeapon abstract {
     int rweight; // Weight for randomization.
     Property Weight : rweight; //
 
+    bool reloadIsFree;
+    Property FreeReload : reloadIsFree;
+
     Default {
         Weapon.AmmoUse 1; // We use custom ammo usage routine anyway
         Weapon.AmmoGive 0; // Ammo is dropped separately so that the player doesn't have to "press use to pick it up"
