@@ -16,17 +16,7 @@ class RwEnergyArmor : RwArmor
 
 	override void DoEffect() {
 		super.DoEffect();
-		if (stats.currDurability < stats.maxDurability) {
-			let delay = stats.delayUntilRecharge;
-			if (ticksSinceDamage() >= delay) {
-				// if (ticksSinceDamage() == delay) debug.print("--> Recharge Started at "..GetAge());
-				let setTo = math.AccumulatedFixedPointAdd(stats.currDurability, stats.energyRestoreSpeedX1000, 1000, stats.currRepairFraction);
-				if (stats.currDurability == 0 && setTo != 0) {
-					owner.Player.bonusCount += 5;
-				}
-				stats.currDurability = setTo;
-			}
-		}
+		RechargeEnergyArmor();
     }
 
 	override void setBaseStats() {

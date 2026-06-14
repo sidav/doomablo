@@ -23,7 +23,7 @@ class RwArmor : Armor abstract {
     }
 
     // Needs to be called before generation
-    private virtual void prepareForGeneration() {}
+    protected virtual void prepareForGeneration() {}
 
     // Needs to be called after generation
     private void finalizeAfterGeneration() {
@@ -93,5 +93,19 @@ class RwArmor : Armor abstract {
     void forceRechargeAsap() {
         // -2 so that "on recharge start" effects will run properly.
         lastDamageTick = getAge() - (stats.delayUntilRecharge - 2);
+    }
+
+    // Call this in DoEffect if the armor is energy.
+    void RechargeEnergyArmor() {
+		if (stats.currDurability < stats.maxDurability) {
+			let delay = stats.delayUntilRecharge;
+			if (ticksSinceDamage() >= delay) {
+				let setTo = math.AccumulatedFixedPointAdd(stats.currDurability, stats.energyRestoreSpeedX1000, 1000, stats.currRepairFraction);
+				if (stats.currDurability == 0 && setTo != 0) {
+					owner.Player.bonusCount += 5;
+				}
+				stats.currDurability = setTo;
+			}
+		}
     }
 }
