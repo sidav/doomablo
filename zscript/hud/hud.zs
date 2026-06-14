@@ -69,6 +69,7 @@ class MyCustomHUD : BaseStatusBar
 		let plr = RwPlayer(CPlayer.mo);
         let asi = RwActiveSlotItem(plr.EquippedActiveSlotItem);
         let armr = RwArmor(plr.CurrentEquippedArmor);
+		let wpn = RwWeapon(CPlayer.ReadyWeapon);
 
 		Vector2 iconbox = (40, 20);
 		// Draw health
@@ -105,16 +106,18 @@ class MyCustomHUD : BaseStatusBar
 
 		invY = -20;
 		Inventory ammotype1, ammotype2;
-		[ammotype1, ammotype2] = GetCurrentAmmo();
-		if (ammotype1 != null) {
-			DrawInventoryIcon(ammotype1, (-14, -4));
-			DrawString(mHUDFont, FormatNumber(ammotype1.Amount, 3), (-30, -20), DI_TEXT_ALIGN_RIGHT);
-			invY -= 20;
-		}
-		if (ammotype2 != null && ammotype2 != ammotype1) {
-			DrawInventoryIcon(ammotype2, (-14, invY + 17));
-			DrawString(mHUDFont, FormatNumber(ammotype2.Amount, 3), (-30, invY), DI_TEXT_ALIGN_RIGHT);
-			invY -= 20;
+		if (wpn != null && !wpn.reloadIsFree) {
+			[ammotype1, ammotype2] = GetCurrentAmmo();
+			if (ammotype1 != null) {
+				DrawInventoryIcon(ammotype1, (-14, -4));
+				DrawString(mHUDFont, FormatNumber(ammotype1.Amount, 3), (-30, -20), DI_TEXT_ALIGN_RIGHT);
+				invY -= 20;
+			}
+			if (ammotype2 != null && ammotype2 != ammotype1) {
+				DrawInventoryIcon(ammotype2, (-14, invY + 17));
+				DrawString(mHUDFont, FormatNumber(ammotype2.Amount, 3), (-30, invY), DI_TEXT_ALIGN_RIGHT);
+				invY -= 20;
+			}
 		}
 		if (!isInventoryBarVisible() && !Level.NoInventoryBar && CPlayer.mo.InvSel != null) {
 			DrawInventoryIcon(CPlayer.mo.InvSel, (-14, invY), DI_DIMDEPLETED);

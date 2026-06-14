@@ -110,10 +110,15 @@ extend class MyCustomHUD {
         if (wpn) {
             if (wpn.stats.reloadable())
             {
-                DrawInventoryIcon(wpn.ammo1, (-14, -25), DI_SCREEN_RIGHT_BOTTOM);
-                DrawString(mHUDFont, 
-                    FormatNumber(wpn.currentClipAmmo, 3),
-                    (-73, -40), DI_SCREEN_RIGHT_BOTTOM);
+                if (wpn.reloadIsFree) {
+                    DrawInventoryIcon(wpn.ammo1, (-14, -4));
+                    DrawString(mHUDFont, FormatNumber(wpn.currentClipAmmo, 3), (-30, -20), DI_TEXT_ALIGN_RIGHT);
+                } else {
+                    DrawInventoryIcon(wpn.ammo1, (-14, -25), DI_SCREEN_RIGHT_BOTTOM);
+                    DrawString(mHUDFont, 
+                        FormatNumber(wpn.currentClipAmmo, 3),
+                        (-73, -40), DI_SCREEN_RIGHT_BOTTOM);
+                }
             }
         }
         drawAmmoTotals(-80);
