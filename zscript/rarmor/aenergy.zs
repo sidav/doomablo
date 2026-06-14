@@ -33,11 +33,11 @@ class RwEnergyArmor : RwArmor
 		rwbaseName = "Energy Armor";
 		stats = New('RwArmorStats');
 		stats.currDurability = 0;
-		stats.maxDurability = 30;
+		stats.maxDurability = 50;
 		stats.AbsorbsPercentage = 75;
 		
 		stats.energyRestoreSpeedX1000 = math.divideIntWithRounding(1250, TICRATE); // 1.25 per second
-		stats.delayUntilRecharge = 75*TICRATE/10; // 7.5 seconds base
+		stats.delayUntilRecharge = 50*TICRATE/10;
     }
 
 	// Needs to be called before generation, after generatedQuality is set.
