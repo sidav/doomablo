@@ -128,7 +128,7 @@ class RwChaingun : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			4, 8,
+			5, 9,
 			1,
 			1,
 			12.5,
