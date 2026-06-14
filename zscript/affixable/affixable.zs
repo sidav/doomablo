@@ -59,7 +59,7 @@ mixin class Affixable {
         int preGeneratedAffixes = appliedAffixes.Size();
 
         int appliedSuffixesCount = 0;
-        // We need to count for already-applied affixes - unique weapons may have them before generation
+        // We need to count for already-applied affixes - unique items may have them before generation
         foreach (aff: appliedAffixes) {
             if (aff.isSuffix()) appliedSuffixesCount++;
         }

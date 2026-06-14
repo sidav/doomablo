@@ -2,8 +2,8 @@ class RwItemsHelper {
 
     static bool isClassOfUniqueItem(class<Object> cls) {
         return (
-            cls is 'RwUniqueWeaponBase'
-            // TODO: armors, flasks etc
+            cls is 'RwUniqueWeaponBase' || cls is 'RwUniqueArmorBase'
+            // TODO: flasks etc
         );
     }
 

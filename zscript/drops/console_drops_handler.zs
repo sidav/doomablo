@@ -78,9 +78,11 @@ class ConsoleDropsHandler : EventHandler
                 break;
             // Unique
             case 106:
+                rarity = RaritiesHelper.MAX_RARITY;
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwuTheReason', xofs: xofs, zvel: zvel);
                 break;
             case 107:
+                rarity = RaritiesHelper.MAX_RARITY;
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwuBFG10k', xofs: xofs, zvel: zvel);
                 break;
             
@@ -95,7 +97,13 @@ class ConsoleDropsHandler : EventHandler
             case 12:
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwEnergyArmor', xofs: xofs, zvel: zvel);
                 break;
+            // Unique
+            case 100:
+                rarity = RaritiesHelper.MAX_RARITY;
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwuOnyxArmor', xofs: xofs, zvel: zvel);
+                break;
 
+            // ---------------------------------------
             // Backpack
             case 20: 
                 [unused, spawnedItem] = player.A_SpawnItemEx(RwBackpack.GetRandomVariantClass(), xofs: xofs, zvel: zvel);
@@ -118,12 +126,12 @@ class ConsoleDropsHandler : EventHandler
                 break;
 
             // Progression items. "Rarity" holds the amount of them to spawn
-            case 100:
+            case 1000:
                 for (let i = 0; i < rarity; i++) {
                     [unused, spawnedItem] = player.A_SpawnItemEx('InfernoBook', xofs: xofs, zvel: zvel);
                 }
                 return; // We don't need to generate it
-            case 101:
+            case 1001:
                 for (let i = 0; i < rarity; i++) {
                     [unused, spawnedItem] = player.A_SpawnItemEx('InfernoSigil', xofs: xofs, zvel: zvel);
                 }

@@ -1,0 +1,2 @@
+class RwUniqueArmorBase : RwArmor abstract {
+}

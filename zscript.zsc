@@ -117,6 +117,9 @@ version "4.10.0"
 #include "zscript/rarmor/randomized_armor_pickup.zs"
 #include "zscript/rarmor/randomized_armor_stats.zs"
 
+#include "zscript/rarmor/unique/base_unique_armor.zs"
+#include "zscript/rarmor/unique/onyxarmor.zs"
+
 #include "zscript/rbackpacks/randomized_backpack.zs"
 #include "zscript/rbackpacks/backpack_variant_2.zs"
 #include "zscript/rbackpacks/backpack_variant_3.zs"
