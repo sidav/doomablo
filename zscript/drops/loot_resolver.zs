@@ -1,5 +1,9 @@
 class LootResolver {
 
+    const LootTypeConsumable = 0;
+    const LootTypeAmmo = 1;
+    const LootTypeArtifact = 2;
+
     static int decideDropsCount(int dropperHealth, int dropperRarity) {
         let count = -1;
         if (dropperHealth > 1000) {
@@ -23,36 +27,53 @@ class LootResolver {
         return count;
     }
 
-    static int whatToDrop(int dropperHealth, int dropperRarity) {
-        // 0 - consumable item (armor bonus or health or whatever)
-        // 1 - ammo
-        // 2 - Randomizable artifact (weapon/armor/backpack/flask)
-        if (dropperHealth > 1000) {
-            return rnd.weightedRand(
-                1, // Consumable item weight
-                1, // Ammo weight
-                3+2*dropperRarity // Artifact weight
-            ); // drop artifacts mostly.
-        } else if (dropperHealth >= 500) {
-            return rnd.weightedRand(
-                5, // Consumable item weight
-                1, // Ammo weight
-                1+2*dropperRarity // Artifact weight
-            );
-        } else if (dropperHealth >= 250) {
-            return rnd.weightedRand(
-                10, // Consumable item weight
-                5, // Ammo weight
-                1+2*dropperRarity // Artifact weight
-            );
-        } else {
-            return rnd.weightedRand(
-                10, // Consumable item weight
-                15, // Ammo weight
-                1+2*dropperRarity // Artifact weight
-            );
+    static void fillLootListWithLootCodesFor(int lootCount, int dropperHealth, int dropperRarity, out array<int> lootList) {
+        int artifactsInList = 0;
+        lootList.Resize(0);
+        for (int i = 0; i < lootCount; i++) {
+            let currItem = LootTypeConsumable;
+            if (dropperHealth > 1000) {
+                currItem = rnd.weightedRand(
+                    1, // Consumable item weight
+                    1, // Ammo weight
+                    3+2*dropperRarity // Artifact weight
+                ); // drop artifacts mostly.
+            } else if (dropperHealth >= 500) {
+                currItem = rnd.weightedRand(
+                    5, // Consumable item weight
+                    1, // Ammo weight
+                    1+2*dropperRarity // Artifact weight
+                );
+            } else if (dropperHealth >= 250) {
+                currItem = rnd.weightedRand(
+                    10, // Consumable item weight
+                    5, // Ammo weight
+                    1+2*dropperRarity // Artifact weight
+                );
+            } else {
+                currItem = rnd.weightedRand(
+                    10, // Consumable item weight
+                    15, // Ammo weight
+                    1+2*dropperRarity // Artifact weight
+                );
+            }
+            if (currItem == LootTypeArtifact) {
+                artifactsInList++;
+            }
+            lootList.push(currItem);
         }
-        return 0;
+        // Take care of minimum artifacts count.
+        int minArtifactsInList = 0;
+        if (dropperRarity == RaritiesHelper.LEGENDARY_RARITY)
+            minArtifactsInList = 1;
+        if (dropperRarity == RaritiesHelper.MYTHIC_RARITY)
+            minArtifactsInList = 2;
+        for (int i = 0; i < lootCount && artifactsInList < minArtifactsInList; i++) {
+            if (lootList[i] != LootTypeArtifact) {
+                lootList[i] = LootTypeArtifact;
+                artifactsInList++;
+            }
+        }
     }
 
     static int rollRarityModifierForMonsterDrop(int dropperHealth, int dropperRarity) {
@@ -66,16 +87,16 @@ class LootResolver {
                 rarmod = rnd.weightedRand(100, 1);
                 break;
             case 2:
-                rarmod = rnd.weightedRand(50, 1);
+                rarmod = rnd.weightedRand(100, 10);
                 break;
             case 3:
-                rarmod = rnd.weightedRand(20, 1);
+                rarmod = rnd.weightedRand(100, 20, 1);
                 break;
             case 4:
-                rarmod = rnd.weightedRand(0, 20, 1);
+                rarmod = rnd.weightedRand(0, 100, 20, 5);
                 break;
             case 5:
-                rarmod = rnd.weightedRand(0, 5, 1);
+                rarmod = rnd.weightedRand(0, 10, 60, 5);
                 break;
             default:
                 rarmod = 0;

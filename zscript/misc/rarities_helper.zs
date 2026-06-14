@@ -1,7 +1,17 @@
 class RaritiesHelper {
     const MAX_RARITY = 6;
     const MAX_NON_UNIQUE_RARITY = 5;
+    
+
+    const COMMON_RARITY = 0;
+    const UNCOMMON_RARITY = 1;
+    const RARE_RARITY = 2;
+    const EPIC_RARITY = 3;
+    const LEGENDARY_RARITY = 4;
+    const MYTHIC_RARITY = 5;
     const UNIQUE_RARITY = 6;
+
+
     static string getRarityName(int rarity) {
         switch (rarity) {
             case 0: return "Common";

@@ -15,29 +15,32 @@ class DropsHandler : EventHandler
             dropperRarity = RwMonsterAffixator(e.Thing.FindInventory('RwMonsterAffixator')).GetRarity();
         }
         MaybeDropProgressionItem(e.Thing, dropperRarity);
+        // Let's make a list of drop types
         let dropsCount = LootResolver.decideDropsCount(GetDropperUnscaledHealth(e.Thing), dropperRarity);
-        for (let i = 0; i < dropsCount; i++) {
-            createDrop(e.Thing, dropperRarity);
+        if (dropsCount > 0) {
+            array<int> lootList;
+            LootResolver.fillLootListWithLootCodesFor(dropsCount, GetDropperUnscaledHealth(e.Thing), dropperRarity, lootList);
+            foreach (icode : lootList) {
+                createDrop(e.Thing, dropperRarity, icode);
+            }
         }
     }
 
-    private void createDrop(Actor dropper, int dropperRarity) {
+    private void createDrop(Actor dropper, int dropperRarity, int whatToDrop) {
         // Generate rarity before the item itself, because unique rarity (be it selected) requires different logic
         int rar = LootResolver.rollRarityForMonsterDrop(
             LootResolver.rollRarityModifierForMonsterDrop(GetDropperUnscaledHealth(dropper), dropperRarity)
         );
 
-        let whatToDrop = LootResolver.whatToDrop(GetDropperUnscaledHealth(dropper), dropperRarity);
-
         Actor spawnedItem;
         switch (whatToDrop) {
-            case 0: 
+            case LootResolver.LootTypeConsumable:
                 spawnedItem = DropsSpawner.SpawnRandomConsumableDrop(dropper);
                 break;
-            case 1:
+            case LootResolver.LootTypeAmmo:
                 spawnedItem = DropsSpawner.SpawnRandomAmmoDrop(dropper);
                 break;
-            case 2:
+            case LootResolver.LootTypeArtifact:
                 spawnedItem = DropsSpawner.SpawnRandomRWArtifactItemDrop(dropper, rar == RaritiesHelper.UNIQUE_RARITY);
                 break;
             default:
