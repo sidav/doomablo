@@ -104,7 +104,10 @@ class APrefBetterAbsorption : RwArmorPrefix {
     }
     override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         if (arm.stats.IsEnergyArmor()) {
-            let remainingToMax = 95 - arm.stats.AbsorbsPercentage;
+            let remainingToMax = 100 - arm.stats.AbsorbsPercentage;
+            if (remainingToMax > 5) {
+                remainingToMax -= 5;
+            }
             modifierLevel = rnd.multipliedWeightedRandByEndWeight(1, remainingToMax/2, 0.05) + remapQualityToRange(quality, 0, remainingToMax/2);
         } else {
             let remainingToMax = 100 - arm.stats.AbsorbsPercentage;
