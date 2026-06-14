@@ -81,19 +81,20 @@ class WSuffDamageIncreaseOnLowHealth : RwWeaponSuffix {
         return "Last Resort";
     }
     override string getDescription() {
-        return String.Format("+%d%% damage when you have %d HP or less", (modifierLevel, stat2));
+        return String.Format("DMG bonus up to +%d%% based on missing health", (modifierLevel));
     }
     override void initAndApplyEffectToRWeapon(RwWeapon wpn, int quality) {
         let maxPercentage = 200;
         if (wpn.stats.Pellets > 1) {
             maxPercentage = 100;
         }
-        modifierLevel = rnd.multipliedWeightedRandByEndWeight(20, maxPercentage/2, 0.1) + remapQualityToRange(quality, 15, maxPercentage/2);
-        stat2 = rnd.multipliedWeightedRandByEndWeight(20, 50, 0.05); // Required HP percentage
+        modifierLevel = rnd.multipliedWeightedRandByEndWeight(25, maxPercentage/2, 0.1) + remapQualityToRange(quality, 15, maxPercentage/2);
     }
     override int modifyRolledDamage(int rolledDmg, RwPlayer owner) {
-        if (owner.health <= stat2) {
-            return math.getIntPercentage(rolledDmg, 100+modifierLevel);
+        let missing = owner.getHealthPercentage();
+        if (missing < 100) {
+            let bonusAmount = math.GetIntPercentage(modifierLevel, 100-missing);
+            return math.getIntPercentage(rolledDmg, 100+bonusAmount);
         }
         return rolledDmg;
     }

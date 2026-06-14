@@ -191,4 +191,9 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
     clearscope int rollForDropLevel() {
         return rnd.multipliedWeightedRand(infernoLevel, min(100, infernoLevel + infernoLevelRangeSize-1), 1.0/2.0);
     }
+
+    // Respects max health upgrades.
+    clearscope int getHealthPercentage() {
+        return math.getIntFractionInPercent(Health, GetMaxHealth());
+    }
 }
