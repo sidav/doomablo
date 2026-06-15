@@ -16,48 +16,52 @@ class rwShotgun : RwWeapon
 	{
 	Ready:
 		TNT1 A 0 RWA_ReloadOrSwitchIfEmpty;
-		SHTG A 1 RWA_WeaponReadyReload;
+		PKSG A 1 RWA_WeaponReadyReload;
 		Loop;
 	Deselect:
-		SHTG A 1 A_Lower;
+		PKSG A 1 A_Lower;
 		Loop;
 	Select:
 		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
-		SHTG A 1 A_Raise;
+		PKSG A 1 A_Raise;
 		Loop;
 	Fire:
-		SHTG A 3 RWA_ApplyRateOfFire();
-		SHTG A 7 {
+		PKSG A 3 RWA_ApplyRateOfFire();
+		PKSG A 6 {
 			RWA_ApplyRateOfFire();
 			RWA_DoFire();
 			A_StartSound("weapons/shotgf", CHAN_WEAPON);
 			A_GunFlash();
 		}
-		SHTG BC 5 RWA_ApplyRateOfFire();
-		SHTG D 4 RWA_ApplyRateOfFire();
-		SHTG CB 5 RWA_ApplyRateOfFire();
-		SHTG A 3;
-		SHTG A 7 {
+		PKSG BCDEFGH 2 RWA_ApplyRateOfFire();
+		PKSG HGFEDC 2 RWA_ApplyRateOfFire();
+		PKSG A 2;
+		PKSG A 5 {
 			RWA_ReFire();
 			// RWA_ApplyRateOfFire();
 		}
 		Goto Ready;
 	Reload:
-		SHTG AAABBBCCCC 1 A_WeaponOffset(-2, 4, WOF_ADD | WOF_INTERPOLATE);
-		SHTG CD 15 RWA_ApplyReloadSpeed();
-		SHTG D 25 {
+		PKSG AABBCCDDEE 1 A_WeaponOffset(-2, 4, WOF_ADD | WOF_INTERPOLATE);
+		PKSG FG 15 RWA_ApplyReloadSpeed();
+		PKSG H 5 {
 			RWA_ApplyReloadSpeed();
             A_StartSound("misc/w_pkup"); // plays Doom's "weapon pickup" sound
             A_MagazineReload(); //do the reload
 		}
-		SHTG CCCCCBBBBB 1 A_WeaponOffset(2, -4, WOF_ADD | WOF_INTERPOLATE);
+		PKSG GF 10 RWA_ApplyReloadSpeed();
+		PKSG EEDDCCBBAA 1 A_WeaponOffset(2, -4, WOF_ADD | WOF_INTERPOLATE);
 		Goto Ready;
 	Flash:
-		SHTF A 4 Bright {
+		SHTF A 2 Bright {
 			RWA_ApplyRateOfFireToFlash();
 			A_Light1();
 		}
-		SHTF B 3 Bright {
+		SHTF B 2 Bright {
+			RWA_ApplyRateOfFireToFlash();
+			A_Light2();
+		}
+		SHTF C 1 Bright {
 			RWA_ApplyRateOfFireToFlash();
 			A_Light2();
 		}
