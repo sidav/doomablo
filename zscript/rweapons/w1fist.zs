@@ -15,21 +15,21 @@ class RwFist : Weapon replaces Fist
 	States
 	{
 	Ready:
-		PUNG A 1 A_WeaponReady;
+		PKF2 A 1 A_WeaponReady;
 		Loop;
 	Deselect:
-		PUNG A 1 A_Lower;
+		PKF2 A 1 A_Lower;
 		Loop;
 	Select:
 		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
-		PUNG A 1 A_Raise;
+		PKF2 A 1 A_Raise;
 		Loop;
 	Fire:
-		PUNG B 4;
-		PUNG C 4 RWA_Punch;
-		PUNG D 5;
-		PUNG C 4;
-		PUNG B 5 A_ReFire;
+		PKF2 LBCD 1;
+		PKF2 E 2 RWA_Punch;
+		PKF2 FGHI 2;
+		PKF2 JKL 1;
+		PKF2 A 5 A_ReFire;
 		Goto Ready;
 	}
 

@@ -21,15 +21,18 @@ class RwChainsaw : RwWeapon
 	}
 	States
 	{
-	Ready:
-		SAWG CD 4 A_WeaponReady;
-		Loop;
 	Deselect:
 		SAWG C 1 A_Lower;
 		Loop;
 	Select:
-		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
+		TNT1 A 0 {
+			A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
+			A_StartSound("weapons/sawup", 1); // Idk why but it doesn't work
+		}
 		SAWG C 1 A_Raise;
+		Loop;
+	Ready:
+		SAWG CDEF 2 A_WeaponReady;
 		Loop;
 	Fire:
 		SAWG A 4 {
