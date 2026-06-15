@@ -32,27 +32,29 @@ class RwSuperShotgun : RwWeapon
 			A_StartSound("weapons/sshotf", CHAN_WEAPON);
 			A_GunFlash();
 		}
-		SHT2 B 7 RWA_ApplyRateOfFire;
-		SHT2 C 7 {
+		PKS2 B 3 RWA_ApplyRateOfFire;
+		PKS2 C 3 {
 			RWA_ApplyRateOfFire();
 			A_CheckReload();
 		}
-		SHT2 D 7 {
+		PKS2 DE 3 RWA_ApplyRateOfFire;
+		PKS2 F 4 {
 			RWA_ApplyRateOfFire();
 			A_StartSound("weapons/sshoto", CHAN_WEAPON);
 		}
-		SHT2 E 7 RWA_ApplyRateOfFire;
-		SHT2 F 7 {
+		PKS2 GHIJK 2 RWA_ApplyRateOfFire;
+		PKS2 L 2 {
 			RWA_ApplyRateOfFire();
 			A_StartSound("weapons/sshotl", CHAN_WEAPON); 
 		}
-		SHT2 G 6 RWA_ApplyRateOfFire;
-		SHT2 H 6 {
+		PKS2 MNOPQR 2 RWA_ApplyRateOfFire;
+		PKS2 S 2 {
 			RWA_ApplyRateOfFire();
 			A_StartSound("weapons/sshotc", CHAN_WEAPON);
 			// A_Refire();
 		}
-		SHT2 A 5 {
+		PKS2 A 1;
+		PKS2 A 4 {
 			RWA_ApplyRateOfFire();
 			A_ReFire();
 		}
