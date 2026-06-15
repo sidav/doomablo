@@ -22,7 +22,7 @@ class RwMiniRocket : RwProjectile
 		MISL A 1 Bright RWA_SeekerMissile();
 		Loop;
 	Death:
-		MISL B 8 Bright {
+		EXPL A 3 Bright {
 			double explVolume = min(0.85, 1.3 / firedPellets);
 			double att = ATTN_NORM;
 			if (firedPellets > 3.0) {
@@ -31,8 +31,7 @@ class RwMiniRocket : RwProjectile
 			A_StartSound("weapons/rocklx", volume: explVolume, attenuation: att);
 			rwExplode();
 		}
-		MISL C 6 Bright;
-		MISL D 4 Bright;
+		EXPL BCDEF 3 Bright;
 		Stop;
 	BrainExplode:
 		MISL BC 10 Bright;

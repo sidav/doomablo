@@ -32,9 +32,8 @@ class RwGlGrenade : RwProjectile
 		TNT0 A 0 A_CountDown();
 		Loop;
 	Death:
-		MISL B 8 Bright rwExplode();
-		MISL C 6 Bright;
-		MISL D 4 Bright;
+		EXPL A 3 Bright rwExplode();
+		EXPL BCDEF 3 Bright;
 		Stop;
 	BrainExplode:
 		MISL BC 10 Bright;
