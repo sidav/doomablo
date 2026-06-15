@@ -17,10 +17,12 @@ class RwPlasmaBall : RwProjectile
 	States
 	{
 	Spawn:
-		PLSS AB 6 Bright RWA_SeekerMissile();
+		PLBL ACBD 2 Bright RWA_SeekerMissile();
 		Loop;
 	Death:
-		PLSE ABCDE 4 Bright;
+		PLXP ABCD 1 Bright;
+		PLXP EFGH 2 Bright;
+		PLXP IJKLMN 1 Bright;
 		Stop;
 	}
 }
