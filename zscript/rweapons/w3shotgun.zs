@@ -26,17 +26,20 @@ class rwShotgun : RwWeapon
 		PKSG A 1 A_Raise;
 		Loop;
 	Fire:
-		PKSG A 3 RWA_ApplyRateOfFire();
-		PKSG A 6 {
+		PKSG A 5 {
 			RWA_ApplyRateOfFire();
 			RWA_DoFire();
 			A_StartSound("weapons/shotgf", CHAN_WEAPON);
 			A_GunFlash();
 		}
-		PKSG BCDEFGH 2 RWA_ApplyRateOfFire();
-		PKSG HGFEDC 2 RWA_ApplyRateOfFire();
+		PKSG BCDE 2 RWA_ApplyRateOfFire();
+		PKSG F 4 RWA_ApplyRateOfFire();
+		PKSG GHG 2 RWA_ApplyRateOfFire();
+		PKSG F 5 RWA_ApplyRateOfFire();
+		PKSG ED 2 RWA_ApplyRateOfFire();
+		PKSG CB 1 RWA_ApplyRateOfFire();
 		PKSG A 2;
-		PKSG A 5 {
+		PKSG A 3 {
 			RWA_ReFire();
 			// RWA_ApplyRateOfFire();
 		}

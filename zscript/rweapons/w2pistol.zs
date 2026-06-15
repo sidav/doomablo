@@ -27,15 +27,17 @@ class rwPistol : RwWeapon
 		PISG A 1 A_Raise;
 		Loop;
 	Fire:
-		PKPX A 4 RWA_ApplyRateOfFire();
+		PKPX A 2 RWA_ApplyRateOfFire();
 		PKPX B 3 {
 			RWA_ApplyRateOfFire();
 			RWA_DoFire();
 			A_StartSound("weapons/pistol", CHAN_WEAPON);
 			A_GunFlash();
 		}
-		PKPX CDEDC 2 RWA_ApplyRateOfFire();
-		PKPX B 2 {
+		PKPX CD 2 RWA_ApplyRateOfFire();
+		PKPX E 4 RWA_ApplyRateOfFire();
+		PKPX DB 2 RWA_ApplyRateOfFire();
+		PKPX A 2 {
 			RWA_Refire();
 			RWA_ApplyRateOfFire();
 		}
