@@ -30,7 +30,7 @@ class MonstersAffixingHandler : EventHandler
     static int rollRarityModifier(int monsterHealth) {
         int rarmod;
         if (monsterHealth >= 1000) {
-            rarmod = rnd.weightedRand(20, 10, 2);
+            rarmod = rnd.weightedRand(20, 10, 1);
         } else if (monsterHealth >= 500) {
             rarmod = rnd.weightedRand(20, 5, 1);
         } else if (monsterHealth >= 250) {
@@ -41,7 +41,7 @@ class MonstersAffixingHandler : EventHandler
 
     static int, int rollRarityAndQuality(int rarMod) {
         // Roll rarity
-        let rar = rnd.weightedRand(6900, 2000, 820, 200, 70, 10);
+        let rar = rnd.weightedRand(6900, 2000, 820, 200, 50, 10);
         rar = clamp(rar+rarMod, 0, RaritiesHelper.MAX_NON_UNIQUE_RARITY);
 
         // Get quality (= monster level) from inferno level

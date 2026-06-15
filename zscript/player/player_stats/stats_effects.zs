@@ -58,7 +58,7 @@ extend class RwPlayerStats {
     int, int GetMinAndMaxMeleeDamage() {
         // OG Doom melee damage is 2-20.
         // baseMeleeDamageLevel increases base min damage for 1 each 6 levels
-        int minDamage = 2 + (currentStats[StatStrength]-1)/2;
+        int minDamage = 10 + (currentStats[StatStrength]-1)/2;
         // baseMeleeDamageLevel also increases base max damage for 1 each 5 levels
         int maxDamage = 20 + currentStats[StatStrength]/2;
         return 
