@@ -15,55 +15,109 @@ class RwPlasmaRifle : RwWeapon
 	{
 	Ready:
 		TNT1 A 0 RWA_ReloadOrSwitchIfEmpty;
-		PLSG A 1 RWA_WeaponReadyReload;
+		PKPL A 1 RWA_WeaponReadyReload;
 		Loop;
 	Deselect:
-		PLSG A 1 A_Lower;
+		PKPL A 1 A_Lower;
 		Loop;
 	Select:
 		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
-		PLSG A 1 A_Raise;
+		PKPL A 1 A_Raise;
 		Loop;
 	Fire:
-		PLSG A 3 {
+		TNT1 A 0 {
+			return SelectFireVariant();
+		}
+	FireVariant0:
+		PLSF F 1 Bright {
 			RWA_ApplyRateOfFire();
 			Fire();
 		}
-		PLSG B 20 RWA_ReFire;
+		PLSF C 2 Bright RWA_ApplyRateOfFire;
+		PLSF D 1 Bright RWA_ApplyRateOfFire;
+		PLSF C 4 RWA_ReFire;
+		goto Cooling;
+	FireVariant1:
+		PLSF C 1 Bright {
+			RWA_ApplyRateOfFire();
+			Fire();
+		}
+		PLSF F 2 Bright RWA_ApplyRateOfFire;
+		PLSF C 1 Bright RWA_ApplyRateOfFire;
+		PLSF C 4 RWA_ReFire;
+		goto Cooling;
+	FireVariant2:
+		PLSF E 1 Bright {
+			RWA_ApplyRateOfFire();
+			Fire();
+		}
+		PLSF D 2 Bright RWA_ApplyRateOfFire;
+		PLSF F 1 Bright RWA_ApplyRateOfFire;
+		PLSF E 4 RWA_ReFire;
+		goto Cooling;
+	FireVariant3:
+		PLSF C 1 Bright {
+			RWA_ApplyRateOfFire();
+			Fire();
+		}
+		PLSF D 2 Bright RWA_ApplyRateOfFire;
+		PLSF E 1 Bright RWA_ApplyRateOfFire;
+		PLSF C 4 RWA_ReFire;
+		goto Cooling;
+	Cooling:
+		PKPL B 1 RWA_ApplyRateOfFire;
+		PKPL C 2 RWA_ApplyRateOfFire;
+		PKPL D 2 RWA_ApplyRateOfFire;
+		PKPL E 14 RWA_ApplyRateOfFire;
+		PKPL D 2 RWA_ApplyRateOfFire;
+		PKPL C 2 RWA_ApplyRateOfFire;
+		PKPL B 1 RWA_ApplyRateOfFire;
 		Goto Ready;
 	Reload:
-		PLSG BBBBBBBBBB 1 A_WeaponOffset(-3, 2, WOF_ADD | WOF_INTERPOLATE);
-		PLSG B 15 {
+		PKPL BCDE 4 A_WeaponOffset(-3, 2, WOF_ADD | WOF_INTERPOLATE);
+		PKPL F 12 {
 			RWA_ApplyReloadSpeed();
 			A_WeaponOffset(-6, 0, WOF_ADD | WOF_INTERPOLATE);
 		}
-		PLSG B 15 {
+		PKPL G 15 {
 			RWA_ApplyReloadSpeed();
 			A_WeaponOffset(0, 5, WOF_ADD | WOF_INTERPOLATE);
 		}
-		PLSG B 10 {
+		PKPL F 12 {
 			RWA_ApplyReloadSpeed();
 			A_StartSound("misc/w_pkup");
             A_MagazineReload(); //do the reload
 			A_WeaponOffset(6, -5, WOF_ADD | WOF_INTERPOLATE);
 		}
-		PLSG BBBBBBBBBB 1 A_WeaponOffset(3, -2, WOF_ADD | WOF_INTERPOLATE);
-		PLSG B 5;
+		PKPL EDCB 3 A_WeaponOffset(3, -2, WOF_ADD | WOF_INTERPOLATE);
+		PKPL A 5;
 		Goto Ready;
 	Flash:
-		PLSF A 4 Bright {
+		TNT0 A 3 Bright {
 			RWA_ApplyRateOfFireToFlash();
 			A_Light1();
 		}
 		Goto LightDone;
-		PLSF B 4 Bright {
+		TNT0 A 3 Bright {
 			RWA_ApplyRateOfFireToFlash();
-			A_Light1();
+			A_Light2();
 		}
 		Goto LightDone;
 	Spawn:
 		PLAS A -1;
 		Stop;
+	}
+
+	action State SelectFireVariant() {
+		state fireVarState;
+		let fireVariant = random[FirePlasma](0, 3);
+		switch (fireVariant) {
+			case 0: return invoker.ResolveState('FireVariant0'); break;
+			case 1: return invoker.ResolveState('FireVariant1'); break;
+			case 2: return invoker.ResolveState('FireVariant2'); break;
+			case 3: return invoker.ResolveState('FireVariant3'); break;
+		}
+		return ResolveState('FireVariant0');
 	}
 
 	action void Fire() {
