@@ -48,13 +48,13 @@ class RwSuperShotgun : RwWeapon
 			A_StartSound("weapons/sshotl", CHAN_WEAPON); 
 		}
 		PKS2 MNOPQR 2 RWA_ApplyRateOfFire;
-		PKS2 S 2 {
+		PKS2 S 1 {
 			RWA_ApplyRateOfFire();
 			A_StartSound("weapons/sshotc", CHAN_WEAPON);
 			// A_Refire();
 		}
-		PKS2 A 1;
-		PKS2 A 4 {
+		SHT2 A 1;
+		SHT2 A 4 {
 			RWA_ApplyRateOfFire();
 			A_ReFire();
 		}
