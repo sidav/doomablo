@@ -25,46 +25,49 @@ class RwPlasmaRifle : RwWeapon
 		PKPL A 1 A_Raise;
 		Loop;
 	Fire:
-		TNT1 A 0 {
-			return SelectFireVariant();
-		}
-	FireVariant0:
-		PLSF F 1 Bright {
+		TNT0 A 0 A_Jump(128, 2, 3, 4); // Select random frame to jump to.
+		PLSF D 1 Bright {
 			RWA_ApplyRateOfFire();
 			Fire();
 		}
-		PLSF C 2 Bright RWA_ApplyRateOfFire;
-		PLSF D 1 Bright RWA_ApplyRateOfFire;
-		PLSF C 4 RWA_ReFire;
-		goto Cooling;
-	FireVariant1:
+		goto FireFrame2;
 		PLSF C 1 Bright {
 			RWA_ApplyRateOfFire();
 			Fire();
 		}
-		PLSF F 2 Bright RWA_ApplyRateOfFire;
-		PLSF C 1 Bright RWA_ApplyRateOfFire;
-		PLSF C 4 RWA_ReFire;
-		goto Cooling;
-	FireVariant2:
+		goto FireFrame2;
 		PLSF E 1 Bright {
 			RWA_ApplyRateOfFire();
 			Fire();
 		}
-		PLSF D 2 Bright RWA_ApplyRateOfFire;
-		PLSF F 1 Bright RWA_ApplyRateOfFire;
-		PLSF E 4 RWA_ReFire;
-		goto Cooling;
-	FireVariant3:
-		PLSF C 1 Bright {
+		goto FireFrame2;
+		PLSF F 1 Bright {
 			RWA_ApplyRateOfFire();
 			Fire();
 		}
-		PLSF D 2 Bright RWA_ApplyRateOfFire;
-		PLSF E 1 Bright RWA_ApplyRateOfFire;
-		PLSF C 4 RWA_ReFire;
+		goto FireFrame2;
+	FireFrame2:
+		TNT0 A 0 A_Jump(128, 2, 3, 4); // Select random frame to jump to.
+		PLSF C 2 Bright RWA_ApplyRateOfFire();
+		goto FireFrame3;
+		PLSF D 2 Bright RWA_ApplyRateOfFire();
+		goto FireFrame3;
+		PLSF E 2 Bright RWA_ApplyRateOfFire();
+		goto FireFrame3;
+		PLSF F 2 Bright RWA_ApplyRateOfFire();
+		goto FireFrame3;
+	FireFrame3:
+		TNT0 A 0 A_Jump(192, 2, 3, 4); // Select random frame to jump to.
+		PLSF C 1 Bright RWA_ApplyRateOfFire();
+		goto Cooling;
+		PLSF D 1 Bright RWA_ApplyRateOfFire();
+		goto Cooling;
+		PLSF E 1 Bright RWA_ApplyRateOfFire();
+		goto Cooling;
+		PLSF F 1 Bright RWA_ApplyRateOfFire();
 		goto Cooling;
 	Cooling:
+		PLSF C 4 RWA_ReFire;
 		PKPL B 1 RWA_ApplyRateOfFire;
 		PKPL C 2 RWA_ApplyRateOfFire;
 		PKPL D 2 RWA_ApplyRateOfFire;
@@ -108,17 +111,17 @@ class RwPlasmaRifle : RwWeapon
 		Stop;
 	}
 
-	action State SelectFireVariant() {
-		state fireVarState;
-		let fireVariant = random[FirePlasma](0, 3);
-		switch (fireVariant) {
-			case 0: return invoker.ResolveState('FireVariant0'); break;
-			case 1: return invoker.ResolveState('FireVariant1'); break;
-			case 2: return invoker.ResolveState('FireVariant2'); break;
-			case 3: return invoker.ResolveState('FireVariant3'); break;
-		}
-		return ResolveState('FireVariant0');
-	}
+	// action State SelectFireVariant() {
+	// 	state fireVarState;
+	// 	let fireVariant = random[FirePlasma](0, 3);
+	// 	switch (fireVariant) {
+	// 		case 0: return invoker.ResolveState('FireVariant0'); break;
+	// 		case 1: return invoker.ResolveState('FireVariant1'); break;
+	// 		case 2: return invoker.ResolveState('FireVariant2'); break;
+	// 		case 3: return invoker.ResolveState('FireVariant3'); break;
+	// 	}
+	// 	return ResolveState('FireVariant0');
+	// }
 
 	action void Fire() {
 		State flash = invoker.FindState('Flash');
@@ -139,7 +142,7 @@ class RwPlasmaRifle : RwWeapon
 		);
 		stats.fireType = stats.FTProjectile;
 		stats.recoil = 0.1;
-		stats.clipSize = 40;
+		stats.clipSize = 50;
 		stats.projClass = 'RwPlasmaBall';
 		rwBaseName = "Plasma rifle";
     }
