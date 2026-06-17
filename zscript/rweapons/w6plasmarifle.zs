@@ -131,10 +131,10 @@ class RwPlasmaRifle : RwWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			10, 35,
+			10, 40,
 			1,
 			1,
-			5.0,
+			4.5,
 			1.0
 		);
 		stats.fireType = stats.FTProjectile;

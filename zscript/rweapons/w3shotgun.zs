@@ -32,8 +32,13 @@ class rwShotgun : RwWeapon
 			RWA_DoFire();
 			A_StartSound("weapons/shotgf", CHAN_WEAPON);
 			A_GunFlash();
+			A_WeaponOffset(0, 8, WOF_ADD | WOF_INTERPOLATE);
 		}
-		PKSG BCDE 2 RWA_ApplyRateOfFire();
+		PKSG B 2 {
+			RWA_ApplyRateOfFire();
+			A_WeaponOffset(0, -8, WOF_ADD | WOF_INTERPOLATE);
+		}
+		PKSG CDE 2 RWA_ApplyRateOfFire();
 		PKSG F 4 RWA_ApplyRateOfFire();
 		PKSG GHG 2 RWA_ApplyRateOfFire();
 		PKSG F 5 RWA_ApplyRateOfFire();
@@ -77,14 +82,14 @@ class rwShotgun : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			5, 11,
+			6, 13,
 			7,
 			1,
 			10.5,
 			2.5
 		);
 		stats.recoil = 2.0;
-		stats.clipSize = 5;
+		stats.clipSize = 6;
 		stats.ShooterKickback = 0.3;
         rwBaseName = "Shotgun";
     }

@@ -96,10 +96,10 @@ class RwAssaultRifle : RwWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			6, 10,
+			6, 15,
 			1,
 			1,
-			7.0,
+			5.0,
 			2.0
 		);
 		stats.clipSize = 30;

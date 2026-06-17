@@ -67,7 +67,7 @@ class RwChainsaw : RwWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			2, 8,
+			4, 8,
 			1,
 			0,
 			20.0,

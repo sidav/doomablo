@@ -103,10 +103,10 @@ class rwAutoShotgun : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			minDmg: 6, maxDmg: 10,
+			minDmg: 6, maxDmg: 12,
 			pell: 6,
 			ammousg: 1,
-			hSpr: 12.5,
+			hSpr: 11.0,
 			vSpr: 3.5
 		);
 		stats.recoil = 2.5;

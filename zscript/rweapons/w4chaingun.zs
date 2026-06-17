@@ -153,10 +153,10 @@ class RwChaingun : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			5, 9,
+			5, 15,
 			1,
 			1,
-			12.5,
+			8.5,
 			5.0
 		);
 		stats.clipSize = 100;
