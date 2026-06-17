@@ -32,8 +32,8 @@ TAG_BFG10K = "B.F.G. 10000";
 GOT_BFG10K = "WARNING: THE SLAYER IS IN CONTROL OF THE BFG!";
 
 // Unique armor
-TAG_ONYXARMOR = "UAC Onyx armor";
-GOT_ONYXARMOR = "The finest of UAC energy protection!";
+TAG_ONYXARMOR = "UAC CEO-132 Aegis shield";
+GOT_SUPERSHIELD = "The finest of UAC energy protection!";
 
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo settings";

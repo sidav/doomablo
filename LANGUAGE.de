@@ -32,8 +32,8 @@ TAG_BFG10K = "B.F.G. 10000";
 GOT_BFG10K = "ACHTUNG: DER SLAYER HAT DIE KONTROLLE ÜBER DAS BFG!";
 
 // Unique armor
-TAG_ONYXARMOR = "UAC Onyxschild";
-GOT_ONYXARMOR = "Am besten von UAC Energieschilde!";
+TAG_ONYXARMOR = "UAC CEO-132 Aegis Schild";
+GOT_SUPERSHIELD = "Am besten von UAC Energieschilde!";
 
 // Menu
 RWMENU_DOOMABLOSETTINGS = "DOOMablo anpassen";

@@ -133,7 +133,7 @@ class rwPistol : RwWeapon
 			5, 14,
 			1,
 			1,
-			3.5,
+			4.5,
 			0.5
 		);
 		stats.clipSize = 12;
