@@ -7,6 +7,7 @@ class RwChainsaw : RwWeapon
 
 	Default
 	{
+		Decal "BulletChip";
         Weapon.SlotNumber 1;
 		Weapon.Kickback 0;
 		Weapon.SelectionOrder 2200;

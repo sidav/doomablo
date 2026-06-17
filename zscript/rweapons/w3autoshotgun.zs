@@ -5,6 +5,7 @@ class rwAutoShotgun : RwWeapon
         Weapon.SlotNumber 3;
 
 		Weapon.SelectionOrder 400;
+		Decal "BulletChip";
 		// Weapon.AmmoGive 8;
 		Weapon.AmmoType "Shell";
 		Inventory.PickupMessage "$GOTAUTOSHOTGUN";

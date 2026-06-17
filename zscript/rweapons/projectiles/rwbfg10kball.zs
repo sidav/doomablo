@@ -10,6 +10,7 @@ class RwBFG10KBall : RwProjectile
 		+ZDOOMTRANS
 		RenderStyle "Add";
 		Alpha 0.75;
+		Decal "BFGLightning";
 		DeathSound "weapons/bfgx";
 		Obituary "$OB_MPBFG_BOOM";
 	}

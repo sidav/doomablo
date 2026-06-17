@@ -10,6 +10,7 @@ class RwPlasmaBall : RwProjectile
 		+ZDOOMTRANS
 		RenderStyle "Add";
 		Alpha 0.75;
+		Decal "PlasmaScorch";
 		SeeSound "weapons/plasmaf";
 		DeathSound "weapons/plasmax";
 		Obituary "$OB_MPPLASMARIFLE";

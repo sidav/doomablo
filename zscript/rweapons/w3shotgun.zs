@@ -11,6 +11,7 @@ class rwShotgun : RwWeapon
 		Obituary "$OB_MPSHOTGUN";
 		Tag "$TAG_SHOTGUN";
 		RwWeapon.Weight 25;
+		Decal "BulletChip";
 	}
 	States
 	{

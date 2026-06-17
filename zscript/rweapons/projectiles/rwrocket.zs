@@ -13,6 +13,7 @@ class RwRocket : RwProjectile
 		SeeSound "weapons/rocklf";
 		DeathSound "weapons/rocklx";
 		Obituary "$OB_MPROCKET";
+		Decal "Scorch";
 	}
 	States
 	{

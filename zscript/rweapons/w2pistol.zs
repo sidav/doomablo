@@ -3,8 +3,9 @@ class rwPistol : RwWeapon
 	Default
 	{
 		Weapon.SlotNumber 2;
-
 		Weapon.SelectionOrder 1900;
+
+		Decal "BulletChip";
 		// Weapon.AmmoGive 0;
 		Weapon.AmmoType "Clip";
 		Obituary "$OB_MPPISTOL";

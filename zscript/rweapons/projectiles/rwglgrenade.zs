@@ -24,6 +24,7 @@ class RwGlGrenade : RwProjectile
 		SeeSound "40mm/grenbounce";
 		DeathSound "40mm/grenexplode";
 		Obituary "$OB_MPROCKET";
+		Decal "Scorch";
 	}
 	States
 	{

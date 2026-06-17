@@ -10,6 +10,7 @@ class RwAssaultRifle : RwWeapon
 		Inventory.PickupMessage "$GOT_ASSAULT_RIFLE";
 		Obituary "$OB_MPAR";
 		Tag "$TAG_ASSAULT_RIFLE";
+		Decal "BulletChip";
 		RwWeapon.Weight 20;
 	}
 	States

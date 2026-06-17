@@ -15,6 +15,7 @@ class RwMiniRocket : RwProjectile
 		// SeeSound "weapons/rocklf";
 		// DeathSound "weapons/rocklx";
 		Obituary "$OB_MPROCKET";
+		Decal "BulletChip";
 	}
 	States
 	{

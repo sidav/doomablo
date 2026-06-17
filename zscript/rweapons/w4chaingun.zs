@@ -14,6 +14,7 @@ class RwChaingun : RwWeapon
 		Inventory.PickupMessage "$GOTCHAINGUN";
 		Obituary "$OB_MPCHAINGUN";
 		Tag "$TAG_CHAINGUN";
+		Decal "BulletChip";
 		RwWeapon.Weight 20;
 	}
 	States

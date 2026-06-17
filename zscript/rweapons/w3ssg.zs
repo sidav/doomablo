@@ -10,6 +10,7 @@ class RwSuperShotgun : RwWeapon
 		Inventory.PickupMessage "$GOTSHOTGUN2";
 		Obituary "$OB_MPSSHOTGUN";
 		Tag "$TAG_SUPERSHOTGUN";
+		Decal "BulletChip";
 		RwWeapon.Weight 15;
 	}
 	States
