@@ -3,7 +3,7 @@ class rwRevolver : RwWeapon
 	Default
 	{
 		Weapon.SlotNumber 2;
-
+		Decal "BulletChip";
 		Weapon.SelectionOrder 1000;
 		// Weapon.AmmoGive 0;
 		Weapon.AmmoType "Clip";

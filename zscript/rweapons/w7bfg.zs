@@ -24,31 +24,37 @@ class RwBFG : RwWeapon
 		BFGG A 1 A_Raise;
 		Loop;
 	Fire:
-		BFGG A 20 {
+		BFGG A 8 {
 			RWA_ApplyRateOfFire();
 			A_StartSound("weapons/bfgf", CHAN_WEAPON);
 		}
-		BFGG B 10 {
+		BFGG BABABA 2 {
+			RWA_ApplyRateOfFire();
+		}
+		BFGG B 2 {
 			RWA_ApplyRateOfFire();
 			A_GunFlash();
 		}
-		BFGG B 10 {
+		BFGG CDEF 2 Bright {
 			RWA_ApplyRateOfFire();
-			RWA_DoFire();
 		}
-		BFGG B 20 {
+		BFGG F 0 RWA_DoFire();
+		BFGG GHIHG 2 {
+			RWA_ApplyRateOfFire();
+		}
+		BFGG A 12 {
 			RWA_ApplyRateOfFire();
 			A_ReFire();
 		}
 		Goto Ready;
 	Flash:
-		BFGF A 11 Bright {
-			RWA_ApplyRateOfFireToFlash();
-			A_Light1();
-		}
-		BFGF B 6 Bright {
+		TNT1 AAAA 1 {
 			RWA_ApplyRateOfFireToFlash();
 			A_Light2();
+		}
+		TNT1 A 0 {
+			RWA_ApplyRateOfFireToFlash();
+			A_Light0();
 		}
 		Goto LightDone;
 	Spawn:

@@ -14,6 +14,7 @@ class RwChaingun : RwWeapon
 		Inventory.PickupMessage "$GOTCHAINGUN";
 		Obituary "$OB_MPCHAINGUN";
 		Tag "$TAG_CHAINGUN";
+		Decal "BulletChip";
 		RwWeapon.Weight 20;
 	}
 	States
@@ -30,55 +31,79 @@ class RwChaingun : RwWeapon
 		CHGG A 1 A_Raise;
 		Loop;
 	Fire:
-		CHGG B 5 ShootAndApplyROF;
-		CHGG A 4 ShootAndApplyROF;
-		CHGG B 4 ShootAndApplyROF;
-		CHGG A 3 ShootAndApplyROF;
-		CHGG B 3 ShootAndApplyROF;
-		CHGG B 0 RWA_ReFire;
+		PKCG A 3 ShootAndApplyROF;
+		PKCG BCD 3 RWA_ApplyRateOfFire();
+		PKCG A 3 ShootAndApplyROF;
+		PKCG BCD 2 RWA_ApplyRateOfFire();
+		PKCG A 2 ShootAndApplyROF;
+		PKCG BCD 1 RWA_ApplyRateOfFire();
+		PKCG A 1 ShootAndApplyROF;
+		PKCG BCD 1 RWA_ApplyRateOfFire();
+		PKCG A 0 RWA_ReFire;
 		// "Spin down" begins here
 	Spin:
-		CHGG A 3 SpinDown;
-		CHGG B 3 SpinDown;
-		CHGG A 4 SpinDown;
-		CHGG B 4 SpinDown;
-		CHGG A 4 SpinDown;
-		CHGG B 5 SpinDown;
-		CHGG A 5 SpinDown;
-		CHGG B 6 SpinDown;
+		PKCG ABCD 2 SpinDown;
+		PKCG A 2 SpinDown;
+		PKCG B 3 SpinDown;
+		PKCG C 3 SpinDown;
+		PKCG D 3 SpinDown;
+		PKCG A 4 SpinDown;
+		PKCG B 4 SpinDown;
+		PKCG C 4 SpinDown;
+		PKCG D 5 SpinDown;
 		Goto Ready;
 	// Tapping the button now goes straight to spindown from initial burst.
 	// Hold is much shorter and thus more responsive (you don't lose as much ammo after letting go of the trigger).
 	// - dbrz
 	Hold: // Skip there on ReFire
-		TNT1 A 0 {
+		PKCG A 1 {
 			invoker.currentFireFrame = 0;
-		}
-		CHGG AB 3 {
 			ShootAndApplyROF();
 			invoker.currentFireFrame++;
         }
-	CHGG B 0 RWA_ReFire;
+		PKCG BC 1 RWA_ApplyRateOfFire;
+		PKCG A 1 {
+			ShootAndApplyROF();
+			invoker.currentFireFrame++;
+        }
+		PKCG BD 1 RWA_ApplyRateOfFire;
+		TNT0 A 0 RWA_ReFire;
 	Goto Spin;
 	Reload:
-		CHGG AAAABBBBAAAABBBBAAAA 1 A_WeaponOffset(-1, 1, WOF_ADD | WOF_INTERPOLATE);
-		CHGG BABAB 7 RWA_ApplyReloadSpeed();
-		CHGG A 15 {
+		PKCG AABBCCDDAABBCCDDAABB 1 A_WeaponOffset(-1, 1, WOF_ADD | WOF_INTERPOLATE);
+		PKCG CDABC 7 RWA_ApplyReloadSpeed();
+		PKCG D 15 {
 			RWA_ApplyReloadSpeed();
             A_StartSound("misc/w_pkup"); // plays Doom's "weapon pickup" sound
             A_MagazineReload(); //do the reload
 		}
-		CHGG BBBBAAAABBBBAAAABBBB 1 A_WeaponOffset(1, -1, WOF_ADD | WOF_INTERPOLATE);
+		PKCG AABBCCDDAABBCCDDAA 1 A_WeaponOffset(1, -1, WOF_ADD | WOF_INTERPOLATE);
 		Goto Ready;
 	Flash:
-		CHGF A 4 Bright {
+		PKCF A 1 Bright {
+			RWA_ApplyRateOfFireToFlash();
+			A_Light1();
+		}
+		PKCF B 1 Bright {
+			RWA_ApplyRateOfFireToFlash();
+			A_Light2();
+		}
+		TNT1 A 1 {
 			RWA_ApplyRateOfFireToFlash();
 			A_Light1();
 		}
 		Goto LightDone;
-		CHGF B 4 Bright {
+		PKCF C 1 Bright {
+			RWA_ApplyRateOfFireToFlash();
+			A_Light1();
+		}
+		PKCF D 1 Bright {
 			RWA_ApplyRateOfFireToFlash();
 			A_Light2();
+		}
+		TNT1 A 1 {
+			RWA_ApplyRateOfFireToFlash();
+			A_Light1();
 		}
 		Goto LightDone;
 	Spawn:
@@ -98,7 +123,7 @@ class RwChaingun : RwWeapon
 			if (flash != null) {
 				let psp = player.GetPSprite(PSP_WEAPON);
 				if (psp) {
-					player.SetSafeFlash(weap, flash, invoker.currentFireFrame % 2);
+					player.SetSafeFlash(weap, flash, 3*(invoker.currentFireFrame % 2));
 				}
 			}
 		}
@@ -128,10 +153,10 @@ class RwChaingun : RwWeapon
 
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			5, 9,
+			5, 15,
 			1,
 			1,
-			12.5,
+			8.5,
 			5.0
 		);
 		stats.clipSize = 100;

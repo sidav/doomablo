@@ -4,7 +4,7 @@ extend class MyCustomHUD {
     void DrawPlayerStatusEffects() {
         let plr = RwPlayer(CPlayer.mo);
         if (!plr) return;
-        currentLineHeight = 0;
+        currentLineHeight = -24;
 
         Inventory itm;
         let invlist = plr.inv;

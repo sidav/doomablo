@@ -100,7 +100,7 @@ class ConsoleDropsHandler : EventHandler
             // Unique
             case 100:
                 rarity = RaritiesHelper.MAX_RARITY;
-                [unused, spawnedItem] = player.A_SpawnItemEx('RwuOnyxArmor', xofs: xofs, zvel: zvel);
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwuSuperShield', xofs: xofs, zvel: zvel);
                 break;
 
             // ---------------------------------------

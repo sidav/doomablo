@@ -10,6 +10,7 @@ class RwPlasmaBall : RwProjectile
 		+ZDOOMTRANS
 		RenderStyle "Add";
 		Alpha 0.75;
+		Decal "PlasmaScorch";
 		SeeSound "weapons/plasmaf";
 		DeathSound "weapons/plasmax";
 		Obituary "$OB_MPPLASMARIFLE";
@@ -17,10 +18,12 @@ class RwPlasmaBall : RwProjectile
 	States
 	{
 	Spawn:
-		PLSS AB 6 Bright RWA_SeekerMissile();
+		PLBL ACBD 2 Bright RWA_SeekerMissile();
 		Loop;
 	Death:
-		PLSE ABCDE 4 Bright;
+		PLXP ABCD 1 Bright;
+		PLXP EFGH 2 Bright;
+		PLXP IJKLMN 1 Bright;
 		Stop;
 	}
 }

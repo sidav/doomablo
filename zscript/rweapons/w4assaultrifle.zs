@@ -10,6 +10,7 @@ class RwAssaultRifle : RwWeapon
 		Inventory.PickupMessage "$GOT_ASSAULT_RIFLE";
 		Obituary "$OB_MPAR";
 		Tag "$TAG_ASSAULT_RIFLE";
+		Decal "BulletChip";
 		RwWeapon.Weight 20;
 	}
 	States
@@ -95,10 +96,10 @@ class RwAssaultRifle : RwWeapon
 
     override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			6, 10,
+			6, 15,
 			1,
 			1,
-			7.0,
+			5.0,
 			2.0
 		);
 		stats.clipSize = 30;

@@ -3,8 +3,9 @@ class rwPistol : RwWeapon
 	Default
 	{
 		Weapon.SlotNumber 2;
-
 		Weapon.SelectionOrder 1900;
+
+		Decal "BulletChip";
 		// Weapon.AmmoGive 0;
 		Weapon.AmmoType "Clip";
 		Obituary "$OB_MPPISTOL";
@@ -27,62 +28,67 @@ class rwPistol : RwWeapon
 		PISG A 1 A_Raise;
 		Loop;
 	Fire:
-		PISG A 4 RWA_ApplyRateOfFire();
-		PISG B 6 {
+		PKPX A 1 {
 			RWA_ApplyRateOfFire();
 			RWA_DoFire();
 			A_StartSound("weapons/pistol", CHAN_WEAPON);
 			A_GunFlash();
 		}
-		PISG C 6 RWA_ApplyRateOfFire();
-		PISG B 5 {
-			RWA_Refire();
+		PKPX B 2 RWA_ApplyRateOfFire();
+		PKPX C 2 RWA_ApplyRateOfFire();
+		PKPX DDEEEEDDBB 1 {
 			RWA_ApplyRateOfFire();
+			return RefireOnFastClick();
+		}
+		PKPX A 1 {
+			RWA_ApplyRateOfFire();
+			return RefireOnFastClick();
 		}
 		Goto Ready;
-	AltFire:
-		PISG A 4 RWA_ApplyRateOfFire();
-		// Burst-fire: shot 1
-		PISG B 5 {
-			RWA_ApplyRateOfFire();
-			RWA_DoFire();
-			A_StartSound("weapons/pistol", CHAN_WEAPON);
-			A_GunFlash();
-			if (invoker.currentClipAmmo < invoker.stats.AmmoUsage) {
-				return ResolveState('EndOfAltFire');
-			}
-			return ResolveState(null);
-		}
-		PISG C 2 RWA_ApplyRateOfFire();
-		// Burst-fire: shot 2
-		PISG B 5 {
-			RWA_ApplyRateOfFire();
-			RWA_DoFire();
-			A_StartSound("weapons/pistol", CHAN_WEAPON);
-			A_GunFlash();
-			if (invoker.currentClipAmmo < invoker.stats.AmmoUsage) {
-				return ResolveState('EndOfAltFire');
-			}
-			return ResolveState(null);
-		}
-		PISG C 2 RWA_ApplyRateOfFire();
-		// Burst-fire: shot 3
-		PISG B 5 {
-			RWA_ApplyRateOfFire();
-			RWA_DoFire();
-			A_StartSound("weapons/pistol", CHAN_WEAPON);
-			A_GunFlash();
-		}
-		Goto EndOfAltFire;
-	EndOfAltFire:
-		PISG C 6 RWA_ApplyRateOfFire();
-		PISG B 6 {
-			RWA_Refire();
-			RWA_ApplyRateOfFire();
-		}
-		Goto Ready;
+	// AltFire:
+	// 	PKPX A 3 RWA_ApplyRateOfFire();
+	// 	// Burst-fire: shot 1
+	// 	PKPX B 3 {
+	// 		RWA_ApplyRateOfFire();
+	// 		RWA_DoFire();
+	// 		A_StartSound("weapons/pistol", CHAN_WEAPON);
+	// 		A_GunFlash();
+	// 		if (invoker.currentClipAmmo < invoker.stats.AmmoUsage) {
+	// 			return ResolveState('EndOfAltFire');
+	// 		}
+	// 		return ResolveState(null);
+	// 	}
+	// 	PKPX CE 2 RWA_ApplyRateOfFire();
+	// 	// Burst-fire: shot 2
+	// 	PKPX B 3 {
+	// 		RWA_ApplyRateOfFire();
+	// 		RWA_DoFire();
+	// 		A_StartSound("weapons/pistol", CHAN_WEAPON);
+	// 		A_GunFlash();
+	// 		if (invoker.currentClipAmmo < invoker.stats.AmmoUsage) {
+	// 			return ResolveState('EndOfAltFire');
+	// 		}
+	// 		return ResolveState(null);
+	// 	}
+	// 	PKPX CE 2 RWA_ApplyRateOfFire();
+	// 	// Burst-fire: shot 3
+	// 	PKPX B 3 {
+	// 		RWA_ApplyRateOfFire();
+	// 		RWA_DoFire();
+	// 		A_StartSound("weapons/pistol", CHAN_WEAPON);
+	// 		A_GunFlash();
+	// 	}
+	// 	Goto EndOfAltFire;
+	// EndOfAltFire:
+	// 	PKPX CDEDC 2 RWA_ApplyRateOfFire();
+	// 	PKPX B 4 {
+	// 		RWA_Refire();
+	// 		RWA_ApplyRateOfFire();
+	// 	}
+	// 	Goto Ready;
 	Reload:
-		PISG CCCGGGGHHH 1 A_WeaponOffset(-2, 5, WOF_ADD | WOF_INTERPOLATE);
+		PKPX CCDDEE 1 A_WeaponOffset(-2, 4, WOF_ADD | WOF_INTERPOLATE);
+		PISG GGGHHH 1 A_WeaponOffset(-2, 4, WOF_ADD | WOF_INTERPOLATE);
 		PISG H 15 {
 			A_WeaponOffset(0, 16, WOF_ADD | WOF_INTERPOLATE);
 			RWA_ApplyReloadSpeed();
@@ -93,10 +99,15 @@ class rwPistol : RwWeapon
             A_StartSound("misc/w_pkup"); // plays Doom's "weapon pickup" sound
             A_MagazineReload(); //do the reload
 		}
-		PISG HHHHGGGCCC 1 A_WeaponOffset(2, -5, WOF_ADD | WOF_INTERPOLATE);
+		PISG HHGGF 1 A_WeaponOffset(2, -4, WOF_ADD | WOF_INTERPOLATE);
+		PKPX EDDCC 1 A_WeaponOffset(2, -5, WOF_ADD | WOF_INTERPOLATE);
 		Goto Ready;
 	Flash:
-		PISF A 5 Bright {
+		PKPF A 1 Bright {
+			RWA_ApplyRateOfFireToFlash();
+			A_Light1();
+		}
+		PKPF B 2 Bright {
 			RWA_ApplyRateOfFireToFlash();
 			A_Light1();
 		}
@@ -106,12 +117,23 @@ class rwPistol : RwWeapon
 		Stop;
 	}
 
+	action State RefireOnFastClick() {
+		if (player.cmd.buttons & BT_ATTACK && !(player.oldbuttons & BT_ATTACK))
+		{
+			if (invoker.currentClipAmmo >= invoker.stats.ammoUsage) {
+			// If so, go back to Fire:
+				return ResolveState("Fire");
+			}
+		}
+		return ResolveState(null);
+	}
+
 	override void setBaseStats() {
 		stats = RWStatsClass.NewWeaponStats(
-			6, 10,
+			5, 14,
 			1,
 			1,
-			4.0,
+			4.5,
 			0.5
 		);
 		stats.clipSize = 12;

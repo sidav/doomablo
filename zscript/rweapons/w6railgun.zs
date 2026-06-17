@@ -7,7 +7,7 @@ class RwRailgun : RwWeapon
 		Weapon.AmmoType "Cell";
 		Inventory.PickupMessage "$GOTRAILGUN";
 		Tag "$TAG_RAILGUN";
-
+		Decal "PlasmaScorch";
 		RwWeapon.Weight 7;
 	}
 	States

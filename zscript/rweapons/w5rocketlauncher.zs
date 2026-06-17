@@ -16,64 +16,71 @@ class RwRocketLauncher : RwWeapon
 	{
 	Ready:
 		TNT1 A 0 RWA_ReloadOrSwitchIfEmpty;
-		MISG A 1 RWA_WeaponReadyReload;
+		PKRL A 1 RWA_WeaponReadyReload;
 		Loop;
 	Deselect:
-		MISG A 1 A_Lower;
+		PKRL A 1 A_Lower;
 		Loop;
 	Select:
 		TNT1 A 0 A_WeaponOffset(0, 0, WOF_KEEPY | WOF_INTERPOLATE); // Reset the X-offset which may be off because of reload
-		MISG A 1 A_Raise;
+		PKRL A 1 A_Raise;
 		Loop;
 	Fire:
-		MISG B 8 {
+		PKRL A 4 {
 			RWA_ApplyRateOfFire();
 			A_GunFlash();
 		}
-		MISG B 12 {
+		PKRL B 2 RWA_ApplyRateOfFire();
+		PKRL D 3 {
 			RWA_ApplyRateOfFire();
 			RWA_DoFire();
 		}
-		MISG B 0 RWA_ReFire;
+		PKRL C 3 RWA_ApplyRateOfFire();
+		PKRL BE 2 RWA_ApplyRateOfFire();
+		PKRL FG 2 RWA_ApplyRateOfFire();
+		PKRL A 0 RWA_ReFire;
 		Goto Ready;
 	Reload:
-		MISG BBBBBBBBBB 1 A_WeaponOffset(-3, 1, WOF_ADD | WOF_INTERPOLATE);
-		MISG B 15 {
+		PKRL GGGGGGGGGG 1 A_WeaponOffset(-3, 1, WOF_ADD | WOF_INTERPOLATE);
+		PKRL G 15 {
 			RWA_ApplyReloadSpeed();
 			A_WeaponOffset(-6, 0, WOF_ADD | WOF_INTERPOLATE);
 		}
-		MISG B 15 {
+		PKRL G 15 {
 			RWA_ApplyReloadSpeed();
 			A_WeaponOffset(0, 5, WOF_ADD | WOF_INTERPOLATE);
 		}
-		MISG B 15 {
+		PKRL F 15 {
 			RWA_ApplyReloadSpeed();
 			A_WeaponOffset(12, 3, WOF_ADD | WOF_INTERPOLATE);
 		}
-		MISG A 10 {
+		PKRL F 10 {
 			RWA_ApplyReloadSpeed();
 			A_StartSound("misc/w_pkup");
             A_MagazineReload(); //do the reload
 			A_WeaponOffset(-12, -3, WOF_ADD | WOF_INTERPOLATE);
 		}
-		MISG A 10 {
+		PKRL G 10 {
 			RWA_ApplyReloadSpeed();
 			A_WeaponOffset(6, -5, WOF_ADD | WOF_INTERPOLATE);
 		}
-		MISG AAAAAAAAAA 1 A_WeaponOffset(3, -1, WOF_ADD | WOF_INTERPOLATE);
-		MISG A 5;
+		PKRL AAAAAAAAAA 1 A_WeaponOffset(3, -1, WOF_ADD | WOF_INTERPOLATE);
+		PKRL A 5;
 		Goto Ready;
 	Flash:
-		MISF A 3 Bright {
+		PKRF A 4 Bright {
 			RWA_ApplyRateOfFireToFlash();
 			A_Light1();
 		}
-		MISF B 4 Bright {
+		PKRF B 2 Bright {
 			RWA_ApplyRateOfFireToFlash();
 		}
-		MISF CD 4 Bright {
+		PKRF C 2 Bright {
 			RWA_ApplyRateOfFireToFlash();
 			A_Light2();
+		}
+		PKRF DE 3 Bright {
+			RWA_ApplyRateOfFireToFlash();
 		}
 		Goto LightDone;
 	Spawn:

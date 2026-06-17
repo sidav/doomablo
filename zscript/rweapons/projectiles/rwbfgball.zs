@@ -10,22 +10,25 @@ class RwBFGBall : RwProjectile
 		+ZDOOMTRANS
 		RenderStyle "Add";
 		Alpha 0.75;
+		Decal "BFGLightning";
 		DeathSound "weapons/bfgx";
 		Obituary "$OB_MPBFG_BOOM";
 	}
 	States
 	{
 	Spawn:
-		BFS1 AB 4 Bright RWA_SeekerMissile();
+		BFBL ABCD 2 Bright RWA_SeekerMissile();
 		Loop;
 	Death:
-		BFE1 AB 8 Bright {
+		BFGB A 3 Bright {
 			if (rwExplosionRadius > 0) {
 				rwExplode();
 			}
 		}
-		BFE1 C 8 Bright A_BFGSpray;
-		BFE1 DEF 8 Bright;
+		BFGB BCDE 3 Bright;
+		BFGB F 1 Bright A_BFGSpray;
+		BFGB F 3 Bright A_BFGSpray;
+		BFGB GHIJK 5 Bright;
 		Stop;
 	}
 

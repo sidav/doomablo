@@ -78,11 +78,21 @@ class MyCustomHUD : BaseStatusBar
 		DrawString(mHUDFont, FormatNumber(CPlayer.health, 3), (44, -20));
 
 		int invY = -40;
+
+		// ARMOR
+		if (armr) {
+			DrawInventoryIcon(armr, (20, invY + 17));
+			DrawString(mHUDFont,
+				FormatNumber(armr.stats.currDurability, 3),
+				(44, invY), DI_SCREEN_LEFT_BOTTOM, PickColorForRwArmorAmount(armr));
+			invY = -65;
+		}
+
 		// ACTIVE SLOT ITEM
 		if (asi) {
 			DrawInventoryIcon(asi, (20, invY + 17));
 			if (asi.cooldownTicksRemaining > 0) {
-				DrawString(mHUDFont, FormatNumber((asi.cooldownTicksRemaining + TICRATE - 1)/TICRATE, 3), (44, invY), translation: Font.CR_DARKGRAY);
+				DrawString(mHUDFont, FormatNumber((asi.cooldownTicksRemaining + TICRATE - 1)/TICRATE, 3), (44, invY), DI_SCREEN_LEFT_BOTTOM, translation: Font.CR_DARKGRAY);
 			} else {
 				let clr = Font.CR_GREEN;
 				if (asi.currentCharges < asi.GetChargesConsumptionPerUse()) {
@@ -91,17 +101,8 @@ class MyCustomHUD : BaseStatusBar
 					clr = Font.CR_BLUE;
 				}
 				let shownPercentage = math.getIntFractionInPercent(asi.currentCharges, asi.GetChargesConsumptionPerUse());
-				DrawString(mHUDFont, FormatNumber(shownPercentage, 3).."%", (44, -40), translation: clr);
+				DrawString(mHUDFont, FormatNumber(shownPercentage, 3).."%", (44, invY), DI_SCREEN_LEFT_BOTTOM, translation: clr);
 			}
-			invY -= 20;
-		}
-
-		// ARMOR
-		if (armr) {
-			DrawInventoryIcon(armr, (20, invY + 17));
-			DrawString(mHUDFont,
-				FormatNumber(armr.stats.currDurability, 3),
-				(44, invY), DI_SCREEN_LEFT_BOTTOM, PickColorForRwArmorAmount(armr));
 		}
 
 		invY = -20;
