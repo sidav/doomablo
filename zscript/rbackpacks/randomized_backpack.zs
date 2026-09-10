@@ -52,7 +52,6 @@ class RwBackpack : Inventory {
     // Needed if the item should be re-generated
     private void RW_Reset() {
         appliedAffixes.Clear();
-        stats = New('RwBackpackStats');
         setBaseStats();
         nameWithAppliedAffixes = rwBaseName;
     }

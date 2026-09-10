@@ -20,17 +20,14 @@ extend class MyCustomHUD {
             return;
         }
         
+        DimScreenForStats();
         if (RwWeapon(itemUnderCrosshair)) {
-            DimScreenForStats();
             DrawPickupableWeaponInfo(RwWeapon(itemUnderCrosshair), plr);
         } else if (RwArmor(itemUnderCrosshair)) {
-            DimScreenForStats();
             DrawPickupableArmorInfo(RwArmor(itemUnderCrosshair), plr);
         } else if (RwBackpack(itemUnderCrosshair)) {
-            DimScreenForStats();
             DrawPickupableBackpackInfo(RwBackpack(itemUnderCrosshair), plr);
         } else if (RwActiveSlotItem(itemUnderCrosshair)) {
-            DimScreenForStats();
             DrawPickupableASIInfo(RwActiveSlotItem(itemUnderCrosshair), plr);
         } else {
             debug.panic("Unknown item to draw pickupable stats for: "..itemUnderCrosshair.GetClassName());

@@ -39,11 +39,6 @@ class RwActiveSlotItem : Inventory abstract {
       return "Error";
     }
 
-    // TODO: move it to affixable?
-    override void Touch(Actor toucher) {
-      return;
-    }
-
     void rwTouch(Actor toucher) {
       let plrInfo = toucher.player;
       if (plrInfo) {
