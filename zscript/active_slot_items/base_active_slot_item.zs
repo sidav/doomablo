@@ -96,6 +96,13 @@ class RwActiveSlotItem : Inventory abstract {
       }
     }
 
+    void reduceCooldown(int reductionPrc) {
+      let diffTicks = math.getIntPercentage(cooldownTicksRemaining, reductionPrc);
+      cooldownTicksRemaining -= diffTicks;
+    }
+
+    virtual int ticksSinceCooldownStarted() { return 0; }
+
     clearscope virtual int isOnCooldown() {
       return cooldownTicksRemaining > 0;
     }

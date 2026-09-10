@@ -70,4 +70,8 @@ class RwFlask : RwActiveSlotItem abstract {
     override int GetChargesConsumptionPerUse() {
       return stats.chargeConsumption;
     }
+
+    override int ticksSinceCooldownStarted() {
+      return stats.usageCooldownTicks - cooldownTicksRemaining;
+    }
 }

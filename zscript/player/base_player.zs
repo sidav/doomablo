@@ -187,7 +187,9 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
 
     void ReceiveExperience(double amount) {
         let levelBefore = stats.currentExpLevel;
-        stats.AddExperience(amount);
+        let factor = 1.0 + double(stats.GetCurrentStat(RwPlayerStats.StatExperienceBonusPrc) / 100.0);
+        let finalAmount = amount * factor;
+        stats.AddExperience(finalAmount);
         if (rw_heal_on_levelup && levelBefore < stats.currentExpLevel) {
             GiveBody(stats.GetMaxHealth()/2);
         }

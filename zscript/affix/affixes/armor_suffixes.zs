@@ -145,22 +145,28 @@ class ASuffSlowHeal : RwArmorSuffix {
     override string getName() {
         return "UAC RegenTech";
     }
+    int healPerTickX1000; // healPerTickX1000 is "HP per tick * precision"
+    int maxHealPrc;
     override string getDescription() {
-        return String.Format("Heals %.1f HP/sec for free", (double(modifierLevel) * TICRATE/precision));
+        return String.Format("Heals %.1f HP/sec until %d%% HP", (double(maxHealPrc) * TICRATE/precision, maxHealPrc));
     }
     override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
-        // ModifierLevel is "HP per tick * precision"
-        modifierLevel = math.divideIntWithRounding(
-            rnd.multipliedWeightedRandByEndWeight(120, 1250, 0.01) + remapQualityToRange(quality, 0, 250),
+        // maxHealPrc is "HP per tick * precision"
+        maxHealPrc = math.divideIntWithRounding(
+            rnd.multipliedWeightedRandByEndWeight(250, 1250, 0.01) + remapQualityToRange(quality, 0, 250),
             TICRATE
         );
+        maxHealPrc = rnd.multipliedWeightedRandByEndWeight(60, 75, 0.01) + remapQualityToRange(quality, 0, 25);
+
     }
     const precision = 1000;
     int fractionAccumulator;
     override void onDoEffect(Actor owner, Inventory affixedItem) {
+        let plr = RwPlayer(owner);
+        if (plr == null) return;
         RwArmor arm = RwArmor(affixedItem);
-        if (owner.Health < 100 && arm.IsNotBroken()) {
-            let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, fractionAccumulator);
+        if (plr.getHealthPercentage() < maxHealPrc && arm.IsNotBroken()) {
+            let addAmount = math.AccumulatedFixedPointAdd(0, maxHealPrc, 1000, fractionAccumulator);
             if (addAmount > 0) {
                 owner.GiveBody(addAmount);
             }

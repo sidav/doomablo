@@ -8,10 +8,11 @@ class RwPlayerStats {
 
         // HIDDEN STATS (not in any menus, given only by items):
         StatReloadSpeedBonus, // percentage
-		StatRateOfFireBonus // percentage
+		StatRateOfFireBonus, // percentage
+        StatExperienceBonusPrc
 	}
     const nonHiddenStatsCount = 5;
-    const totalStatsCount = 7;
+    const totalStatsCount = 8; // UPDATE THIS WHEN NEEDED!
     int baseStats[totalStatsCount];
     int currentStats[totalStatsCount]; // Those are stats with modifiers
 

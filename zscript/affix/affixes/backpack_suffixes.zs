@@ -121,7 +121,7 @@ class BSuffRestoreBullets : RwBackpackSuffix {
     }
 }
 
-class BSuffRestoreFlaskCharges : RwBackpackSuffix {
+class BSuffRestoreActiveItemCharges : RwBackpackSuffix {
     override string getName() {
         return "Distilling";
     }
