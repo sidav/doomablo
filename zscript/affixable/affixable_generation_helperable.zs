@@ -11,6 +11,8 @@ mixin class AffixableGenerationHelperable {
             RwFlask(aItem).Generate(rarity, quality);
         } else if (aItem is 'RwTurretItem') {
             RwTurretItem(aItem).Generate(rarity, quality);
+        } else if (aItem is 'RwRelic') {
+            RwRelic(aItem).Generate(rarity, quality);
         } else {
             debug.panic("Unknown affixable item "..aItem.GetClassName());
         }

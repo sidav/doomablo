@@ -2,7 +2,7 @@
 class AffixableDetector {
 
     static bool IsAffixableItem(Actor a) {
-        return (a is 'RwWeapon') || (a is 'RwArmor') || (a is 'RwBackpack') || (a is 'RwActiveSlotItem');
+        return (a is 'RwWeapon') || (a is 'RwArmor') || (a is 'RwBackpack') || (a is 'RwActiveSlotItem') || (a is 'RwRelic');
     }
 
     static string GetNameOfAffixableItem(Actor a) {

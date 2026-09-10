@@ -1,4 +1,4 @@
-To add a new affixable item type (a whole new type, not the subtype - it's simpler with subtypes), do the following (don't forget to include all new files to zscript.zsc).
+To add a new affixable item type (a whole new type, like "weapon", "active item", not the subtype - it's simpler with subtypes), do the following (don't forget to include all new files to zscript.zsc).
 1. Add the base class for the item. It should have the following:
     - Be inherited from Actor or any of its descendants
     - "affixable" mixin
@@ -44,6 +44,7 @@ Keep in mind that any randomizable stats should NOT belong to your new class its
     10.2 Keep in mind that you'll need at least two suffixes, or the item generation will crash if an item is epic+.
 11. Add checks for your new item to drops_database.zs.
 12. Describe scrapping logic for items of your class in zscript/player/scrap_item.zs.
+13. Add the new item to equipped_artifacts_menu.
 
 -----------------------------------------------------
 To add new affixable artifact (as a subtype), inherit its class from the base one (created as described above) and optionally make the following:

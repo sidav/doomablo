@@ -2,7 +2,7 @@ extend class RwHudArtifactStatsCollector {
     void addHeaderLinesForAffixable(Inventory item, int lines) {
         int itemLvl = 0;
         int itemRarity = 0;
-        string itemFullAffixedName = "Unknown Item";
+        string itemFullAffixedName = "Unknown Item - affixable_collect is incomplete?";
         string itemBaseName = "Unknown class "..item.GetClassName();
 
         if (RwWeapon(item)) {
@@ -35,6 +35,12 @@ extend class RwHudArtifactStatsCollector {
             itemRarity = trt.GetRarity();
             itemFullAffixedName = trt.nameWithAppliedAffixes;
             itemBaseName = trt.rwBaseName;
+        } else if (RwRelic(item)) {
+            let rel = RwRelic(item);
+            itemLvl = rel.generatedQuality;
+            itemRarity = rel.GetRarity();
+            itemFullAffixedName = rel.nameWithAppliedAffixes;
+            itemBaseName = rel.rwBaseName;
         }
 
         if (lines == 2) {

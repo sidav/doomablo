@@ -103,6 +103,13 @@ class DropDatabaseHandler : StaticEventHandler { // Good thing this isn't SQL, l
                     EquipItems.Insert(bp.GetClassName(),bp.rweight);
                     console.printf("  Backpack - %s (%d)",bp.GetClassName(),bp.rweight);
                 }
+                // TODO: maybe a separate list for the relics, instead of just "EquipItems"? 
+                if (c is "RwRelic") {
+                    Class<Actor> rel = c.GetClassName();
+                    let rl = RwRelic(GetDefaultByType(rel));
+                    EquipItems.Insert(rl.GetClassName(), rl.rweight);
+                    console.printf("  Relic - %s (%d)", rl.GetClassName(), rl.rweight);
+                }
                 if (c is "RwActiveSlotItem") {
                     Class<Actor> asiClass = c.GetClassName();
                     let asi = RwActiveSlotItem(GetDefaultByType(asiClass));

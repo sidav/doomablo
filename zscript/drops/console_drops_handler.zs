@@ -108,20 +108,25 @@ class ConsoleDropsHandler : EventHandler
             case 20: 
                 [unused, spawnedItem] = player.A_SpawnItemEx(RwBackpack.GetRandomVariantClass(), xofs: xofs, zvel: zvel);
                 break;
+
+            // Relic spawner
+            case 30:
+                [unused, spawnedItem] = player.A_SpawnItemEx('RwRelic', xofs: xofs, zvel: zvel);
+                break;
             
             // Flask
-            case 30:
+            case 40:
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwSmallFlask', xofs: xofs, zvel: zvel);
                 break;
-            case 31:
+            case 41:
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwMediumFlask', xofs: xofs, zvel: zvel);
                 break;
-            case 32:
+            case 42:
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwBigFlask', xofs: xofs, zvel: zvel);
                 break;
             
             // Turret spawner
-            case 40:
+            case 50:
                 [unused, spawnedItem] = player.A_SpawnItemEx('RwTurretItem', xofs: xofs, zvel: zvel);
                 break;
 

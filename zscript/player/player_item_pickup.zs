@@ -57,4 +57,15 @@ extend class RwPlayer {
         EquippedActiveSlotItem = itm;
         itm.printPickupMessage(true, itm.pickupMessage());
     }
+
+    void PickUpRelic(RwRelic itm) {
+        let hasEmptySlot = EquippedRelic == null;
+        if (!hasEmptySlot) {
+            EquippedRelic.DetachFromOwner();
+            DropInventory(EquippedRelic);
+        }
+        AddInventory(itm);
+        EquippedRelic = itm;
+        itm.printPickupMessage(true, itm.pickupMessage());
+    }
 }

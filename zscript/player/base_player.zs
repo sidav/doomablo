@@ -7,6 +7,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
     RwArmor CurrentEquippedArmor;
     RwBackpack CurrentEquippedBackpack;
     RwActiveSlotItem EquippedActiveSlotItem;
+    RwRelic EquippedRelic;
 
     int showStatsButtonPressedTicks;
     int scrapItemButtonPressedTicks;
@@ -105,6 +106,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         if (CurrentEquippedBackpack != null)
             CurrentEquippedBackpack.increasePlayerMaxAmmo();
 
+        // PAY CLOSE ATTENTION TO didEquippedItemsChange WHEN ADDING NEW ITEM TYPES!
         if (!(stats.baseStatsChanged || didEquippedItemsChange())) return;
         stats.baseStatsChanged = false;
         stats.ResetCurrentStats();
@@ -122,7 +124,7 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
     }
 
     // We store those to detect eqipped item changes
-    private Inventory prevTickArmor, prevTickBackpack, prevTickWeapon, prevTickFlask;
+    private Inventory prevTickArmor, prevTickBackpack, prevTickWeapon, prevTickActiveItem, prevTickRelic;
     private bool didEquippedItemsChange() {
         let changed = false;
         if (prevTickWeapon != Player.ReadyWeapon) {
@@ -137,9 +139,13 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
             changed = true;
             prevTickBackpack = CurrentEquippedBackpack;
         }
-        if (prevTickFlask != EquippedActiveSlotItem) {
+        if (prevTickActiveItem != EquippedActiveSlotItem) {
             changed = true;
-            prevTickFlask = EquippedActiveSlotItem;
+            prevTickActiveItem = EquippedActiveSlotItem;
+        }
+        if (prevTickRelic != EquippedRelic) {
+            changed = true;
+            prevTickRelic = EquippedRelic;
         }
         return changed;
     }
@@ -158,6 +164,11 @@ class RwPlayer : DoomPlayer // Base class; should not be created directly
         }
         if (EquippedActiveSlotItem != null) {
             foreach (aff : EquippedActiveSlotItem.appliedAffixes) {
+                aff.onPlayerStatsRecalc(self);
+            }
+        }
+        if (EquippedRelic != null) {
+            foreach (aff : EquippedRelic.appliedAffixes) {
                 aff.onPlayerStatsRecalc(self);
             }
         }

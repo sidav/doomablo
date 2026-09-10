@@ -42,7 +42,11 @@ class RWEquippedArtifactsMenu : RwBaseMenu {
         if (plr.CurrentEquippedBackpack) {
             addArtifactButton(plr.CurrentEquippedBackpack);
         }
-        // Flask:
+        // Relic
+        if (plr.EquippedRelic) {
+            addArtifactButton(plr.EquippedRelic);
+        }
+        // Active slot item:
         if (plr.EquippedActiveSlotItem) {
             addArtifactButton(plr.EquippedActiveSlotItem);
         }
