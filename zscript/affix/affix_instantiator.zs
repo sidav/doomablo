@@ -10,6 +10,9 @@ extend class Affix {
         if (item is 'RwBackpack') {
             return GetRandomBackpackAffixInstance();
         }
+        if (item is 'RwRelic') {
+            return GetRandomRelicAffixInstance();
+        }
         if (item is 'RwFlask') {
             return GetRandomFlaskAffixInstance();
         }
@@ -66,6 +69,24 @@ extend class Affix {
         Affix affToReturn;
         foreach (affClass : handler.applicableAffixClasses) {
             if (affClass is 'RwBackpackPrefix' || affClass is 'RwBackpackSuffix' || affClass is 'RwUniversalAffix') {
+                if (index > 0) {
+                    index--;
+                } else {
+                    affToReturn = Affix(New(affClass));
+                    break;
+                }
+            }
+        }
+        return affToReturn;
+    }
+
+    private static Affix GetRandomRelicAffixInstance() {
+        let handler = AffixClassesCacheHandler(StaticEventHandler.Find('AffixClassesCacheHandler'));
+        let index = rnd.randn(handler.totalRelicAffixesClasses + handler.totalUniversalAffixesClasses);
+
+        Affix affToReturn;
+        foreach (affClass : handler.applicableAffixClasses) {
+            if (affClass is 'RwRelicAffix' || affClass is 'RwUniversalAffix') {
                 if (index > 0) {
                     index--;
                 } else {
@@ -145,6 +166,7 @@ class AffixClassesCacheHandler : StaticEventHandler
     int totalWeaponAffixesClasses;
     int totalArmorAffixesClasses;
     int totalBackpackAffixesClasses;
+    int totalRelicAffixesClasses;
     int totalActiveSlotItemAffixesClasses;
     int totalFlaskAffixesClasses;
     int totalTurretItemAffixesClasses;
@@ -184,6 +206,9 @@ class AffixClassesCacheHandler : StaticEventHandler
                 } else if (isAffixForBackpack(affClass)) {
                     specifyStr = "(backpack affix)";
                     totalBackpackAffixesClasses++;
+                } else if (isAffixForRelic(affClass)) {
+                    specifyStr = "(relic affix)";
+                    totalRelicAffixesClasses++;
                 } else if (isAffixForActiveSlotItem(affClass)) {
                     specifyStr = "(Active Slot Item affix)";
                     totalActiveSlotItemAffixesClasses++;
@@ -213,9 +238,11 @@ class AffixClassesCacheHandler : StaticEventHandler
         debug.print("===== RW_ACCH REPORT SUMMARY =====");
         debug.print("   Non-abstract affix classes found total: "..applicableAffixClasses.Size());
         debug.print("   From them:");
+        debug.print("             "..totalUniversalAffixesClasses.." universal");
         debug.print("             "..totalWeaponAffixesClasses.." for weapons");
         debug.print("             "..totalArmorAffixesClasses.." for armor");
         debug.print("             "..totalBackpackAffixesClasses.." for backpacks");
+        debug.print("             "..totalRelicAffixesClasses.." for relics");
         debug.print("             "..totalActiveSlotItemAffixesClasses.." for any active slot items");
         debug.print("             "..totalFlaskAffixesClasses.." for flasks");
         debug.print("             "..totalTurretItemAffixesClasses.." for turrets");
@@ -238,6 +265,10 @@ class AffixClassesCacheHandler : StaticEventHandler
 
     static bool isAffixForBackpack(class<Affix> cls) {
         return (cls is 'RwBackpackPrefix') || (cls is 'RwBackpackSuffix');
+    }
+
+    static bool isAffixForRelic(class<Affix> cls) {
+        return (cls is 'RwRelicAffix');
     }
 
     static bool isAffixForActiveSlotItem(class<Affix> cls) {

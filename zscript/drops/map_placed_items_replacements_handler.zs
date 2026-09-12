@@ -69,7 +69,9 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 			e.Replacement = 'RwGreenArmor';
             break;
         case 'BlueArmor':
-            if (rnd.OneChanceFrom(3)) {
+            if (rnd.OneChanceFrom(10)) {
+                e.Replacement = 'RwRelic';
+            } else if (rnd.OneChanceFrom(3)) {
                 e.Replacement = 'RwEnergyArmor';
             } else {
 			    e.Replacement = 'RwBlueArmor';
@@ -78,7 +80,10 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
 
         // BACKPACK:
         case 'Backpack':
-            e.Replacement = RwBackpack.GetRandomVariantClass();
+            if (rnd.OneChanceFrom(5))
+                e.Replacement = 'RwRelic';
+            else
+                e.Replacement = RwBackpack.GetRandomVariantClass();
             break;
 
         // FLASKS:
@@ -114,7 +119,12 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             }
             break;
         case 'Soulsphere':
-			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
+            if (startOfLevel) {
+                if (rnd.OneChanceFrom(10)) 
+                    e.Replacement = 'TomeOfChange';
+                else if (rnd.OneChanceFrom(5)) 
+                    e.Replacement = 'RwRelic';
+            }
             break;
         case 'Blursphere':
 			if (startOfLevel) {
@@ -127,7 +137,12 @@ class MapPlacedItemsToRWCounterpartsReplacementHandler : EventHandler
             }
             break;
         case 'Megasphere':
-			if (startOfLevel && rnd.OneChanceFrom(10)) e.Replacement = 'TomeOfChange';
+			if (startOfLevel) {
+                if (rnd.OneChanceFrom(10)) 
+                    e.Replacement = 'TomeOfChange';
+                else if (rnd.OneChanceFrom(5)) 
+                    e.Replacement = 'RwRelic';
+            }
             break;
         }
 	}

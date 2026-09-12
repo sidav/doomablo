@@ -1,4 +1,4 @@
-To add a new affixable item type (a whole new type, not the subtype - it's simpler with subtypes), do the following (don't forget to include all new files to zscript.zsc).
+To add a new affixable item type (a whole new type, like "weapon", "active item", not the subtype - it's simpler with subtypes), do the following (don't forget to include all new files to zscript.zsc).
 1. Add the base class for the item. It should have the following:
     - Be inherited from Actor or any of its descendants
     - "affixable" mixin
@@ -13,17 +13,38 @@ To add a new affixable item type (a whole new type, not the subtype - it's simpl
             RW_Reset();
             // There may be other logic, but RW_Reset() is mandatory
         }
+    - Don't forget to call the affixes' callbacks where needed. Override DoEffect(), HandlePickup(), ModifyDamage or whatever needed. 
 Keep in mind that any randomizable stats should NOT belong to your new class itself, but should be defined in a separate class, not inherited from anywhere. That's the way it is just because affix logic belongs to data scope, and Actor vars are immutable from there.
 2. Add your base class to zscript/affixable/affixable_detector.zs.
 3. Add your base class to zscript/player/press_to_pickup_handler.zs.
 4. Add pickup routines to zscript/player/player_item_pickup.zs.
+    4.1. Add pickup routines for the new item. They are:
+        -   void rwTouch(Actor toucher) {
+                let plrInfo = toucher.player;
+                if (plrInfo) {
+                    let plrActor = RwPlayer(toucher);
+                    plrActor.PickUpActiveSlotItem(self); // Replace the method with the needed one from player_item_pickup.zs
+                    onPickup(toucher);
+                }
+            }
+        -   void OnPickup(in out Actor toucher) {
+                DoPickupSpecial(toucher);
+                AttachToOwner(toucher);
+            }
 5. Add HUD handling in zscript/hud/items_info.zs.
-6. Add stats collector routines for your new item base class to zscript/hud/stats_collector (specifically, artifact_stats_collector.zs and affixable_collect.zs)
+6. Add stats collector routines for your new item base class to zscript/hud/stats_collector.
+    6.1. Add the needed code to artifact_stats_collector.zs
+    6.2. Add the needed code to affixable_collect.zs.
+    6.3. Add (your artifact class name)_stats_table.zs file
 7. Add your new base class to zscript/affixable/affixable_generation_helperable.zs.
 8. Add base class for affixes for this exact item type.
 9. Add those to zscript/affix/affix_instantiator.zs.
-10. Describe new affixes in zscript/affix/affixes folder. Keep in mind that you'll need at least two bad ones and five good ones, or the item generation will happily crash. (Neutral affixes count as both good and bad)
-11. Describe scrapping logic for items of your class in zscript/player/scrap_item.zs.
+10. Describe new affixes in zscript/affix/affixes folder.
+    10.1 Keep in mind that you'll need at least two bad ones and five good ones, or the item generation will happily crash. (Neutral affixes count as both good and bad)
+    10.2 Keep in mind that you'll need at least two suffixes, or the item generation will crash if an item is epic+.
+11. Add checks for your new item to drops_database.zs.
+12. Describe scrapping logic for items of your class in zscript/player/scrap_item.zs.
+13. Add the new item to equipped_artifacts_menu.
 
 -----------------------------------------------------
 To add new affixable artifact (as a subtype), inherit its class from the base one (created as described above) and optionally make the following:

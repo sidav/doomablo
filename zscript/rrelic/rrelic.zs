@@ -1,58 +1,33 @@
-class RwBackpack : Inventory {
-
+class RwRelic: Inventory {
     mixin Affixable;
     string rwbaseName;
-    RwBackpackStats stats;
 
     int rweight; // Just like in the others, this is the weight for random drops
     Property Weight: rweight;
 
     Default {
 		Height 26;
-        RwBackpack.Weight 10;
-		Inventory.PickupMessage "$GOTBACKPACK";
+        RwRelic.Weight 10;
+		Inventory.PickupMessage "You have found a relic!";
     }
 	States {
         Spawn:
-            BPAK A -1;
-            Stop;
+            MMAP ABCD 15;
+            Loop;
 	}
-
-    // The only difference in variants is only the sprite currently. That's why the names are obscure.
-    static class <RwBackpack> GetRandomVariantClass() {
-        let v = rnd.randn(3);
-        switch (v) {
-            case 0: return 'RwBackpack';
-            case 1: return 'RwBackpackVariant2';
-            case 2: return 'RwBackpackVariant3';
-        }
-        return 'RwBackpack';
-    }
-
-    virtual void setBaseStats() {
-		rwbaseName = "Backpack";
-		stats = New('RwBackpackStats');
-		stats.maxBull = 150;
-		stats.maxShel = 20;
-		stats.maxRckt = 20;
-		stats.maxCell = 200;
-    }
 
     // Needs to be called before generation
     private void prepareForGeneration() {
-        stats.maxBull += generatedQuality * 4;
-        stats.maxShel += generatedQuality;
-        stats.maxRckt += 2 * generatedQuality / 3;
-        stats.maxCell += generatedQuality * 3;
     }
 
     // Needs to be called after generation
-    private void finalizeAfterGeneration() {}
+    private void finalizeAfterGeneration() {
+    }
 
     // Needed if the item should be re-generated
     private void RW_Reset() {
         appliedAffixes.Clear();
-        setBaseStats();
+        rwbaseName = "Tacticomp";
         nameWithAppliedAffixes = rwBaseName;
     }
 
@@ -63,23 +38,16 @@ class RwBackpack : Inventory {
     virtual string GetRandomFluffName() {
         static const string Brand[] =
         {
-            "AER",
-            "Cheap",
-            "Expensive",
-            "Generic",
-            "Goruck",
-            "Maxpedition",
-            "Military",
-            "Rissa",
-            "UAC-issued"
+            "Positional",
+            "Positron",
+            "Quantum",
+            "Tactical",
+            "UAC"
         };
         static const string Packtype[] =
         {
-            "Backpack",
-			"Bag",
-            "Citybag",
-            "Daypack",
-			"Pack"
+            "Analyzer",
+            "Combat HUD"
         };
         return Brand[rnd.randn(Brand.Size())].." "..Packtype[rnd.randn(Packtype.Size())];
     }
@@ -111,5 +79,20 @@ class RwBackpack : Inventory {
             aff.onModifyDamage(damage, newdamage, passive, inflictor, source, owner, flags);
             damage = newdamage;
         }
+    }
+
+    // Pickup routines
+    void rwTouch(Actor toucher) {
+      let plrInfo = toucher.player;
+      if (plrInfo) {
+          let plrActor = RwPlayer(toucher);
+          plrActor.PickUpRelic(self);
+          onPickup(toucher);
+      }
+    }
+
+    void OnPickup(in out Actor toucher) {
+      DoPickupSpecial(toucher);
+      AttachToOwner(toucher);
     }
 }

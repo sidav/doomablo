@@ -39,11 +39,6 @@ class RwActiveSlotItem : Inventory abstract {
       return "Error";
     }
 
-    // TODO: move it to affixable?
-    override void Touch(Actor toucher) {
-      return;
-    }
-
     void rwTouch(Actor toucher) {
       let plrInfo = toucher.player;
       if (plrInfo) {
@@ -100,6 +95,13 @@ class RwActiveSlotItem : Inventory abstract {
           damage = newdamage;
       }
     }
+
+    void reduceCooldown(int reductionPrc) {
+      let diffTicks = math.getIntPercentage(cooldownTicksRemaining, reductionPrc);
+      cooldownTicksRemaining -= diffTicks;
+    }
+
+    virtual int ticksSinceCooldownStarted() { return 0; }
 
     clearscope virtual int isOnCooldown() {
       return cooldownTicksRemaining > 0;

@@ -20,18 +20,17 @@ extend class MyCustomHUD {
             return;
         }
         
+        DimScreenForStats();
         if (RwWeapon(itemUnderCrosshair)) {
-            DimScreenForStats();
             DrawPickupableWeaponInfo(RwWeapon(itemUnderCrosshair), plr);
         } else if (RwArmor(itemUnderCrosshair)) {
-            DimScreenForStats();
             DrawPickupableArmorInfo(RwArmor(itemUnderCrosshair), plr);
         } else if (RwBackpack(itemUnderCrosshair)) {
-            DimScreenForStats();
             DrawPickupableBackpackInfo(RwBackpack(itemUnderCrosshair), plr);
         } else if (RwActiveSlotItem(itemUnderCrosshair)) {
-            DimScreenForStats();
             DrawPickupableASIInfo(RwActiveSlotItem(itemUnderCrosshair), plr);
+        } else if (RwRelic(itemUnderCrosshair)) {
+            DrawPickupableRelicInfo(RwRelic(itemUnderCrosshair), plr);
         } else {
             debug.panic("Unknown item to draw pickupable stats for: "..itemUnderCrosshair.GetClassName());
         }
@@ -99,7 +98,15 @@ extend class MyCustomHUD {
         } else {
             PrintLineAt("No active slot item equipped", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
         }
+        PrintEmptyLine(itemStatsFont);
 
+        let rel = RwRelic(plr.EquippedRelic);
+        PrintLineAt("===  CURRENT EQUIPPED RELIC:  ===", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_WHITE);
+        if (rel) {
+            printRelicStatsTableAt(rel, null, statsX, 0, fullScreenStatusFlags);
+        } else {
+            PrintLineAt("No relic equipped", headerX, 0, itemNameFont, fullScreenStatusFlags, Font.CR_DARKGRAY);
+        }
     }
 
     void DrawShortCurrentItemsInfo() {

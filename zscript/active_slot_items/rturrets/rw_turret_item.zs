@@ -99,6 +99,10 @@ class RwTurretItem : RwActiveSlotItem {
       return stats.chargeConsumption;
     }
 
+    override int ticksSinceCooldownStarted() {
+      return stats.usageCooldownTicks - cooldownTicksRemaining;
+    }
+
     // METHODS FOR AFFIXABLE:
     override void setBaseStats() {
       rwbaseName = "Turret";

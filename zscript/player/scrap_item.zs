@@ -84,6 +84,22 @@ extend class RwPlayer {
                 AssignVeryMinorSpreadVelocityTo(drop);
             }
 
+        } else if (itm is 'RwRelic') {
+
+            let dropAmount = RwRelic(itm).GetRarity() + 1;
+            for (let i = 0; i < dropAmount; i++) {
+                Actor drop;
+                let whatToDrop = rnd.weightedRand(5, 10, 5);
+                if (whatToDrop == 0) {
+                    drop = DropsSpawner.createDropByClass(itm, 'RwActiveItemRefill');
+                } else if (whatToDrop == 1) {
+                    drop = DropsSpawner.SpawnRandomAmmoDrop(itm);
+                } else {
+                    drop = DropsSpawner.createDropByClass(itm, 'HealthBonus');
+                }
+                AssignVeryMinorSpreadVelocityTo(drop);
+            }
+
         } else if (itm is 'RwFlask') {
 
             let dropAmount = RwFlask(itm).GetRarity() + 2;

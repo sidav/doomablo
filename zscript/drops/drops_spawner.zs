@@ -30,7 +30,7 @@ class DropsSpawner {
     }
 
     static play Actor SpawnRandomRWArtifactItemDrop(Actor dropper, bool preferUnique) {
-        int dropType = rnd.weightedRand(6, 4, 3);
+        int dropType = rnd.weightedRand(50, 40, 35);
         switch (dropType) {
             case 0: 
                 return SpawnRWeaponDrop(dropper, preferUnique);

@@ -52,8 +52,10 @@ class DropsHandler : EventHandler
             // Generate stats/affixes for the spawned item.
             if (AffixableDetector.IsAffixableItem(spawnedItem)) {
                 // If non-unique item was created for unique rarity, lower the applied rarity.
-                if (rar == RaritiesHelper.UNIQUE_RARITY && !RwItemsHelper.isUniqueItem(spawnedItem))
-                    rar--;
+                // Also, take into account the min allowed rarity (some items can't be common)
+                let minAllowedRarity = RwItemsHelper.minRarityForItem(spawnedItem);
+                let maxAllowedRarity = RwItemsHelper.maxRarityForItem(spawnedItem);
+                rar = clamp(rar, minAllowedRarity, maxAllowedRarity);
 
                 int qty = 1;
                 // Make the drop level equal to the droppers' level

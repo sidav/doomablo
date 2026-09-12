@@ -8,11 +8,14 @@ class RwPlayerStats {
 
         // HIDDEN STATS (not in any menus, given only by items):
         StatReloadSpeedBonus, // percentage
-		StatRateOfFireBonus // percentage
+		StatRateOfFireBonus, // percentage
+        StatSpreadPrcMod,
+        StatAdditionalPellets,
+        StatExperienceBonusPrc
 	}
     const nonHiddenStatsCount = 5;
-    const totalStatsCount = 7;
-    int baseStats[totalStatsCount];
+    const totalStatsCount = 10; // UPDATE THIS WHEN NEEDED!
+    int baseStats[totalStatsCount]; // TODO: it seems this array is not needed at all
     int currentStats[totalStatsCount]; // Those are stats with modifiers
 
     int statPointsAvailable;
@@ -30,6 +33,9 @@ class RwPlayerStats {
         newStats.baseStats[StatRareFind] = 0;
         newStats.baseStats[StatReloadSpeedBonus] = 0;
         newStats.baseStats[StatRateOfFireBonus] = 0;
+        newStats.baseStats[StatSpreadPrcMod] = 0;
+        newStats.baseStats[StatAdditionalPellets] = 0;
+        newStats.baseStats[StatExperienceBonusPrc] = 0;
         newStats.ResetCurrentStats();
         newStats.baseStatsChanged = true;
         return newStats;

@@ -313,6 +313,11 @@ mixin class Affixable {
         attachRarityIndicatorIfNone();
     }
 
+    // Disable default "on player touches item" behavior: artifacts of this mod use press-to-pickup routine.
+    override void Touch(Actor toucher) {
+        return;
+    }
+
     // This is used to enforce applying some affix whenever possible. Safe to outcomment from anywhere.
     // Returns true if the newAffix is affClassToDebug 
     // OR if affClassToDebug is already applied

@@ -1,7 +1,7 @@
 extend class DropsHandler {
 
-    const minProgItemsPerLevel = 2;
-    const maxProgItemsPerLevel = 4;
+    const minProgItemsPerLevel = 3;
+    const maxProgItemsPerLevel = 5;
     // Those two should reset each level, because DropsHandler is not a StaticEventHandler
     int guarateedProgDropsCount;
     int nonguaranteedProgDropsCount;

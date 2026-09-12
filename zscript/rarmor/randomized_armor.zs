@@ -89,6 +89,16 @@ class RwArmor : Armor abstract {
         return stats.delayUntilRecharge - ticksSinceDamage();
     }
 
+    void reduceRechargeDelay(int reductionPrc) {
+        let diffTicks = math.getIntPercentage(stats.delayUntilRecharge, reductionPrc);
+        lastDamageTick -= diffTicks;
+    }
+
+    bool isRechargingNow() {
+        if (!stats.IsEnergyArmor()) return false;
+        return IsDamaged() && ticksSinceDamage() >= stats.delayUntilRecharge;
+    }
+
     // For using with some effects which force recharge start.
     void forceRechargeAsap() {
         // -2 so that "on recharge start" effects will run properly.
@@ -97,15 +107,12 @@ class RwArmor : Armor abstract {
 
     // Call this in DoEffect if the armor is energy.
     void RechargeEnergyArmor() {
-		if (stats.currDurability < stats.maxDurability) {
-			let delay = stats.delayUntilRecharge;
-			if (ticksSinceDamage() >= delay) {
-				let setTo = math.AccumulatedFixedPointAdd(stats.currDurability, stats.energyRestoreSpeedX1000, 1000, stats.currRepairFraction);
-				if (stats.currDurability == 0 && setTo != 0) {
-					owner.Player.bonusCount += 5;
-				}
-				stats.currDurability = setTo;
-			}
+		if (isRechargingNow()) {
+            let setTo = math.AccumulatedFixedPointAdd(stats.currDurability, stats.energyRestoreSpeedX1000, 1000, stats.currRepairFraction);
+            if (stats.currDurability == 0 && setTo != 0) {
+                owner.Player.bonusCount += 5;
+            }
+            stats.currDurability = setTo;
 		}
     }
 }

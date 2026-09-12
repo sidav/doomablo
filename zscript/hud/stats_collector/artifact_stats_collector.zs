@@ -30,6 +30,10 @@ class RwHudArtifactStatsCollector {
             collectRWFlaskStats(RwFlask(itm), RwFlask(itemToCompareWith));
         } else if (RwTurretItem(itm)) {
             collectRWTurretStats(RwTurretItem(itm), RwTurretItem(itemToCompareWith));
+        } else if (RwRelic(itm)) {
+            collectRWRelicStats(RwRelic(itm), RwRelic(itemToCompareWith));
+        } else {
+            debug.print("artifact_stats_collector is incomplete - no code for this item!");
         }
         lastCollectedItem = itm;
         lastCollectedComparisonItem = itemToCompareWith;
