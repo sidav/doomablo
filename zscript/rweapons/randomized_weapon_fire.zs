@@ -39,10 +39,20 @@ extend class RwWeapon {
             return;
         }
 
-        for (let pellet = 0; pellet < invoker.stats.Pellets; pellet++) {
+        let plrStats = RwPlayer(invoker.owner).stats; // TODO: Is null safety needed?
+
+        let spreadPercentage = 100 + plrStats.GetCurrentStat(RwPlayerStats.StatSpreadPrcMod);
+        let hspread = math.getFloatPercentage(invoker.stats.HorizSpread, spreadPercentage);
+        let vspread = math.getFloatPercentage(invoker.stats.VertSpread, spreadPercentage);
+
+        let pelletsBonus = plrStats.GetCurrentStat(RwPlayerStats.StatAdditionalPellets);
+        let pellets = invoker.stats.Pellets;
+        if (pellets > 1) pellets = pellets + pelletsBonus;
+
+        for (let pellet = 0; pellet < pellets; pellet++) {
 			int dmg = RWA_RollDamage();
 			A_FireBullets(
-				invoker.stats.HorizSpread, invoker.stats.VertSpread, 
+				hspread, vspread, 
 				-1, // Number of pellets -1 fires one bullet, but the spread is always applied, even if it's the first bullet. 
 				dmg,
 				'BulletPuff',
@@ -64,6 +74,12 @@ extend class RwWeapon {
             return;
         }
 
+        let plrStats = RwPlayer(invoker.owner).stats; // TODO: Is null safety needed?
+
+        let spreadPercentage = 100 + plrStats.GetCurrentStat(RwPlayerStats.StatSpreadPrcMod);
+        let hspread = math.getFloatPercentage(invoker.stats.HorizSpread, spreadPercentage);
+        let vspread = math.getFloatPercentage(invoker.stats.VertSpread, spreadPercentage);
+
         int flags = FPF_NOAUTOAIM;
         if (invoker.stats.levelOfSeekerProjectile > 0) {
             flags = FPF_AIMATANGLE; // Disable NOAUTOAIM so that projectiles will acquire a target on being fired.
@@ -72,8 +88,8 @@ extend class RwWeapon {
         for (let pellet = 0; pellet < invoker.stats.Pellets; pellet++) {
             Actor actuallyFired, msl;
 
-            let rndAngle = invoker.stats.HorizSpread * Random2[cabullet]() / 255.; // UZDoom logic;
-            let rndPitch = invoker.stats.VertSpread * Random2[cabullet]() / 255.; // UZDoom logic
+            let rndAngle = hspread * Random2[cabullet]() / 255.; // UZDoom logic;
+            let rndPitch = vspread * Random2[cabullet]() / 255.; // UZDoom logic
             
             if (invoker.stats.fireType == RwStatsClass.FTArcingProjectile) {
                 rndPitch -= 6.0; // Arc-firing projectiles always shoot this many degrees up from center

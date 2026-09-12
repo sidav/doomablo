@@ -57,6 +57,39 @@ class RAffExpBonus : RwRelicAffix {
     }
 }
 
+class RAffPelletsBonus : RwRelicAffix {
+    override string getName() {
+        return "Potency";
+    }
+    int bonusPellets;
+    override string getDescription() {
+        return String.format("+%d pellets for shotguns", (bonusPellets) );
+    }
+    override void InitAndApplyEffectToItem(Inventory item, int quality) {
+        bonusPellets = rnd.multipliedWeightedRandByEndWeight(1, 3, 0.05) + remapQualityToRange(quality, 0, 2);
+    }
+    override void onPlayerStatsRecalc(RwPlayer owner) {
+        owner.stats.modifyCurrentStat(RwPlayerStats.StatAdditionalPellets, bonusPellets);
+    }
+}
+
+class RAffLowerSpread : RwRelicAffix {
+    override string getName() {
+        return "Targeting";
+    }
+    int spreadModPrc;
+    override string getDescription() {
+        return String.format("%d%% to all weapons spread", (spreadModPrc) );
+    }
+    override void InitAndApplyEffectToItem(Inventory item, int quality) {
+        spreadModPrc = rnd.multipliedWeightedRandByEndWeight(5, 25, 0.02) + remapQualityToRange(quality, 0, 15);
+        spreadModPrc = -spreadModPrc;
+    }
+    override void onPlayerStatsRecalc(RwPlayer owner) {
+        owner.stats.modifyCurrentStat(RwPlayerStats.StatSpreadPrcMod, spreadModPrc);
+    }
+}
+
 class RAffModifyAllDmg : RwRelicAffix {
     override string getName() {
         return "Targeting";
