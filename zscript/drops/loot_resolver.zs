@@ -46,14 +46,14 @@ class LootResolver {
                 );
             } else if (dropperHealth >= 250) {
                 currItem = rnd.weightedRand(
-                    10, // Consumable item weight
+                    8, // Consumable item weight
                     5, // Ammo weight
                     1+2*dropperRarity // Artifact weight
                 );
             } else {
                 currItem = rnd.weightedRand(
-                    10, // Consumable item weight
-                    15, // Ammo weight
+                    8, // Consumable item weight
+                    12, // Ammo weight
                     1+2*dropperRarity // Artifact weight
                 );
             }
@@ -64,6 +64,8 @@ class LootResolver {
         }
         // Take care of minimum artifacts count.
         int minArtifactsInList = 0;
+        if (dropperRarity == RaritiesHelper.EPIC_RARITY && rnd.percentChance(50))
+            minArtifactsInList = 1;
         if (dropperRarity == RaritiesHelper.LEGENDARY_RARITY)
             minArtifactsInList = 1;
         if (dropperRarity == RaritiesHelper.MYTHIC_RARITY)
