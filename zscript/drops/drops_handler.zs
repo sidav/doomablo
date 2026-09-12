@@ -55,9 +55,7 @@ class DropsHandler : EventHandler
                 // Also, take into account the min allowed rarity (some items can't be common)
                 let minAllowedRarity = RwItemsHelper.minRarityForItem(spawnedItem);
                 let maxAllowedRarity = RwItemsHelper.maxRarityForItem(spawnedItem);
-                debug.print("rar "..rar.." min "..minAllowedRarity.."; max "..maxAllowedRarity);
                 rar = clamp(rar, minAllowedRarity, maxAllowedRarity);
-                debug.print("Clamped to "..rar);
 
                 int qty = 1;
                 // Make the drop level equal to the droppers' level
