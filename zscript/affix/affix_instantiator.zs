@@ -238,9 +238,11 @@ class AffixClassesCacheHandler : StaticEventHandler
         debug.print("===== RW_ACCH REPORT SUMMARY =====");
         debug.print("   Non-abstract affix classes found total: "..applicableAffixClasses.Size());
         debug.print("   From them:");
+        debug.print("             "..totalUniversalAffixesClasses.." universal");
         debug.print("             "..totalWeaponAffixesClasses.." for weapons");
         debug.print("             "..totalArmorAffixesClasses.." for armor");
         debug.print("             "..totalBackpackAffixesClasses.." for backpacks");
+        debug.print("             "..totalRelicAffixesClasses.." for relics");
         debug.print("             "..totalActiveSlotItemAffixesClasses.." for any active slot items");
         debug.print("             "..totalFlaskAffixesClasses.." for flasks");
         debug.print("             "..totalTurretItemAffixesClasses.." for turrets");
