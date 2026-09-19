@@ -1,8 +1,13 @@
 class Gametime {
 
     // Alternates between returning true and false each periodLengthTicks
-    static bool GetPhase(int periodLengthTicks) {
+    const defaultPeriod = 3 * TICRATE / 2;
+    static bool GetPhase(int periodLengthTicks = defaultPeriod) {
         return (Level.maptime % (periodLengthTicks * 2)) < periodLengthTicks;
+    }
+
+    static bool phaseJustChanged() {
+        return Level.maptime % defaultPeriod == 0;
     }
 
     static float ticksToSeconds(int ticks) {

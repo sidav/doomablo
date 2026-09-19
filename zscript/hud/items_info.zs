@@ -1,6 +1,5 @@
 extend class MyCustomHUD {
 
-    const pickupableStatsTableWidth = 185;
     RwHudArtifactStatsCollector statsCollector;
     void DrawPickupableItemInfo() {
         let lineHRel = itemStatsFont.mFont.GetHeight();
@@ -20,7 +19,7 @@ extend class MyCustomHUD {
             return;
         }
         
-        DimScreenForStats();
+        DimScreenForPickupableStats();
         if (RwWeapon(itemUnderCrosshair)) {
             DrawPickupableWeaponInfo(RwWeapon(itemUnderCrosshair), plr);
         } else if (RwArmor(itemUnderCrosshair)) {
@@ -34,14 +33,6 @@ extend class MyCustomHUD {
         } else {
             debug.panic("Unknown item to draw pickupable stats for: "..itemUnderCrosshair.GetClassName());
         }
-    }
-
-    void DimScreenForStats() {
-        let x = (defaultLeftStatsPosX - 5) * CleanXFac_1;
-        let y = Screen.GetHeight()/2 + (defaultLeftStatsPosY - 10) * CleanYFac_1;
-        let w = 5*Screen.GetWidth()/10;
-        let h = 32*Screen.GetHeight()/100;
-        Screen.Dim(0x000000, 0.35, x, y, w, h, STYLE_Translucent);
     }
 
     const fullScreenStatusFlags = DI_SCREEN_LEFT_TOP|DI_TEXT_ALIGN_LEFT;

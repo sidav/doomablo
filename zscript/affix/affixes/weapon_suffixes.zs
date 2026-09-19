@@ -589,7 +589,7 @@ class WSuffRofSelfUpgrade : RwWeaponSuffix {
         return 75;
     }
     override string getDescription() {
-        if (Gametime.GetPhase(3*TICRATE/2)) {
+        if (Gametime.GetPhase()) {
             return "Gain +1% rate of fire (max +"..modifierLevel.."%) for each rare+ kill";
         } else {
             if (maxEffectReached) return " -> RoF +"..modifierLevel.."% - already at maximum";
@@ -627,7 +627,7 @@ class WSuffReloadSpeedSelfUpgrade : RwWeaponSuffix {
         return wpn.stats.clipSize > 2;
     }
     override string getDescription() {
-        if (Gametime.GetPhase(3*TICRATE/2)) {
+        if (Gametime.GetPhase()) {
             return "Gain +1% reload speed (max +"..modifierLevel.."%) for each rare+ kill";
         } else {
             if (maxEffectReached) return " -> Reload speed +"..modifierLevel.."% - already at maximum";
@@ -663,7 +663,7 @@ class WSuffMaxDamageSelfUpgrade : RwWeaponSuffix {
         return 75;
     }
     override string getDescription() {
-        if (!maxEffectReached && Gametime.GetPhase(3*TICRATE/2)) {
+        if (!maxEffectReached && Gametime.GetPhase()) {
             return "Gain +"..modifierLevel.." max damage for next "..stat2.." epic+ kills";
         } else {
             if (maxEffectReached) return " -> Max DMG +"..modifierLevel.." - already at maximum";
@@ -701,7 +701,7 @@ class WSuffPelletsSelfUpgrade : RwWeaponSuffix {
         return 75;
     }
     override string getDescription() {
-        if (!maxEffectReached && Gametime.GetPhase(3*TICRATE/2)) {
+        if (!maxEffectReached && Gametime.GetPhase()) {
             return "Gain +1 pellets for next "..stat2.." epic+ kills";
         } else {
             if (maxEffectReached) return " -> Pellets +"..modifierLevel.." - already at maximum";

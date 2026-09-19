@@ -3,15 +3,16 @@ class RwHudArtifactStatsCollector {
     array <RwHudStatLine> statLines;
     Inventory lastCollectedItem; // To prevent redundant calculations
     Inventory lastCollectedComparisonItem; // To prevent redundant calculations
+    bool justUpdated;
 
     static RwHudArtifactStatsCollector Create() {
         return new('RwHudArtifactStatsCollector');
     }
 
     void CollectStatsFromAffixableItem(Inventory itm, Inventory itemToCompareWith, int lines) {
+        justUpdated = false;
         // Items can change now, so we need to invalidate cache every now and then
-        // TODO: find a better solution, as it's dirty
-        if (Level.Maptime % TICRATE == 0) {
+        if (Gametime.phaseJustChanged()) {
             lastCollectedItem = null;
         }
 
@@ -37,6 +38,7 @@ class RwHudArtifactStatsCollector {
         }
         lastCollectedItem = itm;
         lastCollectedComparisonItem = itemToCompareWith;
+        justUpdated = true;
     }
     
     // Line-adding methods
