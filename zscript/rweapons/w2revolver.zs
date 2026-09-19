@@ -27,7 +27,7 @@ class rwRevolver : RwWeapon
 		Loop;
 	Fire:
 		// COLT B 2 RWA_ApplyRateOfFire();
-		COLT A 5 {
+		COLT A 4 {
 			A_StartSound("Revolver/Coltclac", CHAN_WEAPON);
 			RWA_ApplyRateOfFire();
 		}
@@ -38,19 +38,19 @@ class rwRevolver : RwWeapon
 			A_GunFlash();
 		}
 		COLT D 1;
-		COLT E 10 {
+		COLT E 11 {
 			RWA_ApplyRateOfFire();
 			A_WeaponOffset(0, 10, WOF_ADD | WOF_INTERPOLATE);
 		}
-		COLT E 5 {
+		COLT E 4 {
 			RWA_ApplyRateOfFire();
 			A_WeaponOffset(0, -5, WOF_ADD | WOF_INTERPOLATE);
 		}
-		COLT D 5 {
+		COLT D 4 {
 			RWA_ApplyRateOfFire();
 			A_WeaponOffset(0, -5, WOF_ADD | WOF_INTERPOLATE);
 		}
-		COLT B 5 {
+		COLT B 3 {
 			RWA_ApplyRateOfFire();
 			A_WeaponOffset(0, WEAPONTOP, WOF_INTERPOLATE); // Reset offset
 		}
@@ -60,31 +60,42 @@ class rwRevolver : RwWeapon
 		}
 		Goto Ready;
 	Reload:
-		COLT F 4 RWA_ApplyReloadSpeed();
+		COLT B 3 {
+			A_WeaponOffset(12, 2, WOF_ADD | WOF_INTERPOLATE);
+			RWA_ApplyReloadSpeed();
+		}
+		COLT F 3 {
+			A_WeaponOffset(12, 2, WOF_ADD | WOF_INTERPOLATE);
+			RWA_ApplyReloadSpeed();
+		}
 		COLT G 3 {
 			RWA_ApplyReloadSpeed();
 			A_StartSound("Revolver/Coltopen", CHAN_WEAPON);
 		}
-		COLT H 7 RWA_ApplyReloadSpeed();
-		COLT IJ 4 RWA_ApplyReloadSpeed();
+		COLT H 4 RWA_ApplyReloadSpeed();
+		COLT IJ 3 RWA_ApplyReloadSpeed();
 		COLT K 3 RWA_ApplyReloadSpeed();
-		COLT L 4 {
+		COLT L 3 {
 			RWA_ApplyReloadSpeed();
 			A_StartSound("Revolver/Coltejec", CHAN_WEAPON);
 		}
 		COLT M 22 RWA_ApplyReloadSpeed();
 		COLT LK 4 RWA_ApplyReloadSpeed();
-		COLT J 6 {
+		COLT J 3 {
 			RWA_ApplyReloadSpeed();
             A_StartSound("Revolver/Coltinsr", CHAN_WEAPON);
             A_MagazineReload(); //do the reload
 		}
-		COLT I 4 RWA_ApplyReloadSpeed();
-		COLT H 6 RWA_ApplyReloadSpeed();
+		COLT I 3 RWA_ApplyReloadSpeed();
+		COLT H 4 RWA_ApplyReloadSpeed();
 		COLT G 3 RWA_ApplyReloadSpeed();
-		COLT F 4 {
+		COLT F 3 {
 			RWA_ApplyReloadSpeed();
 			A_StartSound("Revolver/Coltclos", CHAN_WEAPON);
+		}
+		COLT B 3 {
+			A_WeaponOffset(-12, -2, WOF_ADD | WOF_INTERPOLATE);
+			RWA_ApplyReloadSpeed();
 		}
 		Goto Ready;
 	Flash:
