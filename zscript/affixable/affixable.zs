@@ -93,15 +93,22 @@ mixin class Affixable {
         }
     }
 
+    const chanceToDiscardExcessiveSuffixPrc = 35;
     private bool isNewAffixApplicable(Affix newAffix, int currentExpectedQuality, int appliedSuffixesCount) {
         // Suffix constraint: force selecting a suffix if there are not enough
         let minSuffixes = RaritiesHelper.minSuffixesForRarity(generatedRarity);
         let minSuffixesCheck = newAffix.isSuffix() || appliedSuffixesCount >= minSuffixes;
-        // Additional higher rarity for suffixes, but only if the min count is already satisfied
+
+        // Additional higher rarity for suffixes if the min count is already satisfied
         // TODO: maybe it's a bad place for this?! Side effects and stuff.
-        if (newAffix.isSuffix() && appliedSuffixesCount >= minSuffixes) {
-            if (rnd.percentChance(35)) return false;
+        if (
+                newAffix.isSuffix() &&
+                appliedSuffixesCount >= minSuffixes &&
+                newAffix.getAlignment() != -1 // ...but only for non-negative suffixes (negative ones have no additional rarity)
+        ) {
+            if (rnd.percentChance(chanceToDiscardExcessiveSuffixPrc)) return false;
         }
+
         // WORKAROUND: Monster affixes have no difference between prefix and suffix, so we ignore this constraint
         // TODO: rework this (split monster affixes to prefix/suffix?)
         if (self is 'RwMonsterAffixator') minSuffixesCheck = true;

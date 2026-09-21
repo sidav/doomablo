@@ -225,7 +225,7 @@ class ASuffDegrading : RwArmorSuffix {
         return 2;
     }
     override string getDescription() {
-        return String.Format("Loses %.1f DRB/sec until %d%% DRB", (double(modifierLevel) * TICRATE/precision, stat2));
+        return String.Format("Loses %.2f DRB/sec until %d%% DRB", (double(modifierLevel) * TICRATE/precision, stat2));
     }
     override bool isCompatibleWithAffClass(Affix a2) {
         return a2.GetClass() != 'ASuffSelfRepair';
@@ -236,11 +236,11 @@ class ASuffDegrading : RwArmorSuffix {
     override void initAndapplyEffectToRArmor(RwArmor arm, int quality) {
         // ModifierLevel is "DRB per tick * precision"
         modifierLevel = math.divideIntWithRounding(
-            rnd.multipliedWeightedRandByEndWeight(100, 500, 0.05) + remapQualityToRange(quality, 0, 100),
+            rnd.multipliedWeightedRandByEndWeight(100, 300, 0.05) + remapQualityToRange(quality, 0, 100),
             TICRATE
         );
         // stat2 is "percentage at which it stops"
-        stat2 = rnd.multipliedWeightedRandByEndWeight(50, 95, 0.1);
+        stat2 = rnd.multipliedWeightedRandByEndWeight(50, 90, 0.1);
         fraction = IntFraction.create(precision);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
