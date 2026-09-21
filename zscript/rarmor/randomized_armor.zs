@@ -8,6 +8,10 @@ class RwArmor : Armor abstract {
     // Needed for recharge calc:
     int lastDamageTick;
 
+    // Needed for fractional repairs
+    private int currRepairFraction; // stores current fractional part of the repair progress.
+                                    // OR currect fraction of energy armor recharge
+
     int rweight; // Random drop weight.
     Property Weight : rweight;
 
@@ -77,6 +81,18 @@ class RwArmor : Armor abstract {
         }
     }
 
+    // Fractional 
+    void RepairForFractionx1000(int repairAmountx1000, Actor repairSource = null, bool skipOnRepairCallbacks = false) {
+        let repairAmount = math.AccumulatedFixedPointAdd(0, repairAmountx1000, 1000, currRepairFraction);
+        if (repairAmount == 0) return;
+        let before = stats.currDurability;
+        stats.currDurability = min(stats.currDurability + repairAmount, stats.maxDurability);
+        if (skipOnRepairCallbacks) return;
+        foreach (aff : appliedAffixes) {
+            aff.onBeingRepaired(owner, stats.currDurability - before, repairSource);
+        }
+    }
+
     virtual string GetRandomFluffName() {
         return "EX-ST "..rnd.Rand(100, 200);
     }
@@ -108,7 +124,7 @@ class RwArmor : Armor abstract {
     // Call this in DoEffect if the armor is energy.
     void RechargeEnergyArmor() {
 		if (isRechargingNow()) {
-            let setTo = math.AccumulatedFixedPointAdd(stats.currDurability, stats.energyRestoreSpeedX1000, 1000, stats.currRepairFraction);
+            let setTo = math.AccumulatedFixedPointAdd(stats.currDurability, stats.energyRestoreSpeedX1000, 1000, currRepairFraction);
             if (stats.currDurability == 0 && setTo != 0) {
                 owner.Player.bonusCount += 5;
             }

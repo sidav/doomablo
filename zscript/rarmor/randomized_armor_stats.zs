@@ -1,8 +1,5 @@
 class RwArmorStats {
     int currDurability;
-    int currRepairFraction; // stores current fractional part of the repair progress.
-                            // OR currect fraction of energy armor recharge
-
     int maxDurability;
     int AbsorbsPercentage; // this many percents of damage will be directed to armor amount.
     int RepairFromKitx1000; // How many armor points it gets from repair kit, x1000 for fraction. If 0, can't be repaired.

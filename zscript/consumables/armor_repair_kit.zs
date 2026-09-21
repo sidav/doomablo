@@ -28,8 +28,7 @@ class ArmorRepairKit : RwStoredConsumable {
 				return true;
 			}
 			if (arm.stats.RepairFromKitx1000 > 0 && arm.stats.currDurability < arm.stats.maxDurability) {
-				let repairAmount = math.AccumulatedFixedPointAdd(0, arm.stats.RepairFromKitx1000, 1000, arm.stats.currRepairFraction);
-				arm.RepairFor(repairAmount, self);
+				arm.RepairForFractionx1000(arm.stats.RepairFromKitx1000, self);
 				owner.A_StartSound("FieldKit/Use", CHAN_AUTO);
 				return true;
 			}

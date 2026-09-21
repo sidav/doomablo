@@ -241,18 +241,19 @@ class ASuffDegrading : RwArmorSuffix {
         );
         // stat2 is "percentage at which it stops"
         stat2 = rnd.multipliedWeightedRandByEndWeight(50, 95, 0.1);
+        fraction = IntFraction.create(precision);
     }
     override bool TryUnapplyingSelfFrom(Inventory item) {
         return true;
     }
     const precision = 1000;
-    int fractionAccumulator;
+    IntFraction fraction;
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RwArmor arm = RwArmor(affixedItem);
         if (arm.GetDrbPercentage() > stat2) {
-            let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, fractionAccumulator);
-            if (addAmount > 0) {
-                arm.stats.currDurability -= addAmount;
+            let reduceAmount = fraction.add(modifierLevel);
+            if (reduceAmount > 0) {
+                arm.stats.currDurability -= reduceAmount;
             }
         }
     }
@@ -440,10 +441,7 @@ class ASuffSelfrepair : RwArmorSuffix {
     }
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         RwArmor arm = RwArmor(affixedItem);
-        let addAmount = math.AccumulatedFixedPointAdd(0, modifierLevel, 1000, arm.stats.currRepairFraction);
-        if (addAmount > 0) {
-            arm.RepairFor(addAmount);
-        }
+        arm.RepairForFractionx1000(modifierLevel);
     }
 }
 
@@ -537,9 +535,6 @@ class ASuffEBonusRepair : RwArmorSuffix {
     override string getDescription() {
         return String.Format("Can be recharged by armor bonuses (+%s)", StringsHelper.FixedPointIntAsString(modifierLevel, 1000));
     }
-    override int getAlignment() {
-        return 1;
-    }
     override bool IsCompatibleWithRArmor(RwArmor arm) {
         return arm.stats.IsEnergyArmor();
     }
@@ -555,9 +550,6 @@ class ASuffEDamageOnEmpty : RwArmorSuffix {
     }
     override string getDescription() {
         return String.Format("On depletion: %d dmg to nearby enemies (radius %.1f)", (modifierLevel, float(stat2)/10));
-    }
-    override int getAlignment() {
-        return 1;
     }
     override bool IsCompatibleWithRArmor(RwArmor arm) {
         return arm.stats.IsEnergyArmor();

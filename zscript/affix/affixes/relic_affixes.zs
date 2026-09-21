@@ -137,6 +137,8 @@ class RSuffRegen : RwRelicAffix {
     }
     int healPerTickX1000; // healPerTickX1000 is "HP per tick * precision"
     int maxHealPrc;
+    IntFraction frac;
+    const precision = 1000;
     override string getDescription() {
         return String.Format("Heals %.1f HP/sec until %d%% HP", (double(healPerTickX1000) * TICRATE/precision, maxHealPrc));
     }
@@ -146,14 +148,13 @@ class RSuffRegen : RwRelicAffix {
             TICRATE
         );
         maxHealPrc = rnd.multipliedWeightedRandByEndWeight(50, 75, 0.01) + remapQualityToRange(quality, 0, 25);
+        frac = IntFraction.create(precision);
     }
-    const precision = 1000;
-    int fractionAccumulator;
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         let plr = RwPlayer(owner);
         if (plr == null) return;
         if (plr.getHealthPercentage() < maxHealPrc) {
-            let addAmount = math.AccumulatedFixedPointAdd(0, healPerTickX1000, 1000, fractionAccumulator);
+            let addAmount = frac.add(healPerTickX1000);
             if (addAmount > 0) {
                 owner.GiveBody(addAmount);
             }
@@ -182,11 +183,7 @@ class RSuffArmorRepair : RwRelicAffix {
         let arm = plr.CurrentEquippedArmor;
         if (arm == null) return;
         if (arm.stats.IsEnergyArmor()) return;
-
-        let addAmount = math.AccumulatedFixedPointAdd(0, repairPerTick, 1000, arm.stats.currRepairFraction);
-        if (addAmount > 0) {
-            arm.RepairFor(addAmount);
-        }
+        arm.RepairForFractionx1000(repairPerTick);
     }
 }
 
@@ -213,7 +210,7 @@ class RSuffImprovedEnergyArmor : RwRelicAffix {
             }
             if (arm.isRechargingNow() && arm.stats.currDurability > 0) {
                 let bonusRecharge = math.getIntPercentage(arm.stats.energyRestoreSpeedX1000, rechargeSpeedBonusPrc);
-                arm.stats.currDurability = math.AccumulatedFixedPointAdd(arm.stats.currDurability, bonusRecharge, 1000, arm.stats.currRepairFraction);
+                arm.RepairForFractionx1000(bonusRecharge, null, true);
             }
         }
     }
@@ -225,14 +222,15 @@ class RSuffImprovedActiveItems : RwRelicAffix {
     }
     int delayPercReduction;
     int bonusRefillRatePrc;
+    IntFraction frac;
     override string getDescription() {
         return String.Format("Active items: -%d%% cooldown, +%d%% refill rate", (delayPercReduction, bonusRefillRatePrc));
     }
     override void InitAndApplyEffectToItem(Inventory item, int quality) {
+        frac = IntFraction.create(1000);
         delayPercReduction = rnd.multipliedWeightedRandByEndWeight(10, 30, 0.05) + remapQualityToRange(quality, 0, 20);
         bonusRefillRatePrc = rnd.multipliedWeightedRandByEndWeight(10, 30, 0.05) + remapQualityToRange(quality, 0, 25);
     }
-    int frac;
     int prevCharges;
     override void onDoEffect(Actor owner, Inventory affixedItem) {
         let plr = RwPlayer(owner);
@@ -247,7 +245,7 @@ class RSuffImprovedActiveItems : RwRelicAffix {
             if (prevCharges < asi.currentCharges) {
                 let diff = asi.currentCharges - prevCharges;
                 let bonusRechargex1000 = math.getIntPercentage(diff * 1000, bonusRefillRatePrc);
-                let add = math.AccumulatedFixedPointAdd(0, bonusRechargex1000, 1000, frac);
+                let add = frac.add(bonusRechargex1000);
                 asi.refill(add);
             }
             prevCharges = asi.currentCharges;
